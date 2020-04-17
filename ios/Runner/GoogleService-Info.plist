@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>623843190411-jjt2tflpc6ud5tkm2gs9de8h4nd3soqv.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.623843190411-jjt2tflpc6ud5tkm2gs9de8h4nd3soqv</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBZW8crAVDRnWrrWXDqlmpYRVlUkrbdc5U</string>
+	<key>GCM_SENDER_ID</key>
+	<string>623843190411</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.parkly</string>
+	<key>PROJECT_ID</key>
+	<string>parkly-2f177</string>
+	<key>STORAGE_BUCKET</key>
+	<string>parkly-2f177.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:623843190411:ios:9ce417fa6d6571136e968e</string>
+	<key>DATABASE_URL</key>
+	<string>https://parkly-2f177.firebaseio.com</string>
+</dict>
+</plist>
