@@ -1,6 +1,6 @@
 # parkly
 
-A new Flutter project.
+My final work school project made in Flutter.
 
 ## Getting Started
 
