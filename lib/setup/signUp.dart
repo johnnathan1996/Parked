@@ -165,7 +165,9 @@ class _SignUpPageState extends State<SignUpPage> {
                         EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
                     child: Container(
                         padding: EdgeInsets.symmetric(horizontal: 11),
-                        decoration: new BoxDecoration(color: Colors.white),
+                        decoration: new BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(4)),
                         child: InternationalPhoneInput(
                             enabledCountries: ['+32', '+33', '+31'],
                             hintText: "Telefoon",
@@ -187,6 +189,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       },
                       onSaved: (input) => _password = input,
                       decoration: InputDecoration(
+                        errorStyle: TextStyle(color: Wit),
                           border: OutlineInputBorder(),
                               focusedBorder: OutlineInputBorder(),
                               errorBorder: OutlineInputBorder(
@@ -211,12 +214,13 @@ class _SignUpPageState extends State<SignUpPage> {
                         child: TextFormField(
                       validator: (input) {
                         if (input.length < 6) {
-                          return "Min. 6 karakters";
+                          return '';
                         }
                         return null;
                       },
                       onSaved: (input) => _passwordConfirm = input,
                       decoration: InputDecoration(
+                        errorStyle: TextStyle(height: 0),
                           border: OutlineInputBorder(),
                               focusedBorder: OutlineInputBorder(),
                               errorBorder: OutlineInputBorder(

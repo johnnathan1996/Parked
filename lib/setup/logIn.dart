@@ -44,17 +44,20 @@ class _LogInPageState extends State<LogInPage> {
                 Padding(
                     padding:
                         EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
-                    child: TextFormField(
+                    child: Theme(
+                        data: new ThemeData(hintColor: Transparant),
+                        child: TextFormField(
                       keyboardType: TextInputType.emailAddress,
                       validator: (input) {
                         if (input.isEmpty) {
-                          return "please set your email";
+                          return "Vul uw E-mail in AUB";
                         }
                         return null;
                       },
                       onSaved: (input) => _email = input,
                       decoration: InputDecoration(
-                        border: InputBorder.none,
+                        errorStyle: TextStyle(color: Wit),
+                        border: OutlineInputBorder(),
                           prefixIcon: IconButton(
                             icon: Icon(Icons.person_outline, color: Zwart),
                             onPressed: () {},
@@ -63,13 +66,15 @@ class _LogInPageState extends State<LogInPage> {
                           fillColor: Wit,
                           labelText: "E-mailadres",
                           labelStyle: TextStyle(color: Zwart)),
-                    )),
+                    ))),
                 Padding(
                     padding: EdgeInsets.only(left: 20.0, right: 20.0),
-                    child: TextFormField(
+                    child: Theme(
+                        data: new ThemeData(hintColor: Transparant),
+                        child: TextFormField(
                       onSaved: (input) => _password = input,
                       decoration: InputDecoration(
-                        border: InputBorder.none,
+                        border: OutlineInputBorder(),
                         prefixIcon: IconButton(
                           icon: Icon(
                             Icons.vpn_key,
@@ -96,7 +101,7 @@ class _LogInPageState extends State<LogInPage> {
                         labelStyle: TextStyle(color: Zwart),
                       ),
                       obscureText: hiddenPassword,
-                    )),
+                    ))),
                 Padding(
                     padding: EdgeInsets.only(left: 20.0, right: 20.0),
                     child: FlatButton(

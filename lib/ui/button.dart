@@ -18,6 +18,7 @@ class ButtonComponent extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 15.0),
           child: Text(label, style: TextStyle(color: Colors.white))),
       color: Blauw,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
     );
   }
 }
