@@ -15,6 +15,7 @@ import io.flutter.plugins.imagepicker.ImagePickerPlugin;
 import com.codeheadlabs.libphonenumber.LibphonenumberPlugin;
 import com.baseflow.location_permissions.LocationPermissionsPlugin;
 import io.flutter.plugins.pathprovider.PathProviderPlugin;
+import com.jaumard.smsautofill.SmsAutoFillPlugin;
 import com.tekartik.sqflite.SqflitePlugin;
 import io.flutter.plugins.urllauncher.UrlLauncherPlugin;
 
@@ -40,6 +41,7 @@ public final class GeneratedPluginRegistrant {
     LibphonenumberPlugin.registerWith(registry.registrarFor("com.codeheadlabs.libphonenumber.LibphonenumberPlugin"));
     LocationPermissionsPlugin.registerWith(registry.registrarFor("com.baseflow.location_permissions.LocationPermissionsPlugin"));
     PathProviderPlugin.registerWith(registry.registrarFor("io.flutter.plugins.pathprovider.PathProviderPlugin"));
+    SmsAutoFillPlugin.registerWith(registry.registrarFor("com.jaumard.smsautofill.SmsAutoFillPlugin"));
     SqflitePlugin.registerWith(registry.registrarFor("com.tekartik.sqflite.SqflitePlugin"));
     UrlLauncherPlugin.registerWith(registry.registrarFor("io.flutter.plugins.urllauncher.UrlLauncherPlugin"));
   }

@@ -323,6 +323,8 @@ PODS:
   - path_provider (0.0.1):
     - Flutter
   - PromisesObjC (1.2.8)
+  - sms_autofill (0.0.1):
+    - Flutter
   - sqflite (0.0.1):
     - Flutter
     - FMDB (~> 2.7.2)
@@ -351,6 +353,7 @@ DEPENDENCIES:
   - libphonenumber (from `.symlinks/plugins/libphonenumber/ios`)
   - location_permissions (from `.symlinks/plugins/location_permissions/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
+  - sms_autofill (from `.symlinks/plugins/sms_autofill/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
   - url_launcher_macos (from `.symlinks/plugins/url_launcher_macos/ios`)
@@ -418,6 +421,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/location_permissions/ios"
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
+  sms_autofill:
+    :path: ".symlinks/plugins/sms_autofill/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
   url_launcher:
@@ -469,6 +474,7 @@ SPEC CHECKSUMS:
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   path_provider: fb74bd0465e96b594bb3b5088ee4a4e7bb1f2a9d
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
+  sms_autofill: c461043483362c3f1709ee76eaae6eb570b31686
   sqflite: 4001a31ff81d210346b500c55b17f4d6c7589dd0
   url_launcher: a1c0cc845906122c4784c542523d8cacbded5626
   url_launcher_macos: fd7894421cd39320dce5f292fc99ea9270b2a313

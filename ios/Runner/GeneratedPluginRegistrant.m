@@ -82,6 +82,12 @@
 @import path_provider;
 #endif
 
+#if __has_include(<sms_autofill/SmsAutoFillPlugin.h>)
+#import <sms_autofill/SmsAutoFillPlugin.h>
+#else
+@import sms_autofill;
+#endif
+
 #if __has_include(<sqflite/SqflitePlugin.h>)
 #import <sqflite/SqflitePlugin.h>
 #else
@@ -110,6 +116,7 @@
   [LibphonenumberPlugin registerWithRegistrar:[registry registrarForPlugin:@"LibphonenumberPlugin"]];
   [LocationPermissionsPlugin registerWithRegistrar:[registry registrarForPlugin:@"LocationPermissionsPlugin"]];
   [FLTPathProviderPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTPathProviderPlugin"]];
+  [SmsAutoFillPlugin registerWithRegistrar:[registry registrarForPlugin:@"SmsAutoFillPlugin"]];
   [SqflitePlugin registerWithRegistrar:[registry registrarForPlugin:@"SqflitePlugin"]];
   [FLTURLLauncherPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTURLLauncherPlugin"]];
 }

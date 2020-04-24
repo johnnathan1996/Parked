@@ -45,6 +45,7 @@ dependencies:
   awesome_card: ^1.1.0
   flutter_masked_text: ^0.8.0
   smooth_star_rating: ^1.0.4+2
+  sms_autofill: ^1.2.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

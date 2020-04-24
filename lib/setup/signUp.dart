@@ -7,6 +7,7 @@ import 'package:parkly/pages/maps.dart';
 import 'package:flutter/services.dart';
 import 'package:parkly/ui/button.dart';
 import 'package:parkly/ui/modal.dart';
+import 'package:sms_autofill/sms_autofill.dart';
 import '../setup/globals.dart' as globals;
 
 class SignUpPage extends StatefulWidget {
@@ -20,7 +21,7 @@ class _SignUpPageState extends State<SignUpPage> {
   String _name, _lastName, _email, _password, _passwordConfirm;
 
   String phoneNo, smsCode, verificationId, errorMessage;
-  bool codeSent = false;
+  bool codeSent, isSmsValide = false;
   String phoneIsoCode;
 
   void onPhoneNumberChange(
@@ -43,7 +44,10 @@ class _SignUpPageState extends State<SignUpPage> {
     return Scaffold(
         resizeToAvoidBottomPadding: false,
         extendBodyBehindAppBar: true,
-        appBar: AppBar(elevation: 0.0, backgroundColor: Transparant, iconTheme: IconThemeData(color: Wit)),
+        appBar: AppBar(
+            elevation: 0.0,
+            backgroundColor: Transparant,
+            iconTheme: IconThemeData(color: Wit)),
         body: Container(
           decoration: BoxDecoration(
               image: new DecorationImage(
@@ -192,12 +196,39 @@ class _SignUpPageState extends State<SignUpPage> {
                     child: ButtonComponent(
                         label: "Toevoegen",
                         onClickAction: () {
-                          signUp();
+                          //signUp();
+                          smsCodeDialog(context);
                         }))
               ],
             ),
           ),
         ));
+  }
+
+  void signUp() async {
+    final formState = _formKey.currentState;
+    if (formState.validate()) {
+      formState.save();
+      if (phoneNo != null) {
+        if (_password == _passwordConfirm && _password != "") {
+          verifyPhone();
+        } else {
+          showDialog(
+            context: context,
+            builder: (_) => ModalComponent(
+              modalTekst: "Niet dezelfde wachtwoord!",
+            ),
+          );
+        }
+      } else {
+        showDialog(
+          context: context,
+          builder: (_) => ModalComponent(
+            modalTekst: "Voeg een GSM nummer in!",
+          ),
+        );
+      }
+    }
   }
 
   Future<void> verifyPhone() async {
@@ -231,69 +262,35 @@ class _SignUpPageState extends State<SignUpPage> {
         builder: (BuildContext context) {
           return new AlertDialog(
             title: errorMessage == null
-                ? Text("Enter sms code")
+                ? Text("Enter sms code", textAlign: TextAlign.center)
                 : Text(errorMessage),
-            content: TextField(onChanged: (value) {
-              this.smsCode = value;
-            }),
+            content: PinFieldAutoFill(
+              decoration: BoxLooseDecoration(
+                strokeColor: Zwart,
+                enteredColor: Blauw,
+                gapSpace: 5,
+              ),
+              onCodeSubmitted: (value) {
+                this.smsCode = value;
+              },
+              onCodeChanged: (value) {
+                this.smsCode = value;
+              },
+            ),
             contentPadding: EdgeInsets.all(10.0),
             actions: <Widget>[
               new FlatButton(
-                  onPressed: () => {Navigator.of(context).pop(), createUser()},
+                  onPressed: () => {
+                        Navigator.of(context).pop(),
+                        // createUser()
+                      },
                   child: Text("Done"))
             ],
           );
         });
   }
 
-  handleError(PlatformException error) {
-    switch (error.code) {
-      case 'ERROR_INVALID_VERIFICATION_CODE':
-        if (this.mounted) {
-          setState(() {
-            errorMessage = 'Invalid Code';
-          });
-        }
-        smsCodeDialog(context);
-        break;
-      default:
-        if (this.mounted) {
-          setState(() {
-            errorMessage = error.message;
-          });
-        }
-        break;
-    }
-  }
-
-  void signUp() async {
-    final formState = _formKey.currentState;
-    if (formState.validate()) {
-      formState.save();
-      if (phoneNo != null) {
-        if (_password == _passwordConfirm && _password != "") {
-          verifyPhone();
-        } else {
-          showDialog(
-            context: context,
-            builder: (_) => ModalComponent(
-              modalTekst: "Niet dezelfde wachtwoord!",
-            ),
-          );
-        }
-      } else {
-        showDialog(
-          context: context,
-          builder: (_) => ModalComponent(
-            modalTekst: "Voeg een GSM nummer in!",
-          ),
-        );
-      }
-    }
-  }
-
   void createUser() async {
-    //TODO: quand user mets un invalid sms --> bug
     try {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: _email, password: _password);
@@ -307,10 +304,30 @@ class _SignUpPageState extends State<SignUpPage> {
 
       try {
         await userData.linkWithCredential(credential);
-        logIn();
+        setState(() {
+          isSmsValide = true;
+        });
       } catch (e) {
         handleError(e);
-        print('errorCode: $e');
+        print('errorCode : $e');
+      }
+
+      if (isSmsValide) {
+        logIn();
+
+        if (userData != null) {
+          if (this.mounted) {
+            setState(() {
+              globals.userId = userData.uid;
+            });
+          }
+        } else {
+          if (this.mounted) {
+            setState(() {
+              globals.userId = null;
+            });
+          }
+        }
       }
     } catch (e) {
       showDialog(
@@ -353,6 +370,24 @@ class _SignUpPageState extends State<SignUpPage> {
           context, MaterialPageRoute(builder: (context) => MapsPage()));
     } catch (e) {
       print(e.message);
+    }
+  }
+
+  handleError(PlatformException error) {
+    switch (error.code) {
+      case 'ERROR_INVALID_VERIFICATION_CODE':
+        setState(() {
+          errorMessage = 'Invalid Code';
+        });
+        smsCodeDialog(context);
+        break;
+      default:
+        if (this.mounted) {
+          setState(() {
+            errorMessage = error.message;
+          });
+        }
+        break;
     }
   }
 }

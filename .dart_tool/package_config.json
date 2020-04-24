@@ -488,6 +488,12 @@
       "languageVersion": "2.4"
     },
     {
+      "name": "pin_input_text_field",
+      "rootUri": "file:///Users/john-nathan/flutter/.pub-cache/hosted/pub.dartlang.org/pin_input_text_field-3.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.7"
+    },
+    {
       "name": "platform",
       "rootUri": "file:///Users/john-nathan/flutter/.pub-cache/hosted/pub.dartlang.org/platform-2.2.1",
       "packageUri": "lib/",
@@ -556,6 +562,12 @@
     {
       "name": "smooth_star_rating",
       "rootUri": "file:///Users/john-nathan/flutter/.pub-cache/hosted/pub.dartlang.org/smooth_star_rating-1.0.4+2",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
+    },
+    {
+      "name": "sms_autofill",
+      "rootUri": "file:///Users/john-nathan/flutter/.pub-cache/hosted/pub.dartlang.org/sms_autofill-1.2.1",
       "packageUri": "lib/",
       "languageVersion": "2.0"
     },
@@ -740,7 +752,7 @@
       "languageVersion": "2.2"
     }
   ],
-  "generated": "2020-04-17T15:16:45.501392Z",
+  "generated": "2020-04-24T15:40:11.150097Z",
   "generator": "pub",
-  "generatorVersion": "2.8.0-dev.18.0.flutter-eea9717938"
+  "generatorVersion": "2.8.0-dev.20.10"
 }
