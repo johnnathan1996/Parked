@@ -24,6 +24,8 @@ class _SignUpPageState extends State<SignUpPage> {
   bool codeSent, isSmsValide = false;
   String phoneIsoCode;
 
+  bool validation = true;
+
   void onPhoneNumberChange(
       String number, String internationalizedPhoneNumber, String isoCode) {
     setState(() {
@@ -68,69 +70,96 @@ class _SignUpPageState extends State<SignUpPage> {
                 Padding(
                     padding:
                         EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
-                    child: TextFormField(
-                        validator: (input) {
-                          if (input.isEmpty) {
-                            return "Stel uw naam in.";
-                          }
-                          return null;
-                        },
-                        onSaved: (input) => _name = input,
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            prefixIcon: IconButton(
-                              icon: Icon(Icons.person_outline, color: Zwart),
-                              onPressed: () {},
-                            ),
-                            filled: true,
-                            fillColor: Wit,
-                            labelText: "Naam",
-                            labelStyle: TextStyle(color: Zwart)))),
+                    child: Theme(
+                        data: new ThemeData(hintColor: Transparant),
+                        child: TextFormField(
+                            validator: (input) {
+                              if (input.isEmpty) {
+                                return '';
+                              }
+                              return null;
+                            },
+                            onSaved: (input) => _name = input,
+                            decoration: InputDecoration(
+                                errorStyle: TextStyle(height: 0),
+                                border: OutlineInputBorder(),
+                                focusedBorder: OutlineInputBorder(),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.red, width: 1.0),
+                                ),
+                                prefixIcon: IconButton(
+                                  icon:
+                                      Icon(Icons.person_outline, color: Zwart),
+                                  onPressed: () {},
+                                ),
+                                filled: true,
+                                fillColor: Wit,
+                                labelText: "Naam",
+                                labelStyle: TextStyle(color: Zwart))))),
                 Padding(
                     padding:
                         EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
-                    child: TextFormField(
-                      validator: (input) {
-                        if (input.isEmpty) {
-                          return "Stel uw achternaam in.";
-                        }
-                        return null;
-                      },
-                      onSaved: (input) => _lastName = input,
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          prefixIcon: IconButton(
-                            icon: Icon(Icons.person_outline, color: Zwart),
-                            onPressed: () {},
-                          ),
-                          filled: true,
-                          fillColor: Wit,
-                          labelText: "Achternaam",
-                          labelStyle: TextStyle(color: Zwart)),
-                    )),
+                    child: Theme(
+                        data: new ThemeData(hintColor: Transparant),
+                        child: TextFormField(
+                          validator: (input) {
+                            if (input.isEmpty) {
+                              if (input.isEmpty) {
+                                return '';
+                              }
+                            }
+                            return null;
+                          },
+                          onSaved: (input) => _lastName = input,
+                          decoration: InputDecoration(
+                              errorStyle: TextStyle(height: 0),
+                              border: OutlineInputBorder(),
+                              focusedBorder: OutlineInputBorder(),
+                              errorBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.red, width: 1.0),
+                              ),
+                              prefixIcon: IconButton(
+                                icon: Icon(Icons.person_outline, color: Zwart),
+                                onPressed: () {},
+                              ),
+                              filled: true,
+                              fillColor: Wit,
+                              labelText: "Achternaam",
+                              labelStyle: TextStyle(color: Zwart)),
+                        ))),
                 Padding(
                     padding:
                         EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
-                    child: TextFormField(
-                      keyboardType: TextInputType.emailAddress,
-                      validator: (input) {
-                        if (input.isEmpty) {
-                          return "Stel uw Email in.";
-                        }
-                        return null;
-                      },
-                      onSaved: (input) => _email = input,
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          prefixIcon: IconButton(
-                            icon: Icon(Icons.mail_outline, color: Zwart),
-                            onPressed: () {},
-                          ),
-                          filled: true,
-                          fillColor: Wit,
-                          labelText: "E-mailadres",
-                          labelStyle: TextStyle(color: Zwart)),
-                    )),
+                    child: Theme(
+                        data: new ThemeData(hintColor: Transparant),
+                        child: TextFormField(
+                          keyboardType: TextInputType.emailAddress,
+                          validator: (input) {
+                            if (input.isEmpty) {
+                              return '';
+                            }
+                            return null;
+                          },
+                          onSaved: (input) => _email = input,
+                          decoration: InputDecoration(
+                              errorStyle: TextStyle(height: 0),
+                              border: OutlineInputBorder(),
+                              focusedBorder: OutlineInputBorder(),
+                              errorBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.red, width: 1.0),
+                              ),
+                              prefixIcon: IconButton(
+                                icon: Icon(Icons.mail_outline, color: Zwart),
+                                onPressed: () {},
+                              ),
+                              filled: true,
+                              fillColor: Wit,
+                              labelText: "E-mailadres",
+                              labelStyle: TextStyle(color: Zwart)),
+                        ))),
                 Padding(
                     padding:
                         EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
@@ -147,7 +176,9 @@ class _SignUpPageState extends State<SignUpPage> {
                 Padding(
                     padding:
                         EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
-                    child: TextFormField(
+                    child: Theme(
+                        data: new ThemeData(hintColor: Transparant),
+                        child: TextFormField(
                       validator: (input) {
                         if (input.length < 6) {
                           return "Min. 6 karakters";
@@ -156,7 +187,12 @@ class _SignUpPageState extends State<SignUpPage> {
                       },
                       onSaved: (input) => _password = input,
                       decoration: InputDecoration(
-                          border: InputBorder.none,
+                          border: OutlineInputBorder(),
+                              focusedBorder: OutlineInputBorder(),
+                              errorBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.red, width: 1.0),
+                              ),
                           prefixIcon: IconButton(
                             icon: Icon(Icons.visibility_off, color: Zwart),
                             onPressed: () {},
@@ -166,11 +202,13 @@ class _SignUpPageState extends State<SignUpPage> {
                           labelText: "Wachtwoord",
                           labelStyle: TextStyle(color: Zwart)),
                       obscureText: true,
-                    )),
+                    ))),
                 Padding(
                     padding:
                         EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
-                    child: TextFormField(
+                    child: Theme(
+                        data: new ThemeData(hintColor: Transparant),
+                        child: TextFormField(
                       validator: (input) {
                         if (input.length < 6) {
                           return "Min. 6 karakters";
@@ -179,7 +217,12 @@ class _SignUpPageState extends State<SignUpPage> {
                       },
                       onSaved: (input) => _passwordConfirm = input,
                       decoration: InputDecoration(
-                          border: InputBorder.none,
+                          border: OutlineInputBorder(),
+                              focusedBorder: OutlineInputBorder(),
+                              errorBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.red, width: 1.0),
+                              ),
                           prefixIcon: IconButton(
                             icon: Icon(Icons.visibility_off, color: Zwart),
                             onPressed: () {},
@@ -189,15 +232,14 @@ class _SignUpPageState extends State<SignUpPage> {
                           labelText: "Bevestig wachtwoord",
                           labelStyle: TextStyle(color: Zwart)),
                       obscureText: true,
-                    )),
+                    ))),
                 Padding(
                     padding:
                         EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
                     child: ButtonComponent(
                         label: "Toevoegen",
                         onClickAction: () {
-                          //signUp();
-                          smsCodeDialog(context);
+                          signUp();
                         }))
               ],
             ),
