@@ -48,7 +48,7 @@ class _NavigationState extends State<Navigation> {
 
     List navItems = [
       {
-        "label": "Map",
+        "label": "Zoeken",
         "icon": Icons.map,
         "active": activeMap,
         "redirect": MapsPage(),
@@ -60,7 +60,7 @@ class _NavigationState extends State<Navigation> {
         "redirect": FavoritePage(),
       },
       {
-        "label": "Mijn garage",
+        "label": "Mijn garages",
         "icon": Icons.directions_car,
         "active": activeGar,
         "redirect": GaragePage(),

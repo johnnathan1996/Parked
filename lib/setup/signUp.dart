@@ -349,15 +349,14 @@ class _SignUpPageState extends State<SignUpPage> {
       final FirebaseUser userData = await FirebaseAuth.instance.currentUser();
 
       try {
-
-        //TODO: check when invalid code
         await userData.linkWithCredential(credential);
         logIn();
 
       } catch (e) {
         handleError(e);
         print('errorCode : $e');
-        // userData.delete();
+        print(userData.email);
+        userData.delete();
       }
 
     } catch (e) {
@@ -411,6 +410,12 @@ class _SignUpPageState extends State<SignUpPage> {
           errorMessage = 'Invalid Code';
         });
         smsCodeDialog(context);
+        break;
+      case 'ERROR_CREDENTIAL_ALREADY_IN_USE':
+        showDialog(
+        context: context,
+        builder: (_) => ModalComponent(modalTekst: "Oops, gsm-nummer al bekend!"),
+      );
         break;
       default:
         if (this.mounted) {

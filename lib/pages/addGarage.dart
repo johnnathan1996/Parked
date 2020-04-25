@@ -323,9 +323,14 @@ class _AddGarageState extends State<AddGarage> {
                     '2,30m',
                     '2,50m',
                   ],
-                  onSelected: (String selected) => setState(() {
-                        _high = selected;
-                      })),
+                  onSelected: (String selected) => {
+                        if (this.mounted)
+                          {
+                            setState(() {
+                              _high = selected;
+                            })
+                          }
+                      }),
             ],
           ),
         ]);
@@ -343,7 +348,7 @@ class _AddGarageState extends State<AddGarage> {
 
     return Container(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Padding(
             padding: EdgeInsets.symmetric(vertical: 5),
@@ -354,20 +359,24 @@ class _AddGarageState extends State<AddGarage> {
           children: List.generate(types.length, (index) {
             return GestureDetector(
                 onTap: () {
-                  setState(() {
-                    if (_typeVoertuigen.contains(types[index]["label"])) {
-                      _typeVoertuigen.remove(types[index]["label"]);
-                    } else {
-                      _typeVoertuigen.add(types[index]["label"]);
-                    }
-                  });
+                  if (this.mounted) {
+                    setState(() {
+                      if (_typeVoertuigen.contains(types[index]["label"])) {
+                        _typeVoertuigen.remove(types[index]["label"]);
+                      } else {
+                        _typeVoertuigen.add(types[index]["label"]);
+                      }
+                    });
+                  }
                 },
-                
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
-                        width: 2, color: _typeVoertuigen.contains(types[index]["label"]) ? Blauw : Transparant),
+                        width: 2,
+                        color: _typeVoertuigen.contains(types[index]["label"])
+                            ? Blauw
+                            : Transparant),
                     color: Wit,
                   ),
                   margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),

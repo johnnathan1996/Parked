@@ -107,9 +107,11 @@ class _PaySystemState extends State<PaySystem> {
               if (snapshot.hasData) {
                 return GestureDetector(
                     onTap: () {
-                      setState(() {
-                        showBackSide = !showBackSide;
-                      });
+                      if (this.mounted) {
+                        setState(() {
+                          showBackSide = !showBackSide;
+                        });
+                      }
                     },
                     child: CreditCard(
                       cardNumber: payMethod["cardNumber"],

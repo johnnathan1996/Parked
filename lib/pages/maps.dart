@@ -51,6 +51,8 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
         key: scaffoldKey,
         extendBodyBehindAppBar: true,
         appBar: AppBar(
+          iconTheme: IconThemeData(color: Zwart),
+          actionsIconTheme: IconThemeData(color: Zwart),
           title: _isSearching
               ? _buildSearchField()
               : Image.asset('assets/images/logo.png', height: 32),

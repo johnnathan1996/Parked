@@ -78,9 +78,11 @@ class _AddPaySystemState extends State<AddPaySystem> {
                 padding: EdgeInsets.symmetric(vertical: 30),
                 child: GestureDetector(
                     onTap: () {
-                      setState(() {
-                        showBackSide = !showBackSide;
-                      });
+                      if (this.mounted) {
+                        setState(() {
+                          showBackSide = !showBackSide;
+                        });
+                      }
                     },
                     child: CreditCard(
                       cardNumber: cardNumber,
@@ -115,9 +117,11 @@ class _AddPaySystemState extends State<AddPaySystem> {
                               color: Zwart,
                             ),
                             onChanged: (String newValue) {
-                              setState(() {
-                                dropdownValueBank = newValue;
-                              });
+                              if (this.mounted) {
+                                setState(() {
+                                  dropdownValueBank = newValue;
+                                });
+                              }
                             },
                             items: <String>[
                               'Agenta',
@@ -148,9 +152,11 @@ class _AddPaySystemState extends State<AddPaySystem> {
                               color: Zwart,
                             ),
                             onChanged: (String newValue) {
-                              setState(() {
-                                dropdownValueType = newValue;
-                              });
+                              if (this.mounted) {
+                                setState(() {
+                                  dropdownValueType = newValue;
+                                });
+                              }
                             },
                             items: <String>[
                               'americanExpress',
@@ -171,9 +177,11 @@ class _AddPaySystemState extends State<AddPaySystem> {
                       padding: EdgeInsets.only(left: 20, right: 20),
                       child: TextFormField(
                           onTap: () {
-                            setState(() {
-                              showBackSide = false;
-                            });
+                            if (this.mounted) {
+                              setState(() {
+                                showBackSide = false;
+                              });
+                            }
                           },
                           validator: (input) {
                             if (input.length < 21) {
@@ -186,9 +194,11 @@ class _AddPaySystemState extends State<AddPaySystem> {
                           controller: controllerCardNumber,
                           keyboardType: TextInputType.number,
                           onChanged: (input) {
-                            setState(() {
-                              cardNumber = controllerCardNumber.text;
-                            });
+                            if (this.mounted) {
+                              setState(() {
+                                cardNumber = controllerCardNumber.text;
+                              });
+                            }
                           },
                           onSaved: (input) => cardNumber = input,
                           decoration: InputDecoration(
@@ -198,9 +208,11 @@ class _AddPaySystemState extends State<AddPaySystem> {
                       padding: EdgeInsets.only(left: 20, right: 20),
                       child: TextFormField(
                           onTap: () {
-                            setState(() {
-                              showBackSide = false;
-                            });
+                            if (this.mounted) {
+                              setState(() {
+                                showBackSide = false;
+                              });
+                            }
                           },
                           validator: (input) {
                             if (input.isEmpty) {
@@ -212,9 +224,11 @@ class _AddPaySystemState extends State<AddPaySystem> {
                           controller: controllerCardExpiry,
                           keyboardType: TextInputType.number,
                           onChanged: (input) {
-                            setState(() {
-                              cardExpiry = controllerCardExpiry.text;
-                            });
+                            if (this.mounted) {
+                              setState(() {
+                                cardExpiry = controllerCardExpiry.text;
+                              });
+                            }
                           },
                           onSaved: (input) => cardExpiry = input,
                           decoration: InputDecoration(
@@ -224,9 +238,11 @@ class _AddPaySystemState extends State<AddPaySystem> {
                       padding: EdgeInsets.only(left: 20, right: 20),
                       child: TextFormField(
                           onTap: () {
-                            setState(() {
-                              showBackSide = false;
-                            });
+                            if (this.mounted) {
+                              setState(() {
+                                showBackSide = false;
+                              });
+                            }
                           },
                           validator: (input) {
                             if (input.isEmpty) {
@@ -236,9 +252,11 @@ class _AddPaySystemState extends State<AddPaySystem> {
                           },
                           maxLength: 25,
                           onChanged: (input) {
-                            setState(() {
-                              cardName = input.toUpperCase();
-                            });
+                            if (this.mounted) {
+                              setState(() {
+                                cardName = input.toUpperCase();
+                              });
+                            }
                           },
                           onSaved: (input) => cardName = input.toUpperCase(),
                           decoration: InputDecoration(
@@ -248,9 +266,11 @@ class _AddPaySystemState extends State<AddPaySystem> {
                       padding: EdgeInsets.only(left: 20, right: 20),
                       child: TextFormField(
                           onTap: () {
-                            setState(() {
-                              showBackSide = true;
-                            });
+                            if (this.mounted) {
+                              setState(() {
+                                showBackSide = true;
+                              });
+                            }
                           },
                           validator: (input) {
                             if (input.isEmpty) {
@@ -262,9 +282,11 @@ class _AddPaySystemState extends State<AddPaySystem> {
                           controller: controllerCardCvv,
                           keyboardType: TextInputType.number,
                           onChanged: (input) {
-                            setState(() {
-                              cardCvv = controllerCardCvv.text;
-                            });
+                            if (this.mounted) {
+                              setState(() {
+                                cardCvv = controllerCardCvv.text;
+                              });
+                            }
                           },
                           onSaved: (input) => cardCvv = input,
                           decoration: InputDecoration(

@@ -49,10 +49,12 @@ class _DetailGarageState extends State<DetailGarage> {
         .document(globals.userId)
         .snapshots()
         .listen((userInstance) {
-      setState(() {
-        mijnFavorieten = userInstance.data["favoriet"];
-        betalingCard = userInstance.data["paymethode"];
-      });
+      if (this.mounted) {
+        setState(() {
+          mijnFavorieten = userInstance.data["favoriet"];
+          betalingCard = userInstance.data["paymethode"];
+        });
+      }
     });
   }
 
@@ -64,10 +66,12 @@ class _DetailGarageState extends State<DetailGarage> {
 
     eigenaar.then((value) {
       for (var item in value.documents) {
-        setState(() {
-          eigenaarName = item.data["voornaam"];
-          eigenaarId = item.documentID;
-        });
+        if (this.mounted) {
+          setState(() {
+            eigenaarName = item.data["voornaam"];
+            eigenaarId = item.documentID;
+          });
+        }
       }
       return;
     });
@@ -264,13 +268,15 @@ class _DetailGarageState extends State<DetailGarage> {
                       minTime: DateTime.now(),
                       currentTime: DateTime.now(),
                       locale: LocaleType.nl, onConfirm: (date) {
-                    setState(() {
-                      beginDate = date;
-                      if (endDate != null) {
-                        prijs =
-                            calculatePrice(beginDate, endDate, garage["prijs"]);
-                      }
-                    });
+                    if (this.mounted) {
+                      setState(() {
+                        beginDate = date;
+                        if (endDate != null) {
+                          prijs = calculatePrice(
+                              beginDate, endDate, garage["prijs"]);
+                        }
+                      });
+                    }
                   });
                 },
                 child: Container(
@@ -295,11 +301,13 @@ class _DetailGarageState extends State<DetailGarage> {
                           minTime: beginDate.add(Duration(hours: 1)),
                           currentTime: beginDate.add(Duration(hours: 1)),
                           locale: LocaleType.nl, onConfirm: (date) {
-                        setState(() {
-                          endDate = date;
-                          prijs = calculatePrice(
-                              beginDate, endDate, garage["prijs"]);
-                        });
+                        if (this.mounted) {
+                          setState(() {
+                            endDate = date;
+                            prijs = calculatePrice(
+                                beginDate, endDate, garage["prijs"]);
+                          });
+                        }
                       });
                     },
                     child: Container(
@@ -434,8 +442,11 @@ class _DetailGarageState extends State<DetailGarage> {
         Container(
             height: 150,
             child: SnapList(
-              sizeProvider: (index, data) =>
-                  Size(garage["rating"].length == 1 ? 380.0 : 350, 150.0),
+              sizeProvider: (index, data) => Size(
+                  garage["rating"].length == 1
+                      ? MediaQuery.of(context).size.width * 1
+                      : MediaQuery.of(context).size.width * 0.85,
+                  150.0),
               separatorProvider: (index, data) => Size(10.0, 10.0),
               builder: (context, index, data) {
                 return RatingCardComponent(card: garage["rating"][index]);
