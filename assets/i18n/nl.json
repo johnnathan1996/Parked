@@ -8,7 +8,8 @@
 	},
 	"Title": {
 		"Favorite": "favorite",
-		"Garage": "My garages"
+		"Garage": "My garages",
+		"Settings": "Instellingen"
 	},
 	"Button": {
 		"LogIn": "Inloggen",
@@ -21,5 +22,25 @@
 		"Add": "Toevoegen",
 		"AddCard": "Voeg een kaart toe",
 		"Reserve": "Reserveer"
-    }
+	},
+	"Inputs": {
+		"Firstname": "Voornaam",
+		"Lastname": "Naam",
+		"Email": "E-mailadres",
+		"Phone": "Telefoon",
+		"Password": "Wachtwoord",
+		"ConfirmPassword": "Bevestig wachtwoord",
+		"ChangePassword": "Voer uw e-mailadres in om uw wachtwoord te wijzigen.",
+		"Titel": "Titel",
+		"UploadImg": "Een afbeelding uploaden",
+		"Street": "Straat",
+		"Number": "Nr.",
+		"City": "Stad",
+		"Postal": "Postcode",
+		"Desc": "Schrijf hier uw beschrijving",
+		"BeginDate": "Kies uw begin datum",
+		"endDate": "Kies uw eind datum",
+		"CardNumber": "Kaartnummer",
+		"CardExp": "Vervaldatum"
+	}
 }

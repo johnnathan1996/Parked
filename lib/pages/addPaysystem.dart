@@ -204,7 +204,7 @@ class _AddPaySystemState extends State<AddPaySystem> {
                           },
                           onSaved: (input) => cardNumber = input,
                           decoration: InputDecoration(
-                              labelText: "Kaartnummer",
+                              labelText: translate(Keys.Inputs_Cardnumber),
                               labelStyle: TextStyle(color: Zwart)))),
                   Padding(
                       padding: EdgeInsets.only(left: 20, right: 20),
@@ -234,7 +234,7 @@ class _AddPaySystemState extends State<AddPaySystem> {
                           },
                           onSaved: (input) => cardExpiry = input,
                           decoration: InputDecoration(
-                              labelText: "Vervaldatum",
+                              labelText: translate(Keys.Inputs_Cardexp),
                               labelStyle: TextStyle(color: Zwart)))),
                   Padding(
                       padding: EdgeInsets.only(left: 20, right: 20),
@@ -262,7 +262,7 @@ class _AddPaySystemState extends State<AddPaySystem> {
                           },
                           onSaved: (input) => cardName = input.toUpperCase(),
                           decoration: InputDecoration(
-                              labelText: "name",
+                              labelText: translate(Keys.Inputs_Lastname),
                               labelStyle: TextStyle(color: Zwart)))),
                   Padding(
                       padding: EdgeInsets.only(left: 20, right: 20),

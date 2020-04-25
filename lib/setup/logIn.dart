@@ -66,7 +66,7 @@ class _LogInPageState extends State<LogInPage> {
                           ),
                           filled: true,
                           fillColor: Wit,
-                          labelText: "E-mailadres",
+                          labelText: translate(Keys.Inputs_Email),
                           labelStyle: TextStyle(color: Zwart)),
                     ))),
                 Padding(
@@ -99,7 +99,7 @@ class _LogInPageState extends State<LogInPage> {
                         ),
                         filled: true,
                         fillColor: Wit,
-                        labelText: "Wachtwoord",
+                        labelText: translate(Keys.Inputs_Password),
                         labelStyle: TextStyle(color: Zwart),
                       ),
                       obscureText: hiddenPassword,
@@ -139,7 +139,7 @@ class _LogInPageState extends State<LogInPage> {
                       )),
                       Padding(
                         padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                        child: Text("OR", style: TextStyle(color: Wit)),
+                        child: Text(translate(Keys.Button_Or), style: TextStyle(color: Wit)),
                       ),
                       Expanded(
                           child: Divider(
@@ -161,7 +161,7 @@ class _LogInPageState extends State<LogInPage> {
                       child: Padding(
                           padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                           child:
-                              Text("Maak een account aan", style: TextStyle(color: Blauw))),
+                              Text(translate(Keys.Button_Createaccount), style: TextStyle(color: Blauw))),
                       color: Colors.white,
                     ))
               ],

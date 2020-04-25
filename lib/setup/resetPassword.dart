@@ -46,7 +46,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                             padding: EdgeInsets.only(
                                 left: 20.0, right: 20.0, bottom: 30.0),
                             child: Text(
-                              "Voer uw e-mailadres in om uw wachtwoord te wijzigen.",
+                              translate(Keys.Inputs_Changepassword),
                               style: TextStyle(
                                   color: Wit, fontWeight: FontWeight.w500, fontSize: 16),
                               textAlign: TextAlign.center,
@@ -64,7 +64,8 @@ class _ResetPasswordState extends State<ResetPassword> {
                               },
                               onSaved: (input) => _email = input,
                               decoration: InputDecoration(
-                                  border: InputBorder.none,
+                                errorStyle: TextStyle(color: Wit),
+                                  border: OutlineInputBorder(),
                                   prefixIcon: IconButton(
                                     icon:
                                         Icon(Icons.mail_outline, color: Zwart),
@@ -72,7 +73,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                   ),
                                   filled: true,
                                   fillColor: Wit,
-                                  labelText: "Email",
+                                  labelText: translate(Keys.Inputs_Email),
                                   labelStyle: TextStyle(color: Zwart)),
                             )),
                         Padding(

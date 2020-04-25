@@ -8,7 +8,8 @@
 	},
 	"Title": {
 		"Favorite": "favorite",
-		"Garage": "Mes garages"
+		"Garage": "Mes garages",
+		"Settings": "Paramètres"
 	},
 	"Button": {
 		"LogIn": "Se connecter",
@@ -21,6 +22,26 @@
 		"Add": "Ajouter",
 		"AddCard": "Ajouter une carte",
 		"Reserve": "Reserver"
-		
-    }
+	},
+	"Inputs": {
+		"Firstname": "Prénom",
+		"Lastname": "Nom",
+		"Email": "E-mail",
+		"Phone": "Téléphone",
+		"Password": "Mot de passe",
+		"ConfirmPassword": "Confirmer mot de passe",
+		"ChangePassword": "Entrez votre adresse e-mail pour changer votre mot de passe.",
+		"Titel": "Titre",
+		"UploadImg": "Télécharger une image",
+		"Street": "Rue",
+		"Number": "Nr.",
+		"City": "Ville",
+		"Postal": "Code postale",
+		"Desc": "Écrivez votre description ici",
+		"BeginDate": "Choisissez votre date de départ",
+		"endDate": "Choisissez votre date de fin",
+		"CardNumber": "Numéro de carte",
+		"CardExp": "Date d'expiration"
+
+	}
 }

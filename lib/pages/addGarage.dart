@@ -90,7 +90,7 @@ class _AddGarageState extends State<AddGarage> {
             },
             onSaved: (input) => _titel = input,
             decoration: InputDecoration(
-                hintText: "Titel", labelStyle: TextStyle(color: Zwart)),
+                hintText: translate(Keys.Inputs_Titel), labelStyle: TextStyle(color: Zwart)),
           )
         ]);
   }
@@ -126,7 +126,7 @@ class _AddGarageState extends State<AddGarage> {
                             child: Icon(Icons.camera_alt),
                           ),
                         ),
-                        TextSpan(text: 'Upload an image'),
+                        TextSpan(text: translate(Keys.Inputs_Uploadimg)),
                       ],
                     ),
                   ))
@@ -167,7 +167,7 @@ class _AddGarageState extends State<AddGarage> {
                                   border: InputBorder.none,
                                   filled: true,
                                   fillColor: Wit,
-                                  hintText: "Naamstraat",
+                                  hintText: translate(Keys.Inputs_Street),
                                   labelStyle: TextStyle(color: Zwart)),
                             ))),
                     SizedBox(
@@ -185,7 +185,7 @@ class _AddGarageState extends State<AddGarage> {
                               border: InputBorder.none,
                               filled: true,
                               fillColor: Wit,
-                              hintText: "Nr.",
+                              hintText: translate(Keys.Inputs_Number),
                               labelStyle: TextStyle(color: Zwart)),
                         )),
                   ])),
@@ -207,7 +207,7 @@ class _AddGarageState extends State<AddGarage> {
                               border: InputBorder.none,
                               filled: true,
                               fillColor: Wit,
-                              hintText: "Stad",
+                              hintText: translate(Keys.Inputs_City),
                               labelStyle: TextStyle(color: Zwart)),
                         ))),
                 Expanded(
@@ -224,7 +224,7 @@ class _AddGarageState extends State<AddGarage> {
                       border: InputBorder.none,
                       filled: true,
                       fillColor: Wit,
-                      hintText: "Postcode",
+                      hintText: translate(Keys.Inputs_Postal),
                       labelStyle: TextStyle(color: Zwart)),
                 )),
               ])),
@@ -280,7 +280,7 @@ class _AddGarageState extends State<AddGarage> {
             },
             onSaved: (input) => _desciption = input,
             decoration: InputDecoration(
-                hintText: "Schijf hier uw beschrijving",
+                hintText: translate(Keys.Inputs_Desc),
                 border: InputBorder.none,
                 filled: true,
                 fillColor: Wit,

@@ -8,7 +8,8 @@
 	},
 	"Title": {
 		"Favorite": "favorite",
-		"Garage": "My garages"
+		"Garage": "My garages",
+		"Settings": "Settings"
 	},
 	"Button": {
 		"LogIn": "Log in",
@@ -21,5 +22,25 @@
 		"Add": "Add",
 		"AddCard": "Add new card",
 		"Reserve": "Book"
-    }
+	},
+	"Inputs": {
+		"Firstname": "First name",
+		"Lastname": "Last name",
+		"Email": "email",
+		"Phone": "Phone",
+		"Password": "Password",
+		"ConfirmPassword": "Confirm password",
+		"ChangePassword": "Enter your email address to change your password.",
+		"Titel": "Title",
+		"UploadImg": "Upload an image",
+		"Street": "Street",
+		"Number": "Nr.",
+		"City": "City",
+		"Postal": "Postcode",
+		"Desc": "Write your description here",
+		"BeginDate": "Choose your starting date",
+		"endDate": "Choose your end date",
+		"CardNumber": "Card number",
+		"CardExp": "Expiry date"
+	}
 }

@@ -28,7 +28,7 @@ class _InstellingenState extends State<Instellingen> {
             child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          TitleComponent(label: "Instellingen"),
+          TitleComponent(label: translate(Keys.Title_Settings)),
           Padding(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               child: Card(

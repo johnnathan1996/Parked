@@ -97,7 +97,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 ),
                                 filled: true,
                                 fillColor: Wit,
-                                labelText: "Naam",
+                                labelText: translate(Keys.Inputs_Firstname),
                                 labelStyle: TextStyle(color: Zwart))))),
                 Padding(
                     padding:
@@ -128,7 +128,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               ),
                               filled: true,
                               fillColor: Wit,
-                              labelText: "Achternaam",
+                              labelText: translate(Keys.Inputs_Lastname),
                               labelStyle: TextStyle(color: Zwart)),
                         ))),
                 Padding(
@@ -159,7 +159,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               ),
                               filled: true,
                               fillColor: Wit,
-                              labelText: "E-mailadres",
+                              labelText: translate(Keys.Inputs_Email),
                               labelStyle: TextStyle(color: Zwart)),
                         ))),
                 Padding(
@@ -172,7 +172,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             borderRadius: BorderRadius.circular(4)),
                         child: InternationalPhoneInput(
                             enabledCountries: ['+32', '+33', '+31'],
-                            hintText: "Telefoon",
+                            hintText: translate(Keys.Inputs_Phone),
                             errorText: "Geen geldig nummer",
                             initialPhoneNumber: phoneNo,
                             onPhoneNumberChange: onPhoneNumberChange,
@@ -204,7 +204,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               ),
                               filled: true,
                               fillColor: Wit,
-                              labelText: "Wachtwoord",
+                              labelText: translate(Keys.Inputs_Password),
                               labelStyle: TextStyle(color: Zwart)),
                           obscureText: true,
                         ))),
@@ -235,7 +235,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               ),
                               filled: true,
                               fillColor: Wit,
-                              labelText: "Bevestig wachtwoord",
+                              labelText: translate(Keys.Inputs_Confirmpassword),
                               labelStyle: TextStyle(color: Zwart)),
                           obscureText: true,
                         ))),

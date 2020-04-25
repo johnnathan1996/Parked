@@ -21,6 +21,8 @@ class Keys {
 
   static const String Title_Garage = 'Title.Garage';
 
+  static const String Title_Settings = 'Title.Settings';
+
   static const String Button_Login = 'Button.LogIn';
 
   static const String Button_Logout = 'Button.LogOut';
@@ -40,4 +42,40 @@ class Keys {
   static const String Button_Addcard = 'Button.AddCard';
 
   static const String Button_Reserve = 'Button.Reserve';
+
+  static const String Inputs_Firstname = 'Inputs.Firstname';
+
+  static const String Inputs_Lastname = 'Inputs.Lastname';
+
+  static const String Inputs_Email = 'Inputs.Email';
+
+  static const String Inputs_Phone = 'Inputs.Phone';
+
+  static const String Inputs_Password = 'Inputs.Password';
+
+  static const String Inputs_Confirmpassword = 'Inputs.ConfirmPassword';
+
+  static const String Inputs_Changepassword = 'Inputs.ChangePassword';
+
+  static const String Inputs_Titel = 'Inputs.Titel';
+
+  static const String Inputs_Uploadimg = 'Inputs.UploadImg';
+
+  static const String Inputs_Street = 'Inputs.Street';
+
+  static const String Inputs_Number = 'Inputs.Number';
+
+  static const String Inputs_City = 'Inputs.City';
+
+  static const String Inputs_Postal = 'Inputs.Postal';
+
+  static const String Inputs_Desc = 'Inputs.Desc';
+
+  static const String Inputs_Begindate = 'Inputs.BeginDate';
+
+  static const String Inputs_Enddate = 'Inputs.endDate';
+
+  static const String Inputs_Cardnumber = 'Inputs.CardNumber';
+
+  static const String Inputs_Cardexp = 'Inputs.CardExp';
 }
