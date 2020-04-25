@@ -296,7 +296,6 @@ class _DetailGarageState extends State<DetailGarage> {
                           currentTime: beginDate.add(Duration(hours: 1)),
                           locale: LocaleType.nl, onConfirm: (date) {
                         setState(() {
-                          //TODO: calculate price in minutes
                           endDate = date;
                           prijs = calculatePrice(
                               beginDate, endDate, garage["prijs"]);

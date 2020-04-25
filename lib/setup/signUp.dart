@@ -349,6 +349,8 @@ class _SignUpPageState extends State<SignUpPage> {
       final FirebaseUser userData = await FirebaseAuth.instance.currentUser();
 
       try {
+
+        //TODO: check when invalid code
         await userData.linkWithCredential(credential);
         logIn();
 

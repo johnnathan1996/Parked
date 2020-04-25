@@ -1,3 +1,10 @@
+import 'dart:math';
+
+double roundDouble(double value, int places){ 
+   double mod = pow(10.0, places); 
+   return ((value * mod).round().toDouble() / mod); 
+}
+
 String changeDate(var date) {
   String result;
   DateTime datum = date.toDate();
@@ -31,9 +38,11 @@ String changeDateWithTime(DateTime date) {
 
 double calculatePrice(DateTime firstDate, DateTime secondDate, double price) {
 
-  int time = secondDate.difference(firstDate).inHours;
+  int timeInMinute = secondDate.difference(firstDate).inMinutes;
+  
+  double timeInHours = timeInMinute / 60;
 
-  double result = time * price;
+  double result = timeInHours * price;
 
-  return result;
+  return roundDouble(result, 2);
 }
