@@ -6,6 +6,7 @@ import 'package:parkly/ui/button.dart';
 import 'package:parkly/ui/title.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:parkly/localization/keys.dart';
+import 'package:share/share.dart';
 
 class Instellingen extends StatefulWidget {
   @override
@@ -16,7 +17,6 @@ class _InstellingenState extends State<Instellingen> {
   @override
   Widget build(BuildContext context) {
      var localizationDelegate = LocalizedApp.of(context).delegate;
-     print(localizationDelegate.currentLocale.languageCode);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Wit,
@@ -63,7 +63,9 @@ class _InstellingenState extends State<Instellingen> {
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               child: Card(
                 child: ListTile(
-                  onTap: () {},
+                  onTap: () {
+                    Share.share('Check the new parking app, the easiest way to park, Download now!');
+                  },
                   leading: Icon(Icons.card_giftcard, color: Zwart),
                   title: Text(translate(Keys.Apptext_Invite),
                       style: TextStyle(

@@ -638,6 +638,12 @@
       "languageVersion": "2.0"
     },
     {
+      "name": "share",
+      "rootUri": "file:///Users/john-nathan/flutter/.pub-cache/hosted/pub.dartlang.org/share-0.6.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
+    },
+    {
       "name": "shared_preferences",
       "rootUri": "file:///Users/john-nathan/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences-0.5.7",
       "packageUri": "lib/",
@@ -902,7 +908,7 @@
       "languageVersion": "2.2"
     }
   ],
-  "generated": "2020-04-25T17:15:35.003093Z",
+  "generated": "2020-04-25T21:10:36.428706Z",
   "generator": "pub",
   "generatorVersion": "2.8.0-dev.20.10"
 }
