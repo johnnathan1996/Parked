@@ -21,7 +21,7 @@ class _SignUpPageState extends State<SignUpPage> {
   String _name, _lastName, _email, _password, _passwordConfirm;
 
   String phoneNo, smsCode, verificationId, errorMessage;
-  bool codeSent, isSmsValide = false;
+  bool codeSent  = false;
   String phoneIsoCode;
 
   bool validation = true;
@@ -166,8 +166,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     child: Container(
                         padding: EdgeInsets.symmetric(horizontal: 11),
                         decoration: new BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(4)),
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(4)),
                         child: InternationalPhoneInput(
                             enabledCountries: ['+32', '+33', '+31'],
                             hintText: "Telefoon",
@@ -181,62 +181,62 @@ class _SignUpPageState extends State<SignUpPage> {
                     child: Theme(
                         data: new ThemeData(hintColor: Transparant),
                         child: TextFormField(
-                      validator: (input) {
-                        if (input.length < 6) {
-                          return "Min. 6 karakters";
-                        }
-                        return null;
-                      },
-                      onSaved: (input) => _password = input,
-                      decoration: InputDecoration(
-                        errorStyle: TextStyle(color: Wit),
-                          border: OutlineInputBorder(),
+                          validator: (input) {
+                            if (input.length < 6) {
+                              return "Min. 6 karakters";
+                            }
+                            return null;
+                          },
+                          onSaved: (input) => _password = input,
+                          decoration: InputDecoration(
+                              errorStyle: TextStyle(color: Wit),
+                              border: OutlineInputBorder(),
                               focusedBorder: OutlineInputBorder(),
                               errorBorder: OutlineInputBorder(
                                 borderSide:
                                     BorderSide(color: Colors.red, width: 1.0),
                               ),
-                          prefixIcon: IconButton(
-                            icon: Icon(Icons.visibility_off, color: Zwart),
-                            onPressed: () {},
-                          ),
-                          filled: true,
-                          fillColor: Wit,
-                          labelText: "Wachtwoord",
-                          labelStyle: TextStyle(color: Zwart)),
-                      obscureText: true,
-                    ))),
+                              prefixIcon: IconButton(
+                                icon: Icon(Icons.visibility_off, color: Zwart),
+                                onPressed: () {},
+                              ),
+                              filled: true,
+                              fillColor: Wit,
+                              labelText: "Wachtwoord",
+                              labelStyle: TextStyle(color: Zwart)),
+                          obscureText: true,
+                        ))),
                 Padding(
                     padding:
                         EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
                     child: Theme(
                         data: new ThemeData(hintColor: Transparant),
                         child: TextFormField(
-                      validator: (input) {
-                        if (input.length < 6) {
-                          return '';
-                        }
-                        return null;
-                      },
-                      onSaved: (input) => _passwordConfirm = input,
-                      decoration: InputDecoration(
-                        errorStyle: TextStyle(height: 0),
-                          border: OutlineInputBorder(),
+                          validator: (input) {
+                            if (input.length < 6) {
+                              return '';
+                            }
+                            return null;
+                          },
+                          onSaved: (input) => _passwordConfirm = input,
+                          decoration: InputDecoration(
+                              errorStyle: TextStyle(height: 0),
+                              border: OutlineInputBorder(),
                               focusedBorder: OutlineInputBorder(),
                               errorBorder: OutlineInputBorder(
                                 borderSide:
                                     BorderSide(color: Colors.red, width: 1.0),
                               ),
-                          prefixIcon: IconButton(
-                            icon: Icon(Icons.visibility_off, color: Zwart),
-                            onPressed: () {},
-                          ),
-                          filled: true,
-                          fillColor: Wit,
-                          labelText: "Bevestig wachtwoord",
-                          labelStyle: TextStyle(color: Zwart)),
-                      obscureText: true,
-                    ))),
+                              prefixIcon: IconButton(
+                                icon: Icon(Icons.visibility_off, color: Zwart),
+                                onPressed: () {},
+                              ),
+                              filled: true,
+                              fillColor: Wit,
+                              labelText: "Bevestig wachtwoord",
+                              labelStyle: TextStyle(color: Zwart)),
+                          obscureText: true,
+                        ))),
                 Padding(
                     padding:
                         EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
@@ -328,7 +328,7 @@ class _SignUpPageState extends State<SignUpPage> {
               new FlatButton(
                   onPressed: () => {
                         Navigator.of(context).pop(),
-                        // createUser()
+                        createUser()
                       },
                   child: Text("Done"))
             ],
@@ -350,31 +350,14 @@ class _SignUpPageState extends State<SignUpPage> {
 
       try {
         await userData.linkWithCredential(credential);
-        setState(() {
-          isSmsValide = true;
-        });
+        logIn();
+
       } catch (e) {
         handleError(e);
         print('errorCode : $e');
+        // userData.delete();
       }
 
-      if (isSmsValide) {
-        logIn();
-
-        if (userData != null) {
-          if (this.mounted) {
-            setState(() {
-              globals.userId = userData.uid;
-            });
-          }
-        } else {
-          if (this.mounted) {
-            setState(() {
-              globals.userId = null;
-            });
-          }
-        }
-      }
     } catch (e) {
       showDialog(
         context: context,
