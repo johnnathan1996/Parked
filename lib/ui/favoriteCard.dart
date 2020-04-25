@@ -48,28 +48,51 @@ class _FavoriteCardComponentState extends State<FavoriteCardComponent> {
         elevation: 1.0,
         margin: new EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         child: ListTile(
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        DetailGarage(idGarage: garage.documentID)));
-          },
-          leading: Image.network(garage['garageImg']),
-          title: Text(
-            garage['titel'],
-            style: SubTitleCustom,
-          ),
-          subtitle: ShowStars(rating: garage["rating"]),
-          trailing: IconButton(
-            icon: mijnFavorieten.contains(garage.documentID)
-                ? Icon(Icons.favorite)
-                : Icon(Icons.favorite_border),
-            color: Blauw,
-            onPressed: () {
-              CheckFav().isgarageInFavorite(garage.documentID);
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          DetailGarage(idGarage: garage.documentID)));
             },
-          ),
-        ));
+            title: ClipRect(
+              child: Align(
+                alignment: Alignment.center,
+                heightFactor: 0.5,
+                child: Image.network(garage['garageImg']),
+              ),
+            ),
+            subtitle: Padding(
+                padding: EdgeInsets.only(top: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(garage['street'],
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w500,
+                                color: Zwart)),
+                        Text(garage['city'] + " " + garage['postcode'],
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w500,
+                                color: Zwart)),
+                        ShowStars(rating: garage["rating"]),
+                      ],
+                    ),
+                    IconButton(
+                      icon: mijnFavorieten.contains(garage.documentID)
+                          ? Icon(Icons.favorite)
+                          : Icon(Icons.favorite_border),
+                      color: Blauw,
+                      onPressed: () {
+                        CheckFav().isgarageInFavorite(garage.documentID);
+                      },
+                    )
+                  ],
+                ))));
   }
 }
