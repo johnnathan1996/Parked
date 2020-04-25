@@ -30,9 +30,11 @@ class _FavoriteCardComponentState extends State<FavoriteCardComponent> {
         .document(globals.userId)
         .snapshots()
         .listen((userInstance) {
-      setState(() {
-        mijnFavorieten = userInstance.data["favoriet"];
-      });
+      if (this.mounted) {
+        setState(() {
+          mijnFavorieten = userInstance.data["favoriet"];
+        });
+      }
     });
   }
 

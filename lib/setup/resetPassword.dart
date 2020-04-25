@@ -23,7 +23,10 @@ class _ResetPasswordState extends State<ResetPassword> {
     return Scaffold(
         resizeToAvoidBottomPadding: false,
         extendBodyBehindAppBar: true,
-        appBar: AppBar(elevation: 0.0, backgroundColor: Transparant, iconTheme: IconThemeData(color: Wit)),
+        appBar: AppBar(
+            elevation: 0.0,
+            backgroundColor: Transparant,
+            iconTheme: IconThemeData(color: Wit)),
         body: Container(
             decoration: BoxDecoration(
                 image: new DecorationImage(
@@ -48,7 +51,9 @@ class _ResetPasswordState extends State<ResetPassword> {
                             child: Text(
                               translate(Keys.Inputs_Changepassword),
                               style: TextStyle(
-                                  color: Wit, fontWeight: FontWeight.w500, fontSize: 16),
+                                  color: Wit,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16),
                               textAlign: TextAlign.center,
                             )),
                         Padding(
@@ -64,7 +69,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                               },
                               onSaved: (input) => _email = input,
                               decoration: InputDecoration(
-                                errorStyle: TextStyle(color: Wit),
+                                  errorStyle: TextStyle(color: Wit),
                                   border: OutlineInputBorder(),
                                   prefixIcon: IconButton(
                                     icon:
@@ -92,21 +97,26 @@ class _ResetPasswordState extends State<ResetPassword> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        Lottie.asset('assets/anim/success.json', repeat: false, width: 100, height: 100),
+                        Lottie.asset('assets/anim/success.json',
+                            repeat: false, width: 100, height: 100),
                         Padding(
                             padding: EdgeInsets.only(
                                 left: 20.0, right: 20.0, top: 10, bottom: 20),
-                                child:Text(
-                          "Er is een e-mail naar '$_email' gestuurd om het wachtwoord te wijzigen.",
-                          style: TextStyle(
-                              color: Wit, fontWeight: FontWeight.w500, fontSize: 16),
-                          textAlign: TextAlign.center,
-                        )),
+                            child: Text(
+                              "Er is een e-mail naar '$_email' gestuurd om het wachtwoord te wijzigen.",
+                              style: TextStyle(
+                                  color: Wit,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16),
+                              textAlign: TextAlign.center,
+                            )),
                         Padding(
                             padding: EdgeInsets.symmetric(horizontal: 20),
-                                child:ButtonComponent(label: translate(Keys.Button_Back), onClickAction: (){
-                          Navigator.of(context).pop();
-                        }))
+                            child: ButtonComponent(
+                                label: translate(Keys.Button_Back),
+                                onClickAction: () {
+                                  Navigator.of(context).pop();
+                                }))
                       ],
                     ),
                   )));
@@ -117,10 +127,14 @@ class _ResetPasswordState extends State<ResetPassword> {
     if (formState.validate()) {
       formState.save();
       try {
-        await FirebaseAuth.instance.sendPasswordResetEmail(email: _email).whenComplete(() {
-          setState(() {
-            showFrom = false;
-          });
+        await FirebaseAuth.instance
+            .sendPasswordResetEmail(email: _email)
+            .whenComplete(() {
+          if (this.mounted) {
+            setState(() {
+              showFrom = false;
+            });
+          }
         });
       } catch (e) {
         print(e.message);

@@ -29,9 +29,11 @@ class _ModalMapComponentState extends State<ModalMapComponent> {
         .document(globals.userId)
         .snapshots()
         .listen((userInstance) {
-      setState(() {
-        mijnFavorieten = userInstance.data["favoriet"];
-      });
+      if (this.mounted) {
+        setState(() {
+          mijnFavorieten = userInstance.data["favoriet"];
+        });
+      }
     });
   }
 
@@ -45,8 +47,11 @@ class _ModalMapComponentState extends State<ModalMapComponent> {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => DetailGarage(idGarage: garage.documentID)));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      DetailGarage(idGarage: garage.documentID)));
         },
         child: Column(
           children: <Widget>[
@@ -78,9 +83,11 @@ class _ModalMapComponentState extends State<ModalMapComponent> {
                             : Icon(Icons.favorite_border),
                         color: Blauw,
                         onPressed: () {
-                          setState(() {
-                            CheckFav().isgarageInFavorite(garage.documentID);
-                          });
+                          if (this.mounted) {
+                            setState(() {
+                              CheckFav().isgarageInFavorite(garage.documentID);
+                            });
+                          }
                         },
                       ),
                     )),

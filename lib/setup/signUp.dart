@@ -23,24 +23,26 @@ class _SignUpPageState extends State<SignUpPage> {
   String _name, _lastName, _email, _password, _passwordConfirm;
 
   String phoneNo, smsCode, verificationId, errorMessage;
-  bool codeSent  = false;
+  bool codeSent = false;
   String phoneIsoCode;
 
   bool validation = true;
 
   void onPhoneNumberChange(
       String number, String internationalizedPhoneNumber, String isoCode) {
-    setState(() {
-      phoneNo = number;
-      phoneIsoCode = isoCode;
-      if (phoneIsoCode == "BE") {
-        phoneNo = "+32" + phoneNo;
-      } else if (phoneIsoCode == "FR") {
-        phoneNo = "+33" + phoneNo;
-      } else if (phoneIsoCode == "NL") {
-        phoneNo = "+31" + phoneNo;
-      }
-    });
+    if (this.mounted) {
+      setState(() {
+        phoneNo = number;
+        phoneIsoCode = isoCode;
+        if (phoneIsoCode == "BE") {
+          phoneNo = "+32" + phoneNo;
+        } else if (phoneIsoCode == "FR") {
+          phoneNo = "+33" + phoneNo;
+        } else if (phoneIsoCode == "NL") {
+          phoneNo = "+31" + phoneNo;
+        }
+      });
+    }
   }
 
   @override
@@ -328,10 +330,7 @@ class _SignUpPageState extends State<SignUpPage> {
             contentPadding: EdgeInsets.all(10.0),
             actions: <Widget>[
               new FlatButton(
-                  onPressed: () => {
-                        Navigator.of(context).pop(),
-                        createUser()
-                      },
+                  onPressed: () => {Navigator.of(context).pop(), createUser()},
                   child: Text("Done"))
             ],
           );
@@ -353,13 +352,11 @@ class _SignUpPageState extends State<SignUpPage> {
       try {
         await userData.linkWithCredential(credential);
         logIn();
-
       } catch (e) {
         handleError(e);
         print('errorCode : $e');
         userData.delete();
       }
-
     } catch (e) {
       showDialog(
         context: context,
@@ -407,16 +404,19 @@ class _SignUpPageState extends State<SignUpPage> {
   handleError(PlatformException error) {
     switch (error.code) {
       case 'ERROR_INVALID_VERIFICATION_CODE':
-        setState(() {
-          errorMessage = 'Invalid Code';
-        });
+        if (this.mounted) {
+          setState(() {
+            errorMessage = 'Invalid Code';
+          });
+        }
         smsCodeDialog(context);
         break;
       case 'ERROR_CREDENTIAL_ALREADY_IN_USE':
         showDialog(
-        context: context,
-        builder: (_) => ModalComponent(modalTekst: "Oops, gsm-nummer al bekend!"),
-      );
+          context: context,
+          builder: (_) =>
+              ModalComponent(modalTekst: "Oops, gsm-nummer al bekend!"),
+        );
         break;
       default:
         if (this.mounted) {

@@ -30,12 +30,14 @@ class _ProfileTabState extends State<ProfileTab> {
         .document(globals.userId)
         .snapshots()
         .listen((instance) {
-      setState(() {
-        payMethode = [];
-        for (var item in instance.data["paymethode"]) {
-          payMethode.add(item);
-        }
-      });
+      if (this.mounted) {
+        setState(() {
+          payMethode = [];
+          for (var item in instance.data["paymethode"]) {
+            payMethode.add(item);
+          }
+        });
+      }
     });
   }
 
@@ -83,13 +85,15 @@ class _ProfileTabState extends State<ProfileTab> {
                 )
             ],
                 onReorder: (oldIndex, newIndex) {
-                  setState(() {
-                    if (newIndex > oldIndex) {
-                      newIndex -= 1;
-                    }
-                    final Map item = payMethode.removeAt(oldIndex);
-                    payMethode.insert(newIndex, item);
-                  });
+                  if (this.mounted) {
+                    setState(() {
+                      if (newIndex > oldIndex) {
+                        newIndex -= 1;
+                      }
+                      final Map item = payMethode.removeAt(oldIndex);
+                      payMethode.insert(newIndex, item);
+                    });
+                  }
                 })),
         ButtonComponent(
             label: translate(Keys.Button_Addcard),

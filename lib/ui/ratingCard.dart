@@ -29,11 +29,13 @@ class _RatingCardComponentState extends State<RatingCardComponent>
         .document(card["editor"])
         .get()
         .then((value) {
-      setState(() {
-        editorName =
-            value.data["voornaam"] + " " + value.data["achternaam"][0] + ".";
-        urlImage = value.data["imgUrl"];
-      });
+      if (this.mounted) {
+        setState(() {
+          editorName =
+              value.data["voornaam"] + " " + value.data["achternaam"][0] + ".";
+          urlImage = value.data["imgUrl"];
+        });
+      }
     });
   }
 
@@ -94,10 +96,12 @@ class _RatingCardComponentState extends State<RatingCardComponent>
               ),
               Padding(
                   padding: EdgeInsets.only(top: 20),
-                  child: card["comment"].toString() != "null" ? Text(
-                    card["comment"].toString(),
-                    style: TextStyle(color: Zwart),
-                  ): Container()),
+                  child: card["comment"].toString() != "null"
+                      ? Text(
+                          card["comment"].toString(),
+                          style: TextStyle(color: Zwart),
+                        )
+                      : Container()),
             ],
           ),
         ));

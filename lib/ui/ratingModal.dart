@@ -62,9 +62,11 @@ class _RatingModalState extends State<RatingModal>
                   SmoothStarRating(
                       allowHalfRating: false,
                       onRatingChanged: (value) {
-                        setState(() {
-                          rating = value;
-                        });
+                        if (this.mounted) {
+                          setState(() {
+                            rating = value;
+                          });
+                        }
                       },
                       starCount: 5,
                       rating: rating,
@@ -78,9 +80,11 @@ class _RatingModalState extends State<RatingModal>
                       padding: EdgeInsets.only(left: 20, right: 20, bottom: 10),
                       child: TextFormField(
                         onChanged: (value) {
-                          setState(() {
-                            _beschrijvingRating = value;
-                          });
+                          if (this.mounted) {
+                            setState(() {
+                              _beschrijvingRating = value;
+                            });
+                          }
                         },
                         decoration: InputDecoration(
                             hintText: "Schijf hier waarom",
