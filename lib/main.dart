@@ -3,13 +3,20 @@ import 'package:parkly/constant.dart';
 import 'package:parkly/pages/maps.dart';
 import 'package:parkly/setup/logIn.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:parkly/setup/globals.dart' as globals;
 
-void main() {
-  runApp(new MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: new MyApp(),
-  ));
+void main() async {
+  var delegate = await LocalizationDelegate.create(
+      fallbackLocale: 'nl',
+      supportedLocales: ['nl', 'fr', 'en']);
+
+  runApp(LocalizedApp(
+      delegate,
+      MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: new MyApp(),
+      )));
 }
 
 class MyApp extends StatefulWidget {

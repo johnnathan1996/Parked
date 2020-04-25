@@ -1,0 +1,25 @@
+{
+	"Navigation": {
+		"Search": "Find your garage!",
+		"Favorite": "favorite",
+		"Message": "Message",
+		"Garage": "My garages",
+		"Hist": "History"
+	},
+	"Title": {
+		"Favorite": "favorite",
+		"Garage": "My garages"
+	},
+	"Button": {
+		"LogIn": "Log in",
+		"LogOut": "Log out",
+		"CreateAccount": "Create a new account",
+		"ForgotPassword": "password forgotten?",
+		"ResetPassword": "Reset password",
+		"Back": "Back",
+		"Or": "Or",
+		"Add": "Add",
+		"AddCard": "Add new card",
+		"Reserve": "Book"
+    }
+}

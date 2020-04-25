@@ -5,6 +5,8 @@ import 'package:parkly/constant.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:parkly/ui/button.dart';
 import '../setup/globals.dart' as globals;
+import 'package:flutter_translate/flutter_translate.dart';
+import 'package:parkly/localization/keys.dart';
 
 class AddPaySystem extends StatefulWidget {
   @override
@@ -295,7 +297,7 @@ class _AddPaySystemState extends State<AddPaySystem> {
                   Padding(
                       padding: EdgeInsets.only(left: 20, right: 20, top: 20),
                       child: ButtonComponent(
-                        label: "Kaart toevoegen",
+                        label: translate(Keys.Button_Addcard),
                         onClickAction: () {
                           createPayCard();
                         },

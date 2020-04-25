@@ -3,6 +3,8 @@ import 'package:parkly/constant.dart';
 import 'package:parkly/script/logout.dart';
 import 'package:parkly/ui/button.dart';
 import 'package:parkly/ui/title.dart';
+import 'package:flutter_translate/flutter_translate.dart';
+import 'package:parkly/localization/keys.dart';
 
 class Instellingen extends StatefulWidget {
   @override
@@ -103,7 +105,7 @@ class _InstellingenState extends State<Instellingen> {
           Padding(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               child: ButtonComponent(
-                label: "Log out",
+                label: translate(Keys.Button_Logout),
                 onClickAction: () {
                   logOut(context);
                 },

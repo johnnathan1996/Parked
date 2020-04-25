@@ -4,6 +4,8 @@ import 'package:lottie/lottie.dart';
 import 'package:parkly/constant.dart';
 import 'package:parkly/ui/button.dart';
 import 'package:parkly/ui/modal.dart';
+import 'package:flutter_translate/flutter_translate.dart';
+import 'package:parkly/localization/keys.dart';
 
 class ResetPassword extends StatefulWidget {
   @override
@@ -77,7 +79,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                             padding: EdgeInsets.only(
                                 left: 20.0, right: 20.0, bottom: 10.0),
                             child: ButtonComponent(
-                                label: "Reset wachtwoord",
+                                label: translate(Keys.Button_Resetpassword),
                                 onClickAction: () {
                                   changePassword(context);
                                 }))
@@ -101,7 +103,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                         )),
                         Padding(
                             padding: EdgeInsets.symmetric(horizontal: 20),
-                                child:ButtonComponent(label: "Terug naar login", onClickAction: (){
+                                child:ButtonComponent(label: translate(Keys.Button_Back), onClickAction: (){
                           Navigator.of(context).pop();
                         }))
                       ],

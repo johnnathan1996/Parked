@@ -7,6 +7,8 @@ import 'package:parkly/ui/button.dart';
 import 'package:grouped_buttons/grouped_buttons.dart';
 import '../setup/globals.dart' as globals;
 import 'package:geocoder/geocoder.dart';
+import 'package:flutter_translate/flutter_translate.dart';
+import 'package:parkly/localization/keys.dart';
 
 class AddGarage extends StatefulWidget {
   @override
@@ -65,7 +67,7 @@ class _AddGarageState extends State<AddGarage> {
                     Padding(
                         padding: EdgeInsets.symmetric(vertical: 10),
                         child: ButtonComponent(
-                            label: "Toevoegen",
+                            label: translate(Keys.Button_Add),
                             onClickAction: () {
                               createGarage();
                             })),

@@ -8,6 +8,8 @@ import 'package:parkly/constant.dart';
 import 'package:parkly/ui/button.dart';
 import 'package:parkly/ui/modal.dart';
 import '../setup/globals.dart' as globals;
+import 'package:flutter_translate/flutter_translate.dart';
+import 'package:parkly/localization/keys.dart';
 
 class LogInPage extends StatefulWidget {
   @override
@@ -112,7 +114,7 @@ class _LogInPageState extends State<LogInPage> {
                                 builder: (context) => ResetPassword(),
                                 fullscreenDialog: true));
                       },
-                      child: Text("Wachtwoord vergeten?",
+                      child: Text(translate(Keys.Button_Forgotpassword),
                           style: TextStyle(
                               color: Wit,
                               decoration: TextDecoration.underline)),
@@ -121,7 +123,7 @@ class _LogInPageState extends State<LogInPage> {
                   padding:
                       EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
                   child: ButtonComponent(
-                      label: "Inloggen",
+                      label: translate(Keys.Button_Login),
                       onClickAction: () {
                         signIn();
                       }),

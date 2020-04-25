@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:parkly/constant.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:parkly/localization/keys.dart';
 import 'package:parkly/ui/favoriteCard.dart';
 import 'package:parkly/ui/navigation.dart';
 import 'package:parkly/ui/title.dart';
 import '../setup/globals.dart' as globals;
-
-import 'package:flutter_translate/flutter_translate.dart';
 
 class FavoritePage extends StatefulWidget {
   @override
@@ -65,7 +64,7 @@ class _FavoritePageState extends State<FavoritePage> {
                     image: new AssetImage('assets/images/backgroundP.png'),
                     fit: BoxFit.cover)),
             child: Column(children: <Widget>[
-              TitleComponent(label: translate(Keys.Application_Favorite)),
+              TitleComponent(label: translate(Keys.Title_Favorite)),
               garageFav.length != 0
                   ? Expanded(
                       child: ListView(

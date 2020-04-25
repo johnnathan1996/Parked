@@ -5,6 +5,8 @@ import 'package:parkly/pages/addGarage.dart';
 import 'package:parkly/ui/garageCard.dart';
 import 'package:parkly/ui/navigation.dart';
 import 'package:parkly/ui/title.dart';
+import 'package:flutter_translate/flutter_translate.dart';
+import 'package:parkly/localization/keys.dart';
 import '../setup/globals.dart' as globals;
 
 class GaragePage extends StatefulWidget {
@@ -47,7 +49,7 @@ class _GaragePageState extends State<GaragePage> {
                                   'assets/images/backgroundP.png'),
                               fit: BoxFit.cover)),
                       child: Column(children: <Widget>[
-                        TitleComponent(label: "Mijn garages"),
+                        TitleComponent(label: translate(Keys.Title_Garage)),
                         snapshot.data.documents.length != 0
                             ? Expanded(
                                 child: ListView.builder(

@@ -6,6 +6,8 @@ import 'package:parkly/pages/garages.dart';
 import 'package:parkly/pages/instellingen.dart';
 import 'package:parkly/pages/maps.dart';
 import 'package:parkly/pages/profile.dart';
+import 'package:flutter_translate/flutter_translate.dart';
+import 'package:parkly/localization/keys.dart';
 import '../setup/globals.dart' as globals;
 
 List<Widget> navItemWidget = [];
@@ -14,18 +16,22 @@ class Navigation extends StatefulWidget {
   final bool activeMap;
   final bool activeFav;
   final bool activeHis;
+  final bool activeMes;
   final bool activeGar;
 
   Navigation({
     this.activeMap = false,
     this.activeFav = false,
     this.activeHis = false,
+    this.activeMes = false,
     this.activeGar = false,
   });
   @override
   _NavigationState createState() => _NavigationState(
         activeMap: activeMap,
         activeFav: activeFav,
+        activeHis: activeHis,
+        activeMes: activeMes,
         activeGar: activeGar,
       );
 }
@@ -33,12 +39,16 @@ class Navigation extends StatefulWidget {
 class _NavigationState extends State<Navigation> {
   bool activeMap;
   bool activeFav;
+  bool activeHis;
+  bool activeMes;
   bool activeGar;
 
   _NavigationState(
       {Key key,
       this.activeMap,
       this.activeFav,
+      this.activeHis,
+      this.activeMes,
       this.activeGar});
 
   @override
@@ -48,23 +58,35 @@ class _NavigationState extends State<Navigation> {
 
     List navItems = [
       {
-        "label": "Zoeken",
+        "label": translate(Keys.Navigation_Search),
         "icon": Icons.map,
         "active": activeMap,
         "redirect": MapsPage(),
       },
       {
-        "label": "Favoriet",
+        "label": translate(Keys.Navigation_Favorite),
         "icon": Icons.favorite,
         "active": activeFav,
         "redirect": FavoritePage(),
       },
       {
-        "label": "Mijn garages",
+        "label": translate(Keys.Navigation_Message),
+        "icon": Icons.message,
+        "active": activeMes,
+        "redirect": GaragePage(),
+      },
+      {
+        "label": translate(Keys.Navigation_Garage),
         "icon": Icons.directions_car,
         "active": activeGar,
         "redirect": GaragePage(),
-      }
+      },
+      {
+        "label": translate(Keys.Navigation_Hist),
+        "icon": Icons.history,
+        "active": activeHis,
+        "redirect": FavoritePage(),
+      },
     ];
 
     navItems.forEach((value) {

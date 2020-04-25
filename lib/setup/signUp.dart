@@ -9,6 +9,8 @@ import 'package:parkly/ui/button.dart';
 import 'package:parkly/ui/modal.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import '../setup/globals.dart' as globals;
+import 'package:flutter_translate/flutter_translate.dart';
+import 'package:parkly/localization/keys.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -241,7 +243,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     padding:
                         EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
                     child: ButtonComponent(
-                        label: "Toevoegen",
+                        label: translate(Keys.Button_Add),
                         onClickAction: () {
                           signUp();
                         }))
@@ -355,7 +357,6 @@ class _SignUpPageState extends State<SignUpPage> {
       } catch (e) {
         handleError(e);
         print('errorCode : $e');
-        print(userData.email);
         userData.delete();
       }
 

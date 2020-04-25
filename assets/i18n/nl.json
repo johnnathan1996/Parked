@@ -1,0 +1,25 @@
+{
+	"Navigation": {
+		"Search": "Vind uw garage!",
+		"Favorite": "Favoriet",
+		"Message": "Berichten",
+		"Garage": "Mijn garages",
+		"Hist": "Historiek"
+	},
+	"Title": {
+		"Favorite": "favorite",
+		"Garage": "My garages"
+	},
+	"Button": {
+		"LogIn": "Inloggen",
+		"LogOut": "Uitloggen",
+		"CreateAccount": "Maak een account aan",
+		"ForgotPassword": "Wachtwoord vergeten ?",
+		"ResetPassword": "Reset Wachtwoord",
+		"Back": "Terug",
+		"Or": "Of",
+		"Add": "Toevoegen",
+		"AddCard": "Voeg een kaart toe",
+		"Reserve": "Reserveer"
+    }
+}

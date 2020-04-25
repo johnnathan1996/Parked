@@ -15,6 +15,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:snaplist/snaplist.dart';
 import '../setup/globals.dart' as globals;
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_translate/flutter_translate.dart';
+import 'package:parkly/localization/keys.dart';
 
 class DetailGarage extends StatefulWidget {
   final String idGarage;
@@ -335,7 +337,7 @@ class _DetailGarageState extends State<DetailGarage> {
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: ButtonComponent(
-              label: "Reserveer",
+              label: translate(Keys.Button_Reserve),
               onClickAction: endDate == null
                   ? null
                   : () {

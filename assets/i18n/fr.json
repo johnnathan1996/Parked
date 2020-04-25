@@ -1,0 +1,26 @@
+{
+	"Navigation": {
+		"Search": "Trouve ton garage!",
+		"Favorite": "Favoris",
+		"Message": "Messages",
+		"Garage": "Mes garages",
+		"Hist": "Historique"
+	},
+	"Title": {
+		"Favorite": "favorite",
+		"Garage": "Mes garages"
+	},
+	"Button": {
+		"LogIn": "Se connecter",
+		"LogOut": "Se déconnecter",
+		"CreateAccount": "Créer un compte",
+		"ForgotPassword": "Mot de passe oublié ?",
+		"ResetPassword": "Réinitialiser le mot de passe",
+		"Back": "Retour",
+		"Or": "ou",
+		"Add": "Ajouter",
+		"AddCard": "Ajouter une carte",
+		"Reserve": "Reserver"
+		
+    }
+}

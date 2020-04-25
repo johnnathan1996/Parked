@@ -5,6 +5,8 @@ import 'package:parkly/pages/addPaysystem.dart';
 import 'package:parkly/pages/detailPaysystem.dart';
 import 'package:parkly/ui/button.dart';
 import '../setup/globals.dart' as globals;
+import 'package:flutter_translate/flutter_translate.dart';
+import 'package:parkly/localization/keys.dart';
 
 class ProfileTab extends StatefulWidget {
   final DocumentSnapshot snapshot;
@@ -90,7 +92,7 @@ class _ProfileTabState extends State<ProfileTab> {
                   });
                 })),
         ButtonComponent(
-            label: "add",
+            label: translate(Keys.Button_Addcard),
             onClickAction: () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => AddPaySystem()));
