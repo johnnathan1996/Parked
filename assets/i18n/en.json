@@ -44,5 +44,13 @@
 		"endDate": "Choose your end date",
 		"CardNumber": "Card number",
 		"CardExp": "Expiry date"
+	},
+	"Modal": {
+		"NoCard": "You don't have a card",
+		"invalidEmail": "The e-mail or password is not valid",
+		"UnexistEmail": "This e-mail address does not exist",
+		"SamePassword": "The passwords are not the same",
+		"NoPhone": "Insert a mobile phone number",
+		"PhoneExist": "Already known mobile phone number"
 	}
 }

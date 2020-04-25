@@ -82,4 +82,16 @@ class Keys {
   static const String Inputs_Cardnumber = 'Inputs.CardNumber';
 
   static const String Inputs_Cardexp = 'Inputs.CardExp';
+
+  static const String Modal_Nocard = 'Modal.NoCard';
+
+  static const String Modal_Invalidemail = 'Modal.invalidEmail';
+
+  static const String Modal_Unexistemail = 'Modal.UnexistEmail';
+
+  static const String Modal_Samepassword = 'Modal.SamePassword';
+
+  static const String Modal_Nophone = 'Modal.NoPhone';
+
+  static const String Modal_Phoneexist = 'Modal.PhoneExist';
 }

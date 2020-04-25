@@ -195,7 +195,7 @@ class _LogInPageState extends State<LogInPage> {
       } catch (e) {
         showDialog(
           context: context,
-          builder: (_) => ModalComponent(modalTekst: "De e-mail van het wachtwoord is ongeldig"),
+          builder: (_) => ModalComponent(modalTekst: translate(Keys.Modal_Invalidemail)),
         );
       }
     }

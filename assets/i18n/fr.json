@@ -44,6 +44,13 @@
 		"endDate": "Choisissez votre date de fin",
 		"CardNumber": "Numéro de carte",
 		"CardExp": "Date d'expiration"
-
+	},
+	"Modal": {
+		"NoCard": "Vous n'avez pas de carte",
+		"invalidEmail": "L'e-mail ou mot de passe n'est pas valide",
+		"UnexistEmail": "Cette adresse e-mail n'existe pas",
+		"SamePassword": "Les mot de passes ne sont pas les mêmes",
+		"NoPhone": "Insérer un numéro de téléphone portable",
+		"PhoneExist": "Numéro de téléphone portable déjà connu"
 	}
 }

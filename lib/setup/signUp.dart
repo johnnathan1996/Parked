@@ -266,7 +266,7 @@ class _SignUpPageState extends State<SignUpPage> {
           showDialog(
             context: context,
             builder: (_) => ModalComponent(
-              modalTekst: "Niet dezelfde wachtwoord!",
+              modalTekst: translate(Keys.Modal_Samepassword),
             ),
           );
         }
@@ -274,7 +274,7 @@ class _SignUpPageState extends State<SignUpPage> {
         showDialog(
           context: context,
           builder: (_) => ModalComponent(
-            modalTekst: "Voeg een GSM nummer in!",
+            modalTekst: translate(Keys.Modal_Nophone),
           ),
         );
       }
@@ -415,7 +415,7 @@ class _SignUpPageState extends State<SignUpPage> {
         showDialog(
           context: context,
           builder: (_) =>
-              ModalComponent(modalTekst: "Oops, gsm-nummer al bekend!"),
+              ModalComponent(modalTekst: translate(Keys.Modal_Phoneexist)),
         );
         break;
       default:

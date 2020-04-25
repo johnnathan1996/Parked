@@ -345,7 +345,7 @@ class _DetailGarageState extends State<DetailGarage> {
                         showDialog(
                           context: context,
                           builder: (_) => ModalComponent(
-                            modalTekst: "Je hebt geen kaart!",
+                            modalTekst: translate(Keys.Modal_Nocard),
                             showAddCartBtn: true,
                           ),
                         );

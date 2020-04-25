@@ -44,5 +44,13 @@
 		"endDate": "Kies uw eind datum",
 		"CardNumber": "Kaartnummer",
 		"CardExp": "Vervaldatum"
+	},
+	"Modal": {
+		"NoCard": "Je hebt geen kaart.",
+		"invalidEmail": "De e-mail of het wachtwoord is niet geldig",
+		"UnexistEmail": "Dit e-mailadres bestaat niet",
+		"SamePassword": "De wachtwoorden zijn niet hetzelfde",
+		"NoPhone": "Voer een mobiel telefoonnummer in",
+		"PhoneExist": "Reeds bekend mobiel telefoonnummer"
 	}
 }

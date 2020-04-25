@@ -141,7 +141,7 @@ class _ResetPasswordState extends State<ResetPassword> {
         showDialog(
           context: context,
           builder: (_) =>
-              ModalComponent(modalTekst: "Dit email adress bestaat niet"),
+              ModalComponent(modalTekst: translate(Keys.Modal_Unexistemail)),
         );
       }
     }
