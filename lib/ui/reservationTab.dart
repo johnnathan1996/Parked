@@ -5,6 +5,8 @@ import 'package:parkly/constant.dart';
 import 'package:parkly/script/changeDate.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../setup/globals.dart' as globals;
+import 'package:flutter_translate/flutter_translate.dart';
+import 'package:parkly/localization/keys.dart';
 
 class Reservations extends StatefulWidget {
   @override
@@ -88,7 +90,7 @@ class _ReservationsState extends State<Reservations> {
                                           throw 'Could not launch $url';
                                         }
                                       },
-                                      child: Text("Open met Waze >"),
+                                      child: Text(translate(Keys.Button_Openwaze) + " >"),
                                     ),
                                   ],
                                 ));

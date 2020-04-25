@@ -248,7 +248,7 @@ class _DetailGarageState extends State<DetailGarage> {
             child: Text(garage['beschrijving'], style: SizeParagraph)),
         Padding(
             padding: EdgeInsets.only(bottom: 10),
-            child: Text("Garage aangeboden door: " + eigenaarName,
+            child: Text(translate(Keys.Apptext_Offeredby) + eigenaarName,
                 style: TextStyle(
                   color: Grijs,
                 ))),
@@ -290,7 +290,7 @@ class _DetailGarageState extends State<DetailGarage> {
                   alignment: Alignment.center,
                   child: beginDate != null
                       ? Text(changeDateWithTime(beginDate))
-                      : Text("Kies uw begin datum",
+                      : Text(translate(Keys.Inputs_Begindate),
                           style: TextStyle(color: Zwart)),
                 ))),
         beginDate != null
@@ -321,7 +321,7 @@ class _DetailGarageState extends State<DetailGarage> {
                       alignment: Alignment.center,
                       child: endDate != null
                           ? Text(changeDateWithTime(endDate))
-                          : Text("Kies nu uw eind datum",
+                          : Text(translate(Keys.Inputs_Enddate),
                               style: TextStyle(color: Zwart)),
                     )))
             : Container(),
@@ -330,7 +330,7 @@ class _DetailGarageState extends State<DetailGarage> {
                 padding: EdgeInsets.only(bottom: 10, right: 20, left: 20),
                 child: Align(
                   alignment: AlignmentDirectional.bottomEnd,
-                  child: Text("Totaal " + prijs.toString() + "€",
+                  child: Text(translate(Keys.Apptext_Total) + " " + prijs.toString() + "€",
                       style: SubTitleCustom),
                 ))
             : Container(),
@@ -365,7 +365,7 @@ class _DetailGarageState extends State<DetailGarage> {
         garage["kenmerken"].length != 0
             ? Padding(
                 padding: EdgeInsets.only(bottom: 10),
-                child: Text("Kenmerken", style: SubTitleCustom),
+                child: Text(translate(Keys.Subtitle_Features), style: SubTitleCustom),
               )
             : Container(),
         garage["kenmerken"].length != 0
@@ -382,7 +382,7 @@ class _DetailGarageState extends State<DetailGarage> {
         garage["types"].length != 0
             ? Padding(
                 padding: EdgeInsets.only(bottom: 10),
-                child: Text("Aangepast voor", style: SubTitleCustom),
+                child: Text(translate(Keys.Subtitle_Adaptedfor), style: SubTitleCustom),
               )
             : Container(),
         garage["types"].length != 0
@@ -429,7 +429,7 @@ class _DetailGarageState extends State<DetailGarage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text("Reviews", style: SubTitleCustom),
+              Text(translate(Keys.Subtitle_Reviews), style: SubTitleCustom),
               FlatButton(
                   onPressed: () {
                     showDialog(
@@ -437,7 +437,7 @@ class _DetailGarageState extends State<DetailGarage> {
                       builder: (_) => RatingModal(idGarage: idGarage),
                     );
                   },
-                  child: Text("add +", style: TextStyle(color: Blauw)))
+                  child: Text(translate(Keys.Button_Add) + " +", style: TextStyle(color: Blauw)))
             ],
           ),
         ),

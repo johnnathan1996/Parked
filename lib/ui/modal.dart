@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:parkly/constant.dart';
 import 'package:parkly/pages/profile.dart';
+import 'package:flutter_translate/flutter_translate.dart';
+import 'package:parkly/localization/keys.dart';
 
 class ModalComponent extends StatefulWidget {
   final String modalTekst;
@@ -64,7 +66,7 @@ class _ModalComponentState extends State<ModalComponent>
                 children: <Widget>[
                   Padding(
                       padding: EdgeInsets.only(bottom: 20),
-                      child: Text("Oops!",
+                      child: Text(translate(Keys.Modal_Wrong),
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Blauw,
@@ -85,7 +87,7 @@ class _ModalComponentState extends State<ModalComponent>
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
-                              child: Text("Later"),
+                              child: Text(translate(Keys.Button_Later)),
                             ),
                             FlatButton(
                               onPressed: () {
@@ -95,7 +97,7 @@ class _ModalComponentState extends State<ModalComponent>
                                         builder: (context) => ProfilePage()));
                               },
                               child: Text(
-                                "Ga naar profiel",
+                                translate(Keys.Button_Gotoprofile),
                                 style: TextStyle(color: Blauw),
                               ),
                             )

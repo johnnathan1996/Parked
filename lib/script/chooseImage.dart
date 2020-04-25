@@ -5,6 +5,8 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:parkly/constant.dart';
 import 'package:path/path.dart';
+import 'package:flutter_translate/flutter_translate.dart';
+import 'package:parkly/localization/keys.dart';
 
 class ChooseImage {
 
@@ -68,7 +70,7 @@ class ChooseImage {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text("Cancel"),
+              child: Text(translate(Keys.Button_Cancel)),
             ),
             actions: <Widget>[
               CupertinoActionSheetAction(
@@ -76,14 +78,14 @@ class ChooseImage {
                   await takePicture();
                   Navigator.of(context).pop();
                 },
-                child: Text("Camera"),
+                child: Text(translate(Keys.Button_Camera)),
               ),
               CupertinoActionSheetAction(
                 onPressed: () async {
                   await choosePicture();
                   Navigator.of(context).pop();
                 },
-                child: Text("Library"),
+                child: Text(translate(Keys.Button_Library)),
               )
             ],
           );

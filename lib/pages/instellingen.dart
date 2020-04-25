@@ -40,7 +40,7 @@ class _InstellingenState extends State<Instellingen> {
                     _onActionSheetPress(context);
                   },
                   leading: Icon(Icons.language, color: Zwart),
-                  title: Text("Taal",
+                  title: Text(translate(Keys.Apptext_Language),
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                       )),
@@ -53,11 +53,11 @@ class _InstellingenState extends State<Instellingen> {
                 child: ListTile(
                     onTap: () {},
                     leading: Icon(Icons.notifications, color: Zwart),
-                    title: Text("Notificaties",
+                    title: Text(translate(Keys.Apptext_Notification),
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                         )),
-                    trailing: Text("Ja", style: TextStyle(color: Grijs))),
+                    trailing: Text(translate(Keys.Apptext_No), style: TextStyle(color: Grijs))),
               )),
           Padding(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -65,7 +65,7 @@ class _InstellingenState extends State<Instellingen> {
                 child: ListTile(
                   onTap: () {},
                   leading: Icon(Icons.card_giftcard, color: Zwart),
-                  title: Text("vrienden uitnodigen",
+                  title: Text(translate(Keys.Apptext_Invite),
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                       )),
@@ -77,7 +77,7 @@ class _InstellingenState extends State<Instellingen> {
                 child: ListTile(
                   onTap: () {},
                   leading: Icon(Icons.message, color: Zwart),
-                  title: Text("Vaak gestelde vragen",
+                  title: Text(translate(Keys.Apptext_Questions),
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                       )),
@@ -89,7 +89,7 @@ class _InstellingenState extends State<Instellingen> {
                 child: ListTile(
                   onTap: () {},
                   leading: Icon(Icons.lock, color: Zwart),
-                  title: Text("Privacybeleid",
+                  title: Text(translate(Keys.Apptext_Privacy),
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                       )),
@@ -101,7 +101,7 @@ class _InstellingenState extends State<Instellingen> {
                 child: ListTile(
                   onTap: () {},
                   leading: Icon(Icons.mail, color: Zwart),
-                  title: Text("Contact",
+                  title: Text(translate(Keys.Apptext_Contact),
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                       )),
@@ -133,23 +133,23 @@ class _InstellingenState extends State<Instellingen> {
     showDemoActionSheet(
       context: context,
       child: CupertinoActionSheet(
-        title: Text("kies een andere taal"),
+        title: Text(translate(Keys.Apptext_Switchlang)),
         actions: <Widget>[
           CupertinoActionSheetAction(
-            child: Text("Frans"),
+            child: Text(translate(Keys.Apptext_French)),
             onPressed: () => Navigator.pop(context, 'fr'),
           ),
           CupertinoActionSheetAction(
-            child: Text("nederlands"),
+            child: Text(translate(Keys.Apptext_Dutch)),
             onPressed: () => Navigator.pop(context, 'nl'),
           ),
           CupertinoActionSheetAction(
-            child: Text("engel"),
+            child: Text(translate(Keys.Apptext_English)),
             onPressed: () => Navigator.pop(context, 'en'),
           ),
         ],
         cancelButton: CupertinoActionSheetAction(
-          child: Text("cancel"),
+          child: Text(translate(Keys.Button_Cancel)),
           isDefaultAction: true,
           onPressed: () => Navigator.pop(context, null),
         ),
@@ -160,10 +160,10 @@ class _InstellingenState extends State<Instellingen> {
   getCurrentLanguageLocalizationKey(String code) {
     switch(code)
     {
-      case "nl": return "Nederlands";
-      case "fr": return "Français";
-      case "en": return "English";
-      default: return "Nederlands";
+      case "nl": return translate(Keys.Apptext_Dutch);
+      case "fr": return translate(Keys.Apptext_French);
+      case "en": return translate(Keys.Apptext_English);
+      default: return translate(Keys.Apptext_Dutch);
     }
   }
 }

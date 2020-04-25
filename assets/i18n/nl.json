@@ -13,6 +13,18 @@
 		"History": "Historiek",
 		"Settings": "Instellingen"
 	},
+	"SubTitle": {
+		"Adres": "Adres",
+		"Price": "Prijs",
+		"Desc": "Beschrijving",
+		"Features": "Kenmerken",
+		"MaxHeigt": "Maximale hoogte",
+		"TypeVehicules": "Aangepaste voertuigen",
+		"Reviews" : "Reviews",
+		"AdaptedFor": "Aangepast voor",
+		"EnterSmsCode": "Voer sms-code in",
+		"InvalidCode": "Ongeldige code"
+	},
 	"Button": {
 		"LogIn": "Inloggen",
 		"LogOut": "Uitloggen",
@@ -23,7 +35,15 @@
 		"Or": "Of",
 		"Add": "Toevoegen",
 		"AddCard": "Voeg een kaart toe",
-		"Reserve": "Reserveer"
+		"Reserve": "Reserveer",
+		"Camera": "Camera",
+		"Library": "Bibliotheek",
+		"Cancel": "Annuleren",
+		"Delete": "Verwijderen",
+		"Send": "Sturen",
+		"Later": "Later",
+		"GoToProfile": "Ga naar profiel",
+		"OpenWaze": "openen met Waze"
 	},
 	"Inputs": {
 		"Firstname": "Voornaam",
@@ -43,7 +63,9 @@
 		"BeginDate": "Kies uw begin datum",
 		"endDate": "Kies uw eind datum",
 		"CardNumber": "Kaartnummer",
-		"CardExp": "Vervaldatum"
+		"CardExp": "Vervaldatum",
+		"Search": "Zoeken",
+		"TellUsWhy": "Schijf hier waarom"
 	},
 	"Modal": {
 		"NoCard": "Je hebt geen kaart.",
@@ -51,6 +73,34 @@
 		"UnexistEmail": "Dit e-mailadres bestaat niet",
 		"SamePassword": "De wachtwoorden zijn niet hetzelfde",
 		"NoPhone": "Voer een mobiel telefoonnummer in",
-		"PhoneExist": "Reeds bekend mobiel telefoonnummer"
+		"PhoneExist": "Reeds bekend mobiel telefoonnummer",
+		"Wrong": "Er is iets fout gegaan!"
+	},
+	"Errors": {
+		"IsEmpty": "Gelieve het veld in te vullen",
+		"MailEmpty": "Vul alstublieft uw e-mailadres in",
+		"BadPhone": "Geen geldig nummer",
+		"MinCar": "Min. 6 karakters"
+	},
+	"AppText": {
+		"OfferedBy": "Garage aangeboden door: ",
+		"Total": "Totaal",
+		"ZeroGarage": "Je hebt nog geen garage",
+		"Language": "Taal",
+		"Notification": "Notificaties",
+		"Invite": "Vrienden uitnodigen",
+		"Questions": "Vaak gestelde vragen",
+		"Privacy": "Privacybeleid",
+		"Contact": "Contact",
+		"Yes": "Ja",
+		"No": "Nee",
+		"French": "Frans",
+		"Dutch": "Nederlands",
+		"English": "Engels",
+		"SwitchLang": "Kies een andere taal",
+		"Profile": "Profiel",
+		"Reservation": "Reservatie",
+		"EmailSend": "Er is een e-mail gestuurd naar",
+		"Payment": "Betaalmethoden"
 	}
 }

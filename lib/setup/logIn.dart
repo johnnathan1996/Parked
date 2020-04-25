@@ -52,7 +52,7 @@ class _LogInPageState extends State<LogInPage> {
                       keyboardType: TextInputType.emailAddress,
                       validator: (input) {
                         if (input.isEmpty) {
-                          return "Vul uw E-mail in AUB";
+                          return translate(Keys.Errors_Mailempty);
                         }
                         return null;
                       },

@@ -102,8 +102,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                         Padding(
                             padding: EdgeInsets.only(
                                 left: 20.0, right: 20.0, top: 10, bottom: 20),
-                            child: Text(
-                              "Er is een e-mail naar '$_email' gestuurd om het wachtwoord te wijzigen.",
+                            child: Text(translate(Keys.Apptext_Emailsend) + ' $_email',
                               style: TextStyle(
                                   color: Wit,
                                   fontWeight: FontWeight.w500,

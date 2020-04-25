@@ -34,7 +34,6 @@ class _GaragePageState extends State<GaragePage> {
             if (snapshot.hasData) {
               return Scaffold(
                   floatingActionButton: FloatingActionButton(
-                    heroTag: "add",
                     backgroundColor: Blauw,
                     child: Icon(Icons.add),
                     onPressed: () {
@@ -62,7 +61,7 @@ class _GaragePageState extends State<GaragePage> {
                               ))
                             : Expanded(
                                 child: Center(
-                                    child: Text("Je hebt nog geen garage!",
+                                    child: Text(translate(Keys.Apptext_Zerogarage),
                                         style: SizeParagraph))),
                       ])),
                   floatingActionButtonLocation:

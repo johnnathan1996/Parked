@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:parkly/constant.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import '../setup/globals.dart' as globals;
+import 'package:flutter_translate/flutter_translate.dart';
+import 'package:parkly/localization/keys.dart';
 
 class RatingModal extends StatefulWidget {
   final String idGarage;
@@ -87,7 +89,7 @@ class _RatingModalState extends State<RatingModal>
                           }
                         },
                         decoration: InputDecoration(
-                            hintText: "Schijf hier waarom",
+                            hintText: translate(Keys.Inputs_Telluswhy),
                             border: InputBorder.none,
                             filled: true,
                             fillColor: Wit,
@@ -110,7 +112,7 @@ class _RatingModalState extends State<RatingModal>
                                     bottomRight: Radius.circular(15)))),
                         alignment: Alignment.center,
                         child: Text(
-                          "Doorsturen",
+                          translate(Keys.Button_Send),
                           style: TextStyle(color: Wit),
                         )),
                   )

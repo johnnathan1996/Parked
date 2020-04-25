@@ -8,6 +8,8 @@ import 'package:parkly/ui/navigation.dart';
 import 'package:parkly/ui/profileTab.dart';
 import 'package:parkly/ui/reservationTab.dart';
 import '../setup/globals.dart' as globals;
+import 'package:flutter_translate/flutter_translate.dart';
+import 'package:parkly/localization/keys.dart';
 //import 'package:flutter_app_badger/flutter_app_badger.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -50,10 +52,10 @@ class _ProfilePageState extends State<ProfilePage> {
                           unselectedLabelColor: Zwart,
                           tabs: <Widget>[
                             Tab(
-                              text: "Profiel",
+                              text: translate(Keys.Apptext_Profile),
                             ),
                             Tab(
-                              text: "Reservatie",
+                              text: translate(Keys.Apptext_Reservation),
                             )
                           ],
                         ),

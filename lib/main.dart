@@ -31,7 +31,7 @@ class _MyAppState extends State<MyApp> {
     if (user != null) {
       if (this.mounted) {
         setState(() {
-          globals.userId = user.uid; //"ymRHvUb4CqRyStXNuaNz3hbbrhg1"
+          globals.userId = user.uid;
         });
       }
     } else {

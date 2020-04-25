@@ -84,7 +84,7 @@ class _AddGarageState extends State<AddGarage> {
           TextFormField(
             validator: (input) {
               if (input.isEmpty) {
-                return "ontbreekt";
+                return translate(Keys.Errors_Isempty);
               }
               return null;
             },
@@ -146,7 +146,7 @@ class _AddGarageState extends State<AddGarage> {
         children: <Widget>[
           Padding(
               padding: EdgeInsets.symmetric(vertical: 5),
-              child: Text("Adres", style: SubTitleCustom)),
+              child: Text(translate(Keys.Subtitle_Adres), style: SubTitleCustom)),
           Padding(
               padding: EdgeInsets.symmetric(vertical: 5),
               child: Row(
@@ -158,7 +158,7 @@ class _AddGarageState extends State<AddGarage> {
                             child: TextFormField(
                               validator: (input) {
                                 if (input.isEmpty) {
-                                  return "ontbreekt";
+                                  return translate(Keys.Errors_Isempty);
                                 }
                                 return null;
                               },
@@ -176,7 +176,7 @@ class _AddGarageState extends State<AddGarage> {
                           keyboardType: TextInputType.number,
                           validator: (input) {
                             if (input.isEmpty) {
-                              return "ontbreekt";
+                              return translate(Keys.Errors_Isempty);
                             }
                             return null;
                           },
@@ -198,7 +198,7 @@ class _AddGarageState extends State<AddGarage> {
                         child: TextFormField(
                           validator: (input) {
                             if (input.isEmpty) {
-                              return "ontbreekt";
+                              return translate(Keys.Errors_Isempty);
                             }
                             return null;
                           },
@@ -215,7 +215,7 @@ class _AddGarageState extends State<AddGarage> {
                   keyboardType: TextInputType.number,
                   validator: (input) {
                     if (input.isEmpty) {
-                      return "ontbreekt";
+                      return translate(Keys.Errors_Isempty);
                     }
                     return null;
                   },
@@ -237,7 +237,7 @@ class _AddGarageState extends State<AddGarage> {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Text("Prijs", style: SubTitleCustom),
+          Text(translate(Keys.Subtitle_Price), style: SubTitleCustom),
           Slider(
             value: _price,
             onChanged: (value) {
@@ -270,11 +270,11 @@ class _AddGarageState extends State<AddGarage> {
         children: <Widget>[
           Padding(
               padding: EdgeInsets.symmetric(vertical: 5),
-              child: Text("Beschijving", style: SubTitleCustom)),
+              child: Text(translate(Keys.Subtitle_Desc), style: SubTitleCustom)),
           TextFormField(
             validator: (input) {
               if (input.isEmpty) {
-                return "ontbreekt";
+                return translate(Keys.Errors_Isempty);
               }
               return null;
             },
@@ -294,7 +294,7 @@ class _AddGarageState extends State<AddGarage> {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text("Kenmerken", style: SubTitleCustom),
+          Text(translate(Keys.Subtitle_Features), style: SubTitleCustom),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -309,7 +309,7 @@ class _AddGarageState extends State<AddGarage> {
                 ],
                 onSelected: (List<String> checked) => _listChecked = checked,
               ),
-              Text("Maximale hoogte :",
+              Text(translate(Keys.Subtitle_Maxheigt),
                   style: TextStyle(
                       fontSize: 15.0,
                       fontWeight: FontWeight.w500,
@@ -354,7 +354,7 @@ class _AddGarageState extends State<AddGarage> {
       children: <Widget>[
         Padding(
             padding: EdgeInsets.symmetric(vertical: 5),
-            child: Text("Type aangepaste voertuigen", style: SubTitleCustom)),
+            child: Text(translate(Keys.Subtitle_Typevehicules), style: SubTitleCustom)),
         GridView.count(
           shrinkWrap: true,
           crossAxisCount: 3,

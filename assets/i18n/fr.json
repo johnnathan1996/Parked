@@ -13,6 +13,18 @@
 		"History": "Historique",
 		"Settings": "Paramètres"
 	},
+	"SubTitle": {
+		"Adres": "Adresse",
+		"Price": "Prix",
+		"Desc": "Description",
+		"Features": "Caractéristiques",
+		"MaxHeigt": "Hauteur maximale",
+		"TypeVehicules": "Véhicules adaptés",
+		"Reviews" : "Commentaires",
+		"AdaptedFor": "Adapté pour",
+		"EnterSmsCode": "Entrez le code SMS",
+		"InvalidCode": "ongeldige code"
+	},
 	"Button": {
 		"LogIn": "Se connecter",
 		"LogOut": "Se déconnecter",
@@ -23,7 +35,15 @@
 		"Or": "ou",
 		"Add": "Ajouter",
 		"AddCard": "Ajouter une carte",
-		"Reserve": "Reserver"
+		"Reserve": "Reserver",
+		"Camera": "Caméra",
+		"Library": "Bibliothèque",
+		"Cancel": "Annuler",
+		"Delete": "Supprimer",
+		"Send": "Envoyer",
+		"Later": "Plus tard",
+		"GoToProfile": "Accéder au profil",
+		"OpenWaze": "Ouvrir avec Waze"
 	},
 	"Inputs": {
 		"Firstname": "Prénom",
@@ -43,7 +63,9 @@
 		"BeginDate": "Choisissez votre date de départ",
 		"endDate": "Choisissez votre date de fin",
 		"CardNumber": "Numéro de carte",
-		"CardExp": "Date d'expiration"
+		"CardExp": "Date d'expiration",
+		"Search": "Cherchez",
+		"TellUsWhy": "Ecrivez ici pourquoi"
 	},
 	"Modal": {
 		"NoCard": "Vous n'avez pas de carte",
@@ -51,6 +73,34 @@
 		"UnexistEmail": "Cette adresse e-mail n'existe pas",
 		"SamePassword": "Les mot de passes ne sont pas les mêmes",
 		"NoPhone": "Insérer un numéro de téléphone portable",
-		"PhoneExist": "Numéro de téléphone portable déjà connu"
+		"PhoneExist": "Numéro de téléphone portable déjà connu",
+		"Wrong": "quelque chose a mal tourné!"
+	},
+	"Errors": {
+		"IsEmpty": "Veuillez remplir le champs",
+		"MailEmpty": "Veuillez saisir votre email",
+		"BadPhone": "Pas un numéro valide",
+		"MinCar": "Min. 6 caractères"
+	},
+	"AppText": {
+		"OfferedBy": "Garage proposé par: ",
+		"Total": "Total",
+		"ZeroGarage": "Tu n'as pas encore de garage",
+		"Language": "Langue",
+		"Notification": "Notifications",
+		"Invite": "Invitez des amis",
+		"Questions": "Foire aux questions",
+		"Privacy": "Confidentialité",
+		"Contact": "Contact",
+		"Yes": "Oui",
+		"No": "Non",
+		"French": "Français",
+		"Dutch": "Néerlandais",
+		"English": "Anglais",
+		"SwitchLang": "Veuillez choisir une autre langue",
+		"Profile": "Profile",
+		"Reservation": "Reservation",
+		"EmailSend": "Un e-mail a été envoyé à",
+		"Payment": "Modes de paiement"
 	}
 }

@@ -187,7 +187,7 @@ class _AddPaySystemState extends State<AddPaySystem> {
                           },
                           validator: (input) {
                             if (input.length < 21) {
-                              return "Kaart nummer niet juist";
+                              return translate(Keys.Errors_Isempty);
                             }
                             return null;
                           },
@@ -218,7 +218,7 @@ class _AddPaySystemState extends State<AddPaySystem> {
                           },
                           validator: (input) {
                             if (input.isEmpty) {
-                              return "Dit veld is leeg";
+                              return translate(Keys.Errors_Isempty);
                             }
                             return null;
                           },
@@ -248,7 +248,7 @@ class _AddPaySystemState extends State<AddPaySystem> {
                           },
                           validator: (input) {
                             if (input.isEmpty) {
-                              return "Dit veld is leeg";
+                              return translate(Keys.Errors_Isempty);
                             }
                             return null;
                           },
@@ -276,7 +276,7 @@ class _AddPaySystemState extends State<AddPaySystem> {
                           },
                           validator: (input) {
                             if (input.isEmpty) {
-                              return "Dit veld is leeg";
+                              return translate(Keys.Errors_Isempty);
                             }
                             return null;
                           },

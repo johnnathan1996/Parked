@@ -175,7 +175,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         child: InternationalPhoneInput(
                             enabledCountries: ['+32', '+33', '+31'],
                             hintText: translate(Keys.Inputs_Phone),
-                            errorText: "Geen geldig nummer",
+                            errorText: translate(Keys.Errors_Badphone),
                             initialPhoneNumber: phoneNo,
                             onPhoneNumberChange: onPhoneNumberChange,
                             initialSelection: "BE"))),
@@ -187,7 +187,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         child: TextFormField(
                           validator: (input) {
                             if (input.length < 6) {
-                              return "Min. 6 karakters";
+                              return translate(Keys.Errors_Mincar);
                             }
                             return null;
                           },
@@ -312,7 +312,7 @@ class _SignUpPageState extends State<SignUpPage> {
         builder: (BuildContext context) {
           return new AlertDialog(
             title: errorMessage == null
-                ? Text("Enter sms code", textAlign: TextAlign.center)
+                ? Text(translate(Keys.Subtitle_Entersmscode), textAlign: TextAlign.center)
                 : Text(errorMessage),
             content: PinFieldAutoFill(
               decoration: BoxLooseDecoration(
@@ -331,7 +331,7 @@ class _SignUpPageState extends State<SignUpPage> {
             actions: <Widget>[
               new FlatButton(
                   onPressed: () => {Navigator.of(context).pop(), createUser()},
-                  child: Text("Done"))
+                  child: Text(translate(Keys.Button_Send)))
             ],
           );
         });
@@ -354,7 +354,7 @@ class _SignUpPageState extends State<SignUpPage> {
         logIn();
       } catch (e) {
         handleError(e);
-        print('errorCode : $e');
+        print('errorCode: $e');
         userData.delete();
       }
     } catch (e) {
@@ -406,7 +406,7 @@ class _SignUpPageState extends State<SignUpPage> {
       case 'ERROR_INVALID_VERIFICATION_CODE':
         if (this.mounted) {
           setState(() {
-            errorMessage = 'Invalid Code';
+            errorMessage = translate(Keys.Subtitle_Invalidcode);
           });
         }
         smsCodeDialog(context);

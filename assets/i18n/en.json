@@ -13,6 +13,18 @@
 		"History": "History",
 		"Settings": "Settings"
 	},
+	"SubTitle": {
+		"Adres": "Adress",
+		"Price": "Price",
+		"Desc": "Description",
+		"Features": "Features",
+		"MaxHeigt": "Maximum height",
+		"TypeVehicules": "Adapted vehicles",
+		"Reviews" : "Reviews",
+		"AdaptedFor": "Adapted for",
+		"EnterSmsCode": "Enter SMS code",
+		"InvalidCode": "Invalid code"
+	},
 	"Button": {
 		"LogIn": "Log in",
 		"LogOut": "Log out",
@@ -23,7 +35,15 @@
 		"Or": "Or",
 		"Add": "Add",
 		"AddCard": "Add new card",
-		"Reserve": "Book"
+		"Reserve": "Book",
+		"Camera": "Camera",
+		"Library": "Library",
+		"Cancel": "Cancel",
+		"Delete": "Delete",
+		"Send": "Send",
+		"Later": "Later",
+		"GoToProfile": "Go to profile",
+		"OpenWaze": "Open with Waze"
 	},
 	"Inputs": {
 		"Firstname": "First name",
@@ -43,7 +63,9 @@
 		"BeginDate": "Choose your starting date",
 		"endDate": "Choose your end date",
 		"CardNumber": "Card number",
-		"CardExp": "Expiry date"
+		"CardExp": "Expiry date",
+		"Search": "Search",
+		"TellUsWhy": "Write here why"
 	},
 	"Modal": {
 		"NoCard": "You don't have a card",
@@ -51,6 +73,34 @@
 		"UnexistEmail": "This e-mail address does not exist",
 		"SamePassword": "The passwords are not the same",
 		"NoPhone": "Insert a mobile phone number",
-		"PhoneExist": "Already known mobile phone number"
+		"PhoneExist": "Already known mobile phone number",
+		"Wrong": "Something went wrong!"
+	},
+	"Errors": {
+		"IsEmpty": "Please fill in the field",
+		"MailEmpty": "Please enter your email",
+		"BadPhone": "Not a valid number",
+		"MinCar": "Min. 6 characters"
+	},
+	"AppText": {
+		"OfferedBy": "Garage proposed by: ",
+		"Total": "Total",
+		"ZeroGarage": "You don't have a garage yet",
+		"Language": "Language",
+		"Notification": "Notification",
+		"Invite": "Invite friends",
+		"Questions": "Frequently asked questions",
+		"Privacy": "Privacy",
+		"Contact": "Contact",
+		"Yes": "Yes",
+		"No": "No",
+		"French": "French",
+		"Dutch": "Dutch",
+		"English": "English",
+		"SwitchLang": "Please choose another language",
+		"Profile": "Profile",
+		"Reservation": "Reservation",
+		"EmailSend": "An email has been sent to",
+		"Payment": "Payment methods"
 	}
 }

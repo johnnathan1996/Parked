@@ -64,7 +64,7 @@ class _ProfileTabState extends State<ProfileTab> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        Text("Betaalmethoden"),
+        Text(translate(Keys.Apptext_Payment)),
         Expanded(
             child: ReorderableListView(
                 children: [

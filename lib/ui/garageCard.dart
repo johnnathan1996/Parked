@@ -6,6 +6,8 @@ import 'package:parkly/pages/detailGarage.dart';
 import 'package:parkly/ui/showStars.dart';
 import '../constant.dart';
 import '../setup/globals.dart' as globals;
+import 'package:flutter_translate/flutter_translate.dart';
+import 'package:parkly/localization/keys.dart';
 
 class GarageCardComponent extends StatelessWidget {
   final DocumentSnapshot garage;
@@ -33,7 +35,7 @@ class GarageCardComponent extends StatelessWidget {
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: Text("Cancel"),
+                        child: Text(translate(Keys.Button_Cancel)),
                       ),
                       actions: <Widget>[
                         CupertinoActionSheetAction(
@@ -42,7 +44,7 @@ class GarageCardComponent extends StatelessWidget {
                             Navigator.of(context).pop();
                           },
                           child: Text(
-                            "Suprimer",
+                            translate(Keys.Button_Delete),
                             style: TextStyle(color: Colors.red),
                           ),
                         )

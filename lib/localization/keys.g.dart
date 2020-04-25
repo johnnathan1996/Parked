@@ -27,6 +27,26 @@ class Keys {
 
   static const String Title_Settings = 'Title.Settings';
 
+  static const String Subtitle_Adres = 'SubTitle.Adres';
+
+  static const String Subtitle_Price = 'SubTitle.Price';
+
+  static const String Subtitle_Desc = 'SubTitle.Desc';
+
+  static const String Subtitle_Features = 'SubTitle.Features';
+
+  static const String Subtitle_Maxheigt = 'SubTitle.MaxHeigt';
+
+  static const String Subtitle_Typevehicules = 'SubTitle.TypeVehicules';
+
+  static const String Subtitle_Reviews = 'SubTitle.Reviews';
+
+  static const String Subtitle_Adaptedfor = 'SubTitle.AdaptedFor';
+
+  static const String Subtitle_Entersmscode = 'SubTitle.EnterSmsCode';
+
+  static const String Subtitle_Invalidcode = 'SubTitle.InvalidCode';
+
   static const String Button_Login = 'Button.LogIn';
 
   static const String Button_Logout = 'Button.LogOut';
@@ -46,6 +66,22 @@ class Keys {
   static const String Button_Addcard = 'Button.AddCard';
 
   static const String Button_Reserve = 'Button.Reserve';
+
+  static const String Button_Camera = 'Button.Camera';
+
+  static const String Button_Library = 'Button.Library';
+
+  static const String Button_Cancel = 'Button.Cancel';
+
+  static const String Button_Delete = 'Button.Delete';
+
+  static const String Button_Send = 'Button.Send';
+
+  static const String Button_Later = 'Button.Later';
+
+  static const String Button_Gotoprofile = 'Button.GoToProfile';
+
+  static const String Button_Openwaze = 'Button.OpenWaze';
 
   static const String Inputs_Firstname = 'Inputs.Firstname';
 
@@ -83,6 +119,10 @@ class Keys {
 
   static const String Inputs_Cardexp = 'Inputs.CardExp';
 
+  static const String Inputs_Search = 'Inputs.Search';
+
+  static const String Inputs_Telluswhy = 'Inputs.TellUsWhy';
+
   static const String Modal_Nocard = 'Modal.NoCard';
 
   static const String Modal_Invalidemail = 'Modal.invalidEmail';
@@ -94,4 +134,52 @@ class Keys {
   static const String Modal_Nophone = 'Modal.NoPhone';
 
   static const String Modal_Phoneexist = 'Modal.PhoneExist';
+
+  static const String Modal_Wrong = 'Modal.Wrong';
+
+  static const String Errors_Isempty = 'Errors.IsEmpty';
+
+  static const String Errors_Mailempty = 'Errors.MailEmpty';
+
+  static const String Errors_Badphone = 'Errors.BadPhone';
+
+  static const String Errors_Mincar = 'Errors.MinCar';
+
+  static const String Apptext_Offeredby = 'AppText.OfferedBy';
+
+  static const String Apptext_Total = 'AppText.Total';
+
+  static const String Apptext_Zerogarage = 'AppText.ZeroGarage';
+
+  static const String Apptext_Language = 'AppText.Language';
+
+  static const String Apptext_Notification = 'AppText.Notification';
+
+  static const String Apptext_Invite = 'AppText.Invite';
+
+  static const String Apptext_Questions = 'AppText.Questions';
+
+  static const String Apptext_Privacy = 'AppText.Privacy';
+
+  static const String Apptext_Contact = 'AppText.Contact';
+
+  static const String Apptext_Yes = 'AppText.Yes';
+
+  static const String Apptext_No = 'AppText.No';
+
+  static const String Apptext_French = 'AppText.French';
+
+  static const String Apptext_Dutch = 'AppText.Dutch';
+
+  static const String Apptext_English = 'AppText.English';
+
+  static const String Apptext_Switchlang = 'AppText.SwitchLang';
+
+  static const String Apptext_Profile = 'AppText.Profile';
+
+  static const String Apptext_Reservation = 'AppText.Reservation';
+
+  static const String Apptext_Emailsend = 'AppText.EmailSend';
+
+  static const String Apptext_Payment = 'AppText.Payment';
 }
