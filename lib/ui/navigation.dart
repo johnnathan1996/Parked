@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:parkly/constant.dart';
 import 'package:parkly/pages/favorite.dart';
 import 'package:parkly/pages/garages.dart';
+import 'package:parkly/pages/historiek.dart';
 import 'package:parkly/pages/instellingen.dart';
 import 'package:parkly/pages/maps.dart';
+import 'package:parkly/pages/message.dart';
 import 'package:parkly/pages/profile.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:parkly/localization/keys.dart';
@@ -73,7 +75,7 @@ class _NavigationState extends State<Navigation> {
         "label": translate(Keys.Navigation_Message),
         "icon": Icons.message,
         "active": activeMes,
-        "redirect": GaragePage(),
+        "redirect": MessagePage(),
       },
       {
         "label": translate(Keys.Navigation_Garage),
@@ -85,7 +87,7 @@ class _NavigationState extends State<Navigation> {
         "label": translate(Keys.Navigation_Hist),
         "icon": Icons.history,
         "active": activeHis,
-        "redirect": FavoritePage(),
+        "redirect": HistoriekPage()
       },
     ];
 

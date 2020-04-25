@@ -7,8 +7,10 @@
 		"Hist": "Historique"
 	},
 	"Title": {
-		"Favorite": "favorite",
+		"Favorite": "favoris",
 		"Garage": "Mes garages",
+		"Message": "Messages",
+		"History": "Historique",
 		"Settings": "Paramètres"
 	},
 	"Button": {

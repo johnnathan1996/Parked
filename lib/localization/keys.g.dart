@@ -21,6 +21,10 @@ class Keys {
 
   static const String Title_Garage = 'Title.Garage';
 
+  static const String Title_Message = 'Title.Message';
+
+  static const String Title_History = 'Title.History';
+
   static const String Title_Settings = 'Title.Settings';
 
   static const String Button_Login = 'Button.LogIn';

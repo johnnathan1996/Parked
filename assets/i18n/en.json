@@ -9,6 +9,8 @@
 	"Title": {
 		"Favorite": "favorite",
 		"Garage": "My garages",
+		"Message": "Messages",
+		"History": "History",
 		"Settings": "Settings"
 	},
 	"Button": {
