@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:parkly/constant.dart';
 import 'package:parkly/script/logout.dart';
@@ -14,6 +15,8 @@ class Instellingen extends StatefulWidget {
 class _InstellingenState extends State<Instellingen> {
   @override
   Widget build(BuildContext context) {
+     var localizationDelegate = LocalizedApp.of(context).delegate;
+     print(localizationDelegate.currentLocale.languageCode);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Wit,
@@ -33,13 +36,15 @@ class _InstellingenState extends State<Instellingen> {
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               child: Card(
                 child: ListTile(
-                  onTap: () {},
+                  onTap: () {
+                    _onActionSheetPress(context);
+                  },
                   leading: Icon(Icons.language, color: Zwart),
                   title: Text("Taal",
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                       )),
-                  trailing: Text("Nederlands", style: TextStyle(color: Grijs)),
+                  trailing: Text(getCurrentLanguageLocalizationKey(localizationDelegate.currentLocale.languageCode), style: TextStyle(color: Grijs)),
                 ),
               )),
           Padding(
@@ -113,5 +118,52 @@ class _InstellingenState extends State<Instellingen> {
         ],
       ),
     ));
+  }
+
+   void showDemoActionSheet({BuildContext context, Widget child}) {
+    showCupertinoModalPopup<String>(
+            context: context,
+            builder: (BuildContext context) => child).then((String value)
+    {
+      changeLocale(context, value);
+    });
+  }
+
+  void _onActionSheetPress(BuildContext context) {
+    showDemoActionSheet(
+      context: context,
+      child: CupertinoActionSheet(
+        title: Text("kies een andere taal"),
+        actions: <Widget>[
+          CupertinoActionSheetAction(
+            child: Text("Frans"),
+            onPressed: () => Navigator.pop(context, 'fr'),
+          ),
+          CupertinoActionSheetAction(
+            child: Text("nederlands"),
+            onPressed: () => Navigator.pop(context, 'nl'),
+          ),
+          CupertinoActionSheetAction(
+            child: Text("engel"),
+            onPressed: () => Navigator.pop(context, 'en'),
+          ),
+        ],
+        cancelButton: CupertinoActionSheetAction(
+          child: Text("cancel"),
+          isDefaultAction: true,
+          onPressed: () => Navigator.pop(context, null),
+        ),
+      ),
+    );
+  }
+
+  getCurrentLanguageLocalizationKey(String code) {
+    switch(code)
+    {
+      case "nl": return "Nederlands";
+      case "fr": return "Français";
+      case "en": return "English";
+      default: return "Nederlands";
+    }
   }
 }
