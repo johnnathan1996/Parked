@@ -65,7 +65,8 @@
 		"CardNumber": "Kaartnummer",
 		"CardExp": "Vervaldatum",
 		"Search": "Zoeken",
-		"TellUsWhy": "Schijf hier waarom"
+		"TellUsWhy": "Schijf hier waarom",
+		"SendMessage": "Stuur een bericht"
 	},
 	"Modal": {
 		"NoCard": "Je hebt geen kaart.",

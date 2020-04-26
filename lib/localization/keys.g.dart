@@ -123,6 +123,8 @@ class Keys {
 
   static const String Inputs_Telluswhy = 'Inputs.TellUsWhy';
 
+  static const String Inputs_Sendmessage = 'Inputs.SendMessage';
+
   static const String Modal_Nocard = 'Modal.NoCard';
 
   static const String Modal_Invalidemail = 'Modal.invalidEmail';

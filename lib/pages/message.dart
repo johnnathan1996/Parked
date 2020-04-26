@@ -53,6 +53,12 @@ class _MessagePageState extends State<MessagePage> {
                       child: ListView.builder(
                           itemCount: snapshot.data.documents.length,
                           itemBuilder: (_, index) {
+                            snapshot.data.documents[index].data["userInChat"]
+                                .forEach((value) {
+                              if (value != globals.userId) {
+                                print(value);
+                              }
+                            });
                             return Card(
                                 elevation: 0,
                                 child: ListTile(
@@ -68,7 +74,7 @@ class _MessagePageState extends State<MessagePage> {
                                   },
                                   // leading: returnImage(snapshot.data.documents[index]['imgUrl']),
                                   title: Text(
-                                    "test",
+                                    "other user",
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold),
                                   ),
@@ -94,7 +100,8 @@ class _MessagePageState extends State<MessagePage> {
                                   ),
                                   trailing: Text(
                                       changeDate(snapshot.data.documents[index]
-                                          .data["chat"].last["time"].toDate()),
+                                          .data["chat"].last["time"]
+                                          .toDate()),
                                       style: ChatStyle),
                                 ));
                           }))

@@ -65,7 +65,8 @@
 		"CardNumber": "Numéro de carte",
 		"CardExp": "Date d'expiration",
 		"Search": "Cherchez",
-		"TellUsWhy": "Ecrivez ici pourquoi"
+		"TellUsWhy": "Ecrivez ici pourquoi",
+		"SendMessage": "Envoyer un message"
 	},
 	"Modal": {
 		"NoCard": "Vous n'avez pas de carte",

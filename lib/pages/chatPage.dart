@@ -4,6 +4,8 @@ import 'package:parkly/constant.dart';
 import 'package:parkly/script/changeDate.dart';
 import 'package:speech_bubble/speech_bubble.dart';
 import '../setup/globals.dart' as globals;
+import 'package:flutter_translate/flutter_translate.dart';
+import 'package:parkly/localization/keys.dart';
 
 class ChatPage extends StatefulWidget {
   final String conversationID;
@@ -93,7 +95,7 @@ class _ChatPageState extends State<ChatPage> {
                             controller: controller,
                             onSaved: (input) => message = input,
                             decoration: InputDecoration(
-                                hintText: 'Send a message',
+                                hintText: translate(Keys.Inputs_Sendmessage),
                                 border: OutlineInputBorder(),
                                 suffixIcon: IconButton(
                                   icon: Icon(Icons.send),
