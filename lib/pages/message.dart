@@ -50,7 +50,6 @@ class _MessagePageState extends State<MessagePage> {
                 children: <Widget>[
                   TitleComponent(label: translate(Keys.Title_Message)),
                   Expanded(
-                    //TODO: Mettre le nom + photo du garage
                       child: ListView.builder(
                           itemCount: snapshot.data.documents.length,
                           itemBuilder: (_, index) {
@@ -67,12 +66,29 @@ class _MessagePageState extends State<MessagePage> {
                                                     .documents[index]
                                                     .documentID)));
                                   },
-                                  // leading: returnImage(snapshot.data.documents[index]['imgUrl']),
-                                  title: Text(
-                                    "voornaam",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
+                                  leading: StreamBuilder<DocumentSnapshot>(
+                                      stream: Firestore.instance
+                                          .collection('garages')
+                                          .document(
+                                              "R23jZT1J12eAikafnvgP") //TODO: changer l'image
+                                          .snapshots(),
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot<DocumentSnapshot>
+                                              snapshotse) {
+                                        return Image.network(
+                                            snapshotse.data['garageImg']);
+                                      }),
+                                  title: StreamBuilder<DocumentSnapshot>(
+                                      stream: Firestore.instance
+                                          .collection('users')
+                                          .document(
+                                              "PlEVTxX5XkhQSDu1Ya5g13ubYcm2") //TODO: changer le nom
+                                          .snapshots(),
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot<DocumentSnapshot>
+                                              snapshots) {
+                                        return Text(snapshots.data["voornaam"]);
+                                      }),
                                   subtitle: Row(
                                     children: <Widget>[
                                       Text(
@@ -82,12 +98,23 @@ class _MessagePageState extends State<MessagePage> {
                                                       .data["chat"]
                                                       .last["auteur"] ==
                                                   sendName
-                                              ? translate(Keys.Apptext_You) + " : "
+                                              ? translate(Keys.Apptext_You) +
+                                                  " : "
                                               : "",
                                           style: ChatStyle),
-                                      Text( snapshot.data.documents[index]
-                                                  .data["chat"].last["message"],
-                                          style: ChatStyle)
+                                      Flexible(
+                                          child: RichText(
+                                              overflow: TextOverflow.ellipsis,
+                                              strutStyle:
+                                                  StrutStyle(fontSize: 12.0),
+                                              text: TextSpan(
+                                                style: ChatStyle,
+                                                text: snapshot
+                                                    .data
+                                                    .documents[index]
+                                                    .data["chat"]
+                                                    .last["message"],
+                                              )))
                                     ],
                                   ),
                                   trailing: Text(
