@@ -50,15 +50,10 @@ class _MessagePageState extends State<MessagePage> {
                 children: <Widget>[
                   TitleComponent(label: translate(Keys.Title_Message)),
                   Expanded(
+                    //TODO: Mettre le nom + photo du garage
                       child: ListView.builder(
                           itemCount: snapshot.data.documents.length,
                           itemBuilder: (_, index) {
-                            snapshot.data.documents[index].data["userInChat"]
-                                .forEach((value) {
-                              if (value != globals.userId) {
-                                print(value);
-                              }
-                            });
                             return Card(
                                 elevation: 0,
                                 child: ListTile(
@@ -74,7 +69,7 @@ class _MessagePageState extends State<MessagePage> {
                                   },
                                   // leading: returnImage(snapshot.data.documents[index]['imgUrl']),
                                   title: Text(
-                                    "other user",
+                                    "voornaam",
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold),
                                   ),
@@ -87,13 +82,10 @@ class _MessagePageState extends State<MessagePage> {
                                                       .data["chat"]
                                                       .last["auteur"] ==
                                                   sendName
-                                              ? "Vous"
-                                              : snapshot.data.documents[index]
-                                                  .data["chat"].last["auteur"],
+                                              ? translate(Keys.Apptext_You) + " : "
+                                              : "",
                                           style: ChatStyle),
-                                      Text(
-                                          " : " +
-                                              snapshot.data.documents[index]
+                                      Text( snapshot.data.documents[index]
                                                   .data["chat"].last["message"],
                                           style: ChatStyle)
                                     ],

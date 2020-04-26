@@ -102,6 +102,7 @@
 		"Profile": "Profile",
 		"Reservation": "Reservation",
 		"EmailSend": "An email has been sent to",
-		"Payment": "Payment methods"
+		"Payment": "Payment methods",
+		"You": "You"
 	}
 }

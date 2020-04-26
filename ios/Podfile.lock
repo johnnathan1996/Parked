@@ -335,6 +335,8 @@ PODS:
     - Flutter
   - sms_autofill (0.0.1):
     - Flutter
+  - speech_bubble (0.0.1):
+    - Flutter
   - sqflite (0.0.1):
     - Flutter
     - FMDB (~> 2.7.2)
@@ -369,6 +371,7 @@ DEPENDENCIES:
   - shared_preferences_macos (from `.symlinks/plugins/shared_preferences_macos/ios`)
   - shared_preferences_web (from `.symlinks/plugins/shared_preferences_web/ios`)
   - sms_autofill (from `.symlinks/plugins/sms_autofill/ios`)
+  - speech_bubble (from `.symlinks/plugins/speech_bubble/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
   - url_launcher_macos (from `.symlinks/plugins/url_launcher_macos/ios`)
@@ -448,6 +451,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/shared_preferences_web/ios"
   sms_autofill:
     :path: ".symlinks/plugins/sms_autofill/ios"
+  speech_bubble:
+    :path: ".symlinks/plugins/speech_bubble/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
   url_launcher:
@@ -505,6 +510,7 @@ SPEC CHECKSUMS:
   shared_preferences_macos: f3f29b71ccbb56bf40c9dd6396c9acf15e214087
   shared_preferences_web: 141cce0c3ed1a1c5bf2a0e44f52d31eeb66e5ea9
   sms_autofill: c461043483362c3f1709ee76eaae6eb570b31686
+  speech_bubble: 51ae0c27684a0d858d4283cafd66591337a851c2
   sqflite: 4001a31ff81d210346b500c55b17f4d6c7589dd0
   url_launcher: a1c0cc845906122c4784c542523d8cacbded5626
   url_launcher_macos: fd7894421cd39320dce5f292fc99ea9270b2a313

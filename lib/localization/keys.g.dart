@@ -184,4 +184,6 @@ class Keys {
   static const String Apptext_Emailsend = 'AppText.EmailSend';
 
   static const String Apptext_Payment = 'AppText.Payment';
+
+  static const String Apptext_You = 'AppText.You';
 }
