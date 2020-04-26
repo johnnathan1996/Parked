@@ -106,6 +106,12 @@
 @import sms_autofill;
 #endif
 
+#if __has_include(<speech_bubble/SpeechBubblePlugin.h>)
+#import <speech_bubble/SpeechBubblePlugin.h>
+#else
+@import speech_bubble;
+#endif
+
 #if __has_include(<sqflite/SqflitePlugin.h>)
 #import <sqflite/SqflitePlugin.h>
 #else
@@ -138,6 +144,7 @@
   [FLTSharePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTSharePlugin"]];
   [FLTSharedPreferencesPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTSharedPreferencesPlugin"]];
   [SmsAutoFillPlugin registerWithRegistrar:[registry registrarForPlugin:@"SmsAutoFillPlugin"]];
+  [SpeechBubblePlugin registerWithRegistrar:[registry registrarForPlugin:@"SpeechBubblePlugin"]];
   [SqflitePlugin registerWithRegistrar:[registry registrarForPlugin:@"SqflitePlugin"]];
   [FLTURLLauncherPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTURLLauncherPlugin"]];
 }

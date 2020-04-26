@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:parkly/constant.dart';
 import 'package:parkly/localization/keys.dart';
+import 'package:parkly/pages/chatPage.dart';
 import 'package:parkly/ui/navigation.dart';
 import 'package:parkly/ui/title.dart';
 import '../setup/globals.dart' as globals;
@@ -23,12 +24,14 @@ class _MessagePageState extends State<MessagePage> {
           title: Image.asset('assets/images/logo.png', height: 32),
         ),
         body: StreamBuilder<QuerySnapshot>(
-          stream: Firestore.instance.collection('conversation').snapshots(),
+          stream: Firestore.instance
+              .collection('conversation')
+              .where('userInChat', arrayContains: globals.userId)
+              .snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasData) {
-              return Scaffold(
-                  body: Column(
+              return Column(
                 children: <Widget>[
                   TitleComponent(label: translate(Keys.Title_Message)),
                   Expanded(
@@ -36,22 +39,32 @@ class _MessagePageState extends State<MessagePage> {
                           itemCount: snapshot.data.documents.length,
                           itemBuilder: (_, index) {
                             return Card(
-                              elevation: 0,
+                                elevation: 0,
                                 child: ListTile(
-                              onTap: () {
-                                print("going to chat");
-                              },
-                              // leading: returnImage(snapshot.data.documents[index]['imgUrl']),
-                              title: Text("test",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              subtitle: Text("message"),
-                            ));
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => ChatPage(
+                                                conversationID: snapshot
+                                                    .data
+                                                    .documents[index]
+                                                    .documentID)));
+                                  },
+                                  // leading: returnImage(snapshot.data.documents[index]['imgUrl']),
+                                  title: Text(
+                                    "test",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  subtitle: Text("message"),
+                                ));
                           }))
                 ],
-              ));
+              );
             } else {
-              return Text("waiting");
+              return CircularProgressIndicator(
+                  valueColor: new AlwaysStoppedAnimation<Color>(Blauw));
             }
           },
         ),

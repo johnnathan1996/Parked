@@ -19,6 +19,7 @@ import io.flutter.plugins.pathprovider.PathProviderPlugin;
 import io.flutter.plugins.share.SharePlugin;
 import io.flutter.plugins.sharedpreferences.SharedPreferencesPlugin;
 import com.jaumard.smsautofill.SmsAutoFillPlugin;
+import com.plushundred.speechbubble.SpeechBubblePlugin;
 import com.tekartik.sqflite.SqflitePlugin;
 import io.flutter.plugins.urllauncher.UrlLauncherPlugin;
 
@@ -48,6 +49,7 @@ public final class GeneratedPluginRegistrant {
     SharePlugin.registerWith(registry.registrarFor("io.flutter.plugins.share.SharePlugin"));
     SharedPreferencesPlugin.registerWith(registry.registrarFor("io.flutter.plugins.sharedpreferences.SharedPreferencesPlugin"));
     SmsAutoFillPlugin.registerWith(registry.registrarFor("com.jaumard.smsautofill.SmsAutoFillPlugin"));
+    SpeechBubblePlugin.registerWith(registry.registrarFor("com.plushundred.speechbubble.SpeechBubblePlugin"));
     SqflitePlugin.registerWith(registry.registrarFor("com.tekartik.sqflite.SqflitePlugin"));
     UrlLauncherPlugin.registerWith(registry.registrarFor("io.flutter.plugins.urllauncher.UrlLauncherPlugin"));
   }
