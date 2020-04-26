@@ -10,6 +10,7 @@ import 'package:parkly/pages/message.dart';
 import 'package:parkly/pages/profile.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:parkly/localization/keys.dart';
+import 'package:parkly/ui/dot.dart';
 import '../setup/globals.dart' as globals;
 
 List<Widget> navItemWidget = [];
@@ -64,30 +65,35 @@ class _NavigationState extends State<Navigation> {
         "icon": Icons.map,
         "active": activeMap,
         "redirect": MapsPage(),
+        "trailing": null
       },
       {
         "label": translate(Keys.Navigation_Favorite),
         "icon": Icons.favorite,
         "active": activeFav,
         "redirect": FavoritePage(),
+        "trailing": null
       },
       {
         "label": translate(Keys.Navigation_Message),
         "icon": Icons.message,
         "active": activeMes,
         "redirect": MessagePage(),
+        "trailing": 1
       },
       {
         "label": translate(Keys.Navigation_Garage),
         "icon": Icons.directions_car,
         "active": activeGar,
         "redirect": GaragePage(),
+        "trailing": null
       },
       {
         "label": translate(Keys.Navigation_Hist),
         "icon": Icons.history,
         "active": activeHis,
-        "redirect": HistoriekPage()
+        "redirect": HistoriekPage(),
+        "trailing": null
       },
     ];
 
@@ -95,6 +101,9 @@ class _NavigationState extends State<Navigation> {
       if (!value["active"]) {
         navItemWidget.add(ListTile(
           leading: Icon(value["icon"], color: Zwart),
+          trailing: value["trailing"] != null
+              ? DotComponent(number: value["trailing"])
+              : null,
           title: Text(value["label"]),
           onTap: () {
             Navigator.pushReplacement(context,
@@ -118,69 +127,66 @@ class _NavigationState extends State<Navigation> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-          child: StreamBuilder<DocumentSnapshot>(
-            stream: Firestore.instance
-                .collection('users')
-                .document(globals.userId)
-                .snapshots(),
-            builder: (BuildContext context,
-                AsyncSnapshot<DocumentSnapshot> snapshot) {
-              return Column(children: <Widget>[
-                Expanded(
-                    child: ListView(
-                  children: <Widget>[
-                    UserAccountsDrawerHeader(
-                      decoration: BoxDecoration(color: Wit),
-                      arrowColor: Wit,
-                      otherAccountsPictures: <Widget>[
-                        IconButton(
-                          icon: Icon(Icons.close, color: Zwart),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        )
-                      ],
-                      currentAccountPicture:
-                          Image.asset('assets/images/logo.png'),
-                      accountName: snapshot.hasData
-                          ? Text(snapshot.data['voornaam'],
-                              style: TextStyle(color: Zwart))
-                          : Text("voornaam", style: TextStyle(color: Zwart)),
-                      accountEmail: snapshot.hasData
-                          ? Text(snapshot.data['email'],
-                              style: TextStyle(color: Zwart))
-                          : Text("email", style: TextStyle(color: Zwart)),
-                      onDetailsPressed: () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ProfilePage()));
+      child: StreamBuilder<DocumentSnapshot>(
+        stream: Firestore.instance
+            .collection('users')
+            .document(globals.userId)
+            .snapshots(),
+        builder:
+            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          return Column(children: <Widget>[
+            Expanded(
+                child: ListView(
+              children: <Widget>[
+                UserAccountsDrawerHeader(
+                  decoration: BoxDecoration(color: Wit),
+                  arrowColor: Wit,
+                  otherAccountsPictures: <Widget>[
+                    IconButton(
+                      icon: Icon(Icons.close, color: Zwart),
+                      onPressed: () {
+                        Navigator.pop(context);
                       },
-                    ),
-                    Column(
-                      children: navItemWidget,
-                    ),
-                    Divider(
-                      color: Grijs,
                     )
                   ],
-                )),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 30, right: 10),
-                  child: Align(
+                  currentAccountPicture: Image.asset('assets/images/logo.png'),
+                  accountName: snapshot.hasData
+                      ? Text(snapshot.data['voornaam'],
+                          style: TextStyle(color: Zwart))
+                      : Text("voornaam", style: TextStyle(color: Zwart)),
+                  accountEmail: snapshot.hasData
+                      ? Text(snapshot.data['email'],
+                          style: TextStyle(color: Zwart))
+                      : Text("email", style: TextStyle(color: Zwart)),
+                  onDetailsPressed: () {
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => ProfilePage()));
+                  },
+                ),
+                Column(
+                  children: navItemWidget,
+                ),
+                Divider(
+                  color: Grijs,
+                )
+              ],
+            )),
+            Padding(
+                padding: EdgeInsets.only(bottom: 30, right: 10),
+                child: Align(
                     alignment: Alignment.centerRight,
-                    child:IconButton(
-                          icon: Icon(Icons.settings),
-                          onPressed: () {
-                            Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Instellingen(),
-                                fullscreenDialog: true));
-                          })))
-              ]);
-            },
-          ),
-        );
+                    child: IconButton(
+                        icon: Icon(Icons.settings),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Instellingen(),
+                                  fullscreenDialog: true));
+                        })))
+          ]);
+        },
+      ),
+    );
   }
 }
