@@ -79,7 +79,7 @@ class _NavigationState extends State<Navigation> {
         "icon": Icons.message,
         "active": activeMes,
         "redirect": MessagePage(),
-        "trailing": 1
+        "trailing": globals.notifications == 0 ? null : globals.notifications
       },
       {
         "label": translate(Keys.Navigation_Garage),
