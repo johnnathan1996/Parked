@@ -38,6 +38,8 @@ class _ChatPageState extends State<ChatPage> {
         .listen((snapshot) {
       sendName = snapshot.data["voornaam"];
     });
+
+    
     super.initState();
   }
 
@@ -133,9 +135,11 @@ class _ChatPageState extends State<ChatPage> {
                             controller: _scrollController,
                             itemCount: snapshot.data.data['chat'].length,
                             itemBuilder: (_, index) {
+                              
                               return checkmessage(
                                   snapshot.data.data['chat'][index]['auteur'],
-                                  snapshot.data.data['chat'][index]['message']);
+                                  snapshot.data.data['chat'][index]['message'],
+                                  snapshot.data.data['chat'][index]['seen']);
                             },
                           )),
                           Padding(
@@ -179,14 +183,14 @@ class _ChatPageState extends State<ChatPage> {
         .document(conversationID)
         .updateData({
       "chat": FieldValue.arrayUnion([
-        {'auteur': sendName, 'time': DateTime.now(), 'message': message}
+        {'auteur': sendName, 'time': DateTime.now(), 'message': message, 'seen': false}
       ])
     });
 
     controller.text = "";
   }
 
-  checkmessage(String auteurName, String message) {
+  checkmessage(String auteurName, String message, bool seen) {
     if (sendName == auteurName) {
       return Padding(
           padding: EdgeInsets.only(right: 20.0, bottom: 5.0),
@@ -212,7 +216,8 @@ class _ChatPageState extends State<ChatPage> {
                     ),
                   ],
                 ),
-              )
+              ),
+              seen ? Text("Vu") : Text("Distribué")
             ],
           ));
     } else {
