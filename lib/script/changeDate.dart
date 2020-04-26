@@ -5,15 +5,14 @@ double roundDouble(double value, int places){
    return ((value * mod).round().toDouble() / mod); 
 }
 
-String changeDate(var date) {
+String changeDate(DateTime date) {
   String result;
-  DateTime datum = date.toDate();
 
-  result = datum.day.toString() +
+  result = date.day.toString() +
       "/" +
-      datum.month.toString() +
+      date.month.toString() +
       "/" +
-      datum.year.toString();
+      date.year.toString();
 
   return result;
 }

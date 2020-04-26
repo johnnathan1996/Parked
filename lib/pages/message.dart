@@ -4,6 +4,7 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:parkly/constant.dart';
 import 'package:parkly/localization/keys.dart';
 import 'package:parkly/pages/chatPage.dart';
+import 'package:parkly/script/changeDate.dart';
 import 'package:parkly/ui/navigation.dart';
 import 'package:parkly/ui/title.dart';
 import '../setup/globals.dart' as globals;
@@ -14,6 +15,20 @@ class MessagePage extends StatefulWidget {
 }
 
 class _MessagePageState extends State<MessagePage> {
+  String sendName;
+
+  @override
+  void initState() {
+    Firestore.instance
+        .collection('users')
+        .document(globals.userId)
+        .snapshots()
+        .listen((snapshot) {
+      sendName = snapshot.data["voornaam"];
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +72,30 @@ class _MessagePageState extends State<MessagePage> {
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold),
                                   ),
-                                  subtitle: Text("message"),
+                                  subtitle: Row(
+                                    children: <Widget>[
+                                      Text(
+                                          snapshot
+                                                      .data
+                                                      .documents[index]
+                                                      .data["chat"]
+                                                      .last["auteur"] ==
+                                                  sendName
+                                              ? "Vous"
+                                              : snapshot.data.documents[index]
+                                                  .data["chat"].last["auteur"],
+                                          style: ChatStyle),
+                                      Text(
+                                          " : " +
+                                              snapshot.data.documents[index]
+                                                  .data["chat"].last["message"],
+                                          style: ChatStyle)
+                                    ],
+                                  ),
+                                  trailing: Text(
+                                      changeDate(snapshot.data.documents[index]
+                                          .data["chat"].last["time"].toDate()),
+                                      style: ChatStyle),
                                 ));
                           }))
                 ],

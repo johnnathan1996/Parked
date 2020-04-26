@@ -128,7 +128,7 @@ _createMessage() {
       "chat": FieldValue.arrayUnion([
         {
           'auteur': sendName, 
-          'time': DateTime.now().toString(), 
+          'time': DateTime.now(), 
           'message': message
           }
       ])

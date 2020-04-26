@@ -76,7 +76,7 @@ class _RatingCardComponentState extends State<RatingCardComponent>
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(editorName),
-                          Text(changeDate(card["date"]),
+                          Text(changeDate(card["date"].toDate()),
                               style: TextStyle(color: Grijs))
                         ],
                       ),
