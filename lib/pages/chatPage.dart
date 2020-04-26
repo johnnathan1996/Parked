@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:parkly/constant.dart';
+import 'package:parkly/script/changeDate.dart';
 import 'package:speech_bubble/speech_bubble.dart';
 import '../setup/globals.dart' as globals;
 
@@ -41,6 +42,9 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Zwart),
+        backgroundColor: Wit,
+        elevation: 0.0,
         title: Text("Message"),
         actions: <Widget>[
           new IconButton(
@@ -62,42 +66,45 @@ class _ChatPageState extends State<ChatPage> {
             WidgetsBinding.instance
                 .addPostFrameCallback((_) => _scrollDown(context));
             return Form(
-                    key: _formKey,
-                    child: Column(children: <Widget>[
-                      Expanded(
-                          child: ListView.builder(
-                        controller: _scrollController,
-                        itemCount: snapshot.data.data['chat'].length,
-                        itemBuilder: (_, index) {
-                          return checkmessage(
-                              snapshot.data.data['chat'][index]['auteur'],
-                              snapshot.data.data['chat'][index]['message']);
-                        },
+                key: _formKey,
+                child: Column(children: <Widget>[
+                  Padding(
+                      padding: EdgeInsets.only(top: 15),
+                      child: Text(
+                        changeDateWithTime(
+                            snapshot.data.data['chat'][0]['time'].toDate()),
+                        style: ChatStyele,
                       )),
-                      Padding(
-                          padding: EdgeInsets.only(
-                              left: 10.0, right: 10.0, bottom: 10.0),
-                          child: TextFormField(
-                            controller: controller,
-                            onSaved: (input) => message = input,
-                            decoration: InputDecoration(
-                                hintText: 'Send a message',
-                                border: OutlineInputBorder(),
-                                prefixIcon: IconButton(
-                                  icon: Icon(Icons.camera_alt),
-                                  onPressed: () {},
-                                ),
-                                suffixIcon: IconButton(
-                                  icon: Icon(Icons.send),
-                                  onPressed: (){
-                                    print("create message");
-                                  },
-                                )),
-                          ))
-                    ]));
+                  Expanded(
+                      child: ListView.builder(
+                    controller: _scrollController,
+                    itemCount: snapshot.data.data['chat'].length,
+                    itemBuilder: (_, index) {
+                      return checkmessage(
+                          snapshot.data.data['chat'][index]['auteur'],
+                          snapshot.data.data['chat'][index]['message']);
+                    },
+                  )),
+                  Padding(
+                      padding: EdgeInsets.only(
+                          left: 10.0, right: 10.0, bottom: 10.0),
+                      child: TextFormField(
+                        controller: controller,
+                        onSaved: (input) => message = input,
+                        decoration: InputDecoration(
+                            hintText: 'Send a message',
+                            border: OutlineInputBorder(),
+                            suffixIcon: IconButton(
+                              icon: Icon(Icons.send),
+                              onPressed: () {
+                                print("create message");
+                              },
+                            )),
+                      ))
+                ]));
           } else {
             return CircularProgressIndicator(
-                  valueColor: new AlwaysStoppedAnimation<Color>(Blauw));
+                valueColor: new AlwaysStoppedAnimation<Color>(Blauw));
           }
         },
       ),
@@ -115,41 +122,58 @@ class _ChatPageState extends State<ChatPage> {
   checkmessage(String auteurName, String message) {
     if (sendName == auteurName) {
       return Padding(
-          padding: EdgeInsets.only(right: 20.0, bottom: 5.0, top: 5.0),
-          child: SpeechBubble(
-            color: Colors.blue,
-            nipLocation: NipLocation.RIGHT,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Text(
-                  message,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18.0,
-                  ),
+          padding: EdgeInsets.only(right: 20.0, bottom: 5.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              Text(
+                auteurName,
+                style: ChatStyele,
+              ),
+              SpeechBubble(
+                color: Colors.blue,
+                nipLocation: NipLocation.RIGHT,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      message,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.0,
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              )
+            ],
           ));
     } else {
       return Padding(
-          padding: EdgeInsets.only(left: 20.0, bottom: 5.0, top: 5.0),
-          child: SpeechBubble(
-              color: Colors.grey,
-              nipLocation: NipLocation.LEFT,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Text(
-                    message,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18.0,
-                    ),
-                  ),
-                ],
-              )));
+          padding: EdgeInsets.only(left: 20.0, bottom: 10.0),
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  auteurName,
+                  style: ChatStyele,
+                ),
+                SpeechBubble(
+                    color: Colors.grey,
+                    nipLocation: NipLocation.LEFT,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Text(
+                          message,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18.0,
+                          ),
+                        ),
+                      ],
+                    ))
+              ]));
     }
   }
 }
