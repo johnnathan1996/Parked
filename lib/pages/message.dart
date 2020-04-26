@@ -8,6 +8,7 @@ import 'package:parkly/script/changeDate.dart';
 import 'package:parkly/ui/navigation.dart';
 import 'package:parkly/ui/title.dart';
 import '../setup/globals.dart' as globals;
+import 'package:content_placeholder/content_placeholder.dart';
 
 class MessagePage extends StatefulWidget {
   @override
@@ -38,100 +39,127 @@ class _MessagePageState extends State<MessagePage> {
           elevation: 0.0,
           title: Image.asset('assets/images/logo.png', height: 32),
         ),
-        body: StreamBuilder<QuerySnapshot>(
-          stream: Firestore.instance
-              .collection('conversation')
-              .where('userInChat', arrayContains: globals.userId)
-              .snapshots(),
-          builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (snapshot.hasData) {
-              return Column(
-                children: <Widget>[
-                  TitleComponent(label: translate(Keys.Title_Message)),
-                  Expanded(
-                      child: ListView.builder(
-                          itemCount: snapshot.data.documents.length,
-                          itemBuilder: (_, index) {
-                            return Card(
-                                elevation: 0,
-                                child: ListTile(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => ChatPage(
-                                                conversationID: snapshot
-                                                    .data
-                                                    .documents[index]
-                                                    .documentID)));
-                                  },
-                                  leading: StreamBuilder<DocumentSnapshot>(
-                                      stream: Firestore.instance
-                                          .collection('garages')
-                                          .document(
-                                              "R23jZT1J12eAikafnvgP") //TODO: changer l'image
-                                          .snapshots(),
-                                      builder: (BuildContext context,
-                                          AsyncSnapshot<DocumentSnapshot>
-                                              snapshotse) {
-                                        return Image.network(
-                                            snapshotse.data['garageImg']);
-                                      }),
-                                  title: StreamBuilder<DocumentSnapshot>(
-                                      stream: Firestore.instance
-                                          .collection('users')
-                                          .document(
-                                              "PlEVTxX5XkhQSDu1Ya5g13ubYcm2") //TODO: changer le nom
-                                          .snapshots(),
-                                      builder: (BuildContext context,
-                                          AsyncSnapshot<DocumentSnapshot>
-                                              snapshots) {
-                                        return Text(snapshots.data["voornaam"]);
-                                      }),
-                                  subtitle: Row(
-                                    children: <Widget>[
-                                      Text(
-                                          snapshot
+        body: Container(
+            decoration: BoxDecoration(
+                image: new DecorationImage(
+                    image: new AssetImage('assets/images/backgroundP.png'),
+                    fit: BoxFit.cover)),
+            child: StreamBuilder<QuerySnapshot>(
+              stream: Firestore.instance
+                  .collection('conversation')
+                  .where('userInChat', arrayContains: globals.userId)
+                  .snapshots(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasData) {
+                  return Column(
+                    children: <Widget>[
+                      TitleComponent(label: translate(Keys.Title_Message)),
+                      Expanded(
+                          child: ListView.builder(
+                              itemCount: snapshot.data.documents.length,
+                              itemBuilder: (_, index) {
+                                return Card(
+                                    elevation: 0,
+                                    child: ListTile(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => ChatPage(
+                                                    conversationID: snapshot
+                                                        .data
+                                                        .documents[index]
+                                                        .documentID)));
+                                      },
+                                      title: StreamBuilder<DocumentSnapshot>(
+                                          stream: Firestore.instance
+                                              .collection('users')
+                                              .document(
+                                                  "PlEVTxX5XkhQSDu1Ya5g13ubYcm2") //TODO: changer le nom
+                                              .snapshots(),
+                                          builder: (BuildContext context,
+                                              AsyncSnapshot<DocumentSnapshot>
+                                                  snapshots) {
+                                            if (snapshots.hasData) {
+                                              return Text(
+                                                  snapshots.data["voornaam"]);
+                                            } else {
+                                              return Container();
+                                            }
+                                          }),
+                                      leading: SizedBox(
+                                          width: 80,
+                                          child: StreamBuilder<
+                                                  DocumentSnapshot>(
+                                              stream: Firestore.instance
+                                                  .collection('garages')
+                                                  .document(snapshot
                                                       .data
                                                       .documents[index]
-                                                      .data["chat"]
-                                                      .last["auteur"] ==
-                                                  sendName
-                                              ? translate(Keys.Apptext_You) +
-                                                  " : "
-                                              : "",
+                                                      .data["garageId"])
+                                                  .snapshots(),
+                                              builder: (BuildContext context,
+                                                  AsyncSnapshot<
+                                                          DocumentSnapshot>
+                                                      snapshots) {
+                                                if (snapshots.hasData) {
+                                                  return Image.network(
+                                                      snapshots
+                                                          .data['garageImg'],
+                                                      fit: BoxFit.cover);
+                                                } else {
+                                                  return ContentPlaceholder();
+                                                }
+                                              })),
+                                      subtitle: Row(
+                                        children: <Widget>[
+                                          Text(
+                                              snapshot
+                                                          .data
+                                                          .documents[index]
+                                                          .data["chat"]
+                                                          .last["auteur"] ==
+                                                      sendName
+                                                  ? translate(
+                                                          Keys.Apptext_You) +
+                                                      " : "
+                                                  : "",
+                                              style: ChatStyle),
+                                          Flexible(
+                                              child: RichText(
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  strutStyle: StrutStyle(
+                                                      fontSize: 12.0),
+                                                  text: TextSpan(
+                                                    style: ChatStyle,
+                                                    text: snapshot
+                                                        .data
+                                                        .documents[index]
+                                                        .data["chat"]
+                                                        .last["message"],
+                                                  )))
+                                        ],
+                                      ),
+                                      trailing: Text(
+                                          changeDate(snapshot
+                                              .data
+                                              .documents[index]
+                                              .data["chat"]
+                                              .last["time"]
+                                              .toDate()),
                                           style: ChatStyle),
-                                      Flexible(
-                                          child: RichText(
-                                              overflow: TextOverflow.ellipsis,
-                                              strutStyle:
-                                                  StrutStyle(fontSize: 12.0),
-                                              text: TextSpan(
-                                                style: ChatStyle,
-                                                text: snapshot
-                                                    .data
-                                                    .documents[index]
-                                                    .data["chat"]
-                                                    .last["message"],
-                                              )))
-                                    ],
-                                  ),
-                                  trailing: Text(
-                                      changeDate(snapshot.data.documents[index]
-                                          .data["chat"].last["time"]
-                                          .toDate()),
-                                      style: ChatStyle),
-                                ));
-                          }))
-                ],
-              );
-            } else {
-              return CircularProgressIndicator(
-                  valueColor: new AlwaysStoppedAnimation<Color>(Blauw));
-            }
-          },
-        ),
+                                    ));
+                              }))
+                    ],
+                  );
+                } else {
+                  return CircularProgressIndicator(
+                      valueColor: new AlwaysStoppedAnimation<Color>(Blauw));
+                }
+              },
+            )),
         drawer: Navigation(activeMes: true));
   }
 }
