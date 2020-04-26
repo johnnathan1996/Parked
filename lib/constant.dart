@@ -20,5 +20,5 @@ const SizeParagraph =
 const ShowPriceStyle =
     TextStyle(fontSize: 25.0, fontWeight: FontWeight.w500, color: Zwart);
 
-const ChatStyele =
+const ChatStyle =
     TextStyle(fontSize: 14.0, color: Grijs);

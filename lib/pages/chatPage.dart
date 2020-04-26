@@ -41,74 +41,73 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: Zwart),
-        backgroundColor: Wit,
-        elevation: 0.0,
-        title: Text("Message"),
-        actions: <Widget>[
-          new IconButton(
-            icon: Icon(Icons.more_vert),
-            onPressed: () {
-              print("signaler");
-            },
-          )
-        ],
-      ),
-      body: StreamBuilder<DocumentSnapshot>(
-        stream: Firestore.instance
-            .collection('conversation')
-            .document(conversationID)
-            .snapshots(),
-        builder:
-            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-          if (snapshot.hasData) {
-            WidgetsBinding.instance
-                .addPostFrameCallback((_) => _scrollDown(context));
-            return Form(
-                key: _formKey,
-                child: Column(children: <Widget>[
-                  Padding(
-                      padding: EdgeInsets.only(top: 15),
-                      child: Text(
-                        changeDateWithTime(
-                            snapshot.data.data['chat'][0]['time'].toDate()),
-                        style: ChatStyele,
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: Zwart),
+          backgroundColor: Wit,
+          elevation: 0.0,
+          title: Text("Message"),
+          actions: <Widget>[
+            new IconButton(
+              icon: Icon(Icons.more_vert),
+              onPressed: () {
+                print("signaler");
+              },
+            )
+          ],
+        ),
+        body: SafeArea(
+          child: StreamBuilder<DocumentSnapshot>(
+            stream: Firestore.instance
+                .collection('conversation')
+                .document(conversationID)
+                .snapshots(),
+            builder: (BuildContext context,
+                AsyncSnapshot<DocumentSnapshot> snapshot) {
+              if (snapshot.hasData) {
+                WidgetsBinding.instance
+                    .addPostFrameCallback((_) => _scrollDown(context));
+                return Form(
+                    key: _formKey,
+                    child: Column(children: <Widget>[
+                      Padding(
+                          padding: EdgeInsets.only(top: 15),
+                          child: Text(
+                            changeDateWithTime(
+                                snapshot.data.data['chat'][0]['time'].toDate()),
+                            style: ChatStyle,
+                          )),
+                      Expanded(
+                          child: ListView.builder(
+                        controller: _scrollController,
+                        itemCount: snapshot.data.data['chat'].length,
+                        itemBuilder: (_, index) {
+                          return checkmessage(
+                              snapshot.data.data['chat'][index]['auteur'],
+                              snapshot.data.data['chat'][index]['message']);
+                        },
                       )),
-                  Expanded(
-                      child: ListView.builder(
-                    controller: _scrollController,
-                    itemCount: snapshot.data.data['chat'].length,
-                    itemBuilder: (_, index) {
-                      return checkmessage(
-                          snapshot.data.data['chat'][index]['auteur'],
-                          snapshot.data.data['chat'][index]['message']);
-                    },
-                  )),
-                  Padding(
-                      padding: EdgeInsets.only(
-                          left: 10.0, right: 10.0, bottom: 10.0),
-                      child: TextFormField(
-                        controller: controller,
-                        onSaved: (input) => message = input,
-                        decoration: InputDecoration(
-                            hintText: 'Send a message',
-                            border: OutlineInputBorder(),
-                            suffixIcon: IconButton(
-                              icon: Icon(Icons.send),
-                              onPressed: () {
-                                print("create message");
-                              },
-                            )),
-                      ))
-                ]));
-          } else {
-            return CircularProgressIndicator(
-                valueColor: new AlwaysStoppedAnimation<Color>(Blauw));
-          }
-        },
-      ),
-    );
+                      Padding(
+                          padding: EdgeInsets.only(
+                              left: 10.0, right: 10.0, bottom: 10.0),
+                          child: TextFormField(
+                            controller: controller,
+                            onSaved: (input) => message = input,
+                            decoration: InputDecoration(
+                                hintText: 'Send a message',
+                                border: OutlineInputBorder(),
+                                suffixIcon: IconButton(
+                                  icon: Icon(Icons.send),
+                                  onPressed: _createMessage,
+                                )),
+                          ))
+                    ]));
+              } else {
+                return CircularProgressIndicator(
+                    valueColor: new AlwaysStoppedAnimation<Color>(Blauw));
+              }
+            },
+          ),
+        ));
   }
 
   _scrollDown(BuildContext context) {
@@ -117,6 +116,25 @@ class _ChatPageState extends State<ChatPage> {
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeOut,
     );
+  }
+
+_createMessage() {
+    final formState = _formKey.currentState;
+    formState.save();
+    Firestore.instance
+        .collection('conversation')
+        .document(conversationID)
+        .updateData({
+      "chat": FieldValue.arrayUnion([
+        {
+          'auteur': sendName, 
+          'time': DateTime.now().toString(), 
+          'message': message
+          }
+      ])
+    });
+
+    controller.text = "";
   }
 
   checkmessage(String auteurName, String message) {
@@ -128,10 +146,10 @@ class _ChatPageState extends State<ChatPage> {
             children: <Widget>[
               Text(
                 auteurName,
-                style: ChatStyele,
+                style: ChatStyle,
               ),
               SpeechBubble(
-                color: Colors.blue,
+                color: Blauw,
                 nipLocation: NipLocation.RIGHT,
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -156,10 +174,10 @@ class _ChatPageState extends State<ChatPage> {
               children: <Widget>[
                 Text(
                   auteurName,
-                  style: ChatStyele,
+                  style: ChatStyle,
                 ),
                 SpeechBubble(
-                    color: Colors.grey,
+                    color: Colors.grey[400],
                     nipLocation: NipLocation.LEFT,
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
