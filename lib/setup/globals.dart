@@ -2,4 +2,4 @@ library my_prj.globals;
 
 String userId;
 
-int notifications = 1;
+int notifications = 0;

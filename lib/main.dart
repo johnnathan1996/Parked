@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:parkly/constant.dart';
 import 'package:parkly/pages/maps.dart';
 import 'package:parkly/setup/logIn.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:parkly/setup/globals.dart' as globals;
 
 void main() async {
@@ -47,6 +49,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     getCurrentUser();
+    FlutterAppBadger.isAppBadgeSupported();
   }
 
   @override

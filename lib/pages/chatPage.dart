@@ -7,6 +7,7 @@ import 'package:speech_bubble/speech_bubble.dart';
 import '../setup/globals.dart' as globals;
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:parkly/localization/keys.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
 
 class ChatPage extends StatefulWidget {
   final String conversationID;
@@ -70,11 +71,13 @@ class _ChatPageState extends State<ChatPage> {
             .collection('conversation')
             .document(conversationID)
             .updateData({"seenLastMessage": true});
-            
+
         Firestore.instance
             .collection('conversation')
             .document(conversationID)
             .updateData({"seenLastIndex": lengthChat});
+
+        FlutterAppBadger.removeBadge();
       }
     }
   }
@@ -127,7 +130,6 @@ class _ChatPageState extends State<ChatPage> {
                                   .snapshots(),
                               builder: (BuildContext context,
                                   AsyncSnapshot<DocumentSnapshot> snapshotten) {
-                                    print(snapshot.data.data['chat'].length);
                                 if (snapshotten.hasData) {
                                   return Card(
                                       elevation: 0,

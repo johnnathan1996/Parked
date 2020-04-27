@@ -10,7 +10,6 @@ import 'package:parkly/ui/reservationTab.dart';
 import '../setup/globals.dart' as globals;
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:parkly/localization/keys.dart';
-//import 'package:flutter_app_badger/flutter_app_badger.dart';
 
 class ProfilePage extends StatefulWidget {
   @override

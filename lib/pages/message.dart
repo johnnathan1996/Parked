@@ -10,6 +10,7 @@ import 'package:parkly/ui/navigation.dart';
 import 'package:parkly/ui/title.dart';
 import '../setup/globals.dart' as globals;
 import 'package:content_placeholder/content_placeholder.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
 
 class MessagePage extends StatefulWidget {
   @override
@@ -18,9 +19,9 @@ class MessagePage extends StatefulWidget {
 
 class _MessagePageState extends State<MessagePage> {
   String sendName, myName;
+  int unreadedMessage = 0;
 
-  @override
-  void initState() {
+  void getSendName() {
     Firestore.instance
         .collection('users')
         .document(globals.userId)
@@ -28,6 +29,35 @@ class _MessagePageState extends State<MessagePage> {
         .listen((snapshot) {
       sendName = snapshot.data["voornaam"];
     });
+  }
+
+  void getUnreaded() async {
+    Firestore.instance
+        .collection('conversation')
+        .where('userInChat', arrayContains: globals.userId)
+        .snapshots()
+        .listen((snapshot) {
+      snapshot.documents.forEach((element) {
+        if (element.data["seenLastMessage"] == false) {
+          unreadedMessage++;
+        }
+      });
+      FlutterAppBadger.updateBadgeCount(unreadedMessage);
+      if (this.mounted) {
+        setState(() {
+          globals.notifications = unreadedMessage;
+        });
+      }
+      unreadedMessage = 0;
+    });
+  }
+
+  @override
+  void initState() {
+    getSendName();
+
+    getUnreaded();
+
     super.initState();
   }
 
@@ -211,7 +241,16 @@ class _MessagePageState extends State<MessagePage> {
                                                       .data["chat"]
                                                       .last["auteur"]
                                               ? DotComponent(
-                                                  number: snapshot.data.documents[index].data["chat"].length - snapshot.data.documents[index].data["seenLastIndex"])
+                                                  number: snapshot
+                                                          .data
+                                                          .documents[index]
+                                                          .data["chat"]
+                                                          .length -
+                                                      snapshot
+                                                              .data
+                                                              .documents[index]
+                                                              .data[
+                                                          "seenLastIndex"])
                                               : Text(changeDate(snapshot.data.documents[index].data["chat"].last["time"].toDate()),
                                                   style: ChatStyle)
                                           : Text(
