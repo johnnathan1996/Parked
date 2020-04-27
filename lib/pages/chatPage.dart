@@ -165,9 +165,10 @@ class _ChatPageState extends State<ChatPage> {
                           Padding(
                               padding: EdgeInsets.only(top: 15),
                               child: Text(
-                                changeDateWithTime(snapshot
-                                    .data.data['chat'][0]['time']
-                                    .toDate()),
+                                "Dernier message :" +
+                                    changeDateWithTime(snapshot
+                                        .data.data['chat'].last['time']
+                                        .toDate()),
                                 textAlign: TextAlign.center,
                                 style: ChatStyle,
                               )),
@@ -190,8 +191,7 @@ class _ChatPageState extends State<ChatPage> {
                                           : "Distribué",
                                       textAlign: TextAlign.right,
                                       style: TextStyle(
-                                        fontStyle: FontStyle.italic
-                                      )))
+                                          fontStyle: FontStyle.italic)))
                               : Container(),
                           Padding(
                               padding: EdgeInsets.only(
