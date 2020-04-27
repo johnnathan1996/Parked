@@ -165,7 +165,8 @@ class _ChatPageState extends State<ChatPage> {
                           Padding(
                               padding: EdgeInsets.only(top: 15),
                               child: Text(
-                                translate(Keys.Chattext_Lastmessage) + " : " +
+                                translate(Keys.Chattext_Lastmessage) +
+                                    " : " +
                                     changeDateWithTime(snapshot
                                         .data.data['chat'].last['time']
                                         .toDate()),
@@ -178,8 +179,13 @@ class _ChatPageState extends State<ChatPage> {
                             itemCount: snapshot.data.data['chat'].length,
                             itemBuilder: (_, index) {
                               return checkmessage(
+                                  snapshot.data.data['chat'][0]['auteur'],
+                                  snapshot.data.data['chat']
+                                          [index - 1 == -1 ? 0 : index - 1]
+                                      ['auteur'],
                                   snapshot.data.data['chat'][index]['auteur'],
-                                  snapshot.data.data['chat'][index]['message']);
+                                  snapshot.data.data['chat'][index]['message'],
+                                  index);
                             },
                           )),
                           snapshot.data.data['chat'].last['auteur'] == sendName
@@ -249,17 +255,19 @@ class _ChatPageState extends State<ChatPage> {
     controller.text = "";
   }
 
-  checkmessage(String auteurName, String message) {
+  checkmessage(String firstName, String auteurNamejustbefore, String auteurName, String message, int index) {
     if (sendName == auteurName) {
       return Padding(
           padding: EdgeInsets.only(right: 20.0, bottom: 5.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
-              Text(
-                auteurName,
-                style: ChatStyle,
-              ),
+              auteurNamejustbefore != auteurName
+                  ? Text(
+                      auteurName,
+                      style: ChatStyle
+                    )
+                  : index == 0 ?Text(firstName, style: ChatStyle) : Container(),
               SpeechBubble(
                 color: Blauw,
                 nipLocation: NipLocation.RIGHT,
@@ -284,10 +292,12 @@ class _ChatPageState extends State<ChatPage> {
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  auteurName,
-                  style: ChatStyle,
-                ),
+                auteurNamejustbefore != auteurName
+                    ? Text(
+                        auteurName,
+                        style: ChatStyle
+                      )
+                    : index == 0 ?Text(firstName, style: ChatStyle) : Container(),
                 SpeechBubble(
                     color: Grijs,
                     nipLocation: NipLocation.LEFT,
