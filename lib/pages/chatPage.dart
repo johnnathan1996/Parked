@@ -28,6 +28,7 @@ class _ChatPageState extends State<ChatPage> {
   ScrollController _scrollController = new ScrollController();
 
   String sendName, message, lastMessageName;
+  int lengthChat;
   bool isSeen;
 
   void getSendName() {
@@ -54,6 +55,7 @@ class _ChatPageState extends State<ChatPage> {
         setState(() {
           lastMessageName = snapshot.data["chat"].last["auteur"];
           isSeen = snapshot.data["seenLastMessage"];
+          lengthChat = snapshot.data["chat"].length;
         });
       }
 
@@ -62,16 +64,17 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void checkIsSeen() {
-    print("send " + sendName.toString());
-    print("last " + lastMessageName.toString());
-    print("seen " + isSeen.toString());
-
     if (sendName != lastMessageName) {
       if (isSeen == false) {
         Firestore.instance
             .collection('conversation')
             .document(conversationID)
             .updateData({"seenLastMessage": true});
+            
+        Firestore.instance
+            .collection('conversation')
+            .document(conversationID)
+            .updateData({"seenLastIndex": lengthChat});
       }
     }
   }
@@ -124,6 +127,7 @@ class _ChatPageState extends State<ChatPage> {
                                   .snapshots(),
                               builder: (BuildContext context,
                                   AsyncSnapshot<DocumentSnapshot> snapshotten) {
+                                    print(snapshot.data.data['chat'].length);
                                 if (snapshotten.hasData) {
                                   return Card(
                                       elevation: 0,

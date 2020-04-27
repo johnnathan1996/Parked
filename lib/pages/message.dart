@@ -122,7 +122,8 @@ class _MessagePageState extends State<MessagePage> {
                                                           .data["chat"]
                                                           .last["auteur"] ==
                                                       sendName
-                                                  ? translate(Keys.Chattext_You) +
+                                                  ? translate(
+                                                          Keys.Chattext_You) +
                                                       " : "
                                                   : "",
                                               style: ChatStyle),
@@ -209,22 +210,12 @@ class _MessagePageState extends State<MessagePage> {
                                                       .documents[index]
                                                       .data["chat"]
                                                       .last["auteur"]
-                                              ? DotComponent(number: 1)
-                                              : Text(
-                                                  changeDate(snapshot
-                                                      .data
-                                                      .documents[index]
-                                                      .data["chat"]
-                                                      .last["time"]
-                                                      .toDate()),
+                                              ? DotComponent(
+                                                  number: snapshot.data.documents[index].data["chat"].length - snapshot.data.documents[index].data["seenLastIndex"])
+                                              : Text(changeDate(snapshot.data.documents[index].data["chat"].last["time"].toDate()),
                                                   style: ChatStyle)
                                           : Text(
-                                              changeDate(snapshot
-                                                  .data
-                                                  .documents[index]
-                                                  .data["chat"]
-                                                  .last["time"]
-                                                  .toDate()),
+                                              changeDate(snapshot.data.documents[index].data["chat"].last["time"].toDate()),
                                               style: ChatStyle),
                                     ));
                               }))
