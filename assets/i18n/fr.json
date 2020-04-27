@@ -39,11 +39,13 @@
 		"Camera": "Caméra",
 		"Library": "Bibliothèque",
 		"Cancel": "Annuler",
+		"Done": "Fini",
 		"Delete": "Supprimer",
 		"Send": "Envoyer",
 		"Later": "Plus tard",
 		"GoToProfile": "Accéder au profil",
-		"OpenWaze": "Ouvrir avec Waze"
+		"OpenWaze": "Ouvrir avec Waze",
+		"SendMessageOwner": "Envoyer un message au propriétaire"
 	},
 	"Inputs": {
 		"Firstname": "Prénom",
@@ -102,7 +104,13 @@
 		"Profile": "Profile",
 		"Reservation": "Reservation",
 		"EmailSend": "Un e-mail a été envoyé à",
-		"Payment": "Modes de paiement",
-		"You": "Vous"
+		"Payment": "Modes de paiement"
+	},
+	"ChatText": {
+		"You": "Vous",
+		"Message": "Messages",
+		"LastMessage": "Dernier message",
+		"Seen": "Vu",
+		"Delivered": "Distribué"
 	}
 }

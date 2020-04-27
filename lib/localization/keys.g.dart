@@ -73,6 +73,8 @@ class Keys {
 
   static const String Button_Cancel = 'Button.Cancel';
 
+  static const String Button_Done = 'Button.Done';
+
   static const String Button_Delete = 'Button.Delete';
 
   static const String Button_Send = 'Button.Send';
@@ -82,6 +84,8 @@ class Keys {
   static const String Button_Gotoprofile = 'Button.GoToProfile';
 
   static const String Button_Openwaze = 'Button.OpenWaze';
+
+  static const String Button_Sendmessageowner = 'Button.SendMessageOwner';
 
   static const String Inputs_Firstname = 'Inputs.Firstname';
 
@@ -185,5 +189,13 @@ class Keys {
 
   static const String Apptext_Payment = 'AppText.Payment';
 
-  static const String Apptext_You = 'AppText.You';
+  static const String Chattext_You = 'ChatText.You';
+
+  static const String Chattext_Message = 'ChatText.Message';
+
+  static const String Chattext_Lastmessage = 'ChatText.LastMessage';
+
+  static const String Chattext_Seen = 'ChatText.Seen';
+
+  static const String Chattext_Delivered = 'ChatText.Delivered';
 }

@@ -39,11 +39,13 @@
 		"Camera": "Camera",
 		"Library": "Library",
 		"Cancel": "Cancel",
+		"Done": "Finished",
 		"Delete": "Delete",
 		"Send": "Send",
 		"Later": "Later",
 		"GoToProfile": "Go to profile",
-		"OpenWaze": "Open with Waze"
+		"OpenWaze": "Open with Waze",
+		"SendMessageOwner": "Send a message to the owner"
 	},
 	"Inputs": {
 		"Firstname": "First name",
@@ -102,7 +104,13 @@
 		"Profile": "Profile",
 		"Reservation": "Reservation",
 		"EmailSend": "An email has been sent to",
-		"Payment": "Payment methods",
-		"You": "You"
+		"Payment": "Payment methods"
+	},
+	"ChatText": {
+		"You": "You",
+		"Message": "Messages",
+		"LastMessage": "Last message",
+		"Seen": "Seen",
+		"Delivered": "Delivered"
 	}
 }

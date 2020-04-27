@@ -91,7 +91,7 @@ class _ChatPageState extends State<ChatPage> {
           iconTheme: IconThemeData(color: Zwart),
           backgroundColor: Wit,
           elevation: 0.0,
-          title: Text("Message"),
+          title: Text(translate(Keys.Chattext_Message)),
           actions: <Widget>[
             new IconButton(
               icon: Icon(Icons.more_vert),
@@ -165,7 +165,7 @@ class _ChatPageState extends State<ChatPage> {
                           Padding(
                               padding: EdgeInsets.only(top: 15),
                               child: Text(
-                                "Dernier message :" +
+                                translate(Keys.Chattext_Lastmessage) + " : " +
                                     changeDateWithTime(snapshot
                                         .data.data['chat'].last['time']
                                         .toDate()),
@@ -187,8 +187,8 @@ class _ChatPageState extends State<ChatPage> {
                                   padding: EdgeInsets.symmetric(horizontal: 15),
                                   child: Text(
                                       snapshot.data.data['seenLastMessage']
-                                          ? "Vu"
-                                          : "Distribué",
+                                          ? translate(Keys.Chattext_Seen)
+                                          : translate(Keys.Chattext_Delivered),
                                       textAlign: TextAlign.right,
                                       style: TextStyle(
                                           fontStyle: FontStyle.italic)))

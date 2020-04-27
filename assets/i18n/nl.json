@@ -39,11 +39,13 @@
 		"Camera": "Camera",
 		"Library": "Bibliotheek",
 		"Cancel": "Annuleren",
+		"Done": "Klaar",
 		"Delete": "Verwijderen",
 		"Send": "Sturen",
 		"Later": "Later",
 		"GoToProfile": "Ga naar profiel",
-		"OpenWaze": "openen met Waze"
+		"OpenWaze": "openen met Waze",
+		"SendMessageOwner": "Stuur een bericht naar de eigenaar"
 	},
 	"Inputs": {
 		"Firstname": "Voornaam",
@@ -102,7 +104,13 @@
 		"Profile": "Profiel",
 		"Reservation": "Reservatie",
 		"EmailSend": "Er is een e-mail gestuurd naar",
-		"Payment": "Betaalmethoden",
-		"You": "U"
+		"Payment": "Betaalmethoden"
+	},
+	"ChatText": {
+		"You": "U",
+		"Message": "Berichtes",
+		"LastMessage": "Laatste bericht",
+		"Seen": "Gezien",
+		"Delivered": "Delivered"
 	}
 }

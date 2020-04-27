@@ -122,8 +122,7 @@ class _MessagePageState extends State<MessagePage> {
                                                           .data["chat"]
                                                           .last["auteur"] ==
                                                       sendName
-                                                  ? translate(
-                                                          Keys.Apptext_You) +
+                                                  ? translate(Keys.Chattext_You) +
                                                       " : "
                                                   : "",
                                               style: ChatStyle),

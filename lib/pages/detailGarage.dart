@@ -187,9 +187,11 @@ class _DetailGarageState extends State<DetailGarage> {
                             padding: EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 20),
                             child: headerComponent(snapshot.data)),
-                        Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10),
-                            child: reservatieComponent(snapshot.data)),
+                        !isVanMij
+                            ? Padding(
+                                padding: EdgeInsets.symmetric(vertical: 10),
+                                child: reservatieComponent(snapshot.data))
+                            : Container(),
                         Padding(
                             padding: EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 20),
@@ -219,7 +221,7 @@ class _DetailGarageState extends State<DetailGarage> {
 
   Widget headerComponent(DocumentSnapshot garage) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -246,18 +248,33 @@ class _DetailGarageState extends State<DetailGarage> {
         Padding(
             padding: EdgeInsets.symmetric(vertical: 10),
             child: Text(garage['beschrijving'], style: SizeParagraph)),
-        Padding(
-            padding: EdgeInsets.only(bottom: 10),
-            child: Text(translate(Keys.Apptext_Offeredby) + eigenaarName,
+        // Padding(
+        //     padding: EdgeInsets.only(bottom: 10),
+        //     child: Text(translate(Keys.Apptext_Offeredby) + eigenaarName,
+        //     textAlign: TextAlign.end,
+        //         style: TextStyle(
+        //           color: Grijs,
+        //         ))),
+        FlatButton(
+              onPressed: (){},
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                Icon(Icons.message, color: Blauw,size: 20),
+                Padding(
+                  padding: EdgeInsets.only(left: 7),
+                  child:Text(translate(Keys.Button_Sendmessageowner),
                 style: TextStyle(
-                  color: Grijs,
-                ))),
+                  color: Blauw,
+                )))
+              ])),
         Divider(color: Grijs)
       ],
     );
   }
 
   Widget reservatieComponent(DocumentSnapshot garage) {
+    var localizationDelegate = LocalizedApp.of(context).delegate;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
@@ -269,7 +286,7 @@ class _DetailGarageState extends State<DetailGarage> {
                       showTitleActions: true,
                       minTime: DateTime.now(),
                       currentTime: DateTime.now(),
-                      locale: LocaleType.nl, onConfirm: (date) {
+                      locale: LocaleType.fr, onConfirm: (date) {
                     if (this.mounted) {
                       setState(() {
                         beginDate = date;
@@ -302,7 +319,8 @@ class _DetailGarageState extends State<DetailGarage> {
                           showTitleActions: true,
                           minTime: beginDate.add(Duration(hours: 1)),
                           currentTime: beginDate.add(Duration(hours: 1)),
-                          locale: LocaleType.nl, onConfirm: (date) {
+                          locale: getCurrentLanguageLocalizationKey(localizationDelegate.currentLocale.languageCode), 
+                          onConfirm: (date) {
                         if (this.mounted) {
                           setState(() {
                             endDate = date;
@@ -330,7 +348,11 @@ class _DetailGarageState extends State<DetailGarage> {
                 padding: EdgeInsets.only(bottom: 10, right: 20, left: 20),
                 child: Align(
                   alignment: AlignmentDirectional.bottomEnd,
-                  child: Text(translate(Keys.Apptext_Total) + " " + prijs.toString() + "€",
+                  child: Text(
+                      translate(Keys.Apptext_Total) +
+                          " " +
+                          prijs.toString() +
+                          "€",
                       style: SubTitleCustom),
                 ))
             : Container(),
@@ -365,7 +387,8 @@ class _DetailGarageState extends State<DetailGarage> {
         garage["kenmerken"].length != 0
             ? Padding(
                 padding: EdgeInsets.only(bottom: 10),
-                child: Text(translate(Keys.Subtitle_Features), style: SubTitleCustom),
+                child: Text(translate(Keys.Subtitle_Features),
+                    style: SubTitleCustom),
               )
             : Container(),
         garage["kenmerken"].length != 0
@@ -382,7 +405,8 @@ class _DetailGarageState extends State<DetailGarage> {
         garage["types"].length != 0
             ? Padding(
                 padding: EdgeInsets.only(bottom: 10),
-                child: Text(translate(Keys.Subtitle_Adaptedfor), style: SubTitleCustom),
+                child: Text(translate(Keys.Subtitle_Adaptedfor),
+                    style: SubTitleCustom),
               )
             : Container(),
         garage["types"].length != 0
@@ -437,7 +461,8 @@ class _DetailGarageState extends State<DetailGarage> {
                       builder: (_) => RatingModal(idGarage: idGarage),
                     );
                   },
-                  child: Text(translate(Keys.Button_Add) + " +", style: TextStyle(color: Blauw)))
+                  child: Text(translate(Keys.Button_Add) + " +",
+                      style: TextStyle(color: Blauw)))
             ],
           ),
         ),
@@ -473,6 +498,17 @@ class _DetailGarageState extends State<DetailGarage> {
       });
     } catch (e) {
       print(e.message);
+    }
+  }
+
+
+  getCurrentLanguageLocalizationKey(String code) {
+    switch(code)
+    {
+      case "nl": return LocaleType.nl;
+      case "fr": return LocaleType.fr;
+      case "en": return LocaleType.en;
+      default: return LocaleType.nl;
     }
   }
 }
