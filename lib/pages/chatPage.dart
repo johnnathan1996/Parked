@@ -261,7 +261,8 @@ class _ChatPageState extends State<ChatPage> {
     controller.text = "";
   }
 
-  checkmessage(String firstName, String auteurNamejustbefore, String auteurName, String message, int index) {
+  checkmessage(String firstName, String auteurNamejustbefore, String auteurName,
+      String message, int index) {
     if (sendName == auteurName) {
       return Padding(
           padding: EdgeInsets.only(right: 20.0, bottom: 5.0),
@@ -269,27 +270,30 @@ class _ChatPageState extends State<ChatPage> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
               auteurNamejustbefore != auteurName
-                  ? Text(
-                      auteurName,
-                      style: ChatStyle
-                    )
-                  : index == 0 ?Text(firstName, style: ChatStyle) : Container(),
-              SpeechBubble(
+                  ? Text(auteurName, style: ChatStyle)
+                  : index == 0
+                      ? Text(firstName, style: ChatStyle)
+                      : Container(),
+              Container(
+                    constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.65),
+                    child: SpeechBubble(
                 color: Blauw,
                 nipLocation: NipLocation.RIGHT,
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Text(
-                      message,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18.0,
-                      ),
-                    ),
+                    Flexible(
+                        child: RichText(
+                            maxLines: 100,
+                            text: TextSpan(
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18.0,
+                                ),
+                                text: message)))
                   ],
                 ),
-              )
+              ))
             ],
           ));
     } else {
@@ -299,26 +303,29 @@ class _ChatPageState extends State<ChatPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 auteurNamejustbefore != auteurName
-                    ? Text(
-                        auteurName,
-                        style: ChatStyle
-                      )
-                    : index == 0 ?Text(firstName, style: ChatStyle) : Container(),
-                SpeechBubble(
-                    color: Grijs,
-                    nipLocation: NipLocation.LEFT,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Text(
-                          message,
-                          style: TextStyle(
-                            color: Zwart,
-                            fontSize: 18.0,
-                          ),
-                        ),
-                      ],
-                    ))
+                    ? Text(auteurName, style: ChatStyle)
+                    : index == 0
+                        ? Text(firstName, style: ChatStyle)
+                        : Container(),
+                Container(
+                    constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.65),
+                    child: SpeechBubble(
+                        color: Grijs,
+                        nipLocation: NipLocation.LEFT,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Flexible(
+                                child: RichText(
+                                    maxLines: 100,
+                                    text: TextSpan(
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18.0,
+                                        ),
+                                        text: message)))
+                          ],
+                        )))
               ]));
     }
   }
