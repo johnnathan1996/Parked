@@ -27,19 +27,60 @@ class _ChatPageState extends State<ChatPage> {
   final TextEditingController controller = TextEditingController();
   ScrollController _scrollController = new ScrollController();
 
-  String sendName, message;
+  String sendName, message, lastMessageName;
+  bool isSeen;
 
-  @override
-  void initState() {
+  void getSendName() {
     Firestore.instance
         .collection('users')
         .document(globals.userId)
         .snapshots()
         .listen((snapshot) {
-      sendName = snapshot.data["voornaam"];
+      if (this.mounted) {
+        setState(() {
+          sendName = snapshot.data["voornaam"];
+        });
+      }
     });
+  }
 
-    
+  void checkLastMessage() {
+    Firestore.instance
+        .collection('conversation')
+        .document(conversationID)
+        .snapshots()
+        .listen((snapshot) {
+      if (this.mounted) {
+        setState(() {
+          lastMessageName = snapshot.data["chat"].last["auteur"];
+          isSeen = snapshot.data["seenLastMessage"];
+        });
+      }
+
+      checkIsSeen();
+    });
+  }
+
+  void checkIsSeen() {
+    print("send " + sendName.toString());
+    print("last " + lastMessageName.toString());
+    print("seen " + isSeen.toString());
+
+    if (sendName != lastMessageName) {
+      if (isSeen == false) {
+        Firestore.instance
+            .collection('conversation')
+            .document(conversationID)
+            .updateData({"seenLastMessage": true});
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    getSendName();
+    checkLastMessage();
+
     super.initState();
   }
 
@@ -135,13 +176,23 @@ class _ChatPageState extends State<ChatPage> {
                             controller: _scrollController,
                             itemCount: snapshot.data.data['chat'].length,
                             itemBuilder: (_, index) {
-                              
                               return checkmessage(
                                   snapshot.data.data['chat'][index]['auteur'],
-                                  snapshot.data.data['chat'][index]['message'],
-                                  snapshot.data.data['chat'][index]['seen']);
+                                  snapshot.data.data['chat'][index]['message']);
                             },
                           )),
+                          snapshot.data.data['chat'].last['auteur'] == sendName
+                              ? Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 15),
+                                  child: Text(
+                                      snapshot.data.data['seenLastMessage']
+                                          ? "Vu"
+                                          : "Distribué",
+                                      textAlign: TextAlign.right,
+                                      style: TextStyle(
+                                        fontStyle: FontStyle.italic
+                                      )))
+                              : Container(),
                           Padding(
                               padding: EdgeInsets.only(
                                   left: 10.0, right: 10.0, bottom: 10.0),
@@ -183,14 +234,22 @@ class _ChatPageState extends State<ChatPage> {
         .document(conversationID)
         .updateData({
       "chat": FieldValue.arrayUnion([
-        {'auteur': sendName, 'time': DateTime.now(), 'message': message, 'seen': false}
+        {'auteur': sendName, 'time': DateTime.now(), 'message': message}
       ])
     });
+
+    Firestore.instance
+        .collection('conversation')
+        .document(conversationID)
+        .updateData({"seenLastMessage": false});
+
+    lastMessageName = sendName;
+    checkIsSeen();
 
     controller.text = "";
   }
 
-  checkmessage(String auteurName, String message, bool seen) {
+  checkmessage(String auteurName, String message) {
     if (sendName == auteurName) {
       return Padding(
           padding: EdgeInsets.only(right: 20.0, bottom: 5.0),
@@ -216,8 +275,7 @@ class _ChatPageState extends State<ChatPage> {
                     ),
                   ],
                 ),
-              ),
-              seen ? Text("Vu") : Text("Distribué")
+              )
             ],
           ));
     } else {
@@ -231,7 +289,7 @@ class _ChatPageState extends State<ChatPage> {
                   style: ChatStyle,
                 ),
                 SpeechBubble(
-                    color: Colors.grey[400],
+                    color: Grijs,
                     nipLocation: NipLocation.LEFT,
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -239,7 +297,7 @@ class _ChatPageState extends State<ChatPage> {
                         Text(
                           message,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Zwart,
                             fontSize: 18.0,
                           ),
                         ),
