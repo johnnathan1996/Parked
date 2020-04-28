@@ -90,6 +90,14 @@ class _MessagePageState extends State<MessagePage> {
                           child: ListView.builder(
                               itemCount: snapshot.data.documents.length,
                               itemBuilder: (_, index) {
+                                String otherUser;
+
+                                if (snapshot.data.documents[index].data['userInChat'][0] == globals.userId) {
+                                  otherUser = snapshot.data.documents[index].data['userInChat'][1];
+                                } else {
+                                  otherUser = snapshot.data.documents[index].data['userInChat'][0];
+                                }
+                                
                                 return Card(
                                     elevation: 0,
                                     child: ListTile(
@@ -106,8 +114,7 @@ class _MessagePageState extends State<MessagePage> {
                                       title: StreamBuilder<DocumentSnapshot>(
                                           stream: Firestore.instance
                                               .collection('users')
-                                              .document(
-                                                  "PlEVTxX5XkhQSDu1Ya5g13ubYcm2") //TODO: changer le nom
+                                              .document(otherUser)
                                               .snapshots(),
                                           builder: (BuildContext context,
                                               AsyncSnapshot<DocumentSnapshot>
