@@ -4,7 +4,6 @@ import 'package:parkly/constant.dart';
 import 'package:parkly/pages/detailGarage.dart';
 import 'package:parkly/script/changeDate.dart';
 import 'package:speech_bubble/speech_bubble.dart';
-import '../setup/globals.dart' as globals;
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:parkly/localization/keys.dart';
 import 'package:flutter_app_badger/flutter_app_badger.dart';
@@ -63,8 +62,6 @@ class _ChatPageState extends State<ChatPage> {
             .collection('conversation')
             .document(conversationID)
             .updateData({"seenLastIndex": lengthChat});
-
-        FlutterAppBadger.removeBadge();
       }
     }
   }

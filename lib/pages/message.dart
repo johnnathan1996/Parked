@@ -10,7 +10,6 @@ import 'package:parkly/ui/navigation.dart';
 import 'package:parkly/ui/title.dart';
 import '../setup/globals.dart' as globals;
 import 'package:content_placeholder/content_placeholder.dart';
-import 'package:flutter_app_badger/flutter_app_badger.dart';
 
 class MessagePage extends StatefulWidget {
   @override
@@ -30,35 +29,11 @@ class _MessagePageState extends State<MessagePage> {
       sendName = snapshot.data["voornaam"];
     });
   }
-
-//check getunreaded not only in message
-  void getUnreaded() async {
-    Firestore.instance
-        .collection('conversation')
-        .where('userInChat', arrayContains: globals.userId)
-        .snapshots()
-        .listen((snapshot) {
-      snapshot.documents.forEach((element) {
-        if (element.data["seenLastMessage"] == false &&
-            element.data["chat"].last["auteur"] != sendName) {
-          unreadedMessage++;
-        }
-      });
-      FlutterAppBadger.updateBadgeCount(unreadedMessage);
-      if (this.mounted) {
-        setState(() {
-          globals.notifications = unreadedMessage;
-        });
-      }
-      unreadedMessage = 0;
-    });
-  }
+  
 
   @override
   void initState() {
     getSendName();
-
-    getUnreaded();
 
     super.initState();
   }
