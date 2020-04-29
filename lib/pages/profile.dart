@@ -16,6 +16,8 @@ class ProfilePage extends StatefulWidget {
   _ProfilePageState createState() => _ProfilePageState();
 }
 
+//TODO: make profile prettier for every phone
+
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
@@ -43,7 +45,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         title:
                             Image.asset('assets/images/logo.png', height: 32.0),
                         actions: <Widget>[
-                          IconButton(icon: Icon(Icons.edit), onPressed: () {})
+                          IconButton(icon: Icon(Icons.edit), onPressed: () {
+                            //TODO: edit profile
+                          })
                         ],
                         bottom: TabBar(
                           indicatorColor: Blauw,

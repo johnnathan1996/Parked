@@ -90,7 +90,7 @@ Future<void> main() async {
         unreadedMessage = 0;
       });
 
-      checkForNewMessages(snapshot.data["voornaam"], e.uid);
+      checkMessages(snapshot.data["voornaam"], e.uid);
 
       FlutterAppBadger.updateBadgeCount(globals.notifications);
     });
@@ -104,7 +104,7 @@ Future<void> main() async {
       )));
 }
 
-void checkForNewMessages(String sendName, String uid) async {
+void checkMessages(String sendName, String uid) async {
   Firestore.instance
       .collection("conversation")
       .where("userInChat", arrayContains: uid)
