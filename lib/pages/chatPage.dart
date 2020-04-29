@@ -6,7 +6,7 @@ import 'package:parkly/script/changeDate.dart';
 import 'package:speech_bubble/speech_bubble.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:parkly/localization/keys.dart';
-import 'package:flutter_app_badger/flutter_app_badger.dart';
+
 
 class ChatPage extends StatefulWidget {
   final String conversationID, sendName;
