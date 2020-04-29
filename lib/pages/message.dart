@@ -31,6 +31,7 @@ class _MessagePageState extends State<MessagePage> {
     });
   }
 
+//check getunreaded not only in message
   void getUnreaded() async {
     Firestore.instance
         .collection('conversation')
@@ -38,7 +39,8 @@ class _MessagePageState extends State<MessagePage> {
         .snapshots()
         .listen((snapshot) {
       snapshot.documents.forEach((element) {
-        if (element.data["seenLastMessage"] == false) {
+        if (element.data["seenLastMessage"] == false &&
+            element.data["chat"].last["auteur"] != sendName) {
           unreadedMessage++;
         }
       });
@@ -92,12 +94,16 @@ class _MessagePageState extends State<MessagePage> {
                               itemBuilder: (_, index) {
                                 String otherUser;
 
-                                if (snapshot.data.documents[index].data['userInChat'][0] == globals.userId) {
-                                  otherUser = snapshot.data.documents[index].data['userInChat'][1];
+                                if (snapshot.data.documents[index]
+                                        .data['userInChat'][0] ==
+                                    globals.userId) {
+                                  otherUser = snapshot.data.documents[index]
+                                      .data['userInChat'][1];
                                 } else {
-                                  otherUser = snapshot.data.documents[index].data['userInChat'][0];
+                                  otherUser = snapshot.data.documents[index]
+                                      .data['userInChat'][0];
                                 }
-                                
+
                                 return Card(
                                     elevation: 0,
                                     child: ListTile(
@@ -106,6 +112,7 @@ class _MessagePageState extends State<MessagePage> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) => ChatPage(
+                                                    sendName: sendName,
                                                     conversationID: snapshot
                                                         .data
                                                         .documents[index]

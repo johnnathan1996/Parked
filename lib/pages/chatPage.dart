@@ -10,41 +10,28 @@ import 'package:parkly/localization/keys.dart';
 import 'package:flutter_app_badger/flutter_app_badger.dart';
 
 class ChatPage extends StatefulWidget {
-  final String conversationID;
+  final String conversationID, sendName;
 
   ChatPage({
     @required this.conversationID,
+    @required this.sendName,
   });
   @override
   _ChatPageState createState() =>
-      _ChatPageState(conversationID: conversationID);
+      _ChatPageState(conversationID: conversationID, sendName: sendName);
 }
 
 class _ChatPageState extends State<ChatPage> {
-  final String conversationID;
-  _ChatPageState({Key key, this.conversationID});
+  final String conversationID, sendName;
+  _ChatPageState({Key key, this.conversationID, this.sendName});
 
   final _formKey = new GlobalKey<FormState>();
   final TextEditingController controller = TextEditingController();
   ScrollController _scrollController = new ScrollController();
 
-  String sendName, message, lastMessageName;
+  String message, lastMessageName;
   int lengthChat;
   bool isSeen;
-
-  void getSendName() {
-    Firestore.instance
-        .collection('users')
-        .document(globals.userId)
-        .snapshots()
-        .listen((snapshot) {
-      if (this.mounted) {
-        setState(() {
-          sendName = snapshot.data["voornaam"];
-        });
-      }
-    });
-  }
 
   void checkLastMessage() {
     Firestore.instance
@@ -84,7 +71,6 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   void initState() {
-    getSendName();
     checkLastMessage();
 
     super.initState();
@@ -275,25 +261,26 @@ class _ChatPageState extends State<ChatPage> {
                       ? Text(firstName, style: ChatStyle)
                       : Container(),
               Container(
-                    constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.65),
-                    child: SpeechBubble(
-                color: Blauw,
-                nipLocation: NipLocation.RIGHT,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Flexible(
-                        child: RichText(
-                            maxLines: 100,
-                            text: TextSpan(
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18.0,
-                                ),
-                                text: message)))
-                  ],
-                ),
-              ))
+                  constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width * 0.65),
+                  child: SpeechBubble(
+                    color: Blauw,
+                    nipLocation: NipLocation.RIGHT,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Flexible(
+                            child: RichText(
+                                maxLines: 100,
+                                text: TextSpan(
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18.0,
+                                    ),
+                                    text: message)))
+                      ],
+                    ),
+                  ))
             ],
           ));
     } else {
@@ -308,7 +295,8 @@ class _ChatPageState extends State<ChatPage> {
                         ? Text(firstName, style: ChatStyle)
                         : Container(),
                 Container(
-                    constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.65),
+                    constraints: BoxConstraints(
+                        maxWidth: MediaQuery.of(context).size.width * 0.65),
                     child: SpeechBubble(
                         color: Grijs,
                         nipLocation: NipLocation.LEFT,
