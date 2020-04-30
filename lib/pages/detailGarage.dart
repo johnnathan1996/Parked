@@ -201,10 +201,19 @@ class _DetailGarageState extends State<DetailGarage> {
                             child: imageComponent(snapshot.data)),
                         snapshot.data["rating"].length != 0
                             ? Padding(
-                                padding: EdgeInsets.only(
-                                    top: 10, bottom: 50, left: 20, right: 20),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 20),
                                 child: reviewsComponent(snapshot.data))
                             : Container(),
+                        Padding(
+                          padding: EdgeInsets.only(top: 10, bottom: 30),
+                          child: Text(
+                              translate(Keys.Apptext_Offeredby) + eigenaarName,
+                              textAlign: TextAlign.end,
+                              style: TextStyle(
+                                color: Grijs,
+                              )),
+                        )
                       ],
                     )
                   ],
@@ -248,13 +257,6 @@ class _DetailGarageState extends State<DetailGarage> {
         Padding(
             padding: EdgeInsets.symmetric(vertical: 10),
             child: Text(garage['beschrijving'], style: SizeParagraph)),
-        // Padding(
-        //     padding: EdgeInsets.only(bottom: 10),
-        //     child: Text(translate(Keys.Apptext_Offeredby) + eigenaarName,
-        //     textAlign: TextAlign.end,
-        //         style: TextStyle(
-        //           color: Grijs,
-        //         ))),
         FlatButton(
             onPressed: () {
               //TODO: create new convers
@@ -457,15 +459,17 @@ class _DetailGarageState extends State<DetailGarage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(translate(Keys.Subtitle_Reviews), style: SubTitleCustom),
-              FlatButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (_) => RatingModal(idGarage: idGarage),
-                    );
-                  },
-                  child: Text(translate(Keys.Button_Add) + " +",
-                      style: TextStyle(color: Blauw)))
+              !isVanMij
+                  ? FlatButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (_) => RatingModal(idGarage: idGarage),
+                        );
+                      },
+                      child: Text(translate(Keys.Button_Add) + " +",
+                          style: TextStyle(color: Blauw)))
+                  : Container()
             ],
           ),
         ),
