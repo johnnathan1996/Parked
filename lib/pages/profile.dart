@@ -10,13 +10,12 @@ import 'package:parkly/ui/reservationTab.dart';
 import '../setup/globals.dart' as globals;
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:parkly/localization/keys.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
-
-//TODO: make profile prettier for every phone
 
 class _ProfilePageState extends State<ProfilePage> {
   @override
@@ -68,7 +67,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           background: Column(children: <Widget>[
                             Padding(
                                 padding:
-                                    EdgeInsets.only(top: 100.0, bottom: 20.0),
+                                    EdgeInsets.only(top: 100.0, bottom: 10.0),
                                 child: CircularProfileAvatar(
                                   snapshot.data["imgUrl"] != null
                                       ? snapshot.data["imgUrl"]
@@ -97,11 +96,15 @@ class _ProfilePageState extends State<ProfilePage> {
                                     });
                                   },
                                 )),
-                            Text(
-                                snapshot.data['voornaam'] +
-                                    " " +
-                                    snapshot.data['achternaam'],
-                                style: TitleCustom)
+                            Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 40),
+                                child: AutoSizeText(
+                                  snapshot.data['voornaam'] +
+                                      " " +
+                                      snapshot.data['achternaam'],
+                                  style: TitleCustom,
+                                  maxLines: 1,
+                                ))
                           ]),
                         ),
                       ),
