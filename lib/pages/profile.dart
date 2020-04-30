@@ -34,7 +34,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   return CustomScrollView(
                     slivers: <Widget>[
                       SliverAppBar(
-                        expandedHeight: 300.0,
+                        expandedHeight: 280.0,
                         backgroundColor: Wit,
                         floating: false,
                         pinned: true,
@@ -67,13 +67,13 @@ class _ProfilePageState extends State<ProfilePage> {
                           background: Column(children: <Widget>[
                             Padding(
                                 padding:
-                                    EdgeInsets.only(top: 100.0, bottom: 10.0),
+                                    EdgeInsets.only(top: 90.0, bottom: 10.0),
                                 child: CircularProfileAvatar(
                                   snapshot.data["imgUrl"] != null
                                       ? snapshot.data["imgUrl"]
                                       : 'https://firebasestorage.googleapis.com/v0/b/parkly-2f177.appspot.com/o/default-user-avatar.png?alt=media&token=9af11a8c-e2b6-4f7b-87b6-f656d705eb20',
-                                  radius: 70,
-                                  borderWidth: 7,
+                                  radius: 60,
+                                  borderWidth: 5,
                                   borderColor: Blauw,
                                   cacheImage: true,
                                   onTap: () {

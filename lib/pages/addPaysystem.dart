@@ -74,7 +74,8 @@ class _AddPaySystemState extends State<AddPaySystem> {
             backgroundColor: Wit,
             elevation: 0.0,
             title: Image.asset('assets/images/logo.png', height: 32)),
-        body: Column(
+        body: SingleChildScrollView(
+child: Column(
           children: <Widget>[
             Padding(
                 padding: EdgeInsets.symmetric(vertical: 30),
@@ -295,7 +296,7 @@ class _AddPaySystemState extends State<AddPaySystem> {
                               labelText: "Cvv",
                               labelStyle: TextStyle(color: Zwart)))),
                   Padding(
-                      padding: EdgeInsets.only(left: 20, right: 20, top: 20),
+                      padding: EdgeInsets.all(20),
                       child: ButtonComponent(
                         label: translate(Keys.Button_Addcard),
                         onClickAction: () {
@@ -306,7 +307,7 @@ class _AddPaySystemState extends State<AddPaySystem> {
               ),
             )
           ],
-        ));
+        )));
   }
 
   void createPayCard() async {

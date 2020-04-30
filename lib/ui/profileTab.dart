@@ -22,86 +22,62 @@ class _ProfileTabState extends State<ProfileTab> {
   DocumentSnapshot snapshot;
   _ProfileTabState({Key key, this.snapshot});
 
-  List payMethode = [];
-
-  getPaymethode() {
-    Firestore.instance
-        .collection("users")
-        .document(globals.userId)
-        .snapshots()
-        .listen((instance) {
-      if (this.mounted) {
-        setState(() {
-          payMethode = [];
-          for (var item in instance.data["paymethode"]) {
-            payMethode.add(item);
-          }
-        });
-      }
-    });
-  }
-
-  @override
-  void initState() {
-    getPaymethode();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
         margin: EdgeInsets.all(20),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Expanded(child: betaalmiddel()),
-          ],
-        ));
-  }
-
-  Widget betaalmiddel() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Text(translate(Keys.Apptext_Payment)),
-        Expanded(
-            child: ReorderableListView(
-                children: [
-              for (final item in payMethode)
-                ListTile(
-                  key: ValueKey(item.hashCode),
-                  title: Text(item["bankName"]),
-                  leading: Icon(
-                    Icons.credit_card,
-                    color: Zwart,
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => PaySystem(payMethod: item)));
-                  },
-                )
-            ],
-                onReorder: (oldIndex, newIndex) {
-                  if (this.mounted) {
-                    setState(() {
-                      if (newIndex > oldIndex) {
-                        newIndex -= 1;
-                      }
-                      final Map item = payMethode.removeAt(oldIndex);
-                      payMethode.insert(newIndex, item);
-                    });
-                  }
-                })),
-        ButtonComponent(
-            label: translate(Keys.Button_Addcard),
-            onClickAction: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AddPaySystem()));
-            })
-      ],
-    );
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              StreamBuilder<DocumentSnapshot>(
+                  stream: Firestore.instance
+                      .collection('users')
+                      .document(globals.userId)
+                      .snapshots(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<DocumentSnapshot> snapshot) {
+                    if (snapshot.hasData) {
+                      return Expanded(
+                          child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Text(translate(Keys.Apptext_Payment), style: SubTitleCustom),
+                          snapshot.data["paymethode"].length != 0
+                              ? ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: snapshot.data["paymethode"].length,
+                                  itemBuilder: (_, index) {
+                                    return ListTile(
+                                      title: Text(snapshot.data["paymethode"][index]["bankName"]),
+                                      leading: Icon(
+                                        Icons.credit_card,
+                                        color: Zwart,
+                                      ),
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => PaySystem(
+                                                    payMethod: snapshot.data["paymethode"][index])));
+                                      },
+                                    );
+                                  })
+                              : Text("Je hebt nog geen kaart.."),
+                          ButtonComponent(
+                              label: translate(Keys.Button_Addcard),
+                              onClickAction: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => AddPaySystem()));
+                              })
+                        ],
+                      ));
+                    } else {
+                      return Container();
+                    }
+                  })
+            ]));
   }
 }
