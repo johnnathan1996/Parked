@@ -100,7 +100,13 @@ class _ChatPageState extends State<ChatPage> {
               if (snapshot.hasData) {
                 WidgetsBinding.instance
                     .addPostFrameCallback((_) => _scrollDown(context));
-                return Form(
+
+                return new GestureDetector(
+  onTap: () {
+
+    FocusScope.of(context).requestFocus(new FocusNode());
+  },
+child:Form(
                     key: _formKey,
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -187,22 +193,41 @@ class _ChatPageState extends State<ChatPage> {
                                       style: TextStyle(
                                           fontStyle: FontStyle.italic)))
                               : Container(),
-                          Padding(
-                              padding: EdgeInsets.only(
-                                  left: 10.0, right: 10.0, bottom: 10.0),
-                              child: TextFormField(
-                                controller: controller,
-                                onSaved: (input) => message = input,
-                                decoration: InputDecoration(
-                                    hintText:
-                                        translate(Keys.Inputs_Sendmessage),
-                                    border: OutlineInputBorder(),
-                                    suffixIcon: IconButton(
-                                      icon: Icon(Icons.send),
-                                      onPressed: _createMessage,
-                                    )),
+                          Container(
+                              padding:
+                                  EdgeInsets.only(top: 5, bottom: 5, left: 10),
+                              color: Colors.grey[200],
+                              child: Row(
+                                children: <Widget>[
+                                  Expanded(
+                                      child: SizedBox(
+                                          child: TextFormField(
+                                              maxLines: 4,
+                                              minLines: 1,
+                                              controller: controller,
+                                              onSaved: (input) =>
+                                                  message = input,
+                                              decoration: new InputDecoration(
+                                                hintText: translate(
+                                                    Keys.Inputs_Sendmessage),
+                                                border: OutlineInputBorder(
+                                                  borderSide: BorderSide.none,
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    const Radius.circular(30.0),
+                                                  ),
+                                                ),
+                                                filled: true,
+                                                fillColor: Wit,
+                                              )))),
+                                  IconButton(
+                                    icon: Icon(Icons.send),
+                                    color: Zwart,
+                                    onPressed: _createMessage,
+                                  )
+                                ],
                               ))
-                        ]));
+                        ])));
               } else {
                 return CircularProgressIndicator(
                     valueColor: new AlwaysStoppedAnimation<Color>(Blauw));
