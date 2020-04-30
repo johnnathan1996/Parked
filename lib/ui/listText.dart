@@ -13,7 +13,7 @@ class ListTextComponent extends StatelessWidget {
     return Row(
       children: <Widget>[
         Container(
-          margin: EdgeInsets.only(right: 10),
+            margin: EdgeInsets.only(right: 10),
             width: 7.0,
             height: 7.0,
             decoration:

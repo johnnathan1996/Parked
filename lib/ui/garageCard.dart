@@ -22,10 +22,13 @@ class GarageCardComponent extends StatelessWidget {
         elevation: 1.0,
         margin: new EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         child: ListTile(
-          onTap: (){
-            Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => DetailGarage(idGarage: garage.documentID, isVanMij: true)));
-          },
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => DetailGarage(
+                          idGarage: garage.documentID, isVanMij: true)));
+            },
             onLongPress: () {
               showCupertinoModalPopup(
                   context: context,

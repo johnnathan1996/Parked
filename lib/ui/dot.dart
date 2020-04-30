@@ -16,10 +16,7 @@ class DotComponent extends StatelessWidget {
       width: 20,
       height: 20,
       alignment: Alignment.center,
-      child: Text(
-        number.toString(),
-        style: TextStyle(color: Wit)
-      ),
+      child: Text(number.toString(), style: TextStyle(color: Wit)),
     ));
   }
 }

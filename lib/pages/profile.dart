@@ -45,9 +45,11 @@ class _ProfilePageState extends State<ProfilePage> {
                         title:
                             Image.asset('assets/images/logo.png', height: 32.0),
                         actions: <Widget>[
-                          IconButton(icon: Icon(Icons.edit), onPressed: () {
-                            //TODO: edit profile
-                          })
+                          IconButton(
+                              icon: Icon(Icons.edit),
+                              onPressed: () {
+                                //TODO: edit profile
+                              })
                         ],
                         bottom: TabBar(
                           indicatorColor: Blauw,
@@ -104,10 +106,10 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ),
                       SliverFillRemaining(
-                        child: TabBarView(
-                            children: [
-                              ProfileTab(snapshot: snapshot.data), 
-                              Reservations()]),
+                        child: TabBarView(children: [
+                          ProfileTab(snapshot: snapshot.data),
+                          Reservations()
+                        ]),
                       )
                     ],
                   );

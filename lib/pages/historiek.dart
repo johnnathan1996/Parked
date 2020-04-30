@@ -11,7 +11,6 @@ class HistoriekPage extends StatefulWidget {
 }
 
 class _HistoriekPageState extends State<HistoriekPage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

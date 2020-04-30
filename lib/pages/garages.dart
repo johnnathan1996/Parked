@@ -61,7 +61,8 @@ class _GaragePageState extends State<GaragePage> {
                               ))
                             : Expanded(
                                 child: Center(
-                                    child: Text(translate(Keys.Apptext_Zerogarage),
+                                    child: Text(
+                                        translate(Keys.Apptext_Zerogarage),
                                         style: SizeParagraph))),
                       ])),
                   floatingActionButtonLocation:

@@ -102,7 +102,8 @@ class _ResetPasswordState extends State<ResetPassword> {
                         Padding(
                             padding: EdgeInsets.only(
                                 left: 20.0, right: 20.0, top: 10, bottom: 20),
-                            child: Text(translate(Keys.Apptext_Emailsend) + ' $_email',
+                            child: Text(
+                              translate(Keys.Apptext_Emailsend) + ' $_email',
                               style: TextStyle(
                                   color: Wit,
                                   fontWeight: FontWeight.w500,

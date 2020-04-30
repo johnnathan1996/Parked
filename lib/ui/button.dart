@@ -3,7 +3,7 @@ import 'package:parkly/constant.dart';
 
 class ButtonComponent extends StatelessWidget {
   final String label;
-  final Null Function() onClickAction; 
+  final Null Function() onClickAction;
 
   ButtonComponent({
     @required this.label,

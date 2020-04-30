@@ -9,7 +9,6 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:parkly/localization/keys.dart';
 
 class ChooseImage {
-
   String downloadLink;
   var contextGlobal;
 

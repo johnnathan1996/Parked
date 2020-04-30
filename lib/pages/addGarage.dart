@@ -90,7 +90,8 @@ class _AddGarageState extends State<AddGarage> {
             },
             onSaved: (input) => _titel = input,
             decoration: InputDecoration(
-                hintText: translate(Keys.Inputs_Titel), labelStyle: TextStyle(color: Zwart)),
+                hintText: translate(Keys.Inputs_Titel),
+                labelStyle: TextStyle(color: Zwart)),
           )
         ]);
   }
@@ -146,7 +147,8 @@ class _AddGarageState extends State<AddGarage> {
         children: <Widget>[
           Padding(
               padding: EdgeInsets.symmetric(vertical: 5),
-              child: Text(translate(Keys.Subtitle_Adres), style: SubTitleCustom)),
+              child:
+                  Text(translate(Keys.Subtitle_Adres), style: SubTitleCustom)),
           Padding(
               padding: EdgeInsets.symmetric(vertical: 5),
               child: Row(
@@ -270,7 +272,8 @@ class _AddGarageState extends State<AddGarage> {
         children: <Widget>[
           Padding(
               padding: EdgeInsets.symmetric(vertical: 5),
-              child: Text(translate(Keys.Subtitle_Desc), style: SubTitleCustom)),
+              child:
+                  Text(translate(Keys.Subtitle_Desc), style: SubTitleCustom)),
           TextFormField(
             validator: (input) {
               if (input.isEmpty) {
@@ -354,7 +357,8 @@ class _AddGarageState extends State<AddGarage> {
       children: <Widget>[
         Padding(
             padding: EdgeInsets.symmetric(vertical: 5),
-            child: Text(translate(Keys.Subtitle_Typevehicules), style: SubTitleCustom)),
+            child: Text(translate(Keys.Subtitle_Typevehicules),
+                style: SubTitleCustom)),
         GridView.count(
           shrinkWrap: true,
           crossAxisCount: 3,

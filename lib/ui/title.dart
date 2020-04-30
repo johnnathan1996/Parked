@@ -22,11 +22,7 @@ class TitleComponent extends StatelessWidget {
             Container(
               child: Align(
                 alignment: Alignment.topLeft,
-                child: Container(
-                  width: 50.0,
-                  height: 3.0,
-                  color: Blauw
-                ),
+                child: Container(width: 50.0, height: 3.0, color: Blauw),
               ),
             )
           ],

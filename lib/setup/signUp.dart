@@ -312,7 +312,8 @@ class _SignUpPageState extends State<SignUpPage> {
         builder: (BuildContext context) {
           return new AlertDialog(
             title: errorMessage == null
-                ? Text(translate(Keys.Subtitle_Entersmscode), textAlign: TextAlign.center)
+                ? Text(translate(Keys.Subtitle_Entersmscode),
+                    textAlign: TextAlign.center)
                 : Text(errorMessage),
             content: PinFieldAutoFill(
               decoration: BoxLooseDecoration(

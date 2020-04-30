@@ -49,61 +49,61 @@ class _LogInPageState extends State<LogInPage> {
                     child: Theme(
                         data: new ThemeData(hintColor: Transparant),
                         child: TextFormField(
-                      keyboardType: TextInputType.emailAddress,
-                      validator: (input) {
-                        if (input.isEmpty) {
-                          return translate(Keys.Errors_Mailempty);
-                        }
-                        return null;
-                      },
-                      onSaved: (input) => _email = input,
-                      decoration: InputDecoration(
-                        errorStyle: TextStyle(color: Wit),
-                        border: OutlineInputBorder(),
-                          prefixIcon: IconButton(
-                            icon: Icon(Icons.person_outline, color: Zwart),
-                            onPressed: () {},
-                          ),
-                          filled: true,
-                          fillColor: Wit,
-                          labelText: translate(Keys.Inputs_Email),
-                          labelStyle: TextStyle(color: Zwart)),
-                    ))),
+                          keyboardType: TextInputType.emailAddress,
+                          validator: (input) {
+                            if (input.isEmpty) {
+                              return translate(Keys.Errors_Mailempty);
+                            }
+                            return null;
+                          },
+                          onSaved: (input) => _email = input,
+                          decoration: InputDecoration(
+                              errorStyle: TextStyle(color: Wit),
+                              border: OutlineInputBorder(),
+                              prefixIcon: IconButton(
+                                icon: Icon(Icons.person_outline, color: Zwart),
+                                onPressed: () {},
+                              ),
+                              filled: true,
+                              fillColor: Wit,
+                              labelText: translate(Keys.Inputs_Email),
+                              labelStyle: TextStyle(color: Zwart)),
+                        ))),
                 Padding(
                     padding: EdgeInsets.only(left: 20.0, right: 20.0),
                     child: Theme(
                         data: new ThemeData(hintColor: Transparant),
                         child: TextFormField(
-                      onSaved: (input) => _password = input,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        prefixIcon: IconButton(
-                          icon: Icon(
-                            Icons.vpn_key,
-                            color: Zwart,
+                          onSaved: (input) => _password = input,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            prefixIcon: IconButton(
+                              icon: Icon(
+                                Icons.vpn_key,
+                                color: Zwart,
+                              ),
+                              onPressed: () {},
+                            ),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                Icons.visibility,
+                                color: Zwart,
+                              ),
+                              onPressed: () {
+                                if (this.mounted) {
+                                  setState(() {
+                                    hiddenPassword = !hiddenPassword;
+                                  });
+                                }
+                              },
+                            ),
+                            filled: true,
+                            fillColor: Wit,
+                            labelText: translate(Keys.Inputs_Password),
+                            labelStyle: TextStyle(color: Zwart),
                           ),
-                          onPressed: () {},
-                        ),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            Icons.visibility,
-                            color: Zwart,
-                          ),
-                          onPressed: () {
-                            if (this.mounted) {
-                              setState(() {
-                                hiddenPassword = !hiddenPassword;
-                              });
-                            }
-                          },
-                        ),
-                        filled: true,
-                        fillColor: Wit,
-                        labelText: translate(Keys.Inputs_Password),
-                        labelStyle: TextStyle(color: Zwart),
-                      ),
-                      obscureText: hiddenPassword,
-                    ))),
+                          obscureText: hiddenPassword,
+                        ))),
                 Padding(
                     padding: EdgeInsets.only(left: 20.0, right: 20.0),
                     child: FlatButton(
@@ -139,7 +139,8 @@ class _LogInPageState extends State<LogInPage> {
                       )),
                       Padding(
                         padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                        child: Text(translate(Keys.Button_Or), style: TextStyle(color: Wit)),
+                        child: Text(translate(Keys.Button_Or),
+                            style: TextStyle(color: Wit)),
                       ),
                       Expanded(
                           child: Divider(
@@ -160,8 +161,8 @@ class _LogInPageState extends State<LogInPage> {
                       },
                       child: Padding(
                           padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                          child:
-                              Text(translate(Keys.Button_Createaccount), style: TextStyle(color: Blauw))),
+                          child: Text(translate(Keys.Button_Createaccount),
+                              style: TextStyle(color: Blauw))),
                       color: Colors.white,
                     ))
               ],
@@ -195,7 +196,8 @@ class _LogInPageState extends State<LogInPage> {
       } catch (e) {
         showDialog(
           context: context,
-          builder: (_) => ModalComponent(modalTekst: translate(Keys.Modal_Invalidemail)),
+          builder: (_) =>
+              ModalComponent(modalTekst: translate(Keys.Modal_Invalidemail)),
         );
       }
     }

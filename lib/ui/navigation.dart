@@ -116,8 +116,8 @@ class _NavigationState extends State<Navigation> {
             child: ListTile(
               leading: Icon(value["icon"], color: Wit),
               trailing: value["trailing"] != null
-              ? DotComponent(number: value["trailing"])
-              : null,
+                  ? DotComponent(number: value["trailing"])
+                  : null,
               title: Text(value["label"], style: TextStyle(color: Wit)),
               onTap: () {
                 Navigator.pop(context);

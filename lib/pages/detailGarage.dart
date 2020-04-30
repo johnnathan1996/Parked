@@ -256,20 +256,20 @@ class _DetailGarageState extends State<DetailGarage> {
         //           color: Grijs,
         //         ))),
         FlatButton(
-              onPressed: (){
-                //TODO: create new convers
-              },
-              child: Row(
+            onPressed: () {
+              //TODO: create new convers
+            },
+            child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                Icon(Icons.message, color: Blauw,size: 20),
-                Padding(
-                  padding: EdgeInsets.only(left: 7),
-                  child:Text(translate(Keys.Button_Sendmessageowner),
-                style: TextStyle(
-                  color: Blauw,
-                )))
-              ])),
+                  Icon(Icons.message, color: Blauw, size: 20),
+                  Padding(
+                      padding: EdgeInsets.only(left: 7),
+                      child: Text(translate(Keys.Button_Sendmessageowner),
+                          style: TextStyle(
+                            color: Blauw,
+                          )))
+                ])),
         Divider(color: Grijs)
       ],
     );
@@ -321,7 +321,8 @@ class _DetailGarageState extends State<DetailGarage> {
                           showTitleActions: true,
                           minTime: beginDate.add(Duration(hours: 1)),
                           currentTime: beginDate.add(Duration(hours: 1)),
-                          locale: getCurrentLanguageLocalizationKey(localizationDelegate.currentLocale.languageCode), 
+                          locale: getCurrentLanguageLocalizationKey(
+                              localizationDelegate.currentLocale.languageCode),
                           onConfirm: (date) {
                         if (this.mounted) {
                           setState(() {
@@ -503,14 +504,16 @@ class _DetailGarageState extends State<DetailGarage> {
     }
   }
 
-
   getCurrentLanguageLocalizationKey(String code) {
-    switch(code)
-    {
-      case "nl": return LocaleType.nl;
-      case "fr": return LocaleType.fr;
-      case "en": return LocaleType.en;
-      default: return LocaleType.nl;
+    switch (code) {
+      case "nl":
+        return LocaleType.nl;
+      case "fr":
+        return LocaleType.fr;
+      case "en":
+        return LocaleType.en;
+      default:
+        return LocaleType.nl;
     }
   }
 }
