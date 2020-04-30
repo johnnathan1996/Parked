@@ -20,7 +20,7 @@
 		"Features": "Caractéristiques",
 		"MaxHeigt": "Hauteur maximale",
 		"TypeVehicules": "Véhicules adaptés",
-		"Reviews" : "Commentaires",
+		"Reviews" : "Avis",
 		"AdaptedFor": "Adapté pour",
 		"EnterSmsCode": "Entrez le code SMS",
 		"InvalidCode": "ongeldige code"
@@ -104,7 +104,13 @@
 		"Profile": "Profile",
 		"Reservation": "Reservation",
 		"EmailSend": "Un e-mail a été envoyé à",
-		"Payment": "Modes de paiement"
+		"Payment": "Modes de paiement",
+		"TwoWheelers": "Deux roues",
+		"Little": "Petit",
+		"Middle": "Moyen",
+		"Large": "Grand",
+		"High": "Haut",
+		"VeryHigh": "Très haut"
 	},
 	"ChatText": {
 		"You": "Vous",

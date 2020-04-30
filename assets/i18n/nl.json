@@ -104,7 +104,13 @@
 		"Profile": "Profiel",
 		"Reservation": "Reservatie",
 		"EmailSend": "Er is een e-mail gestuurd naar",
-		"Payment": "Betaalmethoden"
+		"Payment": "Betaalmethoden",
+		"TwoWheelers": "Tweewielers",
+		"Little": "Klein",
+		"Middle": "Gemiddeld",
+		"Large": "Groot",
+		"High": "Hoog",
+		"VeryHigh": "Heel hoog"
 	},
 	"ChatText": {
 		"You": "U",

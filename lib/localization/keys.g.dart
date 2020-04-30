@@ -189,6 +189,18 @@ class Keys {
 
   static const String Apptext_Payment = 'AppText.Payment';
 
+  static const String Apptext_Twowheelers = 'AppText.TwoWheelers';
+
+  static const String Apptext_Little = 'AppText.Little';
+
+  static const String Apptext_Middle = 'AppText.Middle';
+
+  static const String Apptext_Large = 'AppText.Large';
+
+  static const String Apptext_High = 'AppText.High';
+
+  static const String Apptext_Veryhigh = 'AppText.VeryHigh';
+
   static const String Chattext_You = 'ChatText.You';
 
   static const String Chattext_Message = 'ChatText.Message';

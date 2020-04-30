@@ -246,9 +246,9 @@ class _DetailGarageState extends State<DetailGarage> {
                         ShowStars(rating: garage["rating"]),
                         Padding(
                             padding: EdgeInsets.only(left: 10, top: 5),
-                            child: Text("(" +
-                                garage['rating'].length.toString() +
-                                " reviews)"))
+                            child: Text("( " +
+                                garage['rating'].length.toString() + translate(Keys.Subtitle_Reviews) +
+                                " )"))
                       ],
                     ),
                   ]),

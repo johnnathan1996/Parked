@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:parkly/constant.dart';
+import 'package:parkly/localization/keys.dart';
 import 'package:parkly/pages/detailGarage.dart';
 import 'package:parkly/script/checkFavorite.dart';
 import 'package:parkly/ui/showStars.dart';
@@ -107,9 +109,9 @@ class _ModalMapComponentState extends State<ModalMapComponent> {
                               ShowStars(rating: garage["rating"]),
                               Padding(
                                   padding: EdgeInsets.only(left: 10, top: 5),
-                                  child: Text("(" +
-                                      garage['rating'].length.toString() +
-                                      " reviews)"))
+                                  child: Text("( " +
+                                      garage['rating'].length.toString() + translate(Keys.Subtitle_Reviews) +
+                                      " )"))
                             ]),
                             Text(garage["prijs"].toString() + "€",
                                 style: ShowPriceStyle),

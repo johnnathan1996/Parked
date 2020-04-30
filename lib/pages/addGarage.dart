@@ -343,12 +343,12 @@ class _AddGarageState extends State<AddGarage> {
 
   Widget typesComponent() {
     List types = [
-      {"label": "Tweewielers", "icon": Icons.motorcycle},
-      {"label": "Klein", "icon": Icons.airport_shuttle},
-      {"label": "Gemiddeld", "icon": Icons.directions_car},
-      {"label": "Groot", "icon": Icons.directions_car},
-      {"label": "Hoog", "icon": Icons.directions_bus},
-      {"label": "Heel hoog", "icon": Icons.local_shipping}
+      {"label": translate(Keys.Apptext_Twowheelers), "icon": Icons.motorcycle},
+      {"label": translate(Keys.Apptext_Little), "icon": Icons.airport_shuttle},
+      {"label": translate(Keys.Apptext_Middle), "icon": Icons.directions_car},
+      {"label": translate(Keys.Apptext_Large), "icon": Icons.directions_car},
+      {"label": translate(Keys.Apptext_High), "icon": Icons.directions_bus},
+      {"label": translate(Keys.Apptext_Veryhigh), "icon": Icons.local_shipping}
     ];
 
     return Container(

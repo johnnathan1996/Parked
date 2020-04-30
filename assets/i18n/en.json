@@ -104,7 +104,13 @@
 		"Profile": "Profile",
 		"Reservation": "Reservation",
 		"EmailSend": "An email has been sent to",
-		"Payment": "Payment methods"
+		"Payment": "Payment methods",
+		"TwoWheelers": "Bicycles",
+		"Little": "Little",
+		"Middle": "Middle",
+		"Large": "Lagre",
+		"High": "High",
+		"VeryHigh": "Very High"
 	},
 	"ChatText": {
 		"You": "You",
