@@ -79,38 +79,19 @@ Future<void> main() async {
           .where('userInChat', arrayContains: e.uid)
           .snapshots()
           .listen((snapshots) {
-        snapshots.documentChanges.forEach((snapshotten) {
-          if (snapshotten.document.data["seenLastMessage"] == false &&
-              snapshotten.document.data["chat"].last["auteur"] !=
+        snapshots.documents.forEach((element) {
+          if (element.data["seenLastMessage"] == false &&
+              element.data["chat"].last["auteur"] !=
                   snapshot.data["voornaam"]) {
             unreadedMessage++;
-
-            var androidPlatformChannelSpecifics =
-                new AndroidNotificationDetails(
-              'com.example.parkly',
-              'Parkly',
-              'your channel description',
-              playSound: true,
-              enableVibration: true,
-              importance: Importance.Max,
-              priority: Priority.High,
-            );
-            var iOSPlatformChannelSpecifics = IOSNotificationDetails();
-            var platformChannelSpecifics = NotificationDetails(
-                androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-            flutterLocalNotificationsPlugin.show(
-              0,
-              snapshotten.document.data["chat"].last['auteur'],
-              snapshotten.document.data["chat"].last['message'],
-              platformChannelSpecifics,
-              payload: 'item x',
-            );
           }
         });
 
         globals.notifications = unreadedMessage;
         unreadedMessage = 0;
       });
+
+      checkMessages(snapshot.data["voornaam"], e.uid);
 
       FlutterAppBadger.updateBadgeCount(globals.notifications);
     });
@@ -122,6 +103,39 @@ Future<void> main() async {
         debugShowCheckedModeBanner: false,
         home: new MyApp(),
       )));
+}
+
+void checkMessages(String sendName, String uid) async {
+  Firestore.instance
+      .collection("conversation")
+      .where("userInChat", arrayContains: uid)
+      .snapshots()
+      .listen((value) {
+    value.documentChanges.forEach((snapshot) {
+      if (snapshot.document.data["seenLastMessage"] == false &&
+          snapshot.document.data["chat"].last["auteur"] != sendName) {
+        var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+          'com.example.parkly',
+          'Parkly',
+          'your channel description',
+          playSound: true,
+          enableVibration: true,
+          importance: Importance.Max,
+          priority: Priority.High,
+        );
+        var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+        var platformChannelSpecifics = NotificationDetails(
+            androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+        flutterLocalNotificationsPlugin.show(
+          0,
+          snapshot.document.data["chat"].last['auteur'],
+          snapshot.document.data["chat"].last['message'],
+          platformChannelSpecifics,
+          payload: 'item x',
+        );
+      }
+    });
+  });
 }
 
 class MyApp extends StatefulWidget {
@@ -151,7 +165,6 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     getCurrentUser();
-    FlutterAppBadger.isAppBadgeSupported();
   }
 
   @override

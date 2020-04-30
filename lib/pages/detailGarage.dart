@@ -247,7 +247,7 @@ class _DetailGarageState extends State<DetailGarage> {
                         Padding(
                             padding: EdgeInsets.only(left: 10, top: 5),
                             child: Text("( " +
-                                garage['rating'].length.toString() + translate(Keys.Subtitle_Reviews) +
+                                garage['rating'].length.toString() + " " + translate(Keys.Subtitle_Reviews) +
                                 " )"))
                       ],
                     ),
@@ -290,7 +290,9 @@ class _DetailGarageState extends State<DetailGarage> {
                       showTitleActions: true,
                       minTime: DateTime.now(),
                       currentTime: DateTime.now(),
-                      locale: LocaleType.fr, onConfirm: (date) {
+                      locale: getCurrentLanguageLocalizationKey(
+                              localizationDelegate.currentLocale.languageCode), 
+                      onConfirm: (date) {
                     if (this.mounted) {
                       setState(() {
                         beginDate = date;
