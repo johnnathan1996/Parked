@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:latlong/latlong.dart';
 import 'package:parkly/constant.dart';
+import 'package:parkly/pages/chatPage.dart';
 import 'package:parkly/script/changeDate.dart';
 import 'package:parkly/script/checkFavorite.dart';
 import 'package:parkly/ui/button.dart';
@@ -44,6 +45,7 @@ class _DetailGarageState extends State<DetailGarage> {
 
   String eigenaarName = "";
   String eigenaarId = "";
+  String myName = "";
 
   getUserData() {
     Firestore.instance
@@ -55,6 +57,7 @@ class _DetailGarageState extends State<DetailGarage> {
         setState(() {
           mijnFavorieten = userInstance.data["favoriet"];
           betalingCard = userInstance.data["paymethode"];
+          myName = userInstance.data["voornaam"];
         });
       }
     });
@@ -75,7 +78,6 @@ class _DetailGarageState extends State<DetailGarage> {
           });
         }
       }
-      return;
     });
   }
 
@@ -161,25 +163,27 @@ class _DetailGarageState extends State<DetailGarage> {
                                   ),
                                 ],
                               ),
-                              Positioned(
-                                right: 20,
-                                bottom: -25,
-                                child: FloatingActionButton(
-                                  backgroundColor: Blauw,
-                                  elevation: 0.0,
-                                  onPressed: () async {
-                                    var url =
-                                        'https://www.waze.com/ul?ll=${snapshot.data["latitude"]}%2C${snapshot.data["longitude"]}&navigate=yes';
+                              !isVanMij
+                                  ? Positioned(
+                                      right: 20,
+                                      bottom: -25,
+                                      child: FloatingActionButton(
+                                        backgroundColor: Blauw,
+                                        elevation: 0.0,
+                                        onPressed: () async {
+                                          var url =
+                                              'https://www.waze.com/ul?ll=${snapshot.data["latitude"]}%2C${snapshot.data["longitude"]}&navigate=yes';
 
-                                    if (await canLaunch(url)) {
-                                      await launch(url);
-                                    } else {
-                                      throw 'Could not launch $url';
-                                    }
-                                  },
-                                  child: Icon(Icons.navigation),
-                                ),
-                              )
+                                          if (await canLaunch(url)) {
+                                            await launch(url);
+                                          } else {
+                                            throw 'Could not launch $url';
+                                          }
+                                        },
+                                        child: Icon(Icons.navigation),
+                                      ),
+                                    )
+                                  : Container()
                             ])),
                     Column(
                       children: <Widget>[
@@ -205,15 +209,18 @@ class _DetailGarageState extends State<DetailGarage> {
                                     vertical: 10, horizontal: 20),
                                 child: reviewsComponent(snapshot.data))
                             : Container(),
-                        Padding(
-                          padding: EdgeInsets.only(top: 10, bottom: 30),
-                          child: Text(
-                              translate(Keys.Apptext_Offeredby) + eigenaarName,
-                              textAlign: TextAlign.end,
-                              style: TextStyle(
-                                color: Grijs,
-                              )),
-                        )
+                        !isVanMij
+                            ? Padding(
+                                padding: EdgeInsets.only(top: 10, bottom: 30),
+                                child: Text(
+                                    translate(Keys.Apptext_Offeredby) +
+                                        eigenaarName,
+                                    textAlign: TextAlign.end,
+                                    style: TextStyle(
+                                      color: Grijs,
+                                    )),
+                              )
+                            : Container()
                       ],
                     )
                   ],
@@ -247,7 +254,9 @@ class _DetailGarageState extends State<DetailGarage> {
                         Padding(
                             padding: EdgeInsets.only(left: 10, top: 5),
                             child: Text("( " +
-                                garage['rating'].length.toString() + " " + translate(Keys.Subtitle_Reviews) +
+                                garage['rating'].length.toString() +
+                                " " +
+                                translate(Keys.Subtitle_Reviews) +
                                 " )"))
                       ],
                     ),
@@ -257,21 +266,23 @@ class _DetailGarageState extends State<DetailGarage> {
         Padding(
             padding: EdgeInsets.symmetric(vertical: 10),
             child: Text(garage['beschrijving'], style: SizeParagraph)),
-        FlatButton(
-            onPressed: () {
-              //TODO: create new convers
-            },
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Icon(Icons.message, color: Blauw, size: 20),
-                  Padding(
-                      padding: EdgeInsets.only(left: 7),
-                      child: Text(translate(Keys.Button_Sendmessageowner),
-                          style: TextStyle(
-                            color: Blauw,
-                          )))
-                ])),
+        !isVanMij
+            ? FlatButton(
+                onPressed: () {
+                  goingToChat(eigenaarId);
+                },
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(Icons.message, color: Blauw, size: 20),
+                      Padding(
+                          padding: EdgeInsets.only(left: 7),
+                          child: Text(translate(Keys.Button_Sendmessageowner),
+                              style: TextStyle(
+                                color: Blauw,
+                              )))
+                    ]))
+            : Container(),
         Divider(color: Grijs)
       ],
     );
@@ -291,7 +302,7 @@ class _DetailGarageState extends State<DetailGarage> {
                       minTime: DateTime.now(),
                       currentTime: DateTime.now(),
                       locale: getCurrentLanguageLocalizationKey(
-                              localizationDelegate.currentLocale.languageCode), 
+                          localizationDelegate.currentLocale.languageCode),
                       onConfirm: (date) {
                     if (this.mounted) {
                       setState(() {
@@ -520,6 +531,46 @@ class _DetailGarageState extends State<DetailGarage> {
         return LocaleType.en;
       default:
         return LocaleType.nl;
+    }
+  }
+
+  goingToChat(String eigenaarId) async {
+    List bijdeUsers;
+    DocumentSnapshot conversationId;
+    final result = await Firestore.instance
+        .collection('conversation')
+        .where('userInChat', arrayContains: globals.userId)
+        .getDocuments();
+
+    final List<DocumentSnapshot> documents = result.documents;
+
+    documents.forEach((data) {
+      bijdeUsers = data.data['userInChat'];
+
+      if (bijdeUsers.contains(eigenaarId)) {
+        conversationId = data;
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ChatPage(
+                    conversationID: data.documentID, sendName: myName)));
+      }
+    });
+
+    if (conversationId == null) {
+      Firestore.instance.collection('conversation').add({
+        'chat': [],
+        'garageId': idGarage,
+        'seenLastIndex': 0,
+        'seenLastMessage': false,
+        'userInChat': [globals.userId, eigenaarId],
+      }).then((value) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ChatPage(
+                    conversationID: value.documentID, sendName: eigenaarName)));
+      });
     }
   }
 }

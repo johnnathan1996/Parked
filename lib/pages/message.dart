@@ -17,8 +17,7 @@ class MessagePage extends StatefulWidget {
 }
 
 class _MessagePageState extends State<MessagePage> {
-  String sendName, myName;
-  int unreadedMessage = 0;
+  String sendName;
 
   void getSendName() {
     Firestore.instance
@@ -29,7 +28,6 @@ class _MessagePageState extends State<MessagePage> {
       sendName = snapshot.data["voornaam"];
     });
   }
-  
 
   @override
   void initState() {
@@ -134,49 +132,87 @@ class _MessagePageState extends State<MessagePage> {
                                               })),
                                       subtitle: Row(
                                         children: <Widget>[
-                                          Text(
-                                              snapshot
-                                                          .data
-                                                          .documents[index]
-                                                          .data["chat"]
-                                                          .last["auteur"] ==
-                                                      sendName
-                                                  ? translate(
-                                                          Keys.Chattext_You) +
-                                                      " : "
-                                                  : "",
-                                              style: ChatStyle),
-                                          snapshot.data.documents[index].data[
-                                                      "seenLastMessage"] ==
-                                                  false
-                                              ? sendName !=
-                                                      snapshot
-                                                          .data
-                                                          .documents[index]
-                                                          .data["chat"]
-                                                          .last["auteur"]
-                                                  ? Flexible(
-                                                      child: RichText(
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          strutStyle:
-                                                              StrutStyle(
-                                                                  fontSize:
-                                                                      12.0),
-                                                          text: TextSpan(
-                                                            style: TextStyle(
-                                                                fontSize: 14.0,
-                                                                color: Zwart,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500),
-                                                            text: snapshot
-                                                                .data
-                                                                .documents[
-                                                                    index]
-                                                                .data["chat"]
-                                                                .last["message"],
-                                                          )))
+                                          snapshot.data.documents[index]
+                                                      .data["chat"].length !=
+                                                  0
+                                              ? Text(
+                                                  snapshot
+                                                              .data
+                                                              .documents[index]
+                                                              .data["chat"]
+                                                              .last["auteur"] ==
+                                                          sendName
+                                                      ? translate(Keys
+                                                              .Chattext_You) +
+                                                          " : "
+                                                      : "",
+                                                  style: ChatStyle)
+                                              : Text(""),
+                                          snapshot.data.documents[index]
+                                                      .data["chat"].length !=
+                                                  0
+                                              ? snapshot.data.documents[index]
+                                                              .data[
+                                                          "seenLastMessage"] ==
+                                                      false
+                                                  ? sendName !=
+                                                          snapshot
+                                                              .data
+                                                              .documents[index]
+                                                              .data["chat"]
+                                                              .last["auteur"]
+                                                      ? Flexible(
+                                                          child: RichText(
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              strutStyle:
+                                                                  StrutStyle(
+                                                                      fontSize:
+                                                                          12.0),
+                                                              text: TextSpan(
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        14.0,
+                                                                    color:
+                                                                        Zwart,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500),
+                                                                text: snapshot
+                                                                    .data
+                                                                    .documents[
+                                                                        index]
+                                                                    .data[
+                                                                        "chat"]
+                                                                    .last["message"],
+                                                              )))
+                                                      : Flexible(
+                                                          child: RichText(
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              strutStyle:
+                                                                  StrutStyle(
+                                                                      fontSize:
+                                                                          12.0),
+                                                              text: TextSpan(
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        14.0,
+                                                                    color:
+                                                                        Grijs,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w300),
+                                                                text: snapshot
+                                                                    .data
+                                                                    .documents[
+                                                                        index]
+                                                                    .data[
+                                                                        "chat"]
+                                                                    .last["message"],
+                                                              )))
                                                   : Flexible(
                                                       child: RichText(
                                                           overflow: TextOverflow
@@ -199,52 +235,34 @@ class _MessagePageState extends State<MessagePage> {
                                                                 .data["chat"]
                                                                 .last["message"],
                                                           )))
-                                              : Flexible(
-                                                  child: RichText(
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      strutStyle: StrutStyle(
-                                                          fontSize: 12.0),
-                                                      text: TextSpan(
-                                                        style: TextStyle(
-                                                            fontSize: 14.0,
-                                                            color: Grijs,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w300),
-                                                        text: snapshot
-                                                            .data
-                                                            .documents[index]
-                                                            .data["chat"]
-                                                            .last["message"],
-                                                      )))
+                                              : Text("Pas encore de message")
                                         ],
                                       ),
                                       trailing: snapshot.data.documents[index]
-                                                  .data["seenLastMessage"] ==
-                                              false
-                                          ? sendName !=
-                                                  snapshot
-                                                      .data
-                                                      .documents[index]
-                                                      .data["chat"]
-                                                      .last["auteur"]
-                                              ? DotComponent(
-                                                  number: snapshot
+                                                  .data["chat"].length !=
+                                              0
+                                          ? snapshot.data.documents[index].data[
+                                                      "seenLastMessage"] ==
+                                                  false
+                                              ? sendName !=
+                                                      snapshot
                                                           .data
                                                           .documents[index]
                                                           .data["chat"]
-                                                          .length -
-                                                      snapshot
+                                                          .last["auteur"]
+                                                  ? DotComponent(
+                                                      number: snapshot
                                                               .data
                                                               .documents[index]
-                                                              .data[
-                                                          "seenLastIndex"])
-                                              : Text(changeDate(snapshot.data.documents[index].data["chat"].last["time"].toDate()),
-                                                  style: ChatStyle)
-                                          : Text(
-                                              changeDate(snapshot.data.documents[index].data["chat"].last["time"].toDate()),
-                                              style: ChatStyle),
+                                                              .data["chat"]
+                                                              .length -
+                                                          snapshot
+                                                              .data
+                                                              .documents[index]
+                                                              .data["seenLastIndex"])
+                                                  : Text(changeDate(snapshot.data.documents[index].data["chat"].last["time"].toDate()), style: ChatStyle)
+                                              : Text(changeDate(snapshot.data.documents[index].data["chat"].last["time"].toDate()), style: ChatStyle)
+                                          : Text(""),
                                     ));
                               }))
                     ],

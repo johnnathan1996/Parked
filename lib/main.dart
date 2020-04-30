@@ -80,10 +80,12 @@ Future<void> main() async {
           .snapshots()
           .listen((snapshots) {
         snapshots.documents.forEach((element) {
-          if (element.data["seenLastMessage"] == false &&
-              element.data["chat"].last["auteur"] !=
-                  snapshot.data["voornaam"]) {
-            unreadedMessage++;
+          if (element.data["chat"].length != 0) {
+            if (element.data["seenLastMessage"] == false &&
+                element.data["chat"].last["auteur"] !=
+                    snapshot.data["voornaam"]) {
+              unreadedMessage++;
+            }
           }
         });
 
@@ -112,27 +114,29 @@ void checkMessages(String sendName, String uid) async {
       .snapshots()
       .listen((value) {
     value.documentChanges.forEach((snapshot) {
-      if (snapshot.document.data["seenLastMessage"] == false &&
-          snapshot.document.data["chat"].last["auteur"] != sendName) {
-        var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-          'com.example.parkly',
-          'Parkly',
-          'your channel description',
-          playSound: true,
-          enableVibration: true,
-          importance: Importance.Max,
-          priority: Priority.High,
-        );
-        var iOSPlatformChannelSpecifics = IOSNotificationDetails();
-        var platformChannelSpecifics = NotificationDetails(
-            androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-        flutterLocalNotificationsPlugin.show(
-          0,
-          snapshot.document.data["chat"].last['auteur'],
-          snapshot.document.data["chat"].last['message'],
-          platformChannelSpecifics,
-          payload: 'item x',
-        );
+      if (snapshot.document.data["chat"].length != 0) {
+        if (snapshot.document.data["seenLastMessage"] == false &&
+            snapshot.document.data["chat"].last["auteur"] != sendName) {
+          var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+            'com.example.parkly',
+            'Parkly',
+            'your channel description',
+            playSound: true,
+            enableVibration: true,
+            importance: Importance.Max,
+            priority: Priority.High,
+          );
+          var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+          var platformChannelSpecifics = NotificationDetails(
+              androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+          flutterLocalNotificationsPlugin.show(
+            0,
+            snapshot.document.data["chat"].last['auteur'],
+            snapshot.document.data["chat"].last['message'],
+            platformChannelSpecifics,
+            payload: 'item x',
+          );
+        }
       }
     });
   });

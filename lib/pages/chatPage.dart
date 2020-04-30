@@ -37,15 +37,17 @@ class _ChatPageState extends State<ChatPage> {
         .document(conversationID)
         .snapshots()
         .listen((snapshot) {
-      if (this.mounted) {
-        setState(() {
-          lastMessageName = snapshot.data["chat"].last["auteur"];
-          isSeen = snapshot.data["seenLastMessage"];
-          lengthChat = snapshot.data["chat"].length;
-        });
-      }
+      if (snapshot.data["chat"].length != 0) {
+        if (this.mounted) {
+          setState(() {
+            lastMessageName = snapshot.data["chat"].last["auteur"];
+            isSeen = snapshot.data["seenLastMessage"];
+            lengthChat = snapshot.data["chat"].length;
+          });
+        }
 
-      checkIsSeen();
+        checkIsSeen();
+      }
     });
   }
 
@@ -102,132 +104,150 @@ class _ChatPageState extends State<ChatPage> {
                     .addPostFrameCallback((_) => _scrollDown(context));
 
                 return new GestureDetector(
-  onTap: () {
-
-    FocusScope.of(context).requestFocus(new FocusNode());
-  },
-child:Form(
-                    key: _formKey,
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          StreamBuilder<DocumentSnapshot>(
-                              stream: Firestore.instance
-                                  .collection('garages')
-                                  .document(snapshot.data.data['garageId'])
-                                  .snapshots(),
-                              builder: (BuildContext context,
-                                  AsyncSnapshot<DocumentSnapshot> snapshotten) {
-                                if (snapshotten.hasData) {
-                                  return Card(
-                                      elevation: 0,
-                                      child: ListTile(
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      DetailGarage(
-                                                          idGarage: snapshot
-                                                                  .data.data[
-                                                              'garageId'])));
-                                        },
-                                        leading: Image.network(
-                                            snapshotten.data['garageImg']),
-                                        title: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              Text(snapshotten.data['street'],
-                                                  style: TextStyle(
-                                                      fontSize: 16.0)),
-                                              Text(
-                                                  snapshotten.data['city'] +
-                                                      " " +
+                    onTap: () {
+                      FocusScope.of(context).requestFocus(new FocusNode());
+                    },
+                    child: Form(
+                        key: _formKey,
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: <Widget>[
+                              StreamBuilder<DocumentSnapshot>(
+                                  stream: Firestore.instance
+                                      .collection('garages')
+                                      .document(snapshot.data.data['garageId'])
+                                      .snapshots(),
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot<DocumentSnapshot>
+                                          snapshotten) {
+                                    if (snapshotten.hasData) {
+                                      return Card(
+                                          elevation: 0,
+                                          child: ListTile(
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          DetailGarage(
+                                                              idGarage: snapshot
+                                                                      .data
+                                                                      .data[
+                                                                  'garageId'])));
+                                            },
+                                            leading: Image.network(
+                                                snapshotten.data['garageImg']),
+                                            title: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Text(
                                                       snapshotten
-                                                          .data['postcode'],
-                                                  style: TextStyle(
-                                                      fontSize: 16.0)),
-                                            ]),
-                                        trailing: Icon(Icons.arrow_forward_ios,
-                                            color: Zwart),
-                                      ));
-                                } else {
-                                  return Container();
-                                }
-                              }),
-                          Padding(
-                              padding: EdgeInsets.only(top: 15),
-                              child: Text(
-                                translate(Keys.Chattext_Lastmessage) +
-                                    " : " +
-                                    changeDateWithTime(snapshot
-                                        .data.data['chat'].last['time']
-                                        .toDate()),
-                                textAlign: TextAlign.center,
-                                style: ChatStyle,
+                                                          .data['street'],
+                                                      style: TextStyle(
+                                                          fontSize: 16.0)),
+                                                  Text(
+                                                      snapshotten.data['city'] +
+                                                          " " +
+                                                          snapshotten
+                                                              .data['postcode'],
+                                                      style: TextStyle(
+                                                          fontSize: 16.0)),
+                                                ]),
+                                            trailing: Icon(
+                                                Icons.arrow_forward_ios,
+                                                color: Zwart),
+                                          ));
+                                    } else {
+                                      return Container();
+                                    }
+                                  }),
+                              snapshot.data.data['chat'].length != 0
+                                  ? Padding(
+                                      padding: EdgeInsets.only(top: 15),
+                                      child: Text(
+                                        translate(Keys.Chattext_Lastmessage) +
+                                            " : " +
+                                            changeDateWithTime(snapshot
+                                                .data.data['chat'].last['time']
+                                                .toDate()),
+                                        textAlign: TextAlign.center,
+                                        style: ChatStyle,
+                                      ))
+                                  : Container(),
+                              Expanded(
+                                  child: ListView.builder(
+                                controller: _scrollController,
+                                itemCount: snapshot.data.data['chat'].length,
+                                itemBuilder: (_, index) {
+                                  return checkmessage(
+                                      snapshot.data.data['chat'][0]['auteur'],
+                                      snapshot.data.data['chat']
+                                              [index - 1 == -1 ? 0 : index - 1]
+                                          ['auteur'],
+                                      snapshot.data.data['chat'][index]
+                                          ['auteur'],
+                                      snapshot.data.data['chat'][index]
+                                          ['message'],
+                                      index);
+                                },
                               )),
-                          Expanded(
-                              child: ListView.builder(
-                            controller: _scrollController,
-                            itemCount: snapshot.data.data['chat'].length,
-                            itemBuilder: (_, index) {
-                              return checkmessage(
-                                  snapshot.data.data['chat'][0]['auteur'],
-                                  snapshot.data.data['chat']
-                                          [index - 1 == -1 ? 0 : index - 1]
-                                      ['auteur'],
-                                  snapshot.data.data['chat'][index]['auteur'],
-                                  snapshot.data.data['chat'][index]['message'],
-                                  index);
-                            },
-                          )),
-                          snapshot.data.data['chat'].last['auteur'] == sendName
-                              ? Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 15),
-                                  child: Text(
-                                      snapshot.data.data['seenLastMessage']
-                                          ? translate(Keys.Chattext_Seen)
-                                          : translate(Keys.Chattext_Delivered),
-                                      textAlign: TextAlign.right,
-                                      style: TextStyle(
-                                          fontStyle: FontStyle.italic)))
-                              : Container(),
-                          Container(
-                              padding:
-                                  EdgeInsets.only(top: 5, bottom: 5, left: 10),
-                              color: Colors.grey[200],
-                              child: Row(
-                                children: <Widget>[
-                                  Expanded(
-                                      child: SizedBox(
-                                          child: TextFormField(
-                                              maxLines: 4,
-                                              minLines: 1,
-                                              controller: controller,
-                                              onSaved: (input) =>
-                                                  message = input,
-                                              decoration: new InputDecoration(
-                                                hintText: translate(
-                                                    Keys.Inputs_Sendmessage),
-                                                border: OutlineInputBorder(
-                                                  borderSide: BorderSide.none,
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                    const Radius.circular(30.0),
-                                                  ),
-                                                ),
-                                                filled: true,
-                                                fillColor: Wit,
-                                              )))),
-                                  IconButton(
-                                    icon: Icon(Icons.send),
-                                    color: Zwart,
-                                    onPressed: _createMessage,
-                                  )
-                                ],
-                              ))
-                        ])));
+                              snapshot.data.data['chat'].length != 0
+                                  ? snapshot.data.data['chat'].last['auteur'] ==
+                                          sendName
+                                      ? Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 15),
+                                          child: Text(
+                                              snapshot.data
+                                                      .data['seenLastMessage']
+                                                  ? translate(
+                                                      Keys.Chattext_Seen)
+                                                  : translate(
+                                                      Keys.Chattext_Delivered),
+                                              textAlign: TextAlign.right,
+                                              style: TextStyle(
+                                                  fontStyle: FontStyle.italic)))
+                                      : Container()
+                                  : Container(),
+                              Container(
+                                  padding: EdgeInsets.only(
+                                      top: 5, bottom: 5, left: 10),
+                                  color: Colors.grey[200],
+                                  child: Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                          child: SizedBox(
+                                              child: TextFormField(
+                                                  maxLines: 4,
+                                                  minLines: 1,
+                                                  controller: controller,
+                                                  onSaved: (input) =>
+                                                      message = input,
+                                                  decoration:
+                                                      new InputDecoration(
+                                                    hintText: translate(Keys
+                                                        .Inputs_Sendmessage),
+                                                    border: OutlineInputBorder(
+                                                      borderSide:
+                                                          BorderSide.none,
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                        const Radius.circular(
+                                                            30.0),
+                                                      ),
+                                                    ),
+                                                    filled: true,
+                                                    fillColor: Wit,
+                                                  )))),
+                                      IconButton(
+                                        icon: Icon(Icons.send),
+                                        color: Zwart,
+                                        onPressed: _createMessage,
+                                      )
+                                    ],
+                                  ))
+                            ])));
               } else {
                 return CircularProgressIndicator(
                     valueColor: new AlwaysStoppedAnimation<Color>(Blauw));
@@ -256,6 +276,11 @@ child:Form(
         {'auteur': sendName, 'time': DateTime.now(), 'message': message}
       ])
     });
+
+    Firestore.instance
+        .collection('conversation')
+        .document(conversationID)
+        .updateData({"lastSendMessage": DateTime.now()});
 
     Firestore.instance
         .collection('conversation')
