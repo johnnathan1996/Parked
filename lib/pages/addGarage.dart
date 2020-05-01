@@ -359,7 +359,12 @@ class _AddGarageState extends State<AddGarage> {
             padding: EdgeInsets.symmetric(vertical: 5),
             child: Text(translate(Keys.Subtitle_Typevehicules),
                 style: SubTitleCustom)),
-        GridView.count(
+        MediaQuery.removePadding(
+      context: context,
+      removeBottom: true,
+      removeTop: true,
+      child: GridView.count(
+          physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           crossAxisCount: 3,
           children: List.generate(types.length, (index) {
@@ -397,7 +402,7 @@ class _AddGarageState extends State<AddGarage> {
                   ),
                 ));
           }),
-        )
+        ))
       ],
     ));
   }

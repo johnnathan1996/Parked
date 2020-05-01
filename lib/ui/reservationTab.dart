@@ -16,9 +16,31 @@ class Reservations extends StatefulWidget {
 
 class _ReservationsState extends State<Reservations> {
   CalendarController _calendarController;
+  List<dynamic> showGarageId = [];
+  bool showGarage = false;
+
+  final Map<DateTime, List> _events = {
+    DateTime(2020, 5, 21): ['Easter Sunday'],
+    DateTime(2020, 5, 22): ['Easter Monday'],
+  };
+
+  getResevations() {
+    Firestore.instance
+        .collection('reservaties')
+        .where('eigenaar', isEqualTo: globals.userId)
+        .snapshots()
+        .listen((data) {
+      data.documents.forEach((element) {
+        setState(() {
+          _events[element.data["begin"].toDate()] = [element.documentID, element.documentID, element.documentID];
+        });
+      });
+    });
+  }
 
   @override
   void initState() {
+    getResevations();
     super.initState();
     _calendarController = CalendarController();
   }
@@ -33,169 +55,111 @@ class _ReservationsState extends State<Reservations> {
   Widget build(BuildContext context) {
     var localizationDelegate = LocalizedApp.of(context).delegate;
 
-    final Map<DateTime, List> _events = {
-      DateTime(2020, 5, 12): ['Easter Sunday'],
-      DateTime(2020, 5, 22): ['Easter Monday'],
-    };
+    return Column(
+      children: <Widget>[
+        TableCalendar(
+          calendarController: _calendarController,
+          locale: getCurrentLanguageLocalizationKey(
+              localizationDelegate.currentLocale.languageCode),
+          startingDayOfWeek: StartingDayOfWeek.monday,
+          initialCalendarFormat: CalendarFormat.month,
+          events: _events,
+          headerStyle: HeaderStyle(
+            centerHeaderTitle: true,
+            formatButtonVisible: false,
+          ),
+          onDaySelected: (value, a) {
+            if (a.length != 0) {
+              setState(() {
+                showGarageId = a;
+                showGarage = true;
+              });
+            } else {
+              setState(() {
+                showGarage = false;
+              });
+            }
+          },
+          daysOfWeekStyle: DaysOfWeekStyle(
+              weekendStyle: TextStyle().copyWith(color: Blauw),
+              weekdayStyle: TextStyle().copyWith(color: Zwart)),
+          calendarStyle: CalendarStyle(
+            todayColor: Grijs,
+            selectedColor: Blauw,
+            weekdayStyle: TextStyle().copyWith(color: Zwart),
+            weekendStyle: TextStyle().copyWith(color: Blauw),
+          ),
+          builders: CalendarBuilders(
+            markersBuilder: (context, date, events, holidays) {
+              final children = <Widget>[];
 
-    return StreamBuilder<QuerySnapshot>(
-        stream: Firestore.instance
-            .collection('reservaties')
-            .where('eigenaar', isEqualTo: globals.userId)
-            .snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasData) {
-            return TableCalendar(
-              calendarController: _calendarController,
-              locale: getCurrentLanguageLocalizationKey(
-                  localizationDelegate.currentLocale.languageCode),
-              startingDayOfWeek: StartingDayOfWeek.monday,
-              initialCalendarFormat: CalendarFormat.month,
-              events: _events,
-              headerStyle: HeaderStyle(
-                centerHeaderTitle: true,
-                formatButtonVisible: false,
-              ),
-              onDaySelected: (value, a) {
-                print(value.toString());
-              },
-              daysOfWeekStyle: DaysOfWeekStyle(
-                  weekendStyle: TextStyle().copyWith(color: Blauw),
-                  weekdayStyle: TextStyle().copyWith(color: Zwart)),
-              calendarStyle: CalendarStyle(
-                todayColor: Grijs,
-                selectedColor: Blauw,
-                weekdayStyle: TextStyle().copyWith(color: Zwart),
-                weekendStyle: TextStyle().copyWith(color: Blauw),
-              ),
-              builders: CalendarBuilders(
-                markersBuilder: (context, date, events, holidays) {
-                  final children = <Widget>[];
-
-                  if (events.isNotEmpty) {
-                    children.add(
-                      Positioned(
-                          right: 0,
-                          top: 0,
-                          child: AnimatedContainer(
-                              duration: const Duration(milliseconds: 300),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                shape: BoxShape.rectangle,
-                                color: _calendarController.isSelected(date)
+              if (events.isNotEmpty) {
+                children.add(
+                  Positioned(
+                      right: 0,
+                      top: 0,
+                      child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 300),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            shape: BoxShape.rectangle,
+                            color: _calendarController.isSelected(date)
+                                ? Zwart
+                                : _calendarController.isToday(date)
                                     ? Zwart
-                                    : _calendarController.isToday(date)
-                                        ? Zwart
-                                        : Blauw,
+                                    : Blauw,
+                          ),
+                          width: 20,
+                          height: 20,
+                          child: Center(
+                            child: Text(
+                              '${events.length}',
+                              style: TextStyle().copyWith(
+                                color: Colors.white,
+                                fontSize: 12.0,
                               ),
-                              width: 20,
-                              height: 20,
-                              child: Center(
-                                child: Text(
-                                  '${events.length}',
-                                  style: TextStyle().copyWith(
-                                    color: Colors.white,
-                                    fontSize: 12.0,
-                                  ),
-                                ),
-                              ))),
-                    );
-                  }
+                            ),
+                          ))),
+                );
+              }
 
-                  return children;
-                },
-              ),
-            );
-          } else {
-            return Container(
-              alignment: Alignment.center,
-              child: CircularProgressIndicator(
-                  valueColor: new AlwaysStoppedAnimation<Color>(Blauw)),
-            );
-          }
-        });
+              return children;
+            },
+          ),
+        ),
+        Divider(),
+        showGarage ? Expanded(child: showReservation(showGarageId)) : Container()
+      ],
+    );
   }
 
-  showReservation(AsyncSnapshot<QuerySnapshot> snapshot) {
-    return MediaQuery.removePadding(
-        removeTop: true,
-        context: context,
-        child: ListView.builder(
-          itemCount: snapshot.data.documents.length,
-          itemBuilder: (_, index) {
-            return Container(
-                margin:
-                    EdgeInsets.only(bottom: 0, left: 20, right: 20, top: 20),
-                padding: EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: Wit,
-                ),
-                child: ExpandablePanel(
-                    hasIcon: false,
-                    header: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Text(changeDateWithTime(snapshot
-                            .data.documents[index].data["begin"]
-                            .toDate())),
-                        Icon(Icons.arrow_forward, color: Blauw),
-                        Text(changeDateWithTime(snapshot
-                            .data.documents[index].data["end"]
-                            .toDate()))
-                      ],
-                    ),
-                    expanded: StreamBuilder<DocumentSnapshot>(
-                        stream: Firestore.instance
-                            .collection("garages")
-                            .document(
-                                snapshot.data.documents[index].data["garageId"])
-                            .snapshots(),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<DocumentSnapshot> snapshot) {
-                          if (snapshot.hasData) {
-                            return Padding(
-                                padding: EdgeInsets.only(top: 20),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text(snapshot.data['street']),
-                                        Text(
-                                          snapshot.data['city'] +
-                                              " " +
-                                              snapshot.data['postcode'],
-                                        ),
-                                      ],
-                                    ),
-                                    FlatButton(
-                                      textColor: Blauw,
-                                      onPressed: () async {
-                                        var url =
-                                            'https://www.waze.com/ul?ll=${snapshot.data["latitude"]}%2C${snapshot.data["longitude"]}&navigate=yes';
-
-                                        if (await canLaunch(url)) {
-                                          await launch(url);
-                                        } else {
-                                          throw 'Could not launch $url';
-                                        }
-                                      },
-                                      child: Text(
-                                          translate(Keys.Button_Openwaze) +
-                                              " >"),
-                                    ),
-                                  ],
-                                ));
-                          } else {
-                            return Container();
-                          }
-                        })));
-          },
-        ));
+  showReservation(List<dynamic> garageId) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 15),
+    child: MediaQuery.removePadding(
+      context: context,
+      removeTop: true,
+      child: ListView.builder(
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: garageId.length,
+        itemBuilder: (_, index) {
+          return StreamBuilder<DocumentSnapshot>(
+              stream: Firestore.instance
+                  .collection('reservaties')
+                  .document(garageId[index])
+                  .snapshots(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                if (snapshot.hasData) {
+                  return Card(
+                    elevation: 0,
+                    child: ListTile(
+                      title: Text("djheusdgukd")));
+                } else {
+                  return Text("geen data");
+                }
+              });
+        })));
   }
 
   getCurrentLanguageLocalizationKey(String code) {
