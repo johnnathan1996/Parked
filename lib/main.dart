@@ -9,6 +9,7 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:parkly/setup/globals.dart' as globals;
 import 'package:rxdart/subjects.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -99,12 +100,12 @@ Future<void> main() async {
     });
   });
 
-  runApp(LocalizedApp(
+  initializeDateFormatting().then((_) => runApp(LocalizedApp(
       delegate,
       MaterialApp(
         debugShowCheckedModeBanner: false,
         home: new MyApp(),
-      )));
+      ))));
 }
 
 void checkMessages(String sendName, String uid) async {

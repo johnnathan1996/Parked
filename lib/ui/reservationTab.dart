@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../setup/globals.dart' as globals;
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:parkly/localization/keys.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class Reservations extends StatefulWidget {
   @override
@@ -14,6 +15,20 @@ class Reservations extends StatefulWidget {
 }
 
 class _ReservationsState extends State<Reservations> {
+  CalendarController _calendarController;
+
+  @override
+  void initState() {
+    super.initState();
+    _calendarController = CalendarController();
+  }
+
+  @override
+  void dispose() {
+    _calendarController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -24,88 +39,100 @@ class _ReservationsState extends State<Reservations> {
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasData) {
-            return MediaQuery.removePadding(
-                removeTop: true,
-                context: context,
-                child: ListView.builder(
-                  itemCount: snapshot.data.documents.length,
-                  itemBuilder: (_, index) {
-                    return Container(
-                        margin: EdgeInsets.only(
-                            bottom: 0, left: 20, right: 20, top: 20),
-                        padding: EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: Wit,
-                        ),
-                        child: ExpandablePanel(
-                            hasIcon: false,
-                            header: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: <Widget>[
-                                Text(changeDateWithTime(snapshot
-                                    .data.documents[index].data["begin"]
-                                    .toDate())),
-                                Icon(Icons.arrow_forward, color: Blauw),
-                                Text(changeDateWithTime(snapshot
-                                    .data.documents[index].data["end"]
-                                    .toDate()))
-                              ],
-                            ),
-                            expanded: StreamBuilder<DocumentSnapshot>(
-                                stream: Firestore.instance
-                                    .collection("garages")
-                                    .document(snapshot
-                                        .data.documents[index].data["garageId"])
-                                    .snapshots(),
-                                builder: (BuildContext context,
-                                    AsyncSnapshot<DocumentSnapshot> snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Padding(
-                                        padding: EdgeInsets.only(top: 20),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: <Widget>[
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                Text(snapshot.data['street']),
-                                                Text(
-                                                  snapshot.data['city'] +
-                                                      " " +
-                                                      snapshot.data['postcode'],
-                                                ),
-                                              ],
-                                            ),
-                                            FlatButton(
-                                              textColor: Blauw,
-                                              onPressed: () async {
-                                                var url =
-                                                    'https://www.waze.com/ul?ll=${snapshot.data["latitude"]}%2C${snapshot.data["longitude"]}&navigate=yes';
-
-                                                if (await canLaunch(url)) {
-                                                  await launch(url);
-                                                } else {
-                                                  throw 'Could not launch $url';
-                                                }
-                                              },
-                                              child: Text(translate(
-                                                      Keys.Button_Openwaze) +
-                                                  " >"),
-                                            ),
-                                          ],
-                                        ));
-                                  } else {
-                                    return Container();
-                                  }
-                                })));
-                  },
-                ));
+            return TableCalendar(
+              calendarController: _calendarController,
+              locale: "fr_FR",
+              startingDayOfWeek: StartingDayOfWeek.monday,
+              onDaySelected: (value, a){
+                  print(value.toString());
+              },
+            );
+            ;
           } else {
             return Container();
           }
         });
+  }
+
+  showReservation(AsyncSnapshot<QuerySnapshot> snapshot) {
+    return MediaQuery.removePadding(
+        removeTop: true,
+        context: context,
+        child: ListView.builder(
+          itemCount: snapshot.data.documents.length,
+          itemBuilder: (_, index) {
+            return Container(
+                margin:
+                    EdgeInsets.only(bottom: 0, left: 20, right: 20, top: 20),
+                padding: EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: Wit,
+                ),
+                child: ExpandablePanel(
+                    hasIcon: false,
+                    header: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Text(changeDateWithTime(snapshot
+                            .data.documents[index].data["begin"]
+                            .toDate())),
+                        Icon(Icons.arrow_forward, color: Blauw),
+                        Text(changeDateWithTime(snapshot
+                            .data.documents[index].data["end"]
+                            .toDate()))
+                      ],
+                    ),
+                    expanded: StreamBuilder<DocumentSnapshot>(
+                        stream: Firestore.instance
+                            .collection("garages")
+                            .document(
+                                snapshot.data.documents[index].data["garageId"])
+                            .snapshots(),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<DocumentSnapshot> snapshot) {
+                          if (snapshot.hasData) {
+                            return Padding(
+                                padding: EdgeInsets.only(top: 20),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(snapshot.data['street']),
+                                        Text(
+                                          snapshot.data['city'] +
+                                              " " +
+                                              snapshot.data['postcode'],
+                                        ),
+                                      ],
+                                    ),
+                                    FlatButton(
+                                      textColor: Blauw,
+                                      onPressed: () async {
+                                        var url =
+                                            'https://www.waze.com/ul?ll=${snapshot.data["latitude"]}%2C${snapshot.data["longitude"]}&navigate=yes';
+
+                                        if (await canLaunch(url)) {
+                                          await launch(url);
+                                        } else {
+                                          throw 'Could not launch $url';
+                                        }
+                                      },
+                                      child: Text(
+                                          translate(Keys.Button_Openwaze) +
+                                              " >"),
+                                    ),
+                                  ],
+                                ));
+                          } else {
+                            return Container();
+                          }
+                        })));
+          },
+        ));
   }
 }
