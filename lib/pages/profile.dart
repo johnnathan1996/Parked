@@ -18,6 +18,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -67,7 +68,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           background: Column(children: <Widget>[
                             Padding(
                                 padding:
-                                    EdgeInsets.only(top: 90.0, bottom: 10.0),
+                                    EdgeInsets.only(top: 100.0, bottom: 10.0),
                                 child: CircularProfileAvatar(
                                   snapshot.data["imgUrl"] != null
                                       ? snapshot.data["imgUrl"]

@@ -31,25 +31,87 @@ class _ReservationsState extends State<Reservations> {
 
   @override
   Widget build(BuildContext context) {
+    var localizationDelegate = LocalizedApp.of(context).delegate;
+
+    final Map<DateTime, List> _events = {
+      DateTime(2020, 5, 12): ['Easter Sunday'],
+      DateTime(2020, 5, 22): ['Easter Monday'],
+    };
+
     return StreamBuilder<QuerySnapshot>(
         stream: Firestore.instance
             .collection('reservaties')
-            .where('aanvrager', isEqualTo: globals.userId)
-            .orderBy("begin", descending: false)
+            .where('eigenaar', isEqualTo: globals.userId)
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasData) {
             return TableCalendar(
               calendarController: _calendarController,
-              locale: "fr_FR",
+              locale: getCurrentLanguageLocalizationKey(
+                  localizationDelegate.currentLocale.languageCode),
               startingDayOfWeek: StartingDayOfWeek.monday,
-              onDaySelected: (value, a){
-                  print(value.toString());
+              initialCalendarFormat: CalendarFormat.month,
+              events: _events,
+              headerStyle: HeaderStyle(
+                centerHeaderTitle: true,
+                formatButtonVisible: false,
+              ),
+              onDaySelected: (value, a) {
+                print(value.toString());
               },
+              daysOfWeekStyle: DaysOfWeekStyle(
+                  weekendStyle: TextStyle().copyWith(color: Blauw),
+                  weekdayStyle: TextStyle().copyWith(color: Zwart)),
+              calendarStyle: CalendarStyle(
+                todayColor: Grijs,
+                selectedColor: Blauw,
+                weekdayStyle: TextStyle().copyWith(color: Zwart),
+                weekendStyle: TextStyle().copyWith(color: Blauw),
+              ),
+              builders: CalendarBuilders(
+                markersBuilder: (context, date, events, holidays) {
+                  final children = <Widget>[];
+
+                  if (events.isNotEmpty) {
+                    children.add(
+                      Positioned(
+                          right: 0,
+                          top: 0,
+                          child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 300),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                shape: BoxShape.rectangle,
+                                color: _calendarController.isSelected(date)
+                                    ? Zwart
+                                    : _calendarController.isToday(date)
+                                        ? Zwart
+                                        : Blauw,
+                              ),
+                              width: 20,
+                              height: 20,
+                              child: Center(
+                                child: Text(
+                                  '${events.length}',
+                                  style: TextStyle().copyWith(
+                                    color: Colors.white,
+                                    fontSize: 12.0,
+                                  ),
+                                ),
+                              ))),
+                    );
+                  }
+
+                  return children;
+                },
+              ),
             );
-            ;
           } else {
-            return Container();
+            return Container(
+              alignment: Alignment.center,
+              child: CircularProgressIndicator(
+                  valueColor: new AlwaysStoppedAnimation<Color>(Blauw)),
+            );
           }
         });
   }
@@ -134,5 +196,18 @@ class _ReservationsState extends State<Reservations> {
                         })));
           },
         ));
+  }
+
+  getCurrentLanguageLocalizationKey(String code) {
+    switch (code) {
+      case "nl":
+        return "nl_NL";
+      case "fr":
+        return "fr_FR";
+      case "en":
+        return "en_EN";
+      default:
+        return "nl_NL";
+    }
   }
 }
