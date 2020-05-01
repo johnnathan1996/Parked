@@ -1,12 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:parkly/constant.dart';
 import 'package:parkly/script/changeDate.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../setup/globals.dart' as globals;
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:parkly/localization/keys.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class Reservations extends StatefulWidget {
@@ -17,12 +14,10 @@ class Reservations extends StatefulWidget {
 class _ReservationsState extends State<Reservations> {
   CalendarController _calendarController;
   List<dynamic> showGarageId = [];
+  List newList = [];
   bool showGarage = false;
 
-  final Map<DateTime, List> _events = {
-    DateTime(2020, 5, 21): ['Easter Sunday'],
-    DateTime(2020, 5, 22): ['Easter Monday'],
-  };
+  Map<DateTime, List> _events = {};
 
   getResevations() {
     Firestore.instance
@@ -31,9 +26,36 @@ class _ReservationsState extends State<Reservations> {
         .snapshots()
         .listen((data) {
       data.documents.forEach((element) {
-        setState(() {
-          _events[element.data["begin"].toDate()] = [element.documentID, element.documentID, element.documentID];
-        });
+        //TODO: check when more event on one day
+        if (_events.containsKey(
+            changeDatetimeToDatetime(element.data["begin"].toDate()))) {
+          if (this.mounted) {
+            setState(() {
+              _events.update(
+                  changeDatetimeToDatetime(element.data["begin"].toDate()),
+                  (value) {
+                newList.add(element.documentID);
+
+                value.forEach((item) {
+                  newList.add(item);
+                });
+
+                return newList;
+              });
+
+              newList = [];
+            });
+          }
+        } else {
+          if (this.mounted) {
+            setState(() {
+              _events[
+                  changeDatetimeToDatetime(element.data["begin"].toDate())] = [
+                element.documentID
+              ];
+            });
+          }
+        }
       });
     });
   }
@@ -64,20 +86,25 @@ class _ReservationsState extends State<Reservations> {
           startingDayOfWeek: StartingDayOfWeek.monday,
           initialCalendarFormat: CalendarFormat.month,
           events: _events,
+          availableGestures: AvailableGestures.horizontalSwipe,
           headerStyle: HeaderStyle(
             centerHeaderTitle: true,
             formatButtonVisible: false,
           ),
           onDaySelected: (value, a) {
             if (a.length != 0) {
-              setState(() {
-                showGarageId = a;
-                showGarage = true;
-              });
+              if (this.mounted) {
+                setState(() {
+                  showGarageId = a;
+                  showGarage = true;
+                });
+              }
             } else {
-              setState(() {
-                showGarage = false;
-              });
+              if (this.mounted) {
+                setState(() {
+                  showGarage = false;
+                });
+              }
             }
           },
           daysOfWeekStyle: DaysOfWeekStyle(
@@ -128,38 +155,43 @@ class _ReservationsState extends State<Reservations> {
           ),
         ),
         Divider(),
-        showGarage ? Expanded(child: showReservation(showGarageId)) : Container()
+        showGarage
+            ? Expanded(child: showReservation(showGarageId))
+            : Container()
       ],
     );
   }
 
   showReservation(List<dynamic> garageId) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15),
-    child: MediaQuery.removePadding(
-      context: context,
-      removeTop: true,
-      child: ListView.builder(
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: garageId.length,
-        itemBuilder: (_, index) {
-          return StreamBuilder<DocumentSnapshot>(
-              stream: Firestore.instance
-                  .collection('reservaties')
-                  .document(garageId[index])
-                  .snapshots(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<DocumentSnapshot> snapshot) {
-                if (snapshot.hasData) {
-                  return Card(
-                    elevation: 0,
-                    child: ListTile(
-                      title: Text("djheusdgukd")));
-                } else {
-                  return Text("geen data");
-                }
-              });
-        })));
+        padding: EdgeInsets.symmetric(horizontal: 15),
+        child: MediaQuery.removePadding(
+            context: context,
+            removeTop: true,
+            child: ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: garageId.length,
+                itemBuilder: (_, index) {
+                  return StreamBuilder<DocumentSnapshot>(
+                      stream: Firestore.instance
+                          .collection('reservaties')
+                          .document(garageId[index])
+                          .snapshots(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<DocumentSnapshot> snapshot) {
+                        if (snapshot.hasData) {
+                          return Card(
+                              elevation: 0,
+                              child: ListTile(
+                                  title: Text(getTime(
+                                          snapshot.data["begin"].toDate()) +
+                                      " to " +
+                                      getTime(snapshot.data["end"].toDate()))));
+                        } else {
+                          return Text("geen data");
+                        }
+                      });
+                })));
   }
 
   getCurrentLanguageLocalizationKey(String code) {
