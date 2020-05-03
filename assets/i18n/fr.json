@@ -110,7 +110,8 @@
 		"Middle": "Moyen",
 		"Large": "Grand",
 		"High": "Haut",
-		"VeryHigh": "Très haut"
+		"VeryHigh": "Très haut",
+		"ZeroCard": "Vous n'avez pas encore de carte"
 	},
 	"ChatText": {
 		"You": "Vous",

@@ -130,7 +130,7 @@ class _ChatPageState extends State<ChatPage> {
                                                   MaterialPageRoute(
                                                       builder: (context) =>
                                                           DetailGarage(
-                                                            viaChat: true,
+                                                              viaChat: true,
                                                               idGarage: snapshot
                                                                       .data
                                                                       .data[

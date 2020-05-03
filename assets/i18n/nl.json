@@ -110,7 +110,8 @@
 		"Middle": "Gemiddeld",
 		"Large": "Groot",
 		"High": "Hoog",
-		"VeryHigh": "Heel hoog"
+		"VeryHigh": "Heel hoog",
+		"ZeroCard": "Je hebt nog geen kaart"
 	},
 	"ChatText": {
 		"You": "U",

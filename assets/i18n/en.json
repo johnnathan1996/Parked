@@ -110,7 +110,8 @@
 		"Middle": "Middle",
 		"Large": "Lagre",
 		"High": "High",
-		"VeryHigh": "Very High"
+		"VeryHigh": "Very High",
+		"ZeroCard": "You don't have a map yet"
 	},
 	"ChatText": {
 		"You": "You",
