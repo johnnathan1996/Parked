@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:content_placeholder/content_placeholder.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_translate/flutter_translate.dart';
+import 'package:parkly/localization/keys.dart';
 import 'package:parkly/pages/detailGarage.dart';
 import 'package:parkly/script/checkFavorite.dart';
 import 'package:parkly/ui/showStars.dart';
@@ -61,11 +64,20 @@ class _FavoriteCardComponentState extends State<FavoriteCardComponent> {
               child: Align(
                 alignment: Alignment.center,
                 heightFactor: 0.5,
-                child: Image.network(garage['garageImg']),
+                child: Image.network(
+                  garage['garageImg'],
+                  fit: BoxFit.cover,
+                  loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return ContentPlaceholder(
+                      height: 250,
+                    );
+                  },
+                ),
               ),
             ),
             subtitle: Padding(
-                padding: EdgeInsets.only(top: 10),
+                padding: EdgeInsets.symmetric(vertical: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -82,7 +94,18 @@ class _FavoriteCardComponentState extends State<FavoriteCardComponent> {
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.w500,
                                 color: Zwart)),
-                        ShowStars(rating: garage["rating"]),
+                        Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              ShowStars(rating: garage["rating"]),
+                              Padding(
+                                  padding: EdgeInsets.only(left: 10, top: 5),
+                                  child: Text("( " +
+                                      garage['rating'].length.toString() +
+                                      " " +
+                                      translate(Keys.Subtitle_Reviews) +
+                                      " )"))
+                            ])
                       ],
                     ),
                     IconButton(

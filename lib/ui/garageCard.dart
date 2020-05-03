@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:content_placeholder/content_placeholder.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
@@ -59,7 +60,16 @@ class GarageCardComponent extends StatelessWidget {
               child: Align(
                 alignment: Alignment.center,
                 heightFactor: 0.5,
-                child: Image.network(garage['garageImg']),
+                child: Image.network(
+                  garage['garageImg'],
+                  fit: BoxFit.cover,
+                  loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return ContentPlaceholder(
+                      height: 250,
+                    );
+                  },
+                ),
               ),
             ),
             subtitle: Padding(

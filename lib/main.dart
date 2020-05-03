@@ -69,36 +69,40 @@ Future<void> main() async {
     selectNotificationSubject.add(payload);
   });
 
-  FirebaseAuth.instance.currentUser().then((e) {
-    Firestore.instance
-        .collection('users')
-        .document(e.uid)
-        .snapshots()
-        .listen((snapshot) {
+  
+    FirebaseAuth.instance.currentUser().then((e) {
       Firestore.instance
-          .collection('conversation')
-          .where('userInChat', arrayContains: e.uid)
+          .collection('users')
+          .document(e.uid)
           .snapshots()
-          .listen((snapshots) {
-        snapshots.documents.forEach((element) {
-          if (element.data["chat"].length != 0) {
-            if (element.data["seenLastMessage"] == false &&
-                element.data["chat"].last["auteur"] !=
-                    snapshot.data["voornaam"]) {
-              unreadedMessage++;
+          .listen((snapshot) {
+        Firestore.instance
+            .collection('conversation')
+            .where('userInChat', arrayContains: e.uid)
+            .snapshots()
+            .listen((snapshots) {
+          snapshots.documents.forEach((element) {
+            if (element.data["chat"].length != 0) {
+              if (element.data["seenLastMessage"] == false &&
+                  element.data["chat"].last["auteur"] !=
+                      snapshot.data["voornaam"]) {
+                unreadedMessage++;
+              }
             }
-          }
+          });
+
+          globals.notifications = unreadedMessage;
+          unreadedMessage = 0;
         });
 
-        globals.notifications = unreadedMessage;
-        unreadedMessage = 0;
+        checkMessages(snapshot.data["voornaam"], e.uid);
+
+        FlutterAppBadger.updateBadgeCount(globals.notifications);
       });
-
-      checkMessages(snapshot.data["voornaam"], e.uid);
-
-      FlutterAppBadger.updateBadgeCount(globals.notifications);
+    }).catchError((onError){
+      print(onError);
     });
-  });
+  
 
   initializeDateFormatting().then((_) => runApp(LocalizedApp(
       delegate,

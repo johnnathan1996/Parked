@@ -14,9 +14,7 @@ class Reservations extends StatefulWidget {
 class _ReservationsState extends State<Reservations> {
   CalendarController _calendarController;
   List<dynamic> showGarageId = [];
-  List newList = [];
   bool showGarage = false;
-
   Map<DateTime, List> _events = {};
 
   getResevations() {
@@ -26,14 +24,14 @@ class _ReservationsState extends State<Reservations> {
         .snapshots()
         .listen((data) {
       data.documents.forEach((element) {
-        //TODO: check when more event on one day
-        if (_events.containsKey(
-            changeDatetimeToDatetime(element.data["begin"].toDate()))) {
-          if (this.mounted) {
-            setState(() {
+        if (this.mounted) {
+          setState(() {
+            if (_events.containsKey(
+                changeDatetimeToDatetime(element.data["begin"].toDate()))) {
               _events.update(
                   changeDatetimeToDatetime(element.data["begin"].toDate()),
                   (value) {
+                List newList = [];
                 newList.add(element.documentID);
 
                 value.forEach((item) {
@@ -42,19 +40,14 @@ class _ReservationsState extends State<Reservations> {
 
                 return newList;
               });
-
-              newList = [];
-            });
-          }
-        } else {
-          if (this.mounted) {
-            setState(() {
+            } else if (!_events.containsKey(
+                changeDatetimeToDatetime(element.data["begin"].toDate()))) {
               _events[
                   changeDatetimeToDatetime(element.data["begin"].toDate())] = [
                 element.documentID
               ];
-            });
-          }
+            }
+          });
         }
       });
     });
@@ -63,12 +56,14 @@ class _ReservationsState extends State<Reservations> {
   @override
   void initState() {
     getResevations();
+
     super.initState();
     _calendarController = CalendarController();
   }
 
   @override
   void dispose() {
+
     _calendarController.dispose();
     super.dispose();
   }
@@ -133,8 +128,8 @@ class _ReservationsState extends State<Reservations> {
                             color: _calendarController.isSelected(date)
                                 ? Zwart
                                 : _calendarController.isToday(date)
-                                    ? Zwart
-                                    : Blauw,
+                                    ? Blauw
+                                    : Zwart,
                           ),
                           width: 20,
                           height: 20,

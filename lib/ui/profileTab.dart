@@ -26,30 +26,35 @@ class _ProfileTabState extends State<ProfileTab> {
   Widget build(BuildContext context) {
     return Container(
         margin: EdgeInsets.all(20),
-        child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              StreamBuilder<DocumentSnapshot>(
-                  stream: Firestore.instance
-                      .collection('users')
-                      .document(globals.userId)
-                      .snapshots(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<DocumentSnapshot> snapshot) {
-                    if (snapshot.hasData) {
-                      return Expanded(
-                          child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Text(translate(Keys.Apptext_Payment), style: SubTitleCustom),
-                          snapshot.data["paymethode"].length != 0
-                              ? ListView.builder(
+        child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+          StreamBuilder<DocumentSnapshot>(
+              stream: Firestore.instance
+                  .collection('users')
+                  .document(globals.userId)
+                  .snapshots(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                if (snapshot.hasData) {
+                  return Expanded(
+                      child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text(translate(Keys.Apptext_Payment),
+                          style: SubTitleCustom),
+                      snapshot.data["paymethode"].length != 0
+                          ? MediaQuery.removePadding(
+                              context: context,
+                              removeBottom: true,
+                              removeTop: true,
+                              child: ListView.builder(
+                                  physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
                                   itemCount: snapshot.data["paymethode"].length,
                                   itemBuilder: (_, index) {
                                     return ListTile(
-                                      title: Text(snapshot.data["paymethode"][index]["bankName"]),
+                                      title: Text(snapshot.data["paymethode"]
+                                          [index]["bankName"]),
                                       leading: Icon(
                                         Icons.credit_card,
                                         color: Zwart,
@@ -59,25 +64,32 @@ class _ProfileTabState extends State<ProfileTab> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) => PaySystem(
-                                                    payMethod: snapshot.data["paymethode"][index])));
+                                                    payMethod: snapshot
+                                                            .data["paymethode"]
+                                                        [index])));
                                       },
                                     );
-                                  })
-                              : Text("Je hebt nog geen kaart.."),
-                          ButtonComponent(
-                              label: translate(Keys.Button_Addcard),
-                              onClickAction: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => AddPaySystem()));
-                              })
-                        ],
-                      ));
-                    } else {
-                      return Container();
-                    }
-                  })
-            ]));
+                                  }))
+                          : Padding(
+                              padding: EdgeInsets.symmetric(vertical: 15),
+                              child: Text(
+                                translate(Keys.Apptext_Zerogarage),
+                                style: TextStyle(fontStyle: FontStyle.italic),
+                              )),
+                      ButtonComponent(
+                          label: translate(Keys.Button_Addcard),
+                          onClickAction: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AddPaySystem()));
+                          }),
+                    ],
+                  ));
+                } else {
+                  return Container();
+                }
+              })
+        ]));
   }
 }

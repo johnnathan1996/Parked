@@ -22,20 +22,22 @@ import 'package:parkly/localization/keys.dart';
 class DetailGarage extends StatefulWidget {
   final String idGarage;
   final bool isVanMij;
+  final bool viaChat;
 
   DetailGarage({
     @required this.idGarage,
     this.isVanMij: false,
+    this.viaChat: false,
   });
   @override
   _DetailGarageState createState() =>
-      _DetailGarageState(idGarage: idGarage, isVanMij: isVanMij);
+      _DetailGarageState(idGarage: idGarage, isVanMij: isVanMij, viaChat: viaChat);
 }
 
 class _DetailGarageState extends State<DetailGarage> {
   String idGarage;
-  bool isVanMij;
-  _DetailGarageState({Key key, this.idGarage, this.isVanMij});
+  bool isVanMij, viaChat;
+  _DetailGarageState({Key key, this.idGarage, this.isVanMij, this.viaChat});
 
   List betalingCard = [];
   List mijnFavorieten = [];
@@ -267,7 +269,7 @@ class _DetailGarageState extends State<DetailGarage> {
             padding: EdgeInsets.symmetric(vertical: 10),
             child: Text(garage['beschrijving'], style: SizeParagraph)),
         !isVanMij
-            ? FlatButton(
+            ? !viaChat ? FlatButton(
                 onPressed: () {
                   goingToChat(eigenaarId);
                 },
@@ -281,7 +283,7 @@ class _DetailGarageState extends State<DetailGarage> {
                               style: TextStyle(
                                 color: Blauw,
                               )))
-                    ]))
+                    ])) : Container()
             : Container(),
         Divider(color: Grijs)
       ],
@@ -569,7 +571,7 @@ class _DetailGarageState extends State<DetailGarage> {
             context,
             MaterialPageRoute(
                 builder: (context) => ChatPage(
-                    conversationID: value.documentID, sendName: eigenaarName)));
+                    conversationID: value.documentID, sendName: myName)));
       });
     }
   }
