@@ -30,8 +30,8 @@ class DetailGarage extends StatefulWidget {
     this.viaChat: false,
   });
   @override
-  _DetailGarageState createState() =>
-      _DetailGarageState(idGarage: idGarage, isVanMij: isVanMij, viaChat: viaChat);
+  _DetailGarageState createState() => _DetailGarageState(
+      idGarage: idGarage, isVanMij: isVanMij, viaChat: viaChat);
 }
 
 class _DetailGarageState extends State<DetailGarage> {
@@ -263,27 +263,37 @@ class _DetailGarageState extends State<DetailGarage> {
                       ],
                     ),
                   ]),
-              Text(garage['prijs'].toString() + " €", style: ShowPriceStyle)
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  Text(garage['prijs'].toString() + " €",
+                      style: ShowPriceStyle),
+                  Text(translate(Keys.Apptext_Hourly))
+                ],
+              )
             ]),
         Padding(
             padding: EdgeInsets.symmetric(vertical: 10),
             child: Text(garage['beschrijving'], style: SizeParagraph)),
         !isVanMij
-            ? !viaChat ? FlatButton(
-                onPressed: () {
-                  goingToChat(eigenaarId);
-                },
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(Icons.message, color: Blauw, size: 20),
-                      Padding(
-                          padding: EdgeInsets.only(left: 7),
-                          child: Text(translate(Keys.Button_Sendmessageowner),
-                              style: TextStyle(
-                                color: Blauw,
-                              )))
-                    ])) : Container()
+            ? !viaChat
+                ? FlatButton(
+                    onPressed: () {
+                      goingToChat(eigenaarId);
+                    },
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(Icons.message, color: Blauw, size: 20),
+                          Padding(
+                              padding: EdgeInsets.only(left: 7),
+                              child:
+                                  Text(translate(Keys.Button_Sendmessageowner),
+                                      style: TextStyle(
+                                        color: Blauw,
+                                      )))
+                        ]))
+                : Container()
             : Container(),
         Divider(color: Grijs)
       ],

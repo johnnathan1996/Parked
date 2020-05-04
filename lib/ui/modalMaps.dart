@@ -110,11 +110,19 @@ class _ModalMapComponentState extends State<ModalMapComponent> {
                               Padding(
                                   padding: EdgeInsets.only(left: 10, top: 5),
                                   child: Text("( " +
-                                      garage['rating'].length.toString() + " " + translate(Keys.Subtitle_Reviews) +
+                                      garage['rating'].length.toString() +
+                                      " " +
+                                      translate(Keys.Subtitle_Reviews) +
                                       " )"))
                             ]),
-                            Text(garage["prijs"].toString() + "€",
-                                style: ShowPriceStyle),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: <Widget>[
+                                Text(garage['prijs'].toString() + " €",
+                                    style: ShowPriceStyle),
+                                Text(translate(Keys.Apptext_Hourly))
+                              ],
+                            )
                           ],
                         )),
                     Text(garage['street'], style: SubTitleCustom),

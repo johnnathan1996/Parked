@@ -203,6 +203,8 @@ class Keys {
 
   static const String Apptext_Zerocard = 'AppText.ZeroCard';
 
+  static const String Apptext_Hourly = 'AppText.hourly';
+
   static const String Chattext_You = 'ChatText.You';
 
   static const String Chattext_Message = 'ChatText.Message';

@@ -111,7 +111,8 @@
 		"Large": "Groot",
 		"High": "Hoog",
 		"VeryHigh": "Heel hoog",
-		"ZeroCard": "Je hebt nog geen kaart"
+		"ZeroCard": "Je hebt nog geen kaart",
+		"hourly": " /uur"
 	},
 	"ChatText": {
 		"You": "U",

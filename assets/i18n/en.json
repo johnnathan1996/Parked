@@ -111,7 +111,8 @@
 		"Large": "Lagre",
 		"High": "High",
 		"VeryHigh": "Very High",
-		"ZeroCard": "You don't have a map yet"
+		"ZeroCard": "You don't have a map yet",
+		"hourly": " /hour"
 	},
 	"ChatText": {
 		"You": "You",
