@@ -7,18 +7,20 @@ import 'package:parkly/script/chooseImage.dart';
 import 'package:parkly/ui/button.dart';
 import '../setup/globals.dart' as globals;
 
+//TODO: completer page
+
 class EditProfile extends StatefulWidget {
   @override
   _EditProfileState createState() => _EditProfileState();
 }
 
 class _EditProfileState extends State<EditProfile> {
-  String _lastName, _name, _newUrlImage, _gender;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  String _lastName, _name, _newUrlImage;
   DateTime birthday;
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
     return Scaffold(
         appBar: AppBar(
           iconTheme: IconThemeData(color: Zwart),
@@ -39,10 +41,10 @@ class _EditProfileState extends State<EditProfile> {
                 builder: (BuildContext context,
                     AsyncSnapshot<DocumentSnapshot> snapshot) {
                   if (snapshot.hasData) {
-                    return Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: Form(
-                          key: _formKey,
+                    return Form(
+                        key: _formKey,
+                        child: Padding(
+                          padding: const EdgeInsets.all(20),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: <Widget>[
@@ -51,10 +53,10 @@ class _EditProfileState extends State<EditProfile> {
                                 initialValue: snapshot.data["email"],
                                 style: TextStyle(color: Grijs),
                                 decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    filled: true,
-                                    fillColor: Wit,
-                                    ),
+                                  border: InputBorder.none,
+                                  filled: true,
+                                  fillColor: Wit,
+                                ),
                               ),
                               Divider(),
                               IntrinsicHeight(
@@ -74,8 +76,10 @@ class _EditProfileState extends State<EditProfile> {
                                                   .whenComplete(() {
                                                 if (getUrl.downloadLink !=
                                                     null) {
-                                                  _newUrlImage =
-                                                      getUrl.downloadLink;
+                                                  setState(() {
+                                                    _newUrlImage =
+                                                        getUrl.downloadLink;
+                                                  });
                                                 }
                                               });
                                             },
@@ -113,7 +117,15 @@ class _EditProfileState extends State<EditProfile> {
                                                   height: 140,
                                                   child: Text("Change image",
                                                       style: TextStyle(
-                                                          color: Wit)))
+                                                          color: Wit))),
+                                              Container(
+                                                  alignment: Alignment.center,
+                                                  width: 140,
+                                                  height: 140,
+                                                  child: _newUrlImage != null
+                                                      ? Image.network(
+                                                          _newUrlImage)
+                                                      : Container())
                                             ])),
                                       ),
                                       Expanded(
@@ -132,7 +144,8 @@ class _EditProfileState extends State<EditProfile> {
                                               },
                                               onSaved: (input) => _name = input,
                                               decoration: InputDecoration(
-                                                  labelText: translate(Keys.Inputs_Firstname),
+                                                  labelText: translate(
+                                                      Keys.Inputs_Firstname),
                                                   errorStyle:
                                                       TextStyle(height: 0),
                                                   border: InputBorder.none,
@@ -184,9 +197,15 @@ class _EditProfileState extends State<EditProfile> {
                                   ),
                                 ),
                               ),
-                              ButtonComponent(label: translate(Keys.Button_Update), onClickAction: (){
-                                print("Update");
-                              },)
+                              ButtonComponent(
+                                label: translate(Keys.Button_Update),
+                                onClickAction: () {
+                                  updateProfile(
+                                      snapshot.data["voornaam"],
+                                      snapshot.data["achternaam"],
+                                      snapshot.data["imgUrl"]);
+                                },
+                              )
                             ],
                           ),
                         ));
@@ -200,20 +219,25 @@ class _EditProfileState extends State<EditProfile> {
                 })));
   }
 
-  updateProfile() {
-    try {
-      Firestore.instance
-          .collection('users')
-          .document(globals.userId)
-          .updateData({
-        'voornaam': _name,
-        'achternaam': _lastName,
-        "imgUrl": _newUrlImage,
-        'gender': _gender,
-        'age': birthday,
-      });
-    } catch (e) {
-      print(e.message);
+  updateProfile(String firstName, String lastName, String url) {
+    final formState = _formKey.currentState;
+    if (formState.validate()) {
+      formState.save();
+
+      try {
+        Firestore.instance
+            .collection('users')
+            .document(globals.userId)
+            .updateData({
+          'voornaam': _name == null ? firstName : _name,
+          'achternaam': _lastName == null ? lastName : _lastName,
+          "imgUrl": _newUrlImage == null ? url : _newUrlImage,
+        }).whenComplete(() {
+          Navigator.of(context).pop();
+        });
+      } catch (e) {
+        print(e.message);
+      }
     }
   }
 }
