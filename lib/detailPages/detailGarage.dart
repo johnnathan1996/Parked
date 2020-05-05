@@ -548,6 +548,7 @@ class _DetailGarageState extends State<DetailGarage> {
 
   goingToChat(String eigenaarId) async {
     List bijdeUsers;
+    String garageId;
     DocumentSnapshot conversationId;
     final result = await Firestore.instance
         .collection('conversation')
@@ -559,13 +560,17 @@ class _DetailGarageState extends State<DetailGarage> {
     documents.forEach((data) {
       bijdeUsers = data.data['userInChat'];
 
+      garageId = data.data["garageId"];
+
       if (bijdeUsers.contains(eigenaarId)) {
-        conversationId = data;
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ChatPage(
-                    conversationID: data.documentID, sendName: myName)));
+        if (garageId == idGarage) {
+          conversationId = data;
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ChatPage(
+                      conversationID: data.documentID, sendName: myName)));
+        } 
       }
     });
 
