@@ -126,7 +126,11 @@ class _PaySystemState extends State<PaySystem> {
                       showShadow: true,
                     ));
               } else {
-                return CircularProgressIndicator();
+                return Container(
+                  alignment: Alignment.center,
+                  child: CircularProgressIndicator(
+                      valueColor: new AlwaysStoppedAnimation<Color>(Blauw)),
+                );
               }
             }));
   }

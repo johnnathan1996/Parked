@@ -250,8 +250,11 @@ class _ChatPageState extends State<ChatPage> {
                                   ))
                             ])));
               } else {
-                return CircularProgressIndicator(
-                    valueColor: new AlwaysStoppedAnimation<Color>(Blauw));
+                return Container(
+                  alignment: Alignment.center,
+                  child: CircularProgressIndicator(
+                      valueColor: new AlwaysStoppedAnimation<Color>(Blauw)),
+                );
               }
             },
           ),

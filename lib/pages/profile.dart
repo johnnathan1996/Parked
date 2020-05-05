@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:parkly/constant.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:parkly/script/chooseImage.dart';
+import 'package:parkly/editPages/editProfile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:parkly/ui/navigation.dart';
 import 'package:parkly/ui/profileTab.dart';
@@ -35,7 +35,12 @@ class _ProfilePageState extends State<ProfilePage> {
     return DefaultTabController(
         length: 2,
         child: Scaffold(
-            body: StreamBuilder<DocumentSnapshot>(
+            body: Container(
+            decoration: BoxDecoration(
+                image: new DecorationImage(
+                    image: new AssetImage('assets/images/backgroundP.png'),
+                    fit: BoxFit.cover)),
+            child: StreamBuilder<DocumentSnapshot>(
               stream: Firestore.instance
                   .collection('users')
                   .document(globals.userId)
@@ -60,7 +65,10 @@ class _ProfilePageState extends State<ProfilePage> {
                           IconButton(
                               icon: Icon(Icons.edit),
                               onPressed: () {
-                                //TODO: edit profile
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => EditProfile()));
                               })
                         ],
                         bottom: DecoratedTabBar(
@@ -93,27 +101,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     top: MediaQuery.of(context).size.height *
                                         0.08,
                                     bottom: 10.0),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    ChooseImage getUrl = ChooseImage();
-                                    getUrl
-                                        .actionUploadImage(context)
-                                        .whenComplete(() {
-                                      if (getUrl.downloadLink != null) {
-                                        try {
-                                          Firestore.instance
-                                              .collection('users')
-                                              .document(globals.userId)
-                                              .updateData({
-                                            "imgUrl": getUrl.downloadLink
-                                          });
-                                        } catch (e) {
-                                          print(e.message);
-                                        }
-                                      }
-                                    });
-                                  },
-                                  child: CircularPercentIndicator(
+                                child: CircularPercentIndicator(
                                     backgroundColor: LichtGrijs,
                                     header: Padding(
                                         padding: EdgeInsets.only(bottom: 10),
@@ -143,7 +131,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     ),
                                     progressColor: Blauw,
                                   ),
-                                )),
+                                ),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 40),
                               child: AutoSizeText(
@@ -171,7 +159,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   );
                 }
               },
-            ),
+            )),
             drawer: Navigation()));
   }
 }
