@@ -175,10 +175,12 @@ class _NavigationState extends State<Navigation> {
               ],
             )),
             Padding(
-                padding: EdgeInsets.only(bottom: 30, right: 10),
-                child: Align(
-                    alignment: Alignment.centerRight,
-                    child: IconButton(
+                padding: EdgeInsets.only(bottom: 30, right: 10, left: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text("V. 1.0.12", style: TextStyle(fontStyle: FontStyle.italic, color: Grijs)),
+                    IconButton(
                         icon: Icon(Icons.settings),
                         onPressed: () {
                           Navigator.push(
@@ -186,7 +188,9 @@ class _NavigationState extends State<Navigation> {
                               MaterialPageRoute(
                                   builder: (context) => Instellingen(),
                                   fullscreenDialog: true));
-                        })))
+                        })
+                  ],
+                ))
           ]);
         },
       ),

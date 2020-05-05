@@ -34,15 +34,16 @@ class _ProfilePageState extends State<ProfilePage> {
                   return CustomScrollView(
                     slivers: <Widget>[
                       SliverAppBar(
-                        expandedHeight: 280.0,
+                        expandedHeight:
+                            MediaQuery.of(context).size.height * 0.30 < 250
+                                ? 250
+                                : MediaQuery.of(context).size.height * 0.30,
                         backgroundColor: Wit,
                         floating: false,
                         pinned: true,
                         snap: false,
                         elevation: 0,
                         iconTheme: IconThemeData(color: Zwart),
-                        title:
-                            Image.asset('assets/images/logo.png', height: 32.0),
                         actions: <Widget>[
                           IconButton(
                               icon: Icon(Icons.edit),
@@ -52,12 +53,12 @@ class _ProfilePageState extends State<ProfilePage> {
                         ],
                         bottom: DecoratedTabBar(
                           decoration: BoxDecoration(
-                            color: Wit,
+                              color: Wit,
                               border: Border(
                                   bottom: BorderSide(
-                            color: Wit,
-                            width: 2.0,
-                          ))),
+                                color: Wit,
+                                width: 2.0,
+                              ))),
                           tabBar: TabBar(
                             indicatorColor: Blauw,
                             labelColor: Blauw,
@@ -76,14 +77,16 @@ class _ProfilePageState extends State<ProfilePage> {
                         flexibleSpace: FlexibleSpaceBar(
                           background: Column(children: <Widget>[
                             Padding(
-                                padding:
-                                    EdgeInsets.only(top: 100.0, bottom: 10.0),
+                                padding: EdgeInsets.only(
+                                    top: MediaQuery.of(context).size.height *
+                                        0.09,
+                                    bottom: 10.0),
                                 child: CircularProfileAvatar(
                                   snapshot.data["imgUrl"] != null
                                       ? snapshot.data["imgUrl"]
                                       : 'https://firebasestorage.googleapis.com/v0/b/parkly-2f177.appspot.com/o/default-user-avatar.png?alt=media&token=9af11a8c-e2b6-4f7b-87b6-f656d705eb20',
                                   radius: 60,
-                                  borderWidth: 5,
+                                  borderWidth: 3,
                                   borderColor: Blauw,
                                   cacheImage: true,
                                   onTap: () {
