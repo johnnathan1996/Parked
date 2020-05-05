@@ -82,6 +82,8 @@
 		"SamePassword": "Les mot de passes ne sont pas les mêmes",
 		"NoPhone": "Insérer un numéro de téléphone portable",
 		"PhoneExist": "Numéro de téléphone portable déjà connu",
+		"NoBirthday": "Veuillez indiquer votre date de naissance",
+		"NoGender": "Veuillez indiquer votre sexe",
 		"Wrong": "quelque chose a mal tourné!"
 	},
 	"Errors": {

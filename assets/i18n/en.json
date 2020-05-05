@@ -82,6 +82,8 @@
 		"SamePassword": "The passwords are not the same",
 		"NoPhone": "Insert a mobile phone number",
 		"PhoneExist": "Already known mobile phone number",
+		"NoBirthday": "Please set your date of birth",
+		"NoGender": "Please set your gender",
 		"Wrong": "Something went wrong!"
 	},
 	"Errors": {

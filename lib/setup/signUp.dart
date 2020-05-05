@@ -149,7 +149,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                       value: _gender,
                                       icon: Icon(Icons.keyboard_arrow_down),
                                       iconSize: 24,
-                                      hint: Text( translate(Keys.Inputs_Gender),
+                                      hint: Text(translate(Keys.Inputs_Gender),
                                           style: TextStyle(
                                               color: Zwart,
                                               fontWeight: FontWeight.w400,
@@ -163,14 +163,24 @@ class _SignUpPageState extends State<SignUpPage> {
                                         }
                                       },
                                       items: <String>[
-                                         translate(Keys.Inputs_Man),
-                                         translate(Keys.Inputs_Woman),
-                                         translate(Keys.Inputs_Other),
+                                        "M",
+                                        "W",
+                                        "X",
                                       ].map<DropdownMenuItem<String>>(
                                           (String value) {
+                                        String tekst;
+                                        if (value == "M") {
+                                          tekst = translate(Keys.Inputs_Man);
+                                        }
+                                        if (value == "W") {
+                                          tekst = translate(Keys.Inputs_Woman);
+                                        }
+                                        if (value == "X") {
+                                          tekst = translate(Keys.Inputs_Other);
+                                        }
                                         return DropdownMenuItem<String>(
                                           value: value,
-                                          child: Text(value),
+                                          child: Text(tekst),
                                         );
                                       }).toList(),
                                     ))))
@@ -243,7 +253,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   child: Text(
                                     birthday != null
                                         ? changeDate(birthday)
-                                        :  translate(Keys.Inputs_Birthday),
+                                        : translate(Keys.Inputs_Birthday),
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
                                         fontSize: 15),
@@ -334,7 +344,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     child: ButtonComponent(
                         label: translate(Keys.Button_Add),
                         onClickAction: () {
-                          signUp();
+                          // signUp();
+                          print(_gender);
                         }))
               ],
             ),
@@ -346,14 +357,32 @@ class _SignUpPageState extends State<SignUpPage> {
     final formState = _formKey.currentState;
     if (formState.validate()) {
       formState.save();
-      if (phoneNo != null) {
-        if (_password == _passwordConfirm && _password != "") {
-          verifyPhone();
+      if (_gender != null) {
+        if (birthday != null) {
+          if (phoneNo != null) {
+            if (_password == _passwordConfirm && _password != "") {
+              verifyPhone();
+            } else {
+              showDialog(
+                context: context,
+                builder: (_) => ModalComponent(
+                  modalTekst: translate(Keys.Modal_Samepassword),
+                ),
+              );
+            }
+          } else {
+            showDialog(
+              context: context,
+              builder: (_) => ModalComponent(
+                modalTekst: translate(Keys.Modal_Nophone),
+              ),
+            );
+          }
         } else {
           showDialog(
             context: context,
             builder: (_) => ModalComponent(
-              modalTekst: translate(Keys.Modal_Samepassword),
+              modalTekst: translate(Keys.Modal_Nobirthday),
             ),
           );
         }
@@ -361,7 +390,7 @@ class _SignUpPageState extends State<SignUpPage> {
         showDialog(
           context: context,
           builder: (_) => ModalComponent(
-            modalTekst: translate(Keys.Modal_Nophone),
+            modalTekst: translate(Keys.Modal_Nogender),
           ),
         );
       }

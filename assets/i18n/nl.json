@@ -82,6 +82,8 @@
 		"SamePassword": "De wachtwoorden zijn niet hetzelfde",
 		"NoPhone": "Voer een mobiel telefoonnummer in",
 		"PhoneExist": "Reeds bekend mobiel telefoonnummer",
+		"NoBirthday": "Gelieve uw geboortedatum in te stellen",
+		"NoGender": "Gelieve uw geslacht in te stellen",
 		"Wrong": "Er is iets fout gegaan!"
 	},
 	"Errors": {

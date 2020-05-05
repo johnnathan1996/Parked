@@ -151,6 +151,10 @@ class Keys {
 
   static const String Modal_Phoneexist = 'Modal.PhoneExist';
 
+  static const String Modal_Nobirthday = 'Modal.NoBirthday';
+
+  static const String Modal_Nogender = 'Modal.NoGender';
+
   static const String Modal_Wrong = 'Modal.Wrong';
 
   static const String Errors_Isempty = 'Errors.IsEmpty';
