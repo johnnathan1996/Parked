@@ -18,7 +18,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -51,18 +50,28 @@ class _ProfilePageState extends State<ProfilePage> {
                                 //TODO: edit profile
                               })
                         ],
-                        bottom: TabBar(
-                          indicatorColor: Blauw,
-                          labelColor: Blauw,
-                          unselectedLabelColor: Zwart,
-                          tabs: <Widget>[
-                            Tab(
-                              text: translate(Keys.Apptext_Profile),
-                            ),
-                            Tab(
-                              text: translate(Keys.Apptext_Reservation),
-                            )
-                          ],
+                        bottom: DecoratedTabBar(
+                          decoration: BoxDecoration(
+                            color: Wit,
+                              border: Border(
+                                  bottom: BorderSide(
+                            color: Wit,
+                            width: 2.0,
+                          ))),
+                          tabBar: TabBar(
+                            indicatorColor: Blauw,
+                            labelColor: Blauw,
+                            unselectedLabelColor: Zwart,
+                            labelPadding: EdgeInsets.zero,
+                            tabs: <Widget>[
+                              Tab(
+                                text: translate(Keys.Apptext_Profile),
+                              ),
+                              Tab(
+                                text: translate(Keys.Apptext_Reservation),
+                              )
+                            ],
+                          ),
                         ),
                         flexibleSpace: FlexibleSpaceBar(
                           background: Column(children: <Widget>[
@@ -127,5 +136,25 @@ class _ProfilePageState extends State<ProfilePage> {
               },
             ),
             drawer: Navigation()));
+  }
+}
+
+class DecoratedTabBar extends StatelessWidget implements PreferredSizeWidget {
+  DecoratedTabBar({@required this.tabBar, @required this.decoration});
+
+  final TabBar tabBar;
+  final BoxDecoration decoration;
+
+  @override
+  Size get preferredSize => tabBar.preferredSize;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Positioned.fill(child: Container(decoration: decoration)),
+        tabBar,
+      ],
+    );
   }
 }

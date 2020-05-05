@@ -23,6 +23,7 @@ class _ReservationsState extends State<Reservations> {
         .where('eigenaar', isEqualTo: globals.userId)
         .snapshots()
         .listen((data) {
+      _events = {};
       data.documents.forEach((element) {
         if (this.mounted) {
           setState(() {
@@ -31,16 +32,13 @@ class _ReservationsState extends State<Reservations> {
               _events.update(
                   changeDatetimeToDatetime(element.data["begin"].toDate()),
                   (value) {
-                List newList = [];
-                newList.add(element.documentID);
+                value.add(element.documentID);
 
-                value.forEach((item) {
-                  newList.add(item);
-                });
-
-                return newList;
+                return value;
               });
-            } else if (!_events.containsKey(
+            }
+
+            if (!_events.containsKey(
                 changeDatetimeToDatetime(element.data["begin"].toDate()))) {
               _events[
                   changeDatetimeToDatetime(element.data["begin"].toDate())] = [
@@ -63,7 +61,6 @@ class _ReservationsState extends State<Reservations> {
 
   @override
   void dispose() {
-
     _calendarController.dispose();
     super.dispose();
   }
