@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:international_phone_input/international_phone_input.dart';
 import 'package:flutter/material.dart';
 import 'package:parkly/constant.dart';
 import 'package:parkly/pages/maps.dart';
 import 'package:flutter/services.dart';
+import 'package:parkly/script/changeDate.dart';
 import 'package:parkly/ui/button.dart';
 import 'package:parkly/ui/modal.dart';
 import 'package:sms_autofill/sms_autofill.dart';
@@ -17,12 +19,12 @@ class SignUpPage extends StatefulWidget {
   _SignUpPageState createState() => _SignUpPageState();
 }
 
-//TODO: add age and gender
-
 class _SignUpPageState extends State<SignUpPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  String _name, _lastName, _email, _password, _passwordConfirm;
+  String _name, _lastName, _email, _password, _passwordConfirm, _gender;
+
+  DateTime birthday;
 
   String phoneNo, smsCode, verificationId, errorMessage;
   bool codeSent = false;
@@ -49,6 +51,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
+    var localizationDelegate = LocalizedApp.of(context).delegate;
     return Scaffold(
         resizeToAvoidBottomPadding: false,
         extendBodyBehindAppBar: true,
@@ -67,12 +70,6 @@ class _SignUpPageState extends State<SignUpPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Padding(
-                    padding: EdgeInsets.only(
-                        left: 100.0, right: 100.0, bottom: 50.0),
-                    child: Image(
-                      image: AssetImage('assets/images/logo.png'),
-                    )),
                 Padding(
                     padding:
                         EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
@@ -138,6 +135,50 @@ class _SignUpPageState extends State<SignUpPage> {
                 Padding(
                     padding:
                         EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
+                    child: Container(
+                        padding: EdgeInsets.only(left: 12.0, right: 20.0),
+                        color: Wit,
+                        child: Row(
+                          children: <Widget>[
+                            Icon(Icons.account_box),
+                            Expanded(
+                                child: Padding(
+                                    padding: EdgeInsets.only(left: 10.0),
+                                    child: DropdownButtonHideUnderline(
+                                        child: DropdownButton<String>(
+                                      value: _gender,
+                                      icon: Icon(Icons.keyboard_arrow_down),
+                                      iconSize: 24,
+                                      hint: Text( translate(Keys.Inputs_Gender),
+                                          style: TextStyle(
+                                              color: Zwart,
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 15)),
+                                      style: TextStyle(color: Zwart),
+                                      onChanged: (String newValue) {
+                                        if (this.mounted) {
+                                          setState(() {
+                                            _gender = newValue;
+                                          });
+                                        }
+                                      },
+                                      items: <String>[
+                                         translate(Keys.Inputs_Man),
+                                         translate(Keys.Inputs_Woman),
+                                         translate(Keys.Inputs_Other),
+                                      ].map<DropdownMenuItem<String>>(
+                                          (String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(value),
+                                        );
+                                      }).toList(),
+                                    ))))
+                          ],
+                        ))),
+                Padding(
+                    padding:
+                        EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
                     child: Theme(
                         data: new ThemeData(hintColor: Transparant),
                         child: TextFormField(
@@ -165,6 +206,50 @@ class _SignUpPageState extends State<SignUpPage> {
                               fillColor: Wit,
                               labelText: translate(Keys.Inputs_Email),
                               labelStyle: TextStyle(color: Zwart)),
+                        ))),
+                Padding(
+                    padding:
+                        EdgeInsets.only(left: 4.0, right: 4.0, bottom: 10.0),
+                    child: FlatButton(
+                        onPressed: () {
+                          DatePicker.showDatePicker(context,
+                              showTitleActions: true,
+                              maxTime:
+                                  DateTime.now().subtract(Duration(days: 6575)),
+                              locale: getCurrentLanguageLocalizationKey(
+                                  localizationDelegate.currentLocale
+                                      .languageCode), onConfirm: (date) {
+                            if (this.mounted) {
+                              setState(() {
+                                birthday = date;
+                              });
+                            }
+                          });
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 13),
+                          height: 50,
+                          decoration: BoxDecoration(
+                              color: Wit,
+                              shape: BoxShape.rectangle,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5.0))),
+                          alignment: Alignment.center,
+                          child: Row(
+                            children: <Widget>[
+                              Icon(Icons.cake),
+                              Padding(
+                                  padding: EdgeInsets.only(left: 12),
+                                  child: Text(
+                                    birthday != null
+                                        ? changeDate(birthday)
+                                        :  translate(Keys.Inputs_Birthday),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 15),
+                                  ))
+                            ],
+                          ),
                         ))),
                 Padding(
                     padding:
@@ -382,7 +467,8 @@ class _SignUpPageState extends State<SignUpPage> {
             "https://firebasestorage.googleapis.com/v0/b/parkly-2f177.appspot.com/o/default-user-avatar.png?alt=media&token=9af11a8c-e2b6-4f7b-87b6-f656d705eb20",
         'email': _email,
         'nummer': phoneNo,
-        'online': false,
+        'gender': _gender,
+        'age': birthday,
         'position': {'latitude': 0.0, 'longitude': 0.0},
         'favoriet': [],
         'mijnGarage': [],
@@ -428,6 +514,19 @@ class _SignUpPageState extends State<SignUpPage> {
           });
         }
         break;
+    }
+  }
+
+  getCurrentLanguageLocalizationKey(String code) {
+    switch (code) {
+      case "nl":
+        return LocaleType.nl;
+      case "fr":
+        return LocaleType.fr;
+      case "en":
+        return LocaleType.en;
+      default:
+        return LocaleType.nl;
     }
   }
 }

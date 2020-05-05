@@ -91,6 +91,16 @@ class Keys {
 
   static const String Inputs_Lastname = 'Inputs.Lastname';
 
+  static const String Inputs_Gender = 'Inputs.Gender';
+
+  static const String Inputs_Man = 'Inputs.Man';
+
+  static const String Inputs_Woman = 'Inputs.Woman';
+
+  static const String Inputs_Other = 'Inputs.Other';
+
+  static const String Inputs_Birthday = 'Inputs.Birthday';
+
   static const String Inputs_Email = 'Inputs.Email';
 
   static const String Inputs_Phone = 'Inputs.Phone';

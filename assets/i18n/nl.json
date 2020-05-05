@@ -50,6 +50,11 @@
 	"Inputs": {
 		"Firstname": "Voornaam",
 		"Lastname": "Naam",
+		"Gender": "Geslacht",
+		"Man": "Man",
+		"Woman": "Vrouw",
+		"Other": "X",
+		"Birthday": "Geboortedatum",
 		"Email": "E-mailadres",
 		"Phone": "Telefoon",
 		"Password": "Wachtwoord",

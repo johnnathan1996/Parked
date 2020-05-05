@@ -50,6 +50,11 @@
 	"Inputs": {
 		"Firstname": "First name",
 		"Lastname": "Last name",
+		"Gender": "Gender",
+		"Man": "Man",
+		"Woman": "Woman",
+		"Other": "Other",
+		"Birthday": "Birthday",
 		"Email": "email",
 		"Phone": "Phone",
 		"Password": "Password",
