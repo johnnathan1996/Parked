@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:parkly/constant.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:parkly/script/chooseImage.dart';
-import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:parkly/ui/navigation.dart';
 import 'package:parkly/ui/profileTab.dart';
@@ -11,6 +10,7 @@ import '../setup/globals.dart' as globals;
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:parkly/localization/keys.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -18,6 +18,9 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  double percentage = 0.65;
+
+  int percent = 65;
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -49,6 +52,16 @@ class _ProfilePageState extends State<ProfilePage> {
                               icon: Icon(Icons.edit),
                               onPressed: () {
                                 //TODO: edit profile
+                                setState(() {
+                                  if (percentage < 1) {
+                                    percentage += 0.1;
+                                    percent = (percentage * 100).toInt();
+                                  }
+                                  if (percentage > 1) {
+                                    percentage = 1;
+                                    percent = (percentage * 100).toInt();
+                                  }
+                                });
                               })
                         ],
                         bottom: DecoratedTabBar(
@@ -79,16 +92,9 @@ class _ProfilePageState extends State<ProfilePage> {
                             Padding(
                                 padding: EdgeInsets.only(
                                     top: MediaQuery.of(context).size.height *
-                                        0.09,
+                                        0.08,
                                     bottom: 10.0),
-                                child: CircularProfileAvatar(
-                                  snapshot.data["imgUrl"] != null
-                                      ? snapshot.data["imgUrl"]
-                                      : 'https://firebasestorage.googleapis.com/v0/b/parkly-2f177.appspot.com/o/default-user-avatar.png?alt=media&token=9af11a8c-e2b6-4f7b-87b6-f656d705eb20',
-                                  radius: 60,
-                                  borderWidth: 3,
-                                  borderColor: Blauw,
-                                  cacheImage: true,
+                                child: GestureDetector(
                                   onTap: () {
                                     ChooseImage getUrl = ChooseImage();
                                     getUrl
@@ -108,16 +114,39 @@ class _ProfilePageState extends State<ProfilePage> {
                                       }
                                     });
                                   },
+                                  child: CircularPercentIndicator(
+                                    backgroundColor: LichtGrijs,
+                                    header: Padding(
+                                        padding: EdgeInsets.only(bottom: 10),
+                                        child: Text(percent == 100 ? "Profile complet!"
+                                            : percent > 80 ? 'encore un peu! $percent%' : 'Votre profile est complet à $percent%',
+                                            style: TextStyle(color: Grijs))),
+                                    radius: 120.0,
+                                    lineWidth: 5.0,
+                                    animation: true,
+                                    animationDuration: 600,
+                                    percent: percentage > 1 ? 1 : percentage,
+                                    center: ClipOval(
+                                      child: Container(
+                                        height: 110,
+                                        width: 110,
+                                        child: snapshot.data["imgUrl"] != null
+                                            ? Image.network(
+                                                snapshot.data["imgUrl"], fit: BoxFit.fill)
+                                            : Image.asset('assets/images/default-user-image.png'),
+                                      ),
+                                    ),
+                                    progressColor: Blauw,
+                                  ),
                                 )),
                             Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 40),
-                                child: AutoSizeText(
-                                  snapshot.data['voornaam'] +
-                                      " " +
-                                      snapshot.data['achternaam'],
-                                  style: TitleCustom,
-                                  maxLines: 1,
-                                ))
+                              padding: EdgeInsets.symmetric(horizontal: 40),
+                              child: AutoSizeText(
+                                snapshot.data['voornaam'],
+                                style: TitleCustom,
+                                maxLines: 1,
+                              ),
+                            )
                           ]),
                         ),
                       ),
