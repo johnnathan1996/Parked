@@ -6,7 +6,7 @@ import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:parkly/ui/navigation.dart';
 import 'package:parkly/ui/profileTab.dart';
-import 'package:parkly/ui/reservationTab.dart';
+import 'package:parkly/ui/agendaTab.dart';
 import '../setup/globals.dart' as globals;
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:parkly/localization/keys.dart';
@@ -121,7 +121,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       SliverFillRemaining(
                         child: TabBarView(children: [
                           ProfileTab(snapshot: snapshot.data),
-                          Reservations()
+                          AgendaTab()
                         ]),
                       )
                     ],
