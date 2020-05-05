@@ -45,7 +45,8 @@
 		"Later": "Later",
 		"GoToProfile": "Go to profile",
 		"OpenWaze": "Open with Waze",
-		"SendMessageOwner": "Send a message to the owner"
+		"SendMessageOwner": "Send a message to the owner",
+		"Update": "Update"
 	},
 	"Inputs": {
 		"Firstname": "First name",
@@ -119,7 +120,10 @@
 		"High": "High",
 		"VeryHigh": "Very High",
 		"ZeroCard": "You don't have a map yet",
-		"hourly": " /hour"
+		"hourly": " /hour",
+		"CompleteProfile": "Complete profile!",
+		"AlittleBit": "A little more!",
+		"StatusProfile": "Your profile is at"
 	},
 	"ChatText": {
 		"You": "You",

@@ -87,6 +87,8 @@ class Keys {
 
   static const String Button_Sendmessageowner = 'Button.SendMessageOwner';
 
+  static const String Button_Update = 'Button.Update';
+
   static const String Inputs_Firstname = 'Inputs.Firstname';
 
   static const String Inputs_Lastname = 'Inputs.Lastname';
@@ -218,6 +220,12 @@ class Keys {
   static const String Apptext_Zerocard = 'AppText.ZeroCard';
 
   static const String Apptext_Hourly = 'AppText.hourly';
+
+  static const String Apptext_Completeprofile = 'AppText.CompleteProfile';
+
+  static const String Apptext_Alittlebit = 'AppText.AlittleBit';
+
+  static const String Apptext_Statusprofile = 'AppText.StatusProfile';
 
   static const String Chattext_You = 'ChatText.You';
 

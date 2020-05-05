@@ -107,10 +107,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                         padding: EdgeInsets.only(bottom: 10),
                                         child: Text(
                                             percent == 100
-                                                ? "Profile complet!"
+                                                ? translate(Keys.Apptext_Completeprofile)
                                                 : percent > 80
-                                                    ? 'encore un peu! $percent%'
-                                                    : 'Votre profile est complet à $percent%',
+                                                    ? translate(Keys.Apptext_Alittlebit)+ ' $percent%'
+                                                    : translate(Keys.Apptext_Statusprofile) + ' $percent%',
                                             style: TextStyle(color: Grijs))),
                                     radius: 120.0,
                                     lineWidth: 5.0,

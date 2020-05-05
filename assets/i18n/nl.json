@@ -45,7 +45,8 @@
 		"Later": "Later",
 		"GoToProfile": "Ga naar profiel",
 		"OpenWaze": "openen met Waze",
-		"SendMessageOwner": "Stuur een bericht naar de eigenaar"
+		"SendMessageOwner": "Stuur een bericht naar de eigenaar",
+		"Update": "Update"
 	},
 	"Inputs": {
 		"Firstname": "Voornaam",
@@ -119,7 +120,10 @@
 		"High": "Hoog",
 		"VeryHigh": "Heel hoog",
 		"ZeroCard": "Je hebt nog geen kaart",
-		"hourly": " /uur"
+		"hourly": " /uur",
+		"CompleteProfile": "Profiel volledig!",
+		"AlittleBit": "Nog een beetje",
+		"StatusProfile": "Je profiel staat op"
 	},
 	"ChatText": {
 		"You": "U",
