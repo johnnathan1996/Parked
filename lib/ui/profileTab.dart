@@ -37,53 +37,61 @@ class _ProfileTabState extends State<ProfileTab> {
                 if (snapshot.hasData) {
                   return Expanded(
                       child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Text(translate(Keys.Apptext_Payment),
-                          style: SubTitleCustom),
-                      snapshot.data["paymethode"].length != 0
-                          ? MediaQuery.removePadding(
-                              context: context,
-                              removeBottom: true,
-                              removeTop: true,
-                              child: ListView.builder(
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemCount: snapshot.data["paymethode"].length,
-                                  itemBuilder: (_, index) {
-                                    return ListTile(
-                                      title: Text(snapshot.data["paymethode"]
-                                          [index]["bankName"]),
-                                      leading: Icon(
-                                        Icons.credit_card,
-                                        color: Zwart,
-                                      ),
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) => PaySystem(
-                                                    payMethod: snapshot
-                                                            .data["paymethode"]
-                                                        [index])));
-                                      },
-                                    );
-                                  }))
-                          : Padding(
-                              padding: EdgeInsets.symmetric(vertical: 15),
-                              child: Text(
-                                translate(Keys.Apptext_Zerogarage),
-                                style: TextStyle(fontStyle: FontStyle.italic),
-                              )),
-                      ButtonComponent(
-                          label: translate(Keys.Button_Addcard),
-                          onClickAction: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => AddPaySystem()));
-                          }),
+                      Padding(
+                          padding: EdgeInsets.only(bottom: 20),
+                          child: placesComponent()),
+                      Text(translate(Keys.Apptext_Payment), style: SubTitleCustom),
+        snapshot.data["paymethode"].length != 0
+            ? MediaQuery.removePadding(
+                context: context,
+                removeBottom: true,
+                removeTop: true,
+                child: ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: snapshot.data["paymethode"].length,
+                    itemBuilder: (_, index) {
+                      return Padding(
+                          padding: EdgeInsets.only(top: 15),
+                          child: Container(
+                            decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: Wit),
+                            child: ListTile(
+                              title: Text(snapshot.data["paymethode"][index]
+                                  ["bankName"]),
+                              leading: Icon(
+                                Icons.credit_card,
+                                color: Zwart,
+                              ),
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => PaySystem(
+                                            payMethod: snapshot
+                                                .data["paymethode"][index])));
+                              },
+                            ),
+                          ));
+                    }))
+            : Padding(
+                padding: EdgeInsets.symmetric(vertical: 15),
+                child: Text(
+                  translate(Keys.Apptext_Zerocard),
+                  style: TextStyle(fontStyle: FontStyle.italic),
+                )),
+        Padding(
+            padding: EdgeInsets.only(top: 15),
+            child: ButtonComponent(
+                label: translate(Keys.Button_Addcard),
+                onClickAction: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => AddPaySystem()));
+                })),
                     ],
                   ));
                 } else {
@@ -91,5 +99,38 @@ class _ProfileTabState extends State<ProfileTab> {
                 }
               })
         ]));
+  }
+
+  placesComponent() {
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+              padding: EdgeInsets.symmetric(vertical: 5),
+              child: Text("places", style: SubTitleCustom)),
+          MediaQuery.removePadding(
+              context: context,
+              removeBottom: true,
+              removeTop: true,
+              child: GridView.count(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 15,
+                  children: [
+                    Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Wit),
+                        child: Text("maison")),
+                    Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Wit),
+                        child: Text("travaille")),
+                  ]))
+        ]);
   }
 }
