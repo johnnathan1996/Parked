@@ -115,7 +115,7 @@ class _EditProfileState extends State<EditProfile> {
                                                   alignment: Alignment.center,
                                                   width: 140,
                                                   height: 140,
-                                                  child: Text("Change image",
+                                                  child: Text(translate(Keys.Button_Changeimg),
                                                       style: TextStyle(
                                                           color: Wit))),
                                               Container(

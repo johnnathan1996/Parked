@@ -46,7 +46,8 @@
 		"GoToProfile": "Go to profile",
 		"OpenWaze": "Open with Waze",
 		"SendMessageOwner": "Send a message to the owner",
-		"Update": "Update"
+		"Update": "Update",
+		"ChangeImg": "Change image"
 	},
 	"Inputs": {
 		"Firstname": "First name",

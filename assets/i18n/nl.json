@@ -46,7 +46,8 @@
 		"GoToProfile": "Ga naar profiel",
 		"OpenWaze": "openen met Waze",
 		"SendMessageOwner": "Stuur een bericht naar de eigenaar",
-		"Update": "Update"
+		"Update": "Update",
+		"ChangeImg": "Verander foto"
 	},
 	"Inputs": {
 		"Firstname": "Voornaam",

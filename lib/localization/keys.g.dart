@@ -89,6 +89,8 @@ class Keys {
 
   static const String Button_Update = 'Button.Update';
 
+  static const String Button_Changeimg = 'Button.ChangeImg';
+
   static const String Inputs_Firstname = 'Inputs.Firstname';
 
   static const String Inputs_Lastname = 'Inputs.Lastname';
