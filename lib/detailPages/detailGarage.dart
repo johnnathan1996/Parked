@@ -205,12 +205,10 @@ class _DetailGarageState extends State<DetailGarage> {
                         Padding(
                             padding: EdgeInsets.symmetric(vertical: 10),
                             child: imageComponent(snapshot.data)),
-                        snapshot.data["rating"].length != 0
-                            ? Padding(
+                        Padding(
                                 padding: EdgeInsets.symmetric(
                                     vertical: 10, horizontal: 20),
-                                child: reviewsComponent(snapshot.data))
-                            : Container(),
+                                child: reviewsComponent(snapshot.data)),
                         !isVanMij
                             ? Padding(
                                 padding: EdgeInsets.only(top: 10, bottom: 30),
@@ -498,7 +496,7 @@ class _DetailGarageState extends State<DetailGarage> {
             ],
           ),
         ),
-        Container(
+        garage["rating"].length != 0 ? Container(
             height: 150,
             child: SnapList(
               sizeProvider: (index, data) => Size(
@@ -511,7 +509,10 @@ class _DetailGarageState extends State<DetailGarage> {
                 return RatingCardComponent(card: garage["rating"][index]);
               },
               count: garage["rating"].length,
-            ))
+            )) : Container(
+              alignment: Alignment.center,
+              child: Text("Sois le premier a noter ce garage"),
+            )
       ],
     );
   }

@@ -85,7 +85,7 @@ class _RatingCardComponentState extends State<RatingCardComponent>
                         itemPadding: EdgeInsets.only(top: 5),
                         itemBuilder: (context, index) => Icon(
                           Icons.star,
-                          color: Blauw,
+                          color: Colors.yellow,
                         ),
                         itemCount: 5,
                         itemSize: 20,

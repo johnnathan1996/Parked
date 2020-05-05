@@ -47,7 +47,7 @@ class _ShowStarsState extends State<ShowStars> {
       itemPadding: EdgeInsets.only(top: 5),
       itemBuilder: (context, index) => Icon(
         Icons.star,
-        color: Blauw,
+        color: Colors.yellow,
       ),
       itemCount: 5,
       itemSize: 20,

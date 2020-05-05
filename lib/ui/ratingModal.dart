@@ -75,8 +75,8 @@ class _RatingModalState extends State<RatingModal>
                       size: 30.0,
                       filledIconData: Icons.star,
                       halfFilledIconData: Icons.star_half,
-                      color: Blauw,
-                      borderColor: Blauw,
+                      color: Colors.yellow,
+                      borderColor: Colors.yellow,
                       spacing: 0.0),
                   Padding(
                       padding: EdgeInsets.only(left: 20, right: 20, bottom: 10),
