@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:parkly/constant.dart';
-import 'package:parkly/pages/addPaysystem.dart';
-import 'package:parkly/pages/detailPaysystem.dart';
+import 'package:parkly/addPages/addPaysystem.dart';
+import 'package:parkly/detailPages/detailPaysystem.dart';
 import 'package:parkly/ui/button.dart';
 import '../setup/globals.dart' as globals;
 import 'package:flutter_translate/flutter_translate.dart';

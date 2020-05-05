@@ -18,9 +18,18 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  double percentage = 0.65;
+  double percentage = 0.70;
 
-  int percent = 65;
+  int percent;
+
+  @override
+  void initState() {
+    setState(() {
+      percent = (percentage * 100).toInt();
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -52,16 +61,6 @@ class _ProfilePageState extends State<ProfilePage> {
                               icon: Icon(Icons.edit),
                               onPressed: () {
                                 //TODO: edit profile
-                                setState(() {
-                                  if (percentage < 1) {
-                                    percentage += 0.1;
-                                    percent = (percentage * 100).toInt();
-                                  }
-                                  if (percentage > 1) {
-                                    percentage = 1;
-                                    percent = (percentage * 100).toInt();
-                                  }
-                                });
                               })
                         ],
                         bottom: DecoratedTabBar(
@@ -118,8 +117,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                     backgroundColor: LichtGrijs,
                                     header: Padding(
                                         padding: EdgeInsets.only(bottom: 10),
-                                        child: Text(percent == 100 ? "Profile complet!"
-                                            : percent > 80 ? 'encore un peu! $percent%' : 'Votre profile est complet à $percent%',
+                                        child: Text(
+                                            percent == 100
+                                                ? "Profile complet!"
+                                                : percent > 80
+                                                    ? 'encore un peu! $percent%'
+                                                    : 'Votre profile est complet à $percent%',
                                             style: TextStyle(color: Grijs))),
                                     radius: 120.0,
                                     lineWidth: 5.0,
@@ -132,8 +135,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                         width: 110,
                                         child: snapshot.data["imgUrl"] != null
                                             ? Image.network(
-                                                snapshot.data["imgUrl"], fit: BoxFit.fill)
-                                            : Image.asset('assets/images/default-user-image.png'),
+                                                snapshot.data["imgUrl"],
+                                                fit: BoxFit.fill)
+                                            : Image.asset(
+                                                'assets/images/default-user-image.png'),
                                       ),
                                     ),
                                     progressColor: Blauw,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:parkly/constant.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:parkly/pages/addGarage.dart';
+import 'package:parkly/addPages/addGarage.dart';
 import 'package:parkly/ui/garageCard.dart';
 import 'package:parkly/ui/navigation.dart';
 import 'package:parkly/ui/title.dart';

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:parkly/constant.dart';
-import 'package:parkly/pages/detailGarage.dart';
+import 'package:parkly/detailPages/detailGarage.dart';
 import 'package:parkly/script/changeDate.dart';
 import 'package:speech_bubble/speech_bubble.dart';
 import 'package:flutter_translate/flutter_translate.dart';
