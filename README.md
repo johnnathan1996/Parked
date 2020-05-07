@@ -2,6 +2,8 @@
 
 My final work school project made in Flutter.
 
+Parkly is a mobile application that is going to help people to find and offer parking places in Brussels. This will be a community-based application where anyone can rent or reserve a parking place.
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
