@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import '../constant.dart';
 
 class ShowStars extends StatefulWidget {
   final List rating;

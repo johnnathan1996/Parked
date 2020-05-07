@@ -8,6 +8,7 @@ import 'package:parkly/ui/title.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:parkly/localization/keys.dart';
 import '../setup/globals.dart' as globals;
+import 'package:animations/animations.dart';
 
 class GaragePage extends StatefulWidget {
   @override
@@ -15,8 +16,12 @@ class GaragePage extends StatefulWidget {
 }
 
 class _GaragePageState extends State<GaragePage> {
+  static const double _fabDimension = 56.0;
+
   @override
   Widget build(BuildContext context) {
+    ContainerTransitionType _transitionType = ContainerTransitionType.fade;
+
     return Scaffold(
         appBar: AppBar(
           iconTheme: IconThemeData(color: Zwart),
@@ -33,12 +38,30 @@ class _GaragePageState extends State<GaragePage> {
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasData) {
               return Scaffold(
-                  floatingActionButton: FloatingActionButton(
-                    backgroundColor: Blauw,
-                    child: Icon(Icons.add),
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => AddGarage()));
+                  floatingActionButton: OpenContainer(
+                    transitionType: _transitionType,
+                    openBuilder: (BuildContext context, VoidCallback _) {
+                      return AddGarage();
+                    },
+                    closedElevation: 6.0,
+                    closedShape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(_fabDimension / 2),
+                      ),
+                    ),
+                    closedColor: Blauw,
+                    closedBuilder:
+                        (BuildContext context, VoidCallback openContainer) {
+                      return SizedBox(
+                        height: _fabDimension,
+                        width: _fabDimension,
+                        child: Center(
+                          child: Icon(
+                            Icons.add,
+                            color: Wit,
+                          ),
+                        ),
+                      );
                     },
                   ),
                   body: Container(
