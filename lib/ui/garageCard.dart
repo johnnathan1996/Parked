@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:content_placeholder/content_placeholder.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,17 +20,16 @@ class GarageCardComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-        elevation: 1.0,
-        margin: new EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-        child: ListTile(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => DetailGarage(
-                          idGarage: garage.documentID, isVanMij: true)));
-            },
+    ContainerTransitionType _transitionType = ContainerTransitionType.fade;
+    return OpenContainer(
+      transitionType: _transitionType,
+      openBuilder: (BuildContext context, VoidCallback _) {
+        return DetailGarage(idGarage: garage.documentID, isVanMij: true);
+      },
+      tappable: true,
+      closedBuilder: (BuildContext context, VoidCallback openContainer) {
+        return ListTile(
+            onTap: openContainer,
             onLongPress: () {
               showCupertinoModalPopup(
                   context: context,
@@ -63,7 +63,8 @@ class GarageCardComponent extends StatelessWidget {
                 child: Image.network(
                   garage['garageImg'],
                   fit: BoxFit.cover,
-                  loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent loadingProgress) {
+                  loadingBuilder: (BuildContext context, Widget child,
+                      ImageChunkEvent loadingProgress) {
                     if (loadingProgress == null) return child;
                     return ContentPlaceholder(
                       height: 250,
@@ -90,7 +91,9 @@ class GarageCardComponent extends StatelessWidget {
                             Padding(
                                 padding: EdgeInsets.only(left: 10, top: 5),
                                 child: Text("( " +
-                                    garage['rating'].length.toString() + " " + translate(Keys.Subtitle_Reviews) +
+                                    garage['rating'].length.toString() +
+                                    " " +
+                                    translate(Keys.Subtitle_Reviews) +
                                     " )"))
                           ],
                         )
@@ -126,7 +129,9 @@ class GarageCardComponent extends StatelessWidget {
                           Text(garage['beschrijving'])
                         ],
                       )),
-                ))));
+                )));
+      },
+    );
   }
 
   deletePost(String id) async {

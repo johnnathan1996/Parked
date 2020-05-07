@@ -77,9 +77,11 @@ class _GaragePageState extends State<GaragePage> {
                                 child: ListView.builder(
                                 itemCount: snapshot.data.documents.length,
                                 itemBuilder: (_, index) {
-                                  return GarageCardComponent(
-                                    garage: snapshot.data.documents[index],
-                                  );
+                                  return Padding(
+                                    padding: new EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                    child:GarageCardComponent(
+                                        garage: snapshot.data.documents[index],
+                                      ));
                                 },
                               ))
                             : Expanded(

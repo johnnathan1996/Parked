@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
@@ -47,14 +48,18 @@ class _ModalMapComponentState extends State<ModalMapComponent> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-        onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      DetailGarage(idGarage: garage.documentID)));
-        },
+    ContainerTransitionType _transitionType = ContainerTransitionType.fade;
+    return OpenContainer(
+      closedElevation: 0,
+      closedColor: Transparant,
+      transitionType: _transitionType,
+      openBuilder: (BuildContext context, VoidCallback _) {
+        return DetailGarage(idGarage: garage.documentID, isVanMij: true);
+      },
+      tappable: true,
+      closedBuilder: (BuildContext context, VoidCallback openContainer) {
+        return GestureDetector(
+        onTap: openContainer,
         child: Column(
           children: <Widget>[
             Stack(
@@ -132,5 +137,5 @@ class _ModalMapComponentState extends State<ModalMapComponent> {
                 )),
           ],
         ));
-  }
-}
+  });
+}}

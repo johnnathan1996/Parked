@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:content_placeholder/content_placeholder.dart';
 import 'package:flutter/cupertino.dart';
@@ -49,17 +50,16 @@ class _FavoriteCardComponentState extends State<FavoriteCardComponent> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-        elevation: 1.0,
-        margin: new EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-        child: ListTile(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          DetailGarage(idGarage: garage.documentID)));
-            },
+    ContainerTransitionType _transitionType = ContainerTransitionType.fade;
+    return OpenContainer(
+      transitionType: _transitionType,
+      openBuilder: (BuildContext context, VoidCallback _) {
+        return DetailGarage(idGarage: garage.documentID, isVanMij: true);
+      },
+      tappable: true,
+      closedBuilder: (BuildContext context, VoidCallback openContainer) {
+        return ListTile(
+            onTap: openContainer,
             title: ClipRect(
               child: Align(
                 alignment: Alignment.center,
@@ -118,6 +118,6 @@ class _FavoriteCardComponentState extends State<FavoriteCardComponent> {
                       },
                     )
                   ],
-                ))));
+                )));});
   }
 }
