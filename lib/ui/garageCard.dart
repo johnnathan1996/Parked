@@ -26,7 +26,6 @@ class GarageCardComponent extends StatelessWidget {
       openBuilder: (BuildContext context, VoidCallback _) {
         return DetailGarage(idGarage: garage.documentID, isVanMij: true);
       },
-      tappable: true,
       closedBuilder: (BuildContext context, VoidCallback openContainer) {
         return ListTile(
             onTap: openContainer,

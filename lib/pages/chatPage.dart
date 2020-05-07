@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:parkly/constant.dart';
@@ -76,6 +77,7 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
+    ContainerTransitionType _transitionType = ContainerTransitionType.fade;
     return Scaffold(
         appBar: AppBar(
           iconTheme: IconThemeData(color: Zwart),
@@ -121,44 +123,53 @@ class _ChatPageState extends State<ChatPage> {
                                       AsyncSnapshot<DocumentSnapshot>
                                           snapshotten) {
                                     if (snapshotten.hasData) {
-                                      return Card(
-                                          elevation: 0,
-                                          child: ListTile(
-                                            onTap: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          DetailGarage(
-                                                              viaChat: true,
-                                                              idGarage: snapshot
-                                                                      .data
-                                                                      .data[
-                                                                  'garageId'])));
-                                            },
-                                            leading: Image.network(
-                                                snapshotten.data['garageImg']),
-                                            title: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: <Widget>[
-                                                  Text(
-                                                      snapshotten
-                                                          .data['street'],
-                                                      style: TextStyle(
-                                                          fontSize: 16.0)),
-                                                  Text(
-                                                      snapshotten.data['city'] +
-                                                          " " +
+                                      return OpenContainer(
+                                          closedShape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.only(
+                                                  bottomLeft:
+                                                      Radius.circular(10.0),
+                                                  bottomRight:
+                                                      Radius.circular(10.0))),
+                                          closedElevation: 0,
+                                          closedColor: Wit,
+                                          transitionType: _transitionType,
+                                          openBuilder: (BuildContext context,
+                                              VoidCallback _) {
+                                            return DetailGarage(
+                                                viaChat: true,
+                                                idGarage: snapshot
+                                                    .data.data['garageId']);
+                                          },
+                                          closedBuilder: (BuildContext context,
+                                              VoidCallback openContainer) {
+                                            return ListTile(
+                                                onTap: openContainer,
+                                                leading: Image.network(
+                                                    snapshotten
+                                                        .data['garageImg']),
+                                                title: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: <Widget>[
+                                                      Text(
                                                           snapshotten
-                                                              .data['postcode'],
-                                                      style: TextStyle(
-                                                          fontSize: 16.0)),
-                                                ]),
-                                            trailing: Icon(
-                                                Icons.arrow_forward_ios,
-                                                color: Zwart),
-                                          ));
+                                                              .data['street'],
+                                                          style: TextStyle(
+                                                              fontSize: 16.0)),
+                                                      Text(
+                                                          snapshotten.data[
+                                                                  'city'] +
+                                                              " " +
+                                                              snapshotten.data[
+                                                                  'postcode'],
+                                                          style: TextStyle(
+                                                              fontSize: 16.0)),
+                                                    ]),
+                                                trailing: Icon(
+                                                    Icons.arrow_forward_ios,
+                                                    color: Zwart));
+                                          });
                                     } else {
                                       return Container();
                                     }

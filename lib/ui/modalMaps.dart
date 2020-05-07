@@ -54,9 +54,8 @@ class _ModalMapComponentState extends State<ModalMapComponent> {
       closedColor: Transparant,
       transitionType: _transitionType,
       openBuilder: (BuildContext context, VoidCallback _) {
-        return DetailGarage(idGarage: garage.documentID, isVanMij: true);
+        return DetailGarage(idGarage: garage.documentID);
       },
-      tappable: true,
       closedBuilder: (BuildContext context, VoidCallback openContainer) {
         return GestureDetector(
         onTap: openContainer,
