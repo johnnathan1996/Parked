@@ -102,6 +102,7 @@ class _ProfileTabState extends State<ProfileTab> {
   }
 
   placesComponent() {
+    //TODO: add 2 adresses
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[

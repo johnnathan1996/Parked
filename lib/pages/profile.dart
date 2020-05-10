@@ -53,7 +53,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       SliverAppBar(
                         expandedHeight:
                             MediaQuery.of(context).size.height * 0.30 < 250
-                                ? 250
+                                ? 280
                                 : MediaQuery.of(context).size.height * 0.30,
                         backgroundColor: Wit,
                         floating: false,

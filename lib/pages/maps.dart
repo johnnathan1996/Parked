@@ -267,6 +267,7 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
   }
 
   Widget _buildSearchField() {
+    //TODO: search adress
     return new TextField(
       controller: _searchQuery,
       autofocus: true,

@@ -344,8 +344,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     child: ButtonComponent(
                         label: translate(Keys.Button_Add),
                         onClickAction: () {
-                          // signUp();
-                          print(_gender);
+                          signUp();
                         }))
               ],
             ),
@@ -492,8 +491,7 @@ class _SignUpPageState extends State<SignUpPage> {
           .setData({
         'voornaam': _name,
         'achternaam': _lastName,
-        'imgUrl':
-            "https://firebasestorage.googleapis.com/v0/b/parkly-2f177.appspot.com/o/default-user-avatar.png?alt=media&token=9af11a8c-e2b6-4f7b-87b6-f656d705eb20",
+        'imgUrl': null ,
         'email': _email,
         'nummer': phoneNo,
         'gender': _gender,

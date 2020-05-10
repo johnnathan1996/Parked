@@ -10,6 +10,8 @@ class HistoriekPage extends StatefulWidget {
   _HistoriekPageState createState() => _HistoriekPageState();
 }
 
+//TODO: Historiek page
+
 class _HistoriekPageState extends State<HistoriekPage> {
   @override
   Widget build(BuildContext context) {

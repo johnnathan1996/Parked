@@ -7,7 +7,7 @@ import 'package:parkly/script/chooseImage.dart';
 import 'package:parkly/ui/button.dart';
 import '../setup/globals.dart' as globals;
 
-//TODO: completer page
+//TODO: completer edit page
 
 class EditProfile extends StatefulWidget {
   @override
