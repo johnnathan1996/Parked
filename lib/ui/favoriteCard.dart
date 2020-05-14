@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:parkly/localization/keys.dart';
-import 'package:parkly/detailPages/detailGarage.dart';
+import 'package:parkly/pages/detailGarage.dart';
 import 'package:parkly/script/checkFavorite.dart';
 import 'package:parkly/ui/showStars.dart';
 import '../constant.dart';

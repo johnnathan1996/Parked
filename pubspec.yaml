@@ -42,7 +42,6 @@ dependencies:
   flutter_datetime_picker: 
     git:
       url: https://github.com/Realank/flutter_datetime_picker.git
-  awesome_card: ^1.1.0
   flutter_masked_text: ^0.8.0
   smooth_star_rating: ^1.0.4+2
   sms_autofill: ^1.2.1

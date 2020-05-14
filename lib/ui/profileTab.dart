@@ -1,12 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:parkly/constant.dart';
-import 'package:parkly/addPages/addPaysystem.dart';
-import 'package:parkly/detailPages/detailPaysystem.dart';
-import 'package:parkly/ui/button.dart';
 import '../setup/globals.dart' as globals;
-import 'package:flutter_translate/flutter_translate.dart';
-import 'package:parkly/localization/keys.dart';
 
 class ProfileTab extends StatefulWidget {
   final DocumentSnapshot snapshot;
@@ -37,61 +32,12 @@ class _ProfileTabState extends State<ProfileTab> {
                 if (snapshot.hasData) {
                   return Expanded(
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       Padding(
                           padding: EdgeInsets.only(bottom: 20),
                           child: placesComponent()),
-                      Text(translate(Keys.Apptext_Payment), style: SubTitleCustom),
-        snapshot.data["paymethode"].length != 0
-            ? MediaQuery.removePadding(
-                context: context,
-                removeBottom: true,
-                removeTop: true,
-                child: ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: snapshot.data["paymethode"].length,
-                    itemBuilder: (_, index) {
-                      return Padding(
-                          padding: EdgeInsets.only(top: 15),
-                          child: Container(
-                            decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: Wit),
-                            child: ListTile(
-                              title: Text(snapshot.data["paymethode"][index]
-                                  ["bankName"]),
-                              leading: Icon(
-                                Icons.credit_card,
-                                color: Zwart,
-                              ),
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => PaySystem(
-                                            payMethod: snapshot
-                                                .data["paymethode"][index])));
-                              },
-                            ),
-                          ));
-                    }))
-            : Padding(
-                padding: EdgeInsets.symmetric(vertical: 15),
-                child: Text(
-                  translate(Keys.Apptext_Zerocard),
-                  style: TextStyle(fontStyle: FontStyle.italic),
-                )),
-        Padding(
-            padding: EdgeInsets.only(top: 15),
-            child: ButtonComponent(
-                label: translate(Keys.Button_Addcard),
-                onClickAction: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => AddPaySystem()));
-                })),
                     ],
                   ));
                 } else {

@@ -4,7 +4,7 @@ import 'package:content_placeholder/content_placeholder.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
-import 'package:parkly/detailPages/detailGarage.dart';
+import 'package:parkly/pages/detailGarage.dart';
 import 'package:parkly/ui/showStars.dart';
 import '../constant.dart';
 import '../setup/globals.dart' as globals;
