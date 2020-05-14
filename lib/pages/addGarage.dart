@@ -360,49 +360,50 @@ class _AddGarageState extends State<AddGarage> {
             child: Text(translate(Keys.Subtitle_Typevehicules),
                 style: SubTitleCustom)),
         MediaQuery.removePadding(
-      context: context,
-      removeBottom: true,
-      removeTop: true,
-      child: GridView.count(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          crossAxisCount: 3,
-          children: List.generate(types.length, (index) {
-            return GestureDetector(
-                onTap: () {
-                  if (this.mounted) {
-                    setState(() {
-                      if (_typeVoertuigen.contains(types[index]["label"])) {
-                        _typeVoertuigen.remove(types[index]["label"]);
-                      } else {
-                        _typeVoertuigen.add(types[index]["label"]);
+            context: context,
+            removeBottom: true,
+            removeTop: true,
+            child: GridView.count(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              crossAxisCount: 3,
+              children: List.generate(types.length, (index) {
+                return GestureDetector(
+                    onTap: () {
+                      if (this.mounted) {
+                        setState(() {
+                          if (_typeVoertuigen.contains(types[index]["label"])) {
+                            _typeVoertuigen.remove(types[index]["label"]);
+                          } else {
+                            _typeVoertuigen.add(types[index]["label"]);
+                          }
+                        });
                       }
-                    });
-                  }
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                        width: 2,
-                        color: _typeVoertuigen.contains(types[index]["label"])
-                            ? Blauw
-                            : Transparant),
-                    color: Wit,
-                  ),
-                  margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-                  width: 110,
-                  height: 110,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(types[index]["icon"]),
-                      Text(types[index]["label"])
-                    ],
-                  ),
-                ));
-          }),
-        ))
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                            width: 2,
+                            color:
+                                _typeVoertuigen.contains(types[index]["label"])
+                                    ? Blauw
+                                    : Transparant),
+                        color: Wit,
+                      ),
+                      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                      width: 110,
+                      height: 110,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(types[index]["icon"]),
+                          Text(types[index]["label"])
+                        ],
+                      ),
+                    ));
+              }),
+            ))
       ],
     ));
   }
