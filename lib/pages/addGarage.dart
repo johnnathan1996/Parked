@@ -1,8 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:parkly/constant.dart';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:parkly/script/chooseImage.dart';
+import 'dart:io';
+import 'package:path/path.dart';
 import 'package:parkly/ui/button.dart';
 import 'package:grouped_buttons/grouped_buttons.dart';
 import '../setup/globals.dart' as globals;
@@ -18,8 +22,15 @@ class AddGarage extends StatefulWidget {
 class _AddGarageState extends State<AddGarage> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   double _price = 10;
-  String _titel, _street, _number, _city, _postcode, _desciption, _imageUrl;
+  String _street,
+      _number,
+      _city,
+      _postcode,
+      _desciption,
+      downloadLink;
   String _high = "Geen";
+
+  File fileName;
 
   num _longitude, _latitude;
 
@@ -45,10 +56,7 @@ class _AddGarageState extends State<AddGarage> {
                   children: <Widget>[
                     Padding(
                         padding: EdgeInsets.symmetric(vertical: 10),
-                        child: titelComponent()),
-                    Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                        child: imageComponent()),
+                        child: imageComponent(context)),
                     Padding(
                         padding: EdgeInsets.symmetric(vertical: 10),
                         child: adresComponent()),
@@ -63,13 +71,13 @@ class _AddGarageState extends State<AddGarage> {
                         child: featuresComponent(context)),
                     Padding(
                         padding: EdgeInsets.symmetric(vertical: 10),
-                        child: typesComponent()),
+                        child: typesComponent(context)),
                     Padding(
                         padding: EdgeInsets.symmetric(vertical: 10),
                         child: ButtonComponent(
                             label: translate(Keys.Button_Add),
                             onClickAction: () {
-                              createGarage();
+                              createGarage(context);
                             })),
                   ],
                 ),
@@ -77,42 +85,16 @@ class _AddGarageState extends State<AddGarage> {
         ));
   }
 
-  Widget titelComponent() {
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          TextFormField(
-            validator: (input) {
-              if (input.isEmpty) {
-                return translate(Keys.Errors_Isempty);
-              }
-              return null;
-            },
-            onSaved: (input) => _titel = input,
-            decoration: InputDecoration(
-                hintText: translate(Keys.Inputs_Titel),
-                labelStyle: TextStyle(color: Zwart)),
-          )
-        ]);
-  }
-
-  Widget imageComponent() {
+  Widget imageComponent(BuildContext context) {
     return DottedBorder(
         dashPattern: [7],
         color: Blauw,
         strokeWidth: 2,
         child: GestureDetector(
           onTap: () {
-            ChooseImage getUrl = ChooseImage();
-            getUrl.actionUploadImage(context).whenComplete(() {
-              if (this.mounted && getUrl.downloadLink != null) {
-                setState(() {
-                  _imageUrl = getUrl.downloadLink;
-                });
-              }
-            });
+            actionUploadImage(context);
           },
-          child: (_imageUrl == null)
+          child: (fileName == null)
               ? Container(
                   alignment: Alignment.center,
                   height: 70,
@@ -135,7 +117,7 @@ class _AddGarageState extends State<AddGarage> {
                   child: Align(
                     alignment: Alignment.center,
                     heightFactor: 0.5,
-                    child: Image.network(_imageUrl),
+                    child: Image.file(fileName),
                   ),
                 ),
         ));
@@ -341,7 +323,7 @@ class _AddGarageState extends State<AddGarage> {
         ]);
   }
 
-  Widget typesComponent() {
+  Widget typesComponent(BuildContext context) {
     List types = [
       {"label": translate(Keys.Apptext_Twowheelers), "icon": Icons.motorcycle},
       {"label": translate(Keys.Apptext_Little), "icon": Icons.airport_shuttle},
@@ -419,45 +401,138 @@ class _AddGarageState extends State<AddGarage> {
     _latitude = first.coordinates.latitude;
   }
 
-  void createGarage() async {
+  Future takePicture() async {
+    var imageFromCamera =
+        await ImagePicker.pickImage(source: ImageSource.camera);
+
+    if (imageFromCamera != null) {
+      if (this.mounted) {
+        setState(() {
+          fileName = imageFromCamera;
+        });
+      }
+    }
+  }
+
+  Future choosePicture() async {
+    var imageFromLibrary =
+        await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    if (imageFromLibrary != null) {
+      if (this.mounted) {
+        setState(() {
+          fileName = imageFromLibrary;
+        });
+      }
+    }
+  }
+
+  Future uploadToStorage(BuildContext context, File image) async {
+    var dialogContext;
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        dialogContext = context;
+        return Container(
+          width: 200,
+          height: 200,
+          alignment: Alignment.center,
+          child: CircularProgressIndicator(
+              valueColor: new AlwaysStoppedAnimation<Color>(Blauw)),
+        );
+      },
+    );
+
+    String fileName = basename(image.path);
+    StorageReference firebaseStorageRef =
+        FirebaseStorage.instance.ref().child(fileName);
+    StorageUploadTask uploadTask = firebaseStorageRef.putFile(image);
+    await uploadTask.onComplete;
+
+    var dowurl = await (await uploadTask.onComplete).ref.getDownloadURL();
+    var url = dowurl.toString();
+    downloadLink = url;
+    if (dialogContext != null) {
+      Navigator.of(dialogContext).pop();
+    }
+  }
+
+  Future actionUploadImage(BuildContext context) async {
+    await showCupertinoModalPopup(
+        context: context,
+        builder: (context) {
+          return CupertinoActionSheet(
+            cancelButton: CupertinoActionSheetAction(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(translate(Keys.Button_Cancel)),
+            ),
+            actions: <Widget>[
+              CupertinoActionSheetAction(
+                onPressed: () async {
+                  await takePicture();
+                  Navigator.of(context).pop();
+                },
+                child: Text(translate(Keys.Button_Camera)),
+              ),
+              CupertinoActionSheetAction(
+                onPressed: () async {
+                  await choosePicture();
+                  Navigator.of(context).pop();
+                },
+                child: Text(translate(Keys.Button_Library)),
+              )
+            ],
+          );
+        });
+  }
+
+  void createGarage(BuildContext context) async {
     final formState = _formKey.currentState;
     if (formState.validate()) {
       formState.save();
 
       calculateCoordonate(_street, _number, _city, _postcode).whenComplete(() {
-        try {
-          Firestore.instance.collection('garages').add({
-            'eigenaar': globals.userId,
-            'titel': _titel,
-            'garageImg': _imageUrl,
-            'time': new DateTime.now(),
-            'street': _street + ", " + _number,
-            'city': _city,
-            'postcode': _postcode,
-            'prijs': _price,
-            'beschrijving': _desciption,
-            'maxHoogte': _high,
-            'kenmerken': _listChecked,
-            'types': _typeVoertuigen,
-            'rating': [],
-            'latitude': _latitude,
-            'longitude': _longitude,
-          }).then((data) {
+        if (fileName != null) {
+          uploadToStorage(context, fileName).whenComplete(() {
             try {
-              Firestore.instance
-                  .collection('users')
-                  .document(globals.userId)
-                  .updateData({
-                "mijnGarage": FieldValue.arrayUnion([data.documentID])
+              Firestore.instance.collection('garages').add({
+                'eigenaar': globals.userId,
+                'garageImg': downloadLink,
+                'time': new DateTime.now(),
+                'street': _street + ", " + _number,
+                'city': _city,
+                'postcode': _postcode,
+                'prijs': _price,
+                'beschrijving': _desciption,
+                'maxHoogte': _high,
+                'kenmerken': _listChecked,
+                'types': _typeVoertuigen,
+                'rating': [],
+                'latitude': _latitude,
+                'longitude': _longitude,
+              }).then((data) {
+                try {
+                  Firestore.instance
+                      .collection('users')
+                      .document(globals.userId)
+                      .updateData({
+                    "mijnGarage": FieldValue.arrayUnion([data.documentID])
+                  });
+                } catch (e) {
+                  print(e.message);
+                }
+              }).then((value) {
+                Navigator.of(context).pop();
               });
             } catch (e) {
               print(e.message);
             }
-          }).then((value) {
-            Navigator.of(context).pop();
           });
-        } catch (e) {
-          print(e.message);
+        } else {
+          print("object");
         }
       });
     }

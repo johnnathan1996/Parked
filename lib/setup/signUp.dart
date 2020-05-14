@@ -496,7 +496,6 @@ class _SignUpPageState extends State<SignUpPage> {
         'nummer': phoneNo,
         'gender': _gender,
         'age': birthday,
-        'position': {'latitude': 0.0, 'longitude': 0.0},
         'favoriet': [],
         'mijnGarage': [],
         'paymethode': []

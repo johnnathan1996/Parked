@@ -79,9 +79,13 @@ class GarageCardComponent extends StatelessWidget {
                   header: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(
-                          garage['titel'],
-                          style: SubTitleCustom,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(garage['street'], style: SubTitleCustom),
+                            Text(garage['city'] + " " + garage['postcode'],
+                                style: SubTitleCustom),
+                          ],
                         ),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -98,34 +102,12 @@ class GarageCardComponent extends StatelessWidget {
                         )
                       ]),
                   expanded: Padding(
-                      padding: EdgeInsets.only(top: 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      padding: EdgeInsets.only(top: 20, bottom: 10),
+                      child: Row(
                         children: <Widget>[
-                          Padding(
-                              padding: EdgeInsets.only(bottom: 10),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(garage['street'],
-                                          style: SizeParagraph),
-                                      Text(
-                                          garage['city'] +
-                                              " " +
-                                              garage['postcode'],
-                                          style: SizeParagraph),
-                                    ],
-                                  ),
-                                  Text(garage['prijs'].toString() + " €",
-                                      style: ShowPriceStyle)
-                                ],
-                              )),
-                          Text(garage['beschrijving'])
+                          Expanded(child: Text(garage['beschrijving'])),
+                          Text(garage['prijs'].toString() + " €",
+                              style: ShowPriceStyle)
                         ],
                       )),
                 )));

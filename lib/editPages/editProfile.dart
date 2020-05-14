@@ -1,11 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:parkly/constant.dart';
 import 'package:parkly/localization/keys.dart';
-import 'package:parkly/script/chooseImage.dart';
 import 'package:parkly/ui/button.dart';
 import '../setup/globals.dart' as globals;
+import 'dart:io';
+import 'package:path/path.dart';
 
 //TODO: completer edit page
 
@@ -18,6 +22,7 @@ class _EditProfileState extends State<EditProfile> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String _lastName, _name, _newUrlImage;
   DateTime birthday;
+  File fileName;
 
   @override
   Widget build(BuildContext context) {
@@ -69,19 +74,7 @@ class _EditProfileState extends State<EditProfile> {
                                             const EdgeInsets.only(right: 10),
                                         child: GestureDetector(
                                             onTap: () {
-                                              ChooseImage getUrl =
-                                                  ChooseImage();
-                                              getUrl
-                                                  .actionUploadImage(context)
-                                                  .whenComplete(() {
-                                                if (getUrl.downloadLink !=
-                                                    null) {
-                                                  setState(() {
-                                                    _newUrlImage =
-                                                        getUrl.downloadLink;
-                                                  });
-                                                }
-                                              });
+                                              actionUploadImage(context);
                                             },
                                             child: Stack(children: <Widget>[
                                               ClipRRect(
@@ -90,9 +83,8 @@ class _EditProfileState extends State<EditProfile> {
                                                   width: 140,
                                                   height: 140,
                                                   color: Blauw,
-                                                  child: _newUrlImage != null
-                                                      ? Image.network(
-                                                          _newUrlImage)
+                                                  child: fileName != null
+                                                      ? Image.file(fileName)
                                                       : snapshot.data[
                                                                   "imgUrl"] !=
                                                               null
@@ -115,16 +107,17 @@ class _EditProfileState extends State<EditProfile> {
                                                   alignment: Alignment.center,
                                                   width: 140,
                                                   height: 140,
-                                                  child: Text(translate(Keys.Button_Changeimg),
+                                                  child: Text(
+                                                      translate(Keys
+                                                          .Button_Changeimg),
                                                       style: TextStyle(
                                                           color: Wit))),
                                               Container(
                                                   alignment: Alignment.center,
                                                   width: 140,
                                                   height: 140,
-                                                  child: _newUrlImage != null
-                                                      ? Image.network(
-                                                          _newUrlImage)
+                                                  child: fileName != null
+                                                      ? Image.file(fileName)
                                                       : Container())
                                             ])),
                                       ),
@@ -201,6 +194,7 @@ class _EditProfileState extends State<EditProfile> {
                                 label: translate(Keys.Button_Update),
                                 onClickAction: () {
                                   updateProfile(
+                                      context,
                                       snapshot.data["voornaam"],
                                       snapshot.data["achternaam"],
                                       snapshot.data["imgUrl"]);
@@ -219,24 +213,133 @@ class _EditProfileState extends State<EditProfile> {
                 })));
   }
 
-  updateProfile(String firstName, String lastName, String url) {
+  Future takePicture() async {
+    var imageFromCamera =
+        await ImagePicker.pickImage(source: ImageSource.camera);
+
+    if (imageFromCamera != null) {
+      if (this.mounted) {
+        setState(() {
+          fileName = imageFromCamera;
+        });
+      }
+    }
+  }
+
+  Future choosePicture() async {
+    var imageFromLibrary =
+        await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    if (imageFromLibrary != null) {
+      if (this.mounted) {
+        setState(() {
+          fileName = imageFromLibrary;
+        });
+      }
+    }
+  }
+
+  Future uploadToStorage(BuildContext context, File image) async {
+    var dialogContext;
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        dialogContext = context;
+        return Container(
+          width: 200,
+          height: 200,
+          alignment: Alignment.center,
+          child: CircularProgressIndicator(
+              valueColor: new AlwaysStoppedAnimation<Color>(Blauw)),
+        );
+      },
+    );
+
+    String fileName = basename(image.path);
+    StorageReference firebaseStorageRef =
+        FirebaseStorage.instance.ref().child(fileName);
+    StorageUploadTask uploadTask = firebaseStorageRef.putFile(image);
+    await uploadTask.onComplete;
+
+    var dowurl = await (await uploadTask.onComplete).ref.getDownloadURL();
+    var url = dowurl.toString();
+    _newUrlImage = url;
+    if (dialogContext != null) {
+      Navigator.of(dialogContext).pop();
+    }
+  }
+
+  Future actionUploadImage(BuildContext context) async {
+    await showCupertinoModalPopup(
+        context: context,
+        builder: (context) {
+          return CupertinoActionSheet(
+            cancelButton: CupertinoActionSheetAction(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(translate(Keys.Button_Cancel)),
+            ),
+            actions: <Widget>[
+              CupertinoActionSheetAction(
+                onPressed: () async {
+                  await takePicture();
+                  Navigator.of(context).pop();
+                },
+                child: Text(translate(Keys.Button_Camera)),
+              ),
+              CupertinoActionSheetAction(
+                onPressed: () async {
+                  await choosePicture();
+                  Navigator.of(context).pop();
+                },
+                child: Text(translate(Keys.Button_Library)),
+              )
+            ],
+          );
+        });
+  }
+
+  updateProfile(
+      BuildContext context, String firstName, String lastName, String url) {
     final formState = _formKey.currentState;
+
     if (formState.validate()) {
       formState.save();
 
-      try {
-        Firestore.instance
-            .collection('users')
-            .document(globals.userId)
-            .updateData({
-          'voornaam': _name == null ? firstName : _name,
-          'achternaam': _lastName == null ? lastName : _lastName,
-          "imgUrl": _newUrlImage == null ? url : _newUrlImage,
-        }).whenComplete(() {
-          Navigator.of(context).pop();
+      if (fileName != null) {
+        uploadToStorage(context, fileName).whenComplete(() {
+          try {
+            Firestore.instance
+                .collection('users')
+                .document(globals.userId)
+                .updateData({
+              'voornaam': _name == null ? firstName : _name,
+              'achternaam': _lastName == null ? lastName : _lastName,
+              "imgUrl": _newUrlImage == null ? url : _newUrlImage,
+            }).whenComplete(() {
+              Navigator.of(context).pop();
+            });
+          } catch (e) {
+            print(e.message);
+          }
         });
-      } catch (e) {
-        print(e.message);
+      } else {
+        try {
+            Firestore.instance
+                .collection('users')
+                .document(globals.userId)
+                .updateData({
+              'voornaam': _name == null ? firstName : _name,
+              'achternaam': _lastName == null ? lastName : _lastName,
+              "imgUrl": url,
+            }).whenComplete(() {
+              Navigator.of(context).pop();
+            });
+          } catch (e) {
+            print(e.message);
+          }
       }
     }
   }
