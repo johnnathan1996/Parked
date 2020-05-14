@@ -115,7 +115,7 @@ class _DetailGarageState extends State<DetailGarage> {
                         })),
           ],
         ),
-        body: StreamBuilder<DocumentSnapshot>(
+        body: SafeArea(child: StreamBuilder<DocumentSnapshot>(
             stream: Firestore.instance
                 .collection('garages')
                 .document(idGarage)
@@ -206,9 +206,9 @@ class _DetailGarageState extends State<DetailGarage> {
                             padding: EdgeInsets.symmetric(vertical: 10),
                             child: imageComponent(snapshot.data)),
                         Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 20),
-                                child: reviewsComponent(snapshot.data)),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 20),
+                            child: reviewsComponent(snapshot.data)),
                         !isVanMij
                             ? Padding(
                                 padding: EdgeInsets.only(top: 10, bottom: 30),
@@ -232,7 +232,8 @@ class _DetailGarageState extends State<DetailGarage> {
                       valueColor: new AlwaysStoppedAnimation<Color>(Blauw)),
                 );
               }
-            }));
+            })));
+  
   }
 
   Widget headerComponent(DocumentSnapshot garage) {
@@ -496,23 +497,27 @@ class _DetailGarageState extends State<DetailGarage> {
             ],
           ),
         ),
-        garage["rating"].length != 0 ? Container(
-            height: 150,
-            child: SnapList(
-              sizeProvider: (index, data) => Size(
-                  garage["rating"].length == 1
-                      ? MediaQuery.of(context).size.width * 1
-                      : MediaQuery.of(context).size.width * 0.85,
-                  150.0),
-              separatorProvider: (index, data) => Size(10.0, 10.0),
-              builder: (context, index, data) {
-                return RatingCardComponent(card: garage["rating"][index]);
-              },
-              count: garage["rating"].length,
-            )) : Container(
-              alignment: Alignment.center,
-              child: Text("Sois le premier a noter ce garage"),
-            )
+        garage["rating"].length != 0
+            ? Container(
+                height: 150,
+                child: SnapList(
+                  sizeProvider: (index, data) => Size(
+                      garage["rating"].length == 1
+                          ? MediaQuery.of(context).size.width * 1
+                          : MediaQuery.of(context).size.width * 0.85,
+                      150.0),
+                  separatorProvider: (index, data) => Size(10.0, 10.0),
+                  builder: (context, index, data) {
+                    return RatingCardComponent(card: garage["rating"][index]);
+                  },
+                  count: garage["rating"].length,
+                ))
+            : Container(
+                alignment: Alignment.center,
+                child: isVanMij
+                    ? Text(translate(Keys.Apptext_Zeroreviews))
+                    : Text(translate(Keys.Apptext_Firstreviews)),
+              )
       ],
     );
   }
@@ -571,7 +576,7 @@ class _DetailGarageState extends State<DetailGarage> {
               MaterialPageRoute(
                   builder: (context) => ChatPage(
                       conversationID: data.documentID, sendName: myName)));
-        } 
+        }
       }
     });
 

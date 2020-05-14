@@ -126,7 +126,9 @@
 		"CompleteProfile": "Profiel volledig!",
 		"AlittleBit": "Nog een beetje",
 		"StatusProfile": "Je profiel staat op",
-		"ChargingStation": "Ik bevestig dat ik een laadstation beschikbaar heb"
+		"ChargingStation": "Ik bevestig dat ik een laadstation beschikbaar heb",
+		"ZeroReviews": "Nog geen beoordelingen",
+		"FirstReviews": "Beoordeelt u als eerste deze garage?"
 	},
 	"ChatText": {
 		"You": "U",

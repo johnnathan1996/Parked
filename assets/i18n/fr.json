@@ -126,7 +126,9 @@
 		"CompleteProfile": "Profil complet !",
 		"AlittleBit": "Encore un peu!",
 		"StatusProfile": "Votre profile est à",
-		"ChargingStation": "J'affirme avoir une borne de recharge à disposition"
+		"ChargingStation": "J'affirme avoir une borne de recharge à disposition",
+		"ZeroReviews": "Aucun avis pour le moment",
+		"FirstReviews": "Sois le premier a noter ce garage"
 	},
 	"ChatText": {
 		"You": "Vous",

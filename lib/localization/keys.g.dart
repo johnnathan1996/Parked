@@ -233,6 +233,10 @@ class Keys {
 
   static const String Apptext_Chargingstation = 'AppText.ChargingStation';
 
+  static const String Apptext_Zeroreviews = 'AppText.ZeroReviews';
+
+  static const String Apptext_Firstreviews = 'AppText.FirstReviews';
+
   static const String Chattext_You = 'ChatText.You';
 
   static const String Chattext_Message = 'ChatText.Message';

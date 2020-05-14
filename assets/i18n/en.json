@@ -126,7 +126,9 @@
 		"CompleteProfile": "Complete profile!",
 		"AlittleBit": "A little more!",
 		"StatusProfile": "Your profile is at",
-		"ChargingStation": "I confirm that I have a charging station available"
+		"ChargingStation": "I confirm that I have a charging station available",
+		"ZeroReviews": "No reviews yet",
+		"FirstReviews": "Be the first to rate this garage"
 	},
 	"ChatText": {
 		"You": "You",
