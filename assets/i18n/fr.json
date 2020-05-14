@@ -86,7 +86,8 @@
 		"PhoneExist": "Numéro de téléphone portable déjà connu",
 		"NoBirthday": "Veuillez indiquer votre date de naissance",
 		"NoGender": "Veuillez indiquer votre sexe",
-		"Wrong": "quelque chose a mal tourné!"
+		"Wrong": "Quelque chose a mal tourné!",
+		"NoImage": "Vous n'avez pas de photo"
 	},
 	"Errors": {
 		"IsEmpty": "Veuillez remplir le champs",
@@ -115,16 +116,17 @@
 		"EmailSend": "Un e-mail a été envoyé à",
 		"Payment": "Modes de paiement",
 		"TwoWheelers": "Deux roues",
-		"Little": "Petit",
-		"Middle": "Moyen",
-		"Large": "Grand",
-		"High": "Haut",
-		"VeryHigh": "Très haut",
+		"Little": "Mini",
+		"Middle": "CUV",
+		"Large": "SUV",
+		"High": "VAN",
+		"VeryHigh": "Electrique",
 		"ZeroCard": "Vous n'avez pas encore de carte",
 		"hourly": " /heure",
 		"CompleteProfile": "Profil complet !",
 		"AlittleBit": "Encore un peu!",
-		"StatusProfile": "Votre profile est à"
+		"StatusProfile": "Votre profile est à",
+		"ChargingStation": "J'affirme avoir une borne de recharge à disposition"
 	},
 	"ChatText": {
 		"You": "Vous",
@@ -132,5 +134,14 @@
 		"LastMessage": "Dernier message",
 		"Seen": "Vu",
 		"Delivered": "Distribué"
+	},
+	"FeatureGarage": {
+		"None": "Aucune",
+		"One": "Entrées multiples",
+		"Two": "Vidéosurveillance",
+		"Three": "Éclairé",
+		"Four": "Couvert",
+		"Five": "À l'extérieur"
+		
 	}
 }

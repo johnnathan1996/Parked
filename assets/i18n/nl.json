@@ -86,7 +86,8 @@
 		"PhoneExist": "Reeds bekend mobiel telefoonnummer",
 		"NoBirthday": "Gelieve uw geboortedatum in te stellen",
 		"NoGender": "Gelieve uw geslacht in te stellen",
-		"Wrong": "Er is iets fout gegaan!"
+		"Wrong": "Er is iets fout gegaan!",
+		"NoImage": "Je hebt geen foto toegevoegd"
 	},
 	"Errors": {
 		"IsEmpty": "Gelieve het veld in te vullen",
@@ -115,16 +116,17 @@
 		"EmailSend": "Er is een e-mail gestuurd naar",
 		"Payment": "Betaalmethoden",
 		"TwoWheelers": "Tweewielers",
-		"Little": "Klein",
-		"Middle": "Gemiddeld",
-		"Large": "Groot",
-		"High": "Hoog",
-		"VeryHigh": "Heel hoog",
+		"Little": "Mini",
+		"Middle": "CUV",
+		"Large": "SUV",
+		"High": "VAN",
+		"VeryHigh": "Elektrisch",
 		"ZeroCard": "Je hebt nog geen kaart",
 		"hourly": " /uur",
 		"CompleteProfile": "Profiel volledig!",
 		"AlittleBit": "Nog een beetje",
-		"StatusProfile": "Je profiel staat op"
+		"StatusProfile": "Je profiel staat op",
+		"ChargingStation": "Ik bevestig dat ik een laadstation beschikbaar heb"
 	},
 	"ChatText": {
 		"You": "U",
@@ -132,5 +134,14 @@
 		"LastMessage": "Laatste bericht",
 		"Seen": "Gezien",
 		"Delivered": "Delivered"
+	},
+	"FeatureGarage": {
+		"None": "Geen",
+		"One": "Meerdere ingangen",
+		"Two": "Videobewaking",
+		"Three": "Verlicht",
+		"Four": "Gedekt",
+		"Five": "Buiten"
 	}
+
 }

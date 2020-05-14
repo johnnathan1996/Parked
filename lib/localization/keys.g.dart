@@ -161,6 +161,8 @@ class Keys {
 
   static const String Modal_Wrong = 'Modal.Wrong';
 
+  static const String Modal_Noimage = 'Modal.NoImage';
+
   static const String Errors_Isempty = 'Errors.IsEmpty';
 
   static const String Errors_Mailempty = 'Errors.MailEmpty';
@@ -229,6 +231,8 @@ class Keys {
 
   static const String Apptext_Statusprofile = 'AppText.StatusProfile';
 
+  static const String Apptext_Chargingstation = 'AppText.ChargingStation';
+
   static const String Chattext_You = 'ChatText.You';
 
   static const String Chattext_Message = 'ChatText.Message';
@@ -238,4 +242,16 @@ class Keys {
   static const String Chattext_Seen = 'ChatText.Seen';
 
   static const String Chattext_Delivered = 'ChatText.Delivered';
+
+  static const String Featuregarage_None = 'FeatureGarage.None';
+
+  static const String Featuregarage_One = 'FeatureGarage.One';
+
+  static const String Featuregarage_Two = 'FeatureGarage.Two';
+
+  static const String Featuregarage_Three = 'FeatureGarage.Three';
+
+  static const String Featuregarage_Four = 'FeatureGarage.Four';
+
+  static const String Featuregarage_Five = 'FeatureGarage.Five';
 }

@@ -86,7 +86,8 @@
 		"PhoneExist": "Already known mobile phone number",
 		"NoBirthday": "Please set your date of birth",
 		"NoGender": "Please set your gender",
-		"Wrong": "Something went wrong!"
+		"Wrong": "Something went wrong!",
+		"NoImage": "You have not added a photo"
 	},
 	"Errors": {
 		"IsEmpty": "Please fill in the field",
@@ -115,16 +116,17 @@
 		"EmailSend": "An email has been sent to",
 		"Payment": "Payment methods",
 		"TwoWheelers": "Bicycles",
-		"Little": "Little",
-		"Middle": "Middle",
-		"Large": "Lagre",
-		"High": "High",
-		"VeryHigh": "Very High",
+		"Little": "Mini",
+		"Middle": "CUV",
+		"Large": "SUV",
+		"High": "VAN",
+		"VeryHigh": "Electric",
 		"ZeroCard": "You don't have a map yet",
 		"hourly": " /hour",
 		"CompleteProfile": "Complete profile!",
 		"AlittleBit": "A little more!",
-		"StatusProfile": "Your profile is at"
+		"StatusProfile": "Your profile is at",
+		"ChargingStation": "I confirm that I have a charging station available"
 	},
 	"ChatText": {
 		"You": "You",
@@ -132,5 +134,13 @@
 		"LastMessage": "Last message",
 		"Seen": "Seen",
 		"Delivered": "Delivered"
+	},
+	"FeatureGarage": {
+		"None": "None",
+		"One": "Multiple entries",
+		"Two": "Video surveillance",
+		"Three": "Exposes",
+		"Four": "Covered",
+		"Five": "Outside"
 	}
 }

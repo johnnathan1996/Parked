@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:parkly/constant.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:parkly/ui/modal.dart';
 import 'dart:io';
 import 'package:path/path.dart';
 import 'package:parkly/ui/button.dart';
@@ -21,13 +22,7 @@ class AddGarage extends StatefulWidget {
 
 class _AddGarageState extends State<AddGarage> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  double _price = 10;
-  String _street,
-      _number,
-      _city,
-      _postcode,
-      _desciption,
-      downloadLink;
+  String _street, _number, _city, _postcode, _desciption, _price, downloadLink;
   String _high = "Geen";
 
   File fileName;
@@ -216,33 +211,51 @@ class _AddGarageState extends State<AddGarage> {
   }
 
   Widget priceComponent(BuildContext context) {
-    const minPrice = 0.0;
-    const maxPrice = 20.0;
     return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Text(translate(Keys.Subtitle_Price), style: SubTitleCustom),
-          Slider(
-            value: _price,
-            onChanged: (value) {
-              if (this.mounted) {
-                setState(() {
-                  _price = value;
-                });
-              }
-            },
-            divisions: 40,
-            activeColor: Blauw,
-            inactiveColor: Grijs,
-            min: minPrice,
-            max: maxPrice,
-          ),
+          Padding(
+              padding: EdgeInsets.only(bottom: 5),
+              child:
+                  Text(translate(Keys.Subtitle_Price), style: SubTitleCustom)),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text(minPrice.toString() + "€", style: SizeParagraph),
-              Text("$_price" + "€", style: SubTitleCustom),
-              Text(maxPrice.toString() + "€", style: SizeParagraph),
+              Expanded(
+                child: TextFormField(
+                  validator: (input) {
+                    if (input.isEmpty) {
+                      return "";
+                    }
+                    return null;
+                  },
+                  onSaved: (input) => _price = input,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.all(10),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Wit, width: 0.0),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Wit, width: 0.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Wit, width: 0.0),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.red, width: 1.0),
+                      ),
+                      filled: true,
+                      fillColor: Wit,
+                      hintText: "5",
+                      labelStyle: TextStyle(color: Zwart)),
+                ),
+              ),
+              Expanded(
+                  flex: 7,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: Text("€" + translate(Keys.Apptext_Hourly)),
+                  )),
             ],
           )
         ]);
@@ -286,11 +299,11 @@ class _AddGarageState extends State<AddGarage> {
               CheckboxGroup(
                 activeColor: Blauw,
                 labels: <String>[
-                  'Meerdere ingangen',
-                  'Videobewaking',
-                  'verlicht',
-                  'gedekt',
-                  'Buiten',
+                  translate(Keys.Featuregarage_One),
+                  translate(Keys.Featuregarage_Two),
+                  translate(Keys.Featuregarage_Three),
+                  translate(Keys.Featuregarage_Four),
+                  translate(Keys.Featuregarage_Five),
                 ],
                 onSelected: (List<String> checked) => _listChecked = checked,
               ),
@@ -304,11 +317,11 @@ class _AddGarageState extends State<AddGarage> {
                   orientation: GroupedButtonsOrientation.HORIZONTAL,
                   activeColor: Blauw,
                   labels: <String>[
-                    'Geen',
-                    '1,90m',
-                    '2,10m',
-                    '2,30m',
-                    '2,50m',
+                    translate(Keys.Featuregarage_None),
+                    '1,90',
+                    '2,10',
+                    '2,30',
+                    '2,50',
                   ],
                   onSelected: (String selected) => {
                         if (this.mounted)
@@ -326,11 +339,11 @@ class _AddGarageState extends State<AddGarage> {
   Widget typesComponent(BuildContext context) {
     List types = [
       {"label": translate(Keys.Apptext_Twowheelers), "icon": Icons.motorcycle},
-      {"label": translate(Keys.Apptext_Little), "icon": Icons.airport_shuttle},
+      {"label": translate(Keys.Apptext_Little), "icon": Icons.directions_car},
       {"label": translate(Keys.Apptext_Middle), "icon": Icons.directions_car},
       {"label": translate(Keys.Apptext_Large), "icon": Icons.directions_car},
-      {"label": translate(Keys.Apptext_High), "icon": Icons.directions_bus},
-      {"label": translate(Keys.Apptext_Veryhigh), "icon": Icons.local_shipping}
+      {"label": translate(Keys.Apptext_High), "icon": Icons.airport_shuttle},
+      {"label": translate(Keys.Apptext_Veryhigh), "icon": Icons.power}
     ];
 
     return Container(
@@ -385,7 +398,10 @@ class _AddGarageState extends State<AddGarage> {
                       ),
                     ));
               }),
-            ))
+            )),
+        _typeVoertuigen.contains(translate(Keys.Apptext_Veryhigh))
+            ? Text("*" + translate(Keys.Apptext_Chargingstation))
+            : Container()
       ],
     ));
   }
@@ -505,7 +521,7 @@ class _AddGarageState extends State<AddGarage> {
                 'street': _street + ", " + _number,
                 'city': _city,
                 'postcode': _postcode,
-                'prijs': _price,
+                'prijs': int.parse(_price),
                 'beschrijving': _desciption,
                 'maxHoogte': _high,
                 'kenmerken': _listChecked,
@@ -532,7 +548,10 @@ class _AddGarageState extends State<AddGarage> {
             }
           });
         } else {
-          print("object");
+          showDialog(
+              context: context,
+              builder: (_) => ModalComponent(modalTekst: translate(Keys.Modal_Noimage)),
+            );
         }
       });
     }
