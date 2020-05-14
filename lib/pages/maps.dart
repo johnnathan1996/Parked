@@ -25,22 +25,22 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
       new GlobalKey<ScaffoldState>();
 
   MapController mapController = new MapController();
+  double userLat;
+  double userLon;
+
   Position position;
   List<Marker> markers = [];
-  List<Marker> userPositionMarker = [];
 
   TextEditingController _searchQuery;
   bool _isSearching = false;
   String searchQuery = "";
 
   Map showGarage = {};
-  DateTime dateTime;
 
   MarkerClusterPlugin plugin;
 
   @override
   initState() {
-    dateTime = DateTime.now();
     _getUserPosition();
     _getGaragePosition();
     _searchQuery = new TextEditingController();
@@ -67,132 +67,93 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
           backgroundColor: Blauw,
           child: Icon(Icons.my_location),
           onPressed: () async {
-            DocumentSnapshot positionUser = await Firestore.instance
-                .collection('users')
-                .document(globals.userId)
-                .get();
-            Map positionLatLng = positionUser.data["position"];
+            Position userPosition = await Geolocator().getCurrentPosition(
+                desiredAccuracy: LocationAccuracy.bestForNavigation);
 
             zoomToPosition(
                 mapController,
-                LatLng(positionLatLng["latitude"], positionLatLng["longitude"]),
+                LatLng(userPosition.latitude, userPosition.longitude),
                 15,
                 this);
           },
         ),
-        body: StreamBuilder<DocumentSnapshot>(
-          stream: Firestore.instance
-              .collection('users')
-              .document(globals.userId)
-              .snapshots(),
-          builder:
-              (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-            if (snapshot.hasData) {
-              return FlutterMap(
-                mapController: mapController,
-                options: new MapOptions(
-                  center: new LatLng(snapshot.data["position"]["latitude"],
-                      snapshot.data["position"]["longitude"]),
-                  zoom: 2.0,
-                  plugins: [plugin],
-                ),
-                layers: [
-                  new TileLayerOptions(
-                    urlTemplate: "https://api.tiles.mapbox.com/v4/"
-                        "{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
-                    additionalOptions: {
-                      'accessToken':
-                          'pk.eyJ1Ijoiam9obm5hdGhhbjk2IiwiYSI6ImNrM3p1M2pwcjFkYmIzZHA3ZGZ5dW1wcGIifQ.pcrBkGP2Jq3H6bcX1M0CYg',
-                      'id': 'mapbox.outdoors',
+        body: FlutterMap(
+          mapController: mapController,
+          options: new MapOptions(
+            center: new LatLng(userLat, userLon),
+            zoom: 12.0,
+            plugins: [plugin],
+          ),
+          layers: [
+            new TileLayerOptions(
+              urlTemplate: "https://api.tiles.mapbox.com/v4/"
+                  "{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
+              additionalOptions: {
+                'accessToken':
+                    'pk.eyJ1Ijoiam9obm5hdGhhbjk2IiwiYSI6ImNrM3p1M2pwcjFkYmIzZHA3ZGZ5dW1wcGIifQ.pcrBkGP2Jq3H6bcX1M0CYg',
+                'id': 'mapbox.outdoors',
+              },
+            ),
+            MarkerLayerOptions(
+              markers: [
+                new Marker(
+                    point: new LatLng(userLat, userLon),
+                    height: 50,
+                    width: 50,
+                    builder: (ctx) => new Container(
+                          child: Lottie.asset('assets/anim/position.json'),
+                        )),
+              ],
+            ),
+            (plugin != null)
+                ? MarkerClusterLayerOptions(
+                    maxClusterRadius: 120,
+                    size: Size(40, 40),
+                    fitBoundsOptions: FitBoundsOptions(
+                      padding: EdgeInsets.all(50),
+                    ),
+                    markers: markers,
+                    polygonOptions: PolygonOptions(
+                        borderColor: Blauw,
+                        color: Colors.black12,
+                        borderStrokeWidth: 3),
+                    builder: (context, markers) {
+                      return FloatingActionButton(
+                        heroTag: "markers",
+                        child: Text(markers.length.toString()),
+                        backgroundColor: Blauw,
+                        onPressed: null,
+                      );
                     },
+                  )
+                : MarkerLayerOptions(
+                    markers: markers,
                   ),
-                  MarkerLayerOptions(
-                    markers: userPositionMarker,
-                  ),
-                  (plugin != null)
-                      ? MarkerClusterLayerOptions(
-                          maxClusterRadius: 120,
-                          size: Size(40, 40),
-                          fitBoundsOptions: FitBoundsOptions(
-                            padding: EdgeInsets.all(50),
-                          ),
-                          markers: markers,
-                          polygonOptions: PolygonOptions(
-                              borderColor: Blauw,
-                              color: Colors.black12,
-                              borderStrokeWidth: 3),
-                          builder: (context, markers) {
-                            return FloatingActionButton(
-                              heroTag: "markers",
-                              child: Text(markers.length.toString()),
-                              backgroundColor: Blauw,
-                              onPressed: null,
-                            );
-                          },
-                        )
-                      : MarkerLayerOptions(
-                          markers: markers,
-                        ),
-                ],
-              );
-            } else {
-              return Container(
-                alignment: Alignment.center,
-                child: CircularProgressIndicator(
-                    valueColor: new AlwaysStoppedAnimation<Color>(Blauw)),
-              );
-            }
-          },
+          ],
         ),
         drawer: Navigation(activeMap: true));
   }
 
   _getUserPosition() async {
-    var geolocator = Geolocator();
-    Position position = await Geolocator().getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.bestForNavigation);
-    position = position;
+    Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.bestForNavigation);
+    // position = position;
 
-    var locationOptions = LocationOptions(
-        accuracy: LocationAccuracy.bestForNavigation, distanceFilter: 0);
+    if (this.mounted) {
+      setState(() {
+        userLat = position.latitude;
+        userLon = position.longitude;
+      });
+    }
 
-    Firestore.instance
-        .collection('users')
-        .document(globals.userId)
-        .snapshots()
-        .listen((snapshot) {
-      userPositionMarker = [
-        new Marker(
-            point: new LatLng(position.latitude, position.longitude),
-            height: 50,
-            width: 50,
-            builder: (ctx) => new Container(
-                  child: Lottie.asset('assets/anim/position.json'),
-                )),
-      ];
-    });
-
-    geolocator.getPositionStream(locationOptions).listen((Position position) {
+    Geolocator()
+        .getPositionStream(LocationOptions(
+            accuracy: LocationAccuracy.bestForNavigation, distanceFilter: 0))
+        .listen((Position position) {
       if (this.mounted) {
         setState(() {
-          position = position;
+          userLat = position.latitude;
+          userLon = position.longitude;
         });
-      }
-      if (this.mounted) {
-        if (DateTime.now().difference(dateTime).inSeconds > 5) {
-          Firestore.instance
-              .collection('users')
-              .document(globals.userId)
-              .updateData({
-            "position": {
-              'latitude': position.latitude,
-              'longitude': position.longitude,
-            }
-          });
-          setState(() {
-            dateTime = DateTime.now();
-          });
-        }
       }
     });
   }
