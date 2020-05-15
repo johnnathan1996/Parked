@@ -244,7 +244,7 @@ class _DetailGarageState extends State<DetailGarage> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -596,95 +596,203 @@ class _DetailGarageState extends State<DetailGarage> {
       _currentStep = 0;
     });
     showModalBottomSheet(
-        isDismissible: false,
+        isScrollControlled: true,
         backgroundColor: Transparant,
         context: context,
         builder: (BuildContext context) {
           return StatefulBuilder(builder: (context, setState) {
             return Container(
-              height: MediaQuery.of(context).size.height * 0.80,
               decoration: BoxDecoration(
-                  color: Wit,
+                  color: LichtGrijs,
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20))),
               child: Container(
-                margin: EdgeInsets.only(top: 20),
-                child: Stepper(
-                  controlsBuilder: (BuildContext context,
-                      {VoidCallback onStepContinue,
-                      VoidCallback onStepCancel}) {
-                    return Row(
-                      children: <Widget>[
-                        Container(
-                          child: null,
-                        ),
-                        Container(
-                          child: null,
-                        ),
-                      ],
-                    );
-                  },
-                  steps: <Step>[
-                    Step(
-                      isActive: true,
-                      title: Text('Info'),
-                      content: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          Text("1"),
-                          ButtonComponent(
-                              label: "Suivant",
-                              onClickAction: () {
-                                if (_currentStep >= 2) {
-                                  return;
-                                } else {
-                                  setState(() {
-                                    _currentStep += 1;
-                                  });
-                                }
-                              }),
-                        ],
-                      ),
-                    ),
-                    Step(
-                        isActive: _currentStep >= 1 ? true : false,
-                        title: Text('Suppl'),
-                        content: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: <Widget>[
-                            Text("2"),
-                            ButtonComponent(
-                                label: "Suivant",
-                                onClickAction: () {
-                                  if (_currentStep >= 2) {
-                                    return;
-                                  } else {
-                                    setState(() {
-                                      _currentStep += 1;
-                                    });
-                                  }
-                                }),
-                          ],
-                        )),
-                    Step(
-                        isActive: _currentStep >= 2 ? true : false,
-                        title: Text('Payer'),
-                        content: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: <Widget>[
-                            Text(prijs.toString()),
-                            ButtonComponent(
-                                label: "Payer",
-                                onClickAction: () {
-                                  createReservatie();
-                                }),
-                          ],
-                        )),
-                  ],
-                  type: StepperType.horizontal,
-                  currentStep: _currentStep,
-                ),
+                height: MediaQuery.of(context).size.height / 2,
+                child: Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: Theme(
+                      data: ThemeData(canvasColor: Wit, primaryColor: Blauw),
+                      child: Stepper(
+                          controlsBuilder: (BuildContext context,
+                              {VoidCallback onStepContinue,
+                              VoidCallback onStepCancel}) {
+                            return Row(
+                              children: <Widget>[
+                                Container(
+                                  child: null,
+                                ),
+                                Container(
+                                  child: null,
+                                ),
+                              ],
+                            );
+                          },
+                          type: StepperType.horizontal,
+                          currentStep: _currentStep,
+                          steps: <Step>[
+                            Step(
+                                state: _currentStep == 0
+                                    ? StepState.indexed
+                                    : _currentStep > 0
+                                        ? StepState.complete
+                                        : StepState.indexed,
+                                isActive: true,
+                                title: Text('Info'),
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: <Widget>[
+                                    Column(children: <Widget>[
+                                      Text("Detail reservation",
+                                          style: SubTitleCustom,
+                                          textAlign: TextAlign.center),
+                                      Container(
+                                        margin: EdgeInsets.only(top: 10),
+                                        height: 80,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Wit),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: <Widget>[
+                                            Container(
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                    changeDate(beginDate),
+                                                    style: SizeParagraph)),
+                                            Text("To"),
+                                            Container(
+                                                alignment: Alignment.center,
+                                                child: Text(changeDate(endDate),
+                                                    style: SizeParagraph)),
+                                          ],
+                                        ),
+                                      ),
+                                    ]),
+                                    Padding(
+                                        padding: const EdgeInsets.only(top: 10),
+                                        child: ButtonComponent(
+                                            label: "Confirmer",
+                                            onClickAction: () {
+                                              if (_currentStep >= 2) {
+                                                return;
+                                              } else {
+                                                setState(() {
+                                                  _currentStep += 1;
+                                                });
+                                              }
+                                            })),
+                                  ],
+                                )),
+                            Step(
+                                state: _currentStep == 1
+                                    ? StepState.indexed
+                                    : _currentStep > 0
+                                        ? StepState.complete
+                                        : StepState.indexed,
+                                isActive: _currentStep >= 1 ? true : false,
+                                title: Text('Suppl'),
+                                content: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: <Widget>[
+                                    Text("Extra",
+                                        style: SubTitleCustom,
+                                        textAlign: TextAlign.center),
+                                    Padding(
+                                        padding: const EdgeInsets.only(top: 10),
+                                        child: ButtonComponent(
+                                            label: "Suivant",
+                                            onClickAction: () {
+                                              if (_currentStep >= 2) {
+                                                return;
+                                              } else {
+                                                setState(() {
+                                                  _currentStep += 1;
+                                                });
+                                              }
+                                            })),
+                                    FlatButton(
+                                        onPressed: () {
+                                          if (_currentStep <= 0) {
+                                            return;
+                                          } else {
+                                            setState(() {
+                                              _currentStep -= 1;
+                                            });
+                                          }
+                                        },
+                                        child: Text("Retour",
+                                            style: TextStyle(color: Zwart)))
+                                  ],
+                                )),
+                            Step(
+                                isActive: _currentStep >= 2 ? true : false,
+                                title: Text('Payer'),
+                                content: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: <Widget>[
+                                    Text("Payer",
+                                        style: SubTitleCustom,
+                                        textAlign: TextAlign.center),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Text("Garage", style: SizeParagraph),
+                                        Text(prijs.toString() + "€"),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Text("Extra", style: SizeParagraph),
+                                        Text("0€"),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Text("Taxes", style: SizeParagraph),
+                                        Text("10%"),
+                                      ],
+                                    ),
+                                    Divider(),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Text("Total", style: SubTitleCustom),
+                                        Text(prijs.toString() + "€"),
+                                      ],
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 10),
+                                      child: ButtonComponent(
+                                          label: "Payer",
+                                          onClickAction: () {
+                                            // createReservatie();
+                                          }),
+                                    ),
+                                    FlatButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text("Retour",
+                                            style: TextStyle(color: Zwart)))
+                                  ],
+                                )),
+                          ]),
+                    )),
               ),
             );
           });
