@@ -497,8 +497,7 @@ class _SignUpPageState extends State<SignUpPage> {
         'gender': _gender,
         'age': birthday,
         'favoriet': [],
-        'mijnGarage': [],
-        'paymethode': []
+        'mijnGarage': []
       });
 
       if (this.mounted) {

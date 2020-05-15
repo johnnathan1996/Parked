@@ -8,7 +8,6 @@ import 'package:parkly/script/changeDate.dart';
 import 'package:parkly/script/checkFavorite.dart';
 import 'package:parkly/ui/button.dart';
 import 'package:parkly/ui/listText.dart';
-import 'package:parkly/ui/modal.dart';
 import 'package:parkly/ui/ratingCard.dart';
 import 'package:parkly/ui/ratingModal.dart';
 import 'package:parkly/ui/showStars.dart';
@@ -49,6 +48,8 @@ class _DetailGarageState extends State<DetailGarage> {
   String eigenaarId = "";
   String myName = "";
 
+  int _currentStep = 0;
+
   getUserData() {
     Firestore.instance
         .collection('users')
@@ -58,7 +59,6 @@ class _DetailGarageState extends State<DetailGarage> {
       if (this.mounted) {
         setState(() {
           mijnFavorieten = userInstance.data["favoriet"];
-          betalingCard = userInstance.data["paymethode"];
           myName = userInstance.data["voornaam"];
         });
       }
@@ -115,125 +115,128 @@ class _DetailGarageState extends State<DetailGarage> {
                         })),
           ],
         ),
-        body: SafeArea(child: StreamBuilder<DocumentSnapshot>(
-            stream: Firestore.instance
-                .collection('garages')
-                .document(idGarage)
-                .snapshots(),
-            builder: (BuildContext context,
-                AsyncSnapshot<DocumentSnapshot> snapshot) {
-              if (snapshot.hasData) {
-                return SingleChildScrollView(
-                    child: Column(
-                  children: <Widget>[
-                    Container(
-                        height: 200,
-                        child: Stack(
-                            overflow: Overflow.visible,
-                            alignment: Alignment.bottomRight,
-                            children: <Widget>[
-                              FlutterMap(
-                                options: new MapOptions(
-                                  center: new LatLng(snapshot.data["latitude"],
-                                      snapshot.data["longitude"]),
-                                  zoom: 15.0,
-                                ),
-                                layers: [
-                                  new TileLayerOptions(
-                                    urlTemplate:
-                                        "https://api.tiles.mapbox.com/v4/"
-                                        "{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
-                                    additionalOptions: {
-                                      'accessToken':
-                                          'pk.eyJ1Ijoiam9obm5hdGhhbjk2IiwiYSI6ImNrM3p1M2pwcjFkYmIzZHA3ZGZ5dW1wcGIifQ.pcrBkGP2Jq3H6bcX1M0CYg',
-                                      'id': 'mapbox.outdoors',
-                                    },
-                                  ),
-                                  MarkerLayerOptions(
-                                    markers: [
-                                      new Marker(
-                                          point: new LatLng(
-                                              snapshot.data["latitude"],
-                                              snapshot.data["longitude"]),
-                                          height: 50,
-                                          width: 50,
-                                          builder: (ctx) => new Container(
-                                                child: Icon(Icons.location_on,
-                                                    color: Blauw),
-                                              ))
+        body: SafeArea(
+            child: StreamBuilder<DocumentSnapshot>(
+                stream: Firestore.instance
+                    .collection('garages')
+                    .document(idGarage)
+                    .snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<DocumentSnapshot> snapshot) {
+                  if (snapshot.hasData) {
+                    return SingleChildScrollView(
+                        child: Column(
+                      children: <Widget>[
+                        Container(
+                            height: 200,
+                            child: Stack(
+                                overflow: Overflow.visible,
+                                alignment: Alignment.bottomRight,
+                                children: <Widget>[
+                                  FlutterMap(
+                                    options: new MapOptions(
+                                      center: new LatLng(
+                                          snapshot.data["latitude"],
+                                          snapshot.data["longitude"]),
+                                      zoom: 15.0,
+                                    ),
+                                    layers: [
+                                      new TileLayerOptions(
+                                        urlTemplate:
+                                            "https://api.tiles.mapbox.com/v4/"
+                                            "{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
+                                        additionalOptions: {
+                                          'accessToken':
+                                              'pk.eyJ1Ijoiam9obm5hdGhhbjk2IiwiYSI6ImNrM3p1M2pwcjFkYmIzZHA3ZGZ5dW1wcGIifQ.pcrBkGP2Jq3H6bcX1M0CYg',
+                                          'id': 'mapbox.outdoors',
+                                        },
+                                      ),
+                                      MarkerLayerOptions(
+                                        markers: [
+                                          new Marker(
+                                              point: new LatLng(
+                                                  snapshot.data["latitude"],
+                                                  snapshot.data["longitude"]),
+                                              height: 50,
+                                              width: 50,
+                                              builder: (ctx) => new Container(
+                                                    child: Icon(
+                                                        Icons.location_on,
+                                                        color: Blauw),
+                                                  ))
+                                        ],
+                                      ),
                                     ],
                                   ),
-                                ],
-                              ),
-                              !isVanMij
-                                  ? Positioned(
-                                      right: 20,
-                                      bottom: -25,
-                                      child: FloatingActionButton(
-                                        backgroundColor: Blauw,
-                                        elevation: 0.0,
-                                        onPressed: () async {
-                                          var url =
-                                              'https://www.waze.com/ul?ll=${snapshot.data["latitude"]}%2C${snapshot.data["longitude"]}&navigate=yes';
+                                  !isVanMij
+                                      ? Positioned(
+                                          right: 20,
+                                          bottom: -25,
+                                          child: FloatingActionButton(
+                                            backgroundColor: Blauw,
+                                            elevation: 0.0,
+                                            onPressed: () async {
+                                              var url =
+                                                  'https://www.waze.com/ul?ll=${snapshot.data["latitude"]}%2C${snapshot.data["longitude"]}&navigate=yes';
 
-                                          if (await canLaunch(url)) {
-                                            await launch(url);
-                                          } else {
-                                            throw 'Could not launch $url';
-                                          }
-                                        },
-                                        child: Icon(Icons.navigation),
-                                      ),
-                                    )
-                                  : Container()
-                            ])),
-                    Column(
-                      children: <Widget>[
-                        Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 20),
-                            child: headerComponent(snapshot.data)),
-                        !isVanMij
-                            ? Padding(
+                                              if (await canLaunch(url)) {
+                                                await launch(url);
+                                              } else {
+                                                throw 'Could not launch $url';
+                                              }
+                                            },
+                                            child: Icon(Icons.navigation),
+                                          ),
+                                        )
+                                      : Container()
+                                ])),
+                        Column(
+                          children: <Widget>[
+                            Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 20),
+                                child: headerComponent(snapshot.data)),
+                            !isVanMij
+                                ? Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 10),
+                                    child: reservatieComponent(snapshot.data))
+                                : Container(),
+                            Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 20),
+                                child: kenmerkenComponent(snapshot.data)),
+                            Padding(
                                 padding: EdgeInsets.symmetric(vertical: 10),
-                                child: reservatieComponent(snapshot.data))
-                            : Container(),
-                        Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 20),
-                            child: kenmerkenComponent(snapshot.data)),
-                        Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10),
-                            child: imageComponent(snapshot.data)),
-                        Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 20),
-                            child: reviewsComponent(snapshot.data)),
-                        !isVanMij
-                            ? Padding(
-                                padding: EdgeInsets.only(top: 10, bottom: 30),
-                                child: Text(
-                                    translate(Keys.Apptext_Offeredby) +
-                                        eigenaarName,
-                                    textAlign: TextAlign.end,
-                                    style: TextStyle(
-                                      color: Grijs,
-                                    )),
-                              )
-                            : Container()
+                                child: imageComponent(snapshot.data)),
+                            Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 20),
+                                child: reviewsComponent(snapshot.data)),
+                            !isVanMij
+                                ? Padding(
+                                    padding:
+                                        EdgeInsets.only(top: 10, bottom: 30),
+                                    child: Text(
+                                        translate(Keys.Apptext_Offeredby) +
+                                            eigenaarName,
+                                        textAlign: TextAlign.end,
+                                        style: TextStyle(
+                                          color: Grijs,
+                                        )),
+                                  )
+                                : Container()
+                          ],
+                        )
                       ],
-                    )
-                  ],
-                ));
-              } else {
-                return Container(
-                  alignment: Alignment.center,
-                  child: CircularProgressIndicator(
-                      valueColor: new AlwaysStoppedAnimation<Color>(Blauw)),
-                );
-              }
-            })));
-  
+                    ));
+                  } else {
+                    return Container(
+                      alignment: Alignment.center,
+                      child: CircularProgressIndicator(
+                          valueColor: new AlwaysStoppedAnimation<Color>(Blauw)),
+                    );
+                  }
+                })));
   }
 
   Widget headerComponent(DocumentSnapshot garage) {
@@ -301,6 +304,7 @@ class _DetailGarageState extends State<DetailGarage> {
 
   Widget reservatieComponent(DocumentSnapshot garage) {
     var localizationDelegate = LocalizedApp.of(context).delegate;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
@@ -392,17 +396,7 @@ class _DetailGarageState extends State<DetailGarage> {
               onClickAction: endDate == null
                   ? null
                   : () {
-                      if (betalingCard.isEmpty) {
-                        showDialog(
-                          context: context,
-                          builder: (_) => ModalComponent(
-                            modalTekst: translate(Keys.Modal_Nocard),
-                            showAddCartBtn: true,
-                          ),
-                        );
-                      } else {
-                        createReservatie();
-                      }
+                      _showModalBottomSheet(context);
                     },
             ))
       ],
@@ -595,5 +589,105 @@ class _DetailGarageState extends State<DetailGarage> {
                     conversationID: value.documentID, sendName: myName)));
       });
     }
+  }
+
+  _showModalBottomSheet(context) {
+    setState(() {
+      _currentStep = 0;
+    });
+    showModalBottomSheet(
+        isDismissible: false,
+        backgroundColor: Transparant,
+        context: context,
+        builder: (BuildContext context) {
+          return StatefulBuilder(builder: (context, setState) {
+            return Container(
+              height: MediaQuery.of(context).size.height * 0.80,
+              decoration: BoxDecoration(
+                  color: Wit,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20))),
+              child: Container(
+                margin: EdgeInsets.only(top: 20),
+                child: Stepper(
+                  controlsBuilder: (BuildContext context,
+                      {VoidCallback onStepContinue,
+                      VoidCallback onStepCancel}) {
+                    return Row(
+                      children: <Widget>[
+                        Container(
+                          child: null,
+                        ),
+                        Container(
+                          child: null,
+                        ),
+                      ],
+                    );
+                  },
+                  steps: <Step>[
+                    Step(
+                      isActive: true,
+                      title: Text('Info'),
+                      content: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Text("1"),
+                          ButtonComponent(
+                              label: "Suivant",
+                              onClickAction: () {
+                                if (_currentStep >= 2) {
+                                  return;
+                                } else {
+                                  setState(() {
+                                    _currentStep += 1;
+                                  });
+                                }
+                              }),
+                        ],
+                      ),
+                    ),
+                    Step(
+                        isActive: _currentStep >= 1 ? true : false,
+                        title: Text('Suppl'),
+                        content: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            Text("2"),
+                            ButtonComponent(
+                                label: "Suivant",
+                                onClickAction: () {
+                                  if (_currentStep >= 2) {
+                                    return;
+                                  } else {
+                                    setState(() {
+                                      _currentStep += 1;
+                                    });
+                                  }
+                                }),
+                          ],
+                        )),
+                    Step(
+                        isActive: _currentStep >= 2 ? true : false,
+                        title: Text('Payer'),
+                        content: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            Text(prijs.toString()),
+                            ButtonComponent(
+                                label: "Payer",
+                                onClickAction: () {
+                                  createReservatie();
+                                }),
+                          ],
+                        )),
+                  ],
+                  type: StepperType.horizontal,
+                  currentStep: _currentStep,
+                ),
+              ),
+            );
+          });
+        });
   }
 }
