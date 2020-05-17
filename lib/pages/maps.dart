@@ -30,8 +30,8 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
   dynamic denied = PermissionStatus.denied;
 
   MapController mapController = new MapController();
-  double userLat;
-  double userLon;
+  double userLat = 0;
+  double userLon = 0;
 
   bool showMaps = false;
 
@@ -54,8 +54,6 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
     super.initState();
   }
 
-
-//TODO: fix error lat and lon is null
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,83 +96,82 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
         drawer: Navigation(activeMap: true));
   }
 
-Widget showFlutterMap(){
-  return showMaps
-            ? FlutterMap(
-                mapController: mapController,
-                options: new MapOptions(
-                  center: new LatLng(userLat, userLon),
-                  zoom: 12.0,
-                  plugins: [plugin],
-                ),
-                layers: [
-                  new TileLayerOptions(
-                    urlTemplate: "https://api.tiles.mapbox.com/v4/"
-                        "{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
-                    additionalOptions: {
-                      'accessToken':
-                          'pk.eyJ1Ijoiam9obm5hdGhhbjk2IiwiYSI6ImNrM3p1M2pwcjFkYmIzZHA3ZGZ5dW1wcGIifQ.pcrBkGP2Jq3H6bcX1M0CYg',
-                      'id': 'mapbox.outdoors',
-                    },
-                  ),
-                  MarkerLayerOptions(
-                    markers: [
-                      new Marker(
-                          point: new LatLng(userLat, userLon),
-                          height: 50,
-                          width: 50,
-                          builder: (ctx) => new Container(
-                                child:
-                                    Lottie.asset('assets/anim/position.json'),
-                              )),
-                    ],
-                  ),
-                  (plugin != null)
-                      ? MarkerClusterLayerOptions(
-                          maxClusterRadius: 120,
-                          size: Size(40, 40),
-                          fitBoundsOptions: FitBoundsOptions(
-                            padding: EdgeInsets.all(50),
-                          ),
-                          markers: markers,
-                          polygonOptions: PolygonOptions(
-                              borderColor: Blauw,
-                              color: Colors.black12,
-                              borderStrokeWidth: 3),
-                          builder: (context, markers) {
-                            return FloatingActionButton(
-                              heroTag: "markers",
-                              child: Text(markers.length.toString()),
-                              backgroundColor: Blauw,
-                              onPressed: null,
-                            );
-                          },
-                        )
-                      : MarkerLayerOptions(
-                          markers: markers,
-                        ),
+  Widget showFlutterMap() {
+    return showMaps
+        ? FlutterMap(
+            mapController: mapController,
+            options: new MapOptions(
+              center: new LatLng(userLat, userLon),
+              zoom: 12.0,
+              plugins: [plugin],
+            ),
+            layers: [
+              new TileLayerOptions(
+                urlTemplate: "https://api.tiles.mapbox.com/v4/"
+                    "{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
+                additionalOptions: {
+                  'accessToken':
+                      'pk.eyJ1Ijoiam9obm5hdGhhbjk2IiwiYSI6ImNrM3p1M2pwcjFkYmIzZHA3ZGZ5dW1wcGIifQ.pcrBkGP2Jq3H6bcX1M0CYg',
+                  'id': 'mapbox.outdoors',
+                },
+              ),
+              MarkerLayerOptions(
+                markers: [
+                  new Marker(
+                      point: new LatLng(userLat, userLon),
+                      height: 50,
+                      width: 50,
+                      builder: (ctx) => new Container(
+                            child: Lottie.asset('assets/anim/position.json'),
+                          )),
                 ],
-              )
-            : Container(
-                margin: EdgeInsets.symmetric(horizontal: 50),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    ButtonComponent(
-                        onClickAction: () {
-                          AppSettings.openLocationSettings();
-                        },
-                        label: "Activer votre Geolocalitation"),
-                    FlatButton(
-                        onPressed: () {
-                          //TODO: refresh button
-                        },
-                        child: Text("Refresh", style: TextStyle(color: Blauw)))
-                  ],
-                ),
-              );
-}
+              ),
+              (plugin != null)
+                  ? MarkerClusterLayerOptions(
+                      maxClusterRadius: 120,
+                      size: Size(40, 40),
+                      fitBoundsOptions: FitBoundsOptions(
+                        padding: EdgeInsets.all(50),
+                      ),
+                      markers: markers,
+                      polygonOptions: PolygonOptions(
+                          borderColor: Blauw,
+                          color: Colors.black12,
+                          borderStrokeWidth: 3),
+                      builder: (context, markers) {
+                        return FloatingActionButton(
+                          heroTag: "markers",
+                          child: Text(markers.length.toString()),
+                          backgroundColor: Blauw,
+                          onPressed: null,
+                        );
+                      },
+                    )
+                  : MarkerLayerOptions(
+                      markers: markers,
+                    ),
+            ],
+          )
+        : Container(
+            margin: EdgeInsets.symmetric(horizontal: 50),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                ButtonComponent(
+                    onClickAction: () {
+                      AppSettings.openLocationSettings();
+                    },
+                    label: "Activer votre Geolocalitation"),
+                FlatButton(
+                    onPressed: () {
+                      //TODO: refresh button
+                    },
+                    child: Text("Refresh", style: TextStyle(color: Blauw)))
+              ],
+            ),
+          );
+  }
 
   _getUserPosition() async {
     GeolocationStatus geolocationStatus =
@@ -207,6 +204,8 @@ Widget showFlutterMap(){
         });
       }
 
+      zoomToPosition(mapController,
+          LatLng(position.latitude, position.longitude), 15, this);
       Geolocator()
           .getPositionStream(LocationOptions(
               accuracy: LocationAccuracy.bestForNavigation, distanceFilter: 0))
