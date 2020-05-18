@@ -518,11 +518,11 @@ class _AddGarageState extends State<AddGarage> {
                 'eigenaar': globals.userId,
                 'garageImg': downloadLink,
                 'time': new DateTime.now(),
-                'street': _street + ", " + _number,
+                'street': _street.capitalize() + ", " + _number,
                 'city': _city,
                 'postcode': _postcode,
                 'prijs': int.parse(_price),
-                'beschrijving': _desciption,
+                'beschrijving': _desciption.capitalize(),
                 'maxHoogte': _high,
                 'kenmerken': _listChecked,
                 'types': _typeVoertuigen,
@@ -557,3 +557,5 @@ class _AddGarageState extends State<AddGarage> {
     }
   }
 }
+
+

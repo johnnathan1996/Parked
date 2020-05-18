@@ -247,7 +247,7 @@ class _DetailGarageState extends State<DetailGarage> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -312,8 +312,10 @@ class _DetailGarageState extends State<DetailGarage> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Padding(
-            padding: EdgeInsets.only(bottom: 10),
-            child: FlatButton(
+            padding: EdgeInsets.only(bottom: 10, right: 15, left: 15),
+            child: FlatButton.icon(
+                color: Wit,
+                icon: Icon(Icons.date_range), //TODO: CHANGER ICONE
                 onPressed: () {
                   DatePicker.showDateTimePicker(context,
                       showTitleActions: true,
@@ -333,12 +335,8 @@ class _DetailGarageState extends State<DetailGarage> {
                     }
                   });
                 },
-                child: Container(
+                label: Container(
                   height: 50,
-                  decoration: BoxDecoration(
-                      color: Wit,
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.all(Radius.circular(5.0))),
                   alignment: Alignment.center,
                   child: beginDate != null
                       ? Text(changeDateWithTime(beginDate))
@@ -347,8 +345,10 @@ class _DetailGarageState extends State<DetailGarage> {
                 ))),
         beginDate != null
             ? Padding(
-                padding: EdgeInsets.only(bottom: 10),
-                child: FlatButton(
+                padding: EdgeInsets.only(bottom: 10, right: 15, left: 15),
+                child: FlatButton.icon(
+                    color: Wit,
+                    icon: Icon(Icons.date_range), //TODO: CHANGER ICONE
                     onPressed: () {
                       DatePicker.showDateTimePicker(context,
                           showTitleActions: true,
@@ -366,12 +366,8 @@ class _DetailGarageState extends State<DetailGarage> {
                         }
                       });
                     },
-                    child: Container(
+                    label: Container(
                       height: 50,
-                      decoration: BoxDecoration(
-                          color: Wit,
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.all(Radius.circular(5.0))),
                       alignment: Alignment.center,
                       child: endDate != null
                           ? Text(changeDateWithTime(endDate))
@@ -645,7 +641,8 @@ class _DetailGarageState extends State<DetailGarage> {
                                 isActive: true,
                                 title: Text('Info'),
                                 content: Container(
-                                  height: MediaQuery.of(context).size.height * 0.4,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.4,
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     mainAxisAlignment:
@@ -676,7 +673,8 @@ class _DetailGarageState extends State<DetailGarage> {
                                               Text("To"),
                                               Container(
                                                   alignment: Alignment.center,
-                                                  child: Text(changeDate(endDate),
+                                                  child: Text(
+                                                      changeDate(endDate),
                                                       style: SizeParagraph)),
                                             ],
                                           ),
@@ -704,6 +702,8 @@ class _DetailGarageState extends State<DetailGarage> {
                                         : StepState.indexed,
                                 isActive: _currentStep >= 1 ? true : false,
                                 title: Text('Suppl'),
+                                //TODO: Rajouter les extra
+
                                 content: Column(
                                   crossAxisAlignment:
                                       CrossAxisAlignment.stretch,
@@ -776,8 +776,10 @@ class _DetailGarageState extends State<DetailGarage> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
-                                          Text("Taxes (15%)", style: SizeParagraph),
+                                          Text("Taxes (15%)",
+                                              style: SizeParagraph),
                                           Text(taxes.toString() + " €"),
+                                          //TODO: NOMBRE APRES LA VIRGULE ! A calculer dans le prix
                                         ],
                                       ),
                                     ),
@@ -795,7 +797,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                       child: ButtonComponent(
                                           label: "Payer",
                                           onClickAction: () {
-                                            // createReservatie();
+                                            createReservatie();
                                           }),
                                     ),
                                     FlatButton(

@@ -489,9 +489,9 @@ class _SignUpPageState extends State<SignUpPage> {
           .collection('users')
           .document(userData.uid)
           .setData({
-        'voornaam': _name,
-        'achternaam': _lastName,
-        'imgUrl': null ,
+        'voornaam': _name.capitalize(),
+        'achternaam': _lastName.capitalize(),
+        'imgUrl': null,
         'email': _email,
         'nummer': phoneNo,
         'gender': _gender,

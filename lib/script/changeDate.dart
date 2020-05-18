@@ -21,9 +21,12 @@ DateTime changeDatetimeToDatetime(DateTime date) {
   String seperatorDay = date.day < 10 ? "0" : '';
   String seperatorMonth = date.month < 10 ? "0" : '';
 
-  String datum = date.year.toString() + seperatorMonth +
-      date.month.toString() + seperatorDay +
-      date.day.toString() + "000000";
+  String datum = date.year.toString() +
+      seperatorMonth +
+      date.month.toString() +
+      seperatorDay +
+      date.day.toString() +
+      "000000";
 
   String dateWithT = datum.substring(0, 8) + 'T' + datum.substring(8);
   DateTime result = DateTime.parse(dateWithT);
@@ -61,9 +64,16 @@ String getTime(DateTime date) {
 double calculatePrice(DateTime firstDate, DateTime secondDate, double price) {
   int timeInMinute = secondDate.difference(firstDate).inMinutes;
 
-  double timeInHours = timeInMinute / 60;
+  //IF DEPASSE LES 24H , LE TARIF CHANGE
+  //TODO: PRIX TARIF !
 
+  double timeInHours = timeInMinute / 60;
   double result = timeInHours * price;
 
+/*  if (timeInHours <= 2) {
+    result = timeInHours * price * 10;
+    CODE UTILISER POUR LE TESTING DE HEURES
+  }
+*/
   return roundDouble(result, 2);
 }

@@ -63,11 +63,12 @@ class _RatingCardComponentState extends State<RatingCardComponent>
                       height: 40.0,
                       decoration: new BoxDecoration(
                           shape: BoxShape.circle,
-                          image: urlImage != ''
-                              ? DecorationImage(
-                                  fit: BoxFit.fill,
-                                  image: NetworkImage(urlImage))
-                              : null)),
+                          image: DecorationImage(
+                              fit: BoxFit.fill,
+                              image: urlImage != null
+                                  ? NetworkImage(urlImage)
+                                  : AssetImage(
+                                      'assets/images/default-user-image.png')))),
                   Expanded(
                       child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

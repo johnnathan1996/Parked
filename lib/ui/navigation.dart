@@ -154,8 +154,18 @@ class _NavigationState extends State<Navigation> {
                   ],
                   currentAccountPicture: Image.asset('assets/images/logo.png'),
                   accountName: snapshot.hasData
-                      ? Text(snapshot.data['voornaam'],
-                          style: TextStyle(color: Zwart))
+                  //TODO: BOUTON POUR ALLER AU PROFIL
+                      ? Row(
+                          children: <Widget>[
+                            Text(snapshot.data['voornaam'],
+                                style: TextStyle(color: Zwart)),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              size: 13,
+                              color: Blauw,
+                            ),
+                          ],
+                        )
                       : Text("voornaam", style: TextStyle(color: Zwart)),
                   accountEmail: snapshot.hasData
                       ? Text(snapshot.data['email'],
@@ -179,7 +189,9 @@ class _NavigationState extends State<Navigation> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text("V. 1.0.12", style: TextStyle(fontStyle: FontStyle.italic, color: Grijs)),
+                    Text("V. 1.0.12",
+                        style: TextStyle(
+                            fontStyle: FontStyle.italic, color: Grijs)),
                     IconButton(
                         icon: Icon(Icons.settings),
                         onPressed: () {

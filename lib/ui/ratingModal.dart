@@ -63,7 +63,7 @@ class _RatingModalState extends State<RatingModal>
                 children: <Widget>[
                   SmoothStarRating(
                       allowHalfRating: false,
-                      onRatingChanged: (value) {
+                      onRated: (value) {
                         if (this.mounted) {
                           setState(() {
                             rating = value;

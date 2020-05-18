@@ -21,3 +21,9 @@ const ShowPriceStyle =
     TextStyle(fontSize: 25.0, fontWeight: FontWeight.w500, color: Zwart);
 
 const ChatStyle = TextStyle(fontSize: 14.0, color: Grijs);
+
+extension StringExtension on String {
+  String capitalize() {
+    return "${this[0].toUpperCase()}${this.substring(1)}";
+  }
+}
