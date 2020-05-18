@@ -33,7 +33,7 @@ class Navigation extends StatefulWidget {
   });
   @override
   _NavigationState createState() => _NavigationState(
-    activeProf: activeProf,
+        activeProf: activeProf,
         activeMap: activeMap,
         activeFav: activeFav,
         activeHis: activeHis,
@@ -167,16 +167,12 @@ class _NavigationState extends State<Navigation> {
                   currentAccountPicture: Image.asset('assets/images/logo.png'),
                   accountName: snapshot.hasData
                       ? Text(snapshot.data['voornaam'],
-                                style: TextStyle(color: Zwart))
+                          style: TextStyle(color: Zwart))
                       : Text("voornaam", style: TextStyle(color: Zwart)),
                   accountEmail: snapshot.hasData
                       ? Text(snapshot.data['email'],
                           style: TextStyle(color: Zwart))
                       : Text("email", style: TextStyle(color: Zwart)),
-                  onDetailsPressed: () {
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => ProfilePage()));
-                  },
                 ),
                 Column(
                   children: navItemWidget,
