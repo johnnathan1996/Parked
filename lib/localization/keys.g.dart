@@ -131,8 +131,6 @@ class Keys {
 
   static const String Inputs_Begindate = 'Inputs.BeginDate';
 
-  static const String Inputs_Enddate = 'Inputs.endDate';
-
   static const String Inputs_Cardnumber = 'Inputs.CardNumber';
 
   static const String Inputs_Cardexp = 'Inputs.CardExp';
