@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:latlong/latlong.dart';
 import 'package:parkly/constant.dart';
@@ -14,9 +15,9 @@ import 'package:parkly/ui/showStars.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:snaplist/snaplist.dart';
 import '../setup/globals.dart' as globals;
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:parkly/localization/keys.dart';
+import 'package:date_range_picker/date_range_picker.dart' as DateRangePicker;
 
 class DetailGarage extends StatefulWidget {
   final String idGarage;
@@ -306,90 +307,53 @@ class _DetailGarageState extends State<DetailGarage> {
   }
 
   Widget reservatieComponent(DocumentSnapshot garage) {
-    var localizationDelegate = LocalizedApp.of(context).delegate;
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Padding(
-            padding: EdgeInsets.only(bottom: 10, right: 15, left: 15),
-            child: FlatButton.icon(
-                color: Wit,
-                icon: Icon(Icons.date_range), //TODO: CHANGER ICONE
-                onPressed: () {
-                  DatePicker.showDateTimePicker(context,
-                      showTitleActions: true,
-                      minTime: DateTime.now(),
-                      currentTime: DateTime.now(),
-                      locale: getCurrentLanguageLocalizationKey(
-                          localizationDelegate.currentLocale.languageCode),
-                      onConfirm: (date) {
-                    if (this.mounted) {
-                      setState(() {
-                        beginDate = date;
-                        if (endDate != null) {
-                          prijs = calculatePrice(
-                              beginDate, endDate, garage["prijs"]);
-                        }
-                      });
-                    }
-                  });
-                },
-                label: Container(
-                  height: 50,
-                  alignment: Alignment.center,
-                  child: beginDate != null
-                      ? Text(changeDateWithTime(beginDate))
-                      : Text(translate(Keys.Inputs_Begindate),
-                          style: TextStyle(color: Zwart)),
-                ))),
-        beginDate != null
-            ? Padding(
-                padding: EdgeInsets.only(bottom: 10, right: 15, left: 15),
-                child: FlatButton.icon(
-                    color: Wit,
-                    icon: Icon(Icons.date_range), //TODO: CHANGER ICONE
-                    onPressed: () {
-                      DatePicker.showDateTimePicker(context,
-                          showTitleActions: true,
-                          minTime: beginDate.add(Duration(hours: 1)),
-                          currentTime: beginDate.add(Duration(hours: 1)),
-                          locale: getCurrentLanguageLocalizationKey(
-                              localizationDelegate.currentLocale.languageCode),
-                          onConfirm: (date) {
-                        if (this.mounted) {
-                          setState(() {
-                            endDate = date;
-                            prijs = calculatePrice(
-                                beginDate, endDate, garage["prijs"]);
-                          });
-                        }
-                      });
-                    },
-                    label: Container(
-                      height: 50,
-                      alignment: Alignment.center,
-                      child: endDate != null
-                          ? Text(changeDateWithTime(endDate))
-                          : Text(translate(Keys.Inputs_Enddate),
-                              style: TextStyle(color: Zwart)),
-                    )))
-            : Container(),
-        endDate != null
-            ? Padding(
-                padding: EdgeInsets.only(bottom: 10, right: 20, left: 20),
-                child: Align(
-                  alignment: AlignmentDirectional.bottomEnd,
-                  child: Text(
-                      translate(Keys.Apptext_Total) +
-                          " " +
-                          prijs.toString() +
-                          "€",
-                      style: SubTitleCustom),
-                ))
-            : Container(),
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: MaterialButton(
+            padding: EdgeInsets.symmetric(vertical: 15),
+            elevation: 0,
+              color: Wit,
+              onPressed: () async {
+                final List<DateTime> picked =
+                    await DateRangePicker.showDatePicker(
+                        context: context,
+                        initialFirstDate: beginDate == null ? DateTime.now() : beginDate,
+                        initialLastDate: endDate == null ? (new DateTime.now()).add(new Duration(days: 5)) : endDate,
+                        firstDate: new DateTime(DateTime.now().hour - 1),
+                        lastDate: new DateTime(DateTime.now().year + 2));
+                if (picked != null && picked.length == 2) {
+                  if (this.mounted) {
+                    setState(() {
+                      beginDate = picked[0];
+                      endDate = picked[1];
+                      prijs = calculatePrice(
+                                picked[0], picked[1], garage["prijs"]);
+                    });
+                  }
+                }
+              },
+              child: endDate == null ? Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Icon(Icons.date_range),
+                  Text(translate(Keys.Inputs_Begindate)),
+                ],
+              ) : Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Text(changeDate(beginDate)),
+                  Icon(Icons.keyboard_arrow_right),
+                  Text(changeDate(endDate)),
+                ],
+              ) ,
+              
+              ),
+        ),
         Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
+            padding: EdgeInsets.only(left: 16, right: 16, top: 10),
             child: ButtonComponent(
               label: translate(Keys.Button_Reserve),
               onClickAction: endDate == null
@@ -426,7 +390,7 @@ class _DetailGarageState extends State<DetailGarage> {
             : Container(),
         garage["types"].length != 0
             ? Padding(
-                padding: EdgeInsets.only(bottom: 10),
+                padding: EdgeInsets.only(bottom: 10, top: 10),
                 child: Text(translate(Keys.Subtitle_Adaptedfor),
                     style: SubTitleCustom),
               )
@@ -496,8 +460,8 @@ class _DetailGarageState extends State<DetailGarage> {
                 child: SnapList(
                   sizeProvider: (index, data) => Size(
                       garage["rating"].length == 1
-                          ? MediaQuery.of(context).size.width * 1
-                          : MediaQuery.of(context).size.width * 0.85,
+                          ? MediaQuery.of(context).size.width * 0.90
+                          : MediaQuery.of(context).size.width * 0.80,
                       150.0),
                   separatorProvider: (index, data) => Size(10.0, 10.0),
                   builder: (context, index, data) {
@@ -778,8 +742,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                         children: <Widget>[
                                           Text("Taxes (15%)",
                                               style: SizeParagraph),
-                                          Text(taxes.toString() + " €"),
-                                          //TODO: NOMBRE APRES LA VIRGULE ! A calculer dans le prix
+                                          Text(roundDouble(taxes, 2).toString() + " €"),
                                         ],
                                       ),
                                     ),
@@ -789,7 +752,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                           MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
                                         Text("Total", style: SubTitleCustom),
-                                        Text(finalPrijs.toString() + "€"),
+                                        Text(roundDouble(finalPrijs, 2).toString() + "€"),
                                       ],
                                     ),
                                     Padding(

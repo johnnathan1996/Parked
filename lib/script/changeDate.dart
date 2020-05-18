@@ -62,18 +62,9 @@ String getTime(DateTime date) {
 }
 
 double calculatePrice(DateTime firstDate, DateTime secondDate, double price) {
-  int timeInMinute = secondDate.difference(firstDate).inMinutes;
+  int timeInDays = secondDate.difference(firstDate).inDays;
 
-  //IF DEPASSE LES 24H , LE TARIF CHANGE
-  //TODO: PRIX TARIF !
+  double result = (timeInDays + 1) * price;
 
-  double timeInHours = timeInMinute / 60;
-  double result = timeInHours * price;
-
-/*  if (timeInHours <= 2) {
-    result = timeInHours * price * 10;
-    CODE UTILISER POUR LE TESTING DE HEURES
-  }
-*/
   return roundDouble(result, 2);
 }
