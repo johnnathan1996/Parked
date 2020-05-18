@@ -16,6 +16,7 @@ import '../setup/globals.dart' as globals;
 List<Widget> navItemWidget = [];
 
 class Navigation extends StatefulWidget {
+  final bool activeProf;
   final bool activeMap;
   final bool activeFav;
   final bool activeHis;
@@ -23,6 +24,7 @@ class Navigation extends StatefulWidget {
   final bool activeGar;
 
   Navigation({
+    this.activeProf = false,
     this.activeMap = false,
     this.activeFav = false,
     this.activeHis = false,
@@ -31,6 +33,7 @@ class Navigation extends StatefulWidget {
   });
   @override
   _NavigationState createState() => _NavigationState(
+    activeProf: activeProf,
         activeMap: activeMap,
         activeFav: activeFav,
         activeHis: activeHis,
@@ -40,6 +43,7 @@ class Navigation extends StatefulWidget {
 }
 
 class _NavigationState extends State<Navigation> {
+  bool activeProf;
   bool activeMap;
   bool activeFav;
   bool activeHis;
@@ -48,6 +52,7 @@ class _NavigationState extends State<Navigation> {
 
   _NavigationState(
       {Key key,
+      this.activeProf,
       this.activeMap,
       this.activeFav,
       this.activeHis,
@@ -60,6 +65,13 @@ class _NavigationState extends State<Navigation> {
     navItemWidget = [];
 
     List navItems = [
+      {
+        "label": translate(Keys.Apptext_Profile),
+        "icon": Icons.person,
+        "active": activeProf,
+        "redirect": ProfilePage(),
+        "trailing": null
+      },
       {
         "label": translate(Keys.Navigation_Search),
         "icon": Icons.map,
@@ -154,18 +166,8 @@ class _NavigationState extends State<Navigation> {
                   ],
                   currentAccountPicture: Image.asset('assets/images/logo.png'),
                   accountName: snapshot.hasData
-                  //TODO: BOUTON POUR ALLER AU PROFIL
-                      ? Row(
-                          children: <Widget>[
-                            Text(snapshot.data['voornaam'],
-                                style: TextStyle(color: Zwart)),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              size: 13,
-                              color: Blauw,
-                            ),
-                          ],
-                        )
+                      ? Text(snapshot.data['voornaam'],
+                                style: TextStyle(color: Zwart))
                       : Text("voornaam", style: TextStyle(color: Zwart)),
                   accountEmail: snapshot.hasData
                       ? Text(snapshot.data['email'],

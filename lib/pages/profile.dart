@@ -178,7 +178,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     }
                   },
                 )),
-            drawer: Navigation()));
+            drawer: Navigation(activeProf: true)));
   }
 }
 
