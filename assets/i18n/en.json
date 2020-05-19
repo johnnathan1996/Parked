@@ -20,7 +20,7 @@
 		"Features": "Features",
 		"MaxHeigt": "Maximum height",
 		"TypeVehicules": "Adapted vehicles",
-		"Reviews" : "Reviews",
+		"Reviews": "Reviews",
 		"AdaptedFor": "Adapted for",
 		"EnterSmsCode": "Enter SMS code",
 		"InvalidCode": "Invalid code"
@@ -86,7 +86,8 @@
 		"NoBirthday": "Please set your date of birth",
 		"NoGender": "Please set your gender",
 		"Wrong": "Something went wrong!",
-		"NoImage": "You have not added a photo"
+		"NoImage": "You have not added a photo",
+		"DateNotPoss": "Your chosen dates are not possible"
 	},
 	"Errors": {
 		"IsEmpty": "Please fill in the field",
@@ -127,7 +128,8 @@
 		"StatusProfile": "Your profile is at",
 		"ChargingStation": "I confirm that I have a charging station available",
 		"ZeroReviews": "No reviews yet",
-		"FirstReviews": "Be the first to rate this garage"
+		"FirstReviews": "Be the first to rate this garage",
+		"YourReservation": "Your reservation"
 	},
 	"ChatText": {
 		"You": "You",
@@ -152,5 +154,19 @@
 		"Friday": "Friday",
 		"Saturday": "Saturday",
 		"Sunday": "Sunday"
+	},
+	"MonthsName": {
+		"January": "January",
+		"February": "February",
+		"March": "March",
+		"April": "April",
+		"May": "May",
+		"June": "June",
+		"July": "July",
+		"August": "August",
+		"September": "September",
+		"October": "October",
+		"November": "November",
+		"December": "December"
 	}
 }

@@ -20,7 +20,7 @@
 		"Features": "Caractéristiques",
 		"MaxHeigt": "Hauteur maximale",
 		"TypeVehicules": "Véhicules adaptés",
-		"Reviews" : "Avis",
+		"Reviews": "Avis",
 		"AdaptedFor": "Adapté pour",
 		"EnterSmsCode": "Entrez le code SMS",
 		"InvalidCode": "ongeldige code"
@@ -86,7 +86,8 @@
 		"NoBirthday": "Veuillez indiquer votre date de naissance",
 		"NoGender": "Veuillez indiquer votre sexe",
 		"Wrong": "Quelque chose a mal tourné!",
-		"NoImage": "Vous n'avez pas de photo"
+		"NoImage": "Vous n'avez pas de photo",
+		"DateNotPoss": "Les dates choisies ne sont pas possibles"
 	},
 	"Errors": {
 		"IsEmpty": "Veuillez remplir le champs",
@@ -127,7 +128,8 @@
 		"StatusProfile": "Votre profile est à",
 		"ChargingStation": "J'affirme avoir une borne de recharge à disposition",
 		"ZeroReviews": "Aucun avis pour le moment",
-		"FirstReviews": "Sois le premier a noter ce garage"
+		"FirstReviews": "Sois le premier a noter ce garage",
+		"YourReservation": "Votre reservation"
 	},
 	"ChatText": {
 		"You": "Vous",
@@ -143,7 +145,6 @@
 		"Three": "Éclairé",
 		"Four": "Couvert",
 		"Five": "À l'extérieur"
-		
 	},
 	"WeekDays": {
 		"Monday": "Lundi",
@@ -153,5 +154,19 @@
 		"Friday": "Vendredi",
 		"Saturday": "Samedi",
 		"Sunday": "Dimanche"
+	},
+	"MonthsName": {
+		"January": "Janvier",
+		"February": "Février",
+		"March": "Mars",
+		"April": "Avril",
+		"May": "Mai",
+		"June": "Juin",
+		"July": "Juillet",
+		"August": "Aout",
+		"September": "Septembre",
+		"October": "Octobre",
+		"November": "Novembre",
+		"December": "Décembre"
 	}
 }

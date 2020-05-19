@@ -161,6 +161,8 @@ class Keys {
 
   static const String Modal_Noimage = 'Modal.NoImage';
 
+  static const String Modal_Datenotposs = 'Modal.DateNotPoss';
+
   static const String Errors_Isempty = 'Errors.IsEmpty';
 
   static const String Errors_Mailempty = 'Errors.MailEmpty';
@@ -235,6 +237,8 @@ class Keys {
 
   static const String Apptext_Firstreviews = 'AppText.FirstReviews';
 
+  static const String Apptext_Yourreservation = 'AppText.YourReservation';
+
   static const String Chattext_You = 'ChatText.You';
 
   static const String Chattext_Message = 'ChatText.Message';
@@ -270,4 +274,28 @@ class Keys {
   static const String Weekdays_Saturday = 'WeekDays.Saturday';
 
   static const String Weekdays_Sunday = 'WeekDays.Sunday';
+
+  static const String Monthsname_January = 'MonthsName.January';
+
+  static const String Monthsname_February = 'MonthsName.February';
+
+  static const String Monthsname_March = 'MonthsName.March';
+
+  static const String Monthsname_April = 'MonthsName.April';
+
+  static const String Monthsname_May = 'MonthsName.May';
+
+  static const String Monthsname_June = 'MonthsName.June';
+
+  static const String Monthsname_July = 'MonthsName.July';
+
+  static const String Monthsname_August = 'MonthsName.August';
+
+  static const String Monthsname_September = 'MonthsName.September';
+
+  static const String Monthsname_October = 'MonthsName.October';
+
+  static const String Monthsname_November = 'MonthsName.November';
+
+  static const String Monthsname_December = 'MonthsName.December';
 }

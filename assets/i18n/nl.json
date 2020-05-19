@@ -20,7 +20,7 @@
 		"Features": "Kenmerken",
 		"MaxHeigt": "Maximale hoogte",
 		"TypeVehicules": "Aangepaste voertuigen",
-		"Reviews" : "Reviews",
+		"Reviews": "Reviews",
 		"AdaptedFor": "Aangepast voor",
 		"EnterSmsCode": "Voer sms-code in",
 		"InvalidCode": "Ongeldige code"
@@ -86,7 +86,8 @@
 		"NoBirthday": "Gelieve uw geboortedatum in te stellen",
 		"NoGender": "Gelieve uw geslacht in te stellen",
 		"Wrong": "Er is iets fout gegaan!",
-		"NoImage": "Je hebt geen foto toegevoegd"
+		"NoImage": "Je hebt geen foto toegevoegd",
+		"DateNotPoss": "Uw gekozen datums zijn niet mogelijk"
 	},
 	"Errors": {
 		"IsEmpty": "Gelieve het veld in te vullen",
@@ -127,7 +128,8 @@
 		"StatusProfile": "Je profiel staat op",
 		"ChargingStation": "Ik bevestig dat ik een laadstation beschikbaar heb",
 		"ZeroReviews": "Nog geen beoordelingen",
-		"FirstReviews": "Beoordeelt u als eerste deze garage?"
+		"FirstReviews": "Beoordeelt u als eerste deze garage?",
+		"YourReservation": "Uw reservatie"
 	},
 	"ChatText": {
 		"You": "U",
@@ -152,6 +154,19 @@
 		"Friday": "Vrijdag",
 		"Saturday": "Zaterdag",
 		"Sunday": "Zondag"
+	},
+	"MonthsName": {
+		"January": "Januari",
+		"February": "Februari",
+		"March": "Maart",
+		"April": "April",
+		"May": "Mei",
+		"June": "Juni",
+		"July": "Juli",
+		"August": "Augustus",
+		"September": "September",
+		"October": "Oktober",
+		"November": "November",
+		"December": "December"
 	}
-
 }
