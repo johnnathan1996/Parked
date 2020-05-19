@@ -143,6 +143,15 @@
 		"Three": "Verlicht",
 		"Four": "Gedekt",
 		"Five": "Buiten"
+	},
+	"WeekDays": {
+		"Monday": "Maandag",
+		"Tuesday": "Dinsdag",
+		"Wednesday": "Woensdag",
+		"Thursday": "Donderdag",
+		"Friday": "Vrijdag",
+		"Saturday": "Zaterdag",
+		"Sunday": "Zondag"
 	}
 
 }

@@ -7,6 +7,7 @@ import 'package:parkly/constant.dart';
 import 'package:parkly/pages/chatPage.dart';
 import 'package:parkly/script/changeDate.dart';
 import 'package:parkly/script/checkFavorite.dart';
+import 'package:parkly/script/getWeekDay.dart';
 import 'package:parkly/ui/button.dart';
 import 'package:parkly/ui/listText.dart';
 import 'package:parkly/ui/ratingCard.dart';
@@ -315,42 +316,46 @@ class _DetailGarageState extends State<DetailGarage> {
           child: MaterialButton(
             padding: EdgeInsets.symmetric(vertical: 15),
             elevation: 0,
-              color: Wit,
-              onPressed: () async {
-                final List<DateTime> picked =
-                    await DateRangePicker.showDatePicker(
-                        context: context,
-                        initialFirstDate: beginDate == null ? DateTime.now() : beginDate,
-                        initialLastDate: endDate == null ? (new DateTime.now()).add(new Duration(days: 5)) : endDate,
-                        firstDate: new DateTime(DateTime.now().hour - 1),
-                        lastDate: new DateTime(DateTime.now().year + 2));
-                if (picked != null && picked.length == 2) {
-                  if (this.mounted) {
-                    setState(() {
-                      beginDate = picked[0];
-                      endDate = picked[1];
-                      prijs = calculatePrice(
-                                picked[0], picked[1], garage["prijs"]);
-                    });
-                  }
+            color: Wit,
+            onPressed: () async {
+              final List<DateTime> picked =
+                  await DateRangePicker.showDatePicker(
+                      context: context,
+                      initialFirstDate:
+                          beginDate == null ? DateTime.now() : beginDate,
+                      initialLastDate: endDate == null
+                          ? (new DateTime.now()).add(new Duration(days: 5))
+                          : endDate,
+                      firstDate: new DateTime(DateTime.now().hour - 1),
+                      lastDate: new DateTime(DateTime.now().year + 2));
+              if (picked != null && picked.length == 2) {
+                if (this.mounted) {
+                  setState(() {
+                    beginDate = picked[0];
+                    endDate = picked[1];
+                    prijs =
+                        calculatePrice(picked[0], picked[1], garage["prijs"]);
+                  });
                 }
-              },
-              child: endDate == null ? Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Icon(Icons.date_range),
-                  Text(translate(Keys.Inputs_Begindate)),
-                ],
-              ) : Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Text(changeDate(beginDate)),
-                  Icon(Icons.keyboard_arrow_right),
-                  Text(changeDate(endDate)),
-                ],
-              ) ,
-              
-              ),
+              }
+            },
+            child: endDate == null
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(Icons.date_range),
+                      Text(translate(Keys.Inputs_Begindate)),
+                    ],
+                  )
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Text(changeDate(beginDate)),
+                      Icon(Icons.keyboard_arrow_right),
+                      Text(changeDate(endDate)),
+                    ],
+                  ),
+          ),
         ),
         Padding(
             padding: EdgeInsets.only(left: 16, right: 16, top: 10),
@@ -632,14 +637,24 @@ class _DetailGarageState extends State<DetailGarage> {
                                               Container(
                                                   alignment: Alignment.center,
                                                   child: Text(
-                                                      changeDate(beginDate),
-                                                      style: SizeParagraph)),
+                                                      getWeekDay(beginDate
+                                                              .weekday) +
+                                                          "\n" +
+                                                          changeDate(beginDate),
+                                                      style: SizeParagraph,
+                                                      textAlign:
+                                                          TextAlign.center)),
                                               Text("To"),
                                               Container(
                                                   alignment: Alignment.center,
                                                   child: Text(
-                                                      changeDate(endDate),
-                                                      style: SizeParagraph)),
+                                                      getWeekDay(
+                                                              endDate.weekday) +
+                                                          "\n" +
+                                                          changeDate(endDate),
+                                                      style: SizeParagraph,
+                                                      textAlign:
+                                                          TextAlign.center)),
                                             ],
                                           ),
                                         ),
@@ -742,7 +757,9 @@ class _DetailGarageState extends State<DetailGarage> {
                                         children: <Widget>[
                                           Text("Taxes (15%)",
                                               style: SizeParagraph),
-                                          Text(roundDouble(taxes, 2).toString() + " €"),
+                                          Text(
+                                              roundDouble(taxes, 2).toString() +
+                                                  " €"),
                                         ],
                                       ),
                                     ),
@@ -752,7 +769,9 @@ class _DetailGarageState extends State<DetailGarage> {
                                           MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
                                         Text("Total", style: SubTitleCustom),
-                                        Text(roundDouble(finalPrijs, 2).toString() + "€"),
+                                        Text(roundDouble(finalPrijs, 2)
+                                                .toString() +
+                                            "€"),
                                       ],
                                     ),
                                     Padding(

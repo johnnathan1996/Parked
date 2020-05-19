@@ -256,4 +256,18 @@ class Keys {
   static const String Featuregarage_Four = 'FeatureGarage.Four';
 
   static const String Featuregarage_Five = 'FeatureGarage.Five';
+
+  static const String Weekdays_Monday = 'WeekDays.Monday';
+
+  static const String Weekdays_Tuesday = 'WeekDays.Tuesday';
+
+  static const String Weekdays_Wednesday = 'WeekDays.Wednesday';
+
+  static const String Weekdays_Thursday = 'WeekDays.Thursday';
+
+  static const String Weekdays_Friday = 'WeekDays.Friday';
+
+  static const String Weekdays_Saturday = 'WeekDays.Saturday';
+
+  static const String Weekdays_Sunday = 'WeekDays.Sunday';
 }

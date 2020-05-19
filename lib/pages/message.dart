@@ -101,7 +101,7 @@ class _MessagePageState extends State<MessagePage> {
                                                   snapshots) {
                                             if (snapshots.hasData) {
                                               return Text(
-                                                  snapshots.data["voornaam"]);
+                                                  snapshots.data["voornaam"]+ " " + snapshots.data["achternaam"][0] + ".");
                                             } else {
                                               return Container();
                                             }

@@ -144,5 +144,14 @@
 		"Four": "Couvert",
 		"Five": "À l'extérieur"
 		
+	},
+	"WeekDays": {
+		"Monday": "Lundi",
+		"Tuesday": "Mardi",
+		"Wednesday": "Mercredi",
+		"Thursday": "Jeudi",
+		"Friday": "Vendredi",
+		"Saturday": "Samedi",
+		"Sunday": "Dimanche"
 	}
 }
