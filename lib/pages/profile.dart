@@ -112,7 +112,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           CHANGER DE PHOTO DE PROFIL
                                           RAJOUTER UNE MAISON
                                           RAJOUTER ADRESSE TRAVAIL/ETABLISSEMENT SCOLAIRE
-                                          METTRE  UN GARAGE EN LIGNE OUBIEN LOUER UN GARAGE 
+                                          METTRE  UN GARAGE EN LIGNE OU BIEN LOUER UN GARAGE 
                                           METTRE UN GARAGE EN FAVORIS
                                           ENVOYER UN MESSAGE -> CHECK CONEVRSATIONS.LENGTH IS NOT NULL
                                           PARTAGER L'APP AVEC DES AMIS, TRUE DNS DATABASE?

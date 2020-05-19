@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:parkly/constant.dart';
-import 'package:parkly/script/changeDate.dart';
 import '../setup/globals.dart' as globals;
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -28,24 +27,9 @@ class _AgendaTabState extends State<AgendaTab> {
       data.documents.forEach((element) {
         if (this.mounted) {
           setState(() {
-            if (_reservations.containsKey(
-                changeDatetimeToDatetime(element.data["begin"].toDate()))) {
-              _reservations.update(
-                  changeDatetimeToDatetime(element.data["begin"].toDate()),
-                  (value) {
-                value.add(element.documentID);
-
-                return value;
-              });
-            }
-
-            if (!_reservations.containsKey(
-                changeDatetimeToDatetime(element.data["begin"].toDate()))) {
-              _reservations[
-                  changeDatetimeToDatetime(element.data["begin"].toDate())] = [
-                element.documentID
-              ];
-            }
+            element.data["dates"].forEach((date) {
+              _reservations[date.toDate()] = [element.documentID];
+            });
           });
         }
       });
@@ -62,24 +46,9 @@ class _AgendaTabState extends State<AgendaTab> {
       data.documents.forEach((element) {
         if (this.mounted) {
           setState(() {
-            if (_myReservations.containsKey(
-                changeDatetimeToDatetime(element.data["begin"].toDate()))) {
-              _myReservations.update(
-                  changeDatetimeToDatetime(element.data["begin"].toDate()),
-                  (value) {
-                value.add(element.documentID);
-
-                return value;
-              });
-            }
-
-            if (!_myReservations.containsKey(
-                changeDatetimeToDatetime(element.data["begin"].toDate()))) {
-              _myReservations[
-                  changeDatetimeToDatetime(element.data["begin"].toDate())] = [
-                element.documentID
-              ];
-            }
+            element.data["dates"].forEach((date) {
+              _myReservations[date.toDate()] = [element.documentID];
+            });
           });
         }
       });
@@ -154,21 +123,9 @@ class _AgendaTabState extends State<AgendaTab> {
                   Positioned(
                       right: 0,
                       top: 0,
-                      child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 300),
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle, color: Zwart),
-                          width: 20,
-                          height: 20,
-                          child: Center(
-                            child: Text(
-                              '${events.length}',
-                              style: TextStyle().copyWith(
-                                color: Colors.white,
-                                fontSize: 12.0,
-                              ),
-                            ),
-                          ))),
+                      left: 0,
+                      bottom: 0,
+                      child: Container(color: Grijs.withOpacity(0.5))),
                 );
               }
 
@@ -221,18 +178,97 @@ class _AgendaTabState extends State<AgendaTab> {
                       builder: (BuildContext context,
                           AsyncSnapshot<DocumentSnapshot> snapshot) {
                         if (snapshot.hasData) {
-                          return Card(
-                              elevation: 0,
-                              child: ListTile(
-                                  title: Text(getTime(
-                                          snapshot.data["begin"].toDate()) +
-                                      " to " +
-                                      getTime(snapshot.data["end"].toDate()))));
+                          return StreamBuilder<DocumentSnapshot>(
+                              stream: Firestore.instance
+                                  .collection('users')
+                                  .document(snapshot.data["aanvrager"])
+                                  .snapshots(),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<DocumentSnapshot> snapshots) {
+                                if (snapshots.hasData) {
+                                  return Container(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 20, horizontal: 10),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      color: Wit,
+                                    ),
+                                    child: Column(
+                                      children: <Widget>[
+                                        Text("Garage reservé par " +
+                                            snapshots.data["voornaam"] +
+                                            " pour " +
+                                            snapshot.data["prijs"].toString() +
+                                            " €"),
+                                        Text(snapshot.data["status"]),
+                                        snapshot.data["status"] == "EN ATTENTE"
+                                            ? Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: <Widget>[
+                                                  FlatButton(
+                                                      onPressed:(){
+                                                        cancelReservation(garageId[index]);
+                                                      },
+                                                      child: Text("refuser"),
+                                                      textColor: Colors.red),
+                                                  FlatButton(
+                                                    onPressed:(){
+                                                      acceptReservation(garageId[index]);
+                                                    },
+                                                    child: Text("accepter"),
+                                                    textColor: Blauw,
+                                                  ),
+                                                ],
+                                              )
+                                            : Container()
+                                      ],
+                                    ),
+                                  );
+                                } else {
+                                  return Text("");
+                                }
+                              });
                         } else {
-                          return Text("geen data");
+                          return Container(
+                            width: 200,
+                            height: 200,
+                            alignment: Alignment.center,
+                            child: CircularProgressIndicator(
+                                valueColor:
+                                    new AlwaysStoppedAnimation<Color>(Blauw)),
+                          );
                         }
                       });
                 })));
+  }
+
+  acceptReservation(String garageId) {
+    try {
+      Firestore.instance
+          .collection('reservaties')
+          .document(garageId)
+          .updateData({
+        "accepted": true,
+        "status": "ACCEPTER",
+      });
+    } catch (e) {
+      print(e.message);
+    }
+  }
+
+  cancelReservation(String garageId) {
+    try {
+      Firestore.instance
+          .collection('reservaties')
+          .document(garageId)
+          .updateData({
+        "accepted": false,
+        "status": "REFUSER",
+      });
+    } catch (e) {
+      print(e.message);
+    }
   }
 
   getCurrentLanguageLocalizationKey(String code) {

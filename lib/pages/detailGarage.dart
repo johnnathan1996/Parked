@@ -7,6 +7,7 @@ import 'package:parkly/constant.dart';
 import 'package:parkly/pages/chatPage.dart';
 import 'package:parkly/script/changeDate.dart';
 import 'package:parkly/script/checkFavorite.dart';
+import 'package:parkly/script/getListDates.dart';
 import 'package:parkly/script/getMonth.dart';
 import 'package:parkly/script/getWeekDay.dart';
 import 'package:parkly/ui/button.dart';
@@ -56,6 +57,9 @@ class _DetailGarageState extends State<DetailGarage> {
 
   double taxes = 0.0;
   double finalPrijs = 0.0;
+
+  bool valueCheckOne = false;
+  bool valueCheckTwo = false;
 
   getUserData() {
     Firestore.instance
@@ -328,9 +332,8 @@ class _DetailGarageState extends State<DetailGarage> {
                       context: context,
                       initialFirstDate:
                           beginDate == null ? DateTime.now() : beginDate,
-                      initialLastDate: endDate == null
-                          ? (new DateTime.now()).add(new Duration(days: 5))
-                          : endDate,
+                      initialLastDate:
+                          endDate == null ? DateTime.now() : endDate,
                       firstDate: new DateTime(DateTime.now().hour - 1),
                       lastDate: new DateTime(DateTime.now().year + 2));
               if (picked != null && picked.length == 2) {
@@ -512,6 +515,8 @@ class _DetailGarageState extends State<DetailGarage> {
         'begin': beginDate,
         'end': endDate,
         'prijs': prijs,
+        'status': "EN ATTENTE",
+        'dates': getDaysInBeteween(beginDate, endDate),
         'eigenaar': eigenaarId,
         'aanvrager': globals.userId,
         'garageId': idGarage,
@@ -605,6 +610,7 @@ class _DetailGarageState extends State<DetailGarage> {
                     child: Theme(
                       data: ThemeData(canvasColor: Wit, primaryColor: Blauw),
                       child: Stepper(
+                        physics: const NeverScrollableScrollPhysics(),
                           controlsBuilder: (BuildContext context,
                               {VoidCallback onStepContinue,
                               VoidCallback onStepCancel}) {
@@ -629,7 +635,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                         ? StepState.complete
                                         : StepState.indexed,
                                 isActive: true,
-                                title: Text('Info'), //TODO: trad
+                                title: Text('Info'),
                                 content: Container(
                                   height:
                                       MediaQuery.of(context).size.height * 0.4,
@@ -780,7 +786,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                             CrossAxisAlignment.stretch,
                                         children: <Widget>[
                                           ButtonComponent(
-                                              label: "Confirmer", //TODO: trad
+                                              label: "Confirmer", 
                                               onClickAction: () {
                                                 if (_currentStep >= 2) {
                                                   return;
@@ -810,9 +816,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                         ? StepState.complete
                                         : StepState.indexed,
                                 isActive: _currentStep >= 1 ? true : false,
-                                title: Text('Suppl'), //TODO: trad
-                                //TODO: Rajouter les extra
-
+                                title: Text('Suppl'),
                                 content: Container(
                                   height:
                                       MediaQuery.of(context).size.height * 0.4,
@@ -825,9 +829,39 @@ class _DetailGarageState extends State<DetailGarage> {
                                     children: <Widget>[
                                       Column(
                                         children: <Widget>[
-                                          Text("Extra", //TODO: trad
+                                          Text(
+                                              "Ce que le proprietaire vous propose",
                                               style: SubTitleCustom,
                                               textAlign: TextAlign.center),
+                                          new CheckboxListTile(
+                                            value: valueCheckOne,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                valueCheckOne = value;
+                                              });
+                                            },
+                                            title: new Text('Besoin de lift ?'),
+                                            controlAffinity:
+                                                ListTileControlAffinity
+                                                    .trailing,
+                                            subtitle: new Text('10€'),
+                                            activeColor: Blauw,
+                                          ),
+                                          Divider(),
+                                          new CheckboxListTile(
+                                            value: valueCheckTwo,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                valueCheckTwo = value;
+                                              });
+                                            },
+                                            title: new Text('Electricité'),
+                                            controlAffinity:
+                                                ListTileControlAffinity
+                                                    .trailing,
+                                            subtitle: new Text('5€'),
+                                            activeColor: Blauw,
+                                          ),
                                         ],
                                       ),
                                       Column(
@@ -838,7 +872,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                               padding: const EdgeInsets.only(
                                                   top: 10),
                                               child: ButtonComponent(
-                                                  label: "Suivant", //TODO: trad
+                                                  label: "Suivant",
                                                   onClickAction: () {
                                                     if (_currentStep >= 2) {
                                                       return;
@@ -869,7 +903,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                 )),
                             Step(
                                 isActive: _currentStep >= 2 ? true : false,
-                                title: Text('Payer'), //TODO: trad
+                                title: Text('Payer'), 
                                 content: Container(
                                   height:
                                       MediaQuery.of(context).size.height * 0.4,
@@ -883,7 +917,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                       Column(
                                         children: <Widget>[
                                           Text(
-                                              "Résumé du paiement", //TODO: trad
+                                              "Résumé du paiement",
                                               style: SubTitleCustom,
                                               textAlign: TextAlign.center),
                                           Padding(
@@ -896,7 +930,9 @@ class _DetailGarageState extends State<DetailGarage> {
                                               children: <Widget>[
                                                 Text("Prix du Garage",
                                                     style: SizeParagraph),
-                                                 Text(garage['prijs'].toString() + " €"),
+                                                Text(
+                                                    garage['prijs'].toString() +
+                                                        " €"),
                                               ],
                                             ),
                                           ),
@@ -908,25 +944,28 @@ class _DetailGarageState extends State<DetailGarage> {
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: <Widget>[
-                                                Text("Nombre de jour", //TODO: trad
-                                                    style:
-                                                        SizeParagraph), 
-                                                Text((endDate.difference(beginDate).inDays + 1).toString()),
+                                                Text(
+                                                    "Nombre de jour",
+                                                    style: SizeParagraph),
+                                                Text((endDate
+                                                            .difference(
+                                                                beginDate)
+                                                            .inDays +
+                                                        1)
+                                                    .toString()),
                                               ],
                                             ),
                                           ),
                                           Divider(),
                                           Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: <Widget>[
-                                                Text("Total", //TODO: trad
-                                                    style:
-                                                        SizeParagraph), 
-                                                Text((prijs.toString() + " €"))
-                                              ],
-                                            ),
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              Text("Total",
+                                                  style: SizeParagraph),
+                                              Text((prijs.toString() + " €"))
+                                            ],
+                                          ),
                                           Padding(
                                             padding:
                                                 const EdgeInsets.only(top: 10),
@@ -937,7 +976,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                               children: <Widget>[
                                                 Text("Extra",
                                                     style:
-                                                        SizeParagraph), //TODO: trad
+                                                        SizeParagraph),
                                                 Text("0 €"),
                                               ],
                                             ),
@@ -950,7 +989,8 @@ class _DetailGarageState extends State<DetailGarage> {
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: <Widget>[
-                                                Text("Taxes (15%)", //TODO: trad
+                                                Text(
+                                                    "Taxes Parkly (15%)",
                                                     style: SizeParagraph),
                                                 Text(roundDouble(taxes, 2)
                                                         .toString() +
@@ -964,13 +1004,15 @@ class _DetailGarageState extends State<DetailGarage> {
                                                 MainAxisAlignment.end,
                                             children: <Widget>[
                                               Padding(
-                                                padding: const EdgeInsets.only(right: 10),
+                                                padding: const EdgeInsets.only(
+                                                    right: 10),
                                                 child: Text("Total: ",
                                                     style: SubTitleCustom),
                                               ),
-                                              Text(roundDouble(finalPrijs, 2)
-                                                      .toString() +
-                                                  "€",
+                                              Text(
+                                                  roundDouble(finalPrijs, 2)
+                                                          .toString() +
+                                                      "€",
                                                   style: SubTitleCustom),
                                             ],
                                           ),
@@ -984,12 +1026,11 @@ class _DetailGarageState extends State<DetailGarage> {
                                             padding:
                                                 const EdgeInsets.only(top: 10),
                                             child: ButtonComponent(
-                                              label: "Paye avec PayPal",
-                                              onClickAction: () {
+                                                label: "Paye avec PayPal",
+                                                onClickAction: () {
                                                   createReservatie();
                                                 }),
                                           ),
-                                          
                                           FlatButton(
                                               onPressed: () {
                                                 if (_currentStep <= 0) {
