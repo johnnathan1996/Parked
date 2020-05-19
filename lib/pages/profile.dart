@@ -11,6 +11,7 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:parkly/localization/keys.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:full_screen_image/full_screen_image.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -138,12 +139,28 @@ class _ProfilePageState extends State<ProfilePage> {
                                         height: 110,
                                         width: 110,
                                         child: snapshot.data["imgUrl"] != null
-                                            //TODO: ONCLICK OPEN IMAGE EN GRAND!
-                                            ? Image.network(
-                                                snapshot.data["imgUrl"],
-                                                fit: BoxFit.fill)
-                                            : Image.asset(
-                                                'assets/images/default-user-image.png'),
+                                            ? FullScreenWidget(
+                                                child: Center(
+                                                  child: Hero(
+                                                    tag: "smallImage",
+                                                    child: Image.network(
+                                                        snapshot.data["imgUrl"],
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                  ),
+                                                ),
+                                              )
+                                            : FullScreenWidget(
+                                                child: Center(
+                                                  child: Hero(
+                                                    tag: "smallImage",
+                                                    child: Image.asset(
+                                                        'assets/images/default-user-image.png',
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                  ),
+                                                ),
+                                              ),
                                       ),
                                     ),
                                     progressColor: Blauw,

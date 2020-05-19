@@ -62,10 +62,10 @@ class GarageCardComponent extends StatelessWidget {
                 child: Image.network(
                   garage['garageImg'],
                   fit: BoxFit.cover,
-                  loadingBuilder: (BuildContext context, Widget child,
-                      ImageChunkEvent loadingProgress) {
-                    if (loadingProgress == null) return child;
-                    return ContentPlaceholder(
+                  loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent progress) {
+                    return progress == null 
+                    ? child
+                    : ContentPlaceholder(
                       height: 250,
                     );
                   },

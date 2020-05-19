@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_map/plugin_api.dart';
+import 'package:full_screen_image/full_screen_image.dart';
 import 'package:latlong/latlong.dart';
 import 'package:parkly/constant.dart';
 import 'package:parkly/pages/chatPage.dart';
@@ -453,10 +454,32 @@ class _DetailGarageState extends State<DetailGarage> {
   Widget imageComponent(DocumentSnapshot garage) {
     return ConstrainedBox(
         constraints: const BoxConstraints(minWidth: double.infinity),
-        child: Container(
-            height: 200,
-            color: Zwart,
-            child: Image.network(garage['garageImg'], fit: BoxFit.cover)));
+        child: Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+          ClipRect(
+            child: Align(
+                alignment: Alignment.center,
+                heightFactor: 0.5,
+                child: FullScreenWidget(
+                  child: Center(
+                    child: Hero(
+                      tag: "detailImage",
+                      child: Image.network(
+                        garage['garageImg'],
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                )),
+          ),
+          Container(
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Grijs.withOpacity(0.8)),
+            child: Text("Tap to view image", style: SizeParagraph)),
+        ]));
   }
 
   Widget reviewsComponent(DocumentSnapshot garage) {
@@ -610,7 +633,7 @@ class _DetailGarageState extends State<DetailGarage> {
                     child: Theme(
                       data: ThemeData(canvasColor: Wit, primaryColor: Blauw),
                       child: Stepper(
-                        physics: const NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           controlsBuilder: (BuildContext context,
                               {VoidCallback onStepContinue,
                               VoidCallback onStepCancel}) {
@@ -786,7 +809,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                             CrossAxisAlignment.stretch,
                                         children: <Widget>[
                                           ButtonComponent(
-                                              label: "Confirmer", 
+                                              label: "Confirmer",
                                               onClickAction: () {
                                                 if (_currentStep >= 2) {
                                                   return;
@@ -903,7 +926,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                 )),
                             Step(
                                 isActive: _currentStep >= 2 ? true : false,
-                                title: Text('Payer'), 
+                                title: Text('Payer'),
                                 content: Container(
                                   height:
                                       MediaQuery.of(context).size.height * 0.4,
@@ -916,8 +939,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                     children: <Widget>[
                                       Column(
                                         children: <Widget>[
-                                          Text(
-                                              "Résumé du paiement",
+                                          Text("Résumé du paiement",
                                               style: SubTitleCustom,
                                               textAlign: TextAlign.center),
                                           Padding(
@@ -944,8 +966,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: <Widget>[
-                                                Text(
-                                                    "Nombre de jour",
+                                                Text("Nombre de jour",
                                                     style: SizeParagraph),
                                                 Text((endDate
                                                             .difference(
@@ -975,8 +996,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                                       .spaceBetween,
                                               children: <Widget>[
                                                 Text("Extra",
-                                                    style:
-                                                        SizeParagraph),
+                                                    style: SizeParagraph),
                                                 Text("0 €"),
                                               ],
                                             ),
@@ -989,8 +1009,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: <Widget>[
-                                                Text(
-                                                    "Taxes Parkly (15%)",
+                                                Text("Taxes Parkly (15%)",
                                                     style: SizeParagraph),
                                                 Text(roundDouble(taxes, 2)
                                                         .toString() +
