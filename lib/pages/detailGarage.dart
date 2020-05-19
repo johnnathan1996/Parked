@@ -7,9 +7,11 @@ import 'package:parkly/constant.dart';
 import 'package:parkly/pages/chatPage.dart';
 import 'package:parkly/script/changeDate.dart';
 import 'package:parkly/script/checkFavorite.dart';
+import 'package:parkly/script/getMonth.dart';
 import 'package:parkly/script/getWeekDay.dart';
 import 'package:parkly/ui/button.dart';
 import 'package:parkly/ui/listText.dart';
+import 'package:parkly/ui/modal.dart';
 import 'package:parkly/ui/ratingCard.dart';
 import 'package:parkly/ui/ratingModal.dart';
 import 'package:parkly/ui/showStars.dart';
@@ -313,10 +315,13 @@ class _DetailGarageState extends State<DetailGarage> {
       children: <Widget>[
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 16),
-          child: MaterialButton(
-            padding: EdgeInsets.symmetric(vertical: 15),
-            elevation: 0,
+          child: FlatButton(
+            shape: RoundedRectangleBorder(
+                side: BorderSide(
+                    color: Grijs, width: 1, style: BorderStyle.solid),
+                borderRadius: BorderRadius.circular(5)),
             color: Wit,
+            padding: EdgeInsets.symmetric(vertical: 15),
             onPressed: () async {
               final List<DateTime> picked =
                   await DateRangePicker.showDatePicker(
@@ -343,8 +348,14 @@ class _DetailGarageState extends State<DetailGarage> {
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Icon(Icons.date_range),
-                      Text(translate(Keys.Inputs_Begindate)),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: Icon(Icons.date_range, color: Zwart),
+                      ),
+                      Text(
+                        translate(Keys.Inputs_Begindate),
+                        style: TextStyle(color: Zwart),
+                      ),
                     ],
                   )
                 : Row(
@@ -364,7 +375,17 @@ class _DetailGarageState extends State<DetailGarage> {
               onClickAction: endDate == null
                   ? null
                   : () {
-                      _showModalBottomSheet(context);
+                      if (beginDate.isBefore(
+                          DateTime.now().subtract(Duration(days: 1)))) {
+                        showDialog(
+                          context: context,
+                          builder: (_) => ModalComponent(
+                            modalTekst: translate(Keys.Modal_Datenotposs),
+                          ),
+                        );
+                      } else {
+                        _showModalBottomSheet(context, garage);
+                      }
                     },
             ))
       ],
@@ -559,7 +580,7 @@ class _DetailGarageState extends State<DetailGarage> {
     }
   }
 
-  _showModalBottomSheet(context) {
+  _showModalBottomSheet(context, DocumentSnapshot garage) {
     setState(() {
       _currentStep = 0;
       finalPrijs = prijs * 1.15;
@@ -573,7 +594,7 @@ class _DetailGarageState extends State<DetailGarage> {
           return StatefulBuilder(builder: (context, setState) {
             return Container(
               decoration: BoxDecoration(
-                  color: LichtGrijs,
+                  color: Wit,
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20))),
@@ -608,7 +629,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                         ? StepState.complete
                                         : StepState.indexed,
                                 isActive: true,
-                                title: Text('Info'),
+                                title: Text('Info'), //TODO: trad
                                 content: Container(
                                   height:
                                       MediaQuery.of(context).size.height * 0.4,
@@ -620,56 +641,165 @@ class _DetailGarageState extends State<DetailGarage> {
                                         CrossAxisAlignment.stretch,
                                     children: <Widget>[
                                       Column(children: <Widget>[
-                                        Text("Detail reservation",
-                                            style: SubTitleCustom,
-                                            textAlign: TextAlign.center),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(bottom: 10),
+                                          child: Text(
+                                              translate(
+                                                  Keys.Apptext_Yourreservation),
+                                              style: SubTitleCustom,
+                                              textAlign: TextAlign.center),
+                                        ),
+                                        Container(
+                                            margin: EdgeInsets.only(bottom: 10),
+                                            child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: <Widget>[
+                                                  Container(
+                                                      height: 80,
+                                                      margin: EdgeInsets.only(
+                                                          right: 10),
+                                                      child: Image.network(
+                                                          garage['garageImg'],
+                                                          fit: BoxFit.cover)),
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: <Widget>[
+                                                      Text(garage['street'],
+                                                          style: SizeParagraph),
+                                                      Text(
+                                                          garage['city'] +
+                                                              " " +
+                                                              garage[
+                                                                  'postcode'],
+                                                          style: SizeParagraph),
+                                                    ],
+                                                  )
+                                                ])),
                                         Container(
                                           margin: EdgeInsets.only(top: 10),
-                                          height: 80,
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 10),
                                           decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(10),
                                               color: Wit),
                                           child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
                                             children: <Widget>[
+                                              Expanded(
+                                                child: Container(
+                                                    alignment: Alignment.center,
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: <Widget>[
+                                                        Text(
+                                                            getWeekDay(beginDate
+                                                                    .weekday)
+                                                                .toUpperCase(),
+                                                            style: TextStyle(
+                                                                fontSize: 13,
+                                                                color: Zwart
+                                                                    .withOpacity(
+                                                                        0.8))),
+                                                        Text(
+                                                            beginDate.day
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                                color: Blauw,
+                                                                fontSize: 40)),
+                                                        Text(
+                                                            getMonth(beginDate
+                                                                        .month)
+                                                                    .toUpperCase() +
+                                                                " " +
+                                                                beginDate.year
+                                                                    .toString(),
+                                                            style: TextStyle(
+                                                                color: Zwart
+                                                                    .withOpacity(
+                                                                        0.8))),
+                                                      ],
+                                                    )),
+                                              ),
                                               Container(
-                                                  alignment: Alignment.center,
-                                                  child: Text(
-                                                      getWeekDay(beginDate
-                                                              .weekday) +
-                                                          "\n" +
-                                                          changeDate(beginDate),
-                                                      style: SizeParagraph,
-                                                      textAlign:
-                                                          TextAlign.center)),
-                                              Text("To"),
-                                              Container(
-                                                  alignment: Alignment.center,
-                                                  child: Text(
-                                                      getWeekDay(
-                                                              endDate.weekday) +
-                                                          "\n" +
-                                                          changeDate(endDate),
-                                                      style: SizeParagraph,
-                                                      textAlign:
-                                                          TextAlign.center)),
+                                                width: 1,
+                                                color: Grijs,
+                                                height: 70,
+                                              ),
+                                              Expanded(
+                                                  child: Container(
+                                                      alignment:
+                                                          Alignment.center,
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: <Widget>[
+                                                          Text(
+                                                              getWeekDay(endDate
+                                                                      .weekday)
+                                                                  .toUpperCase(),
+                                                              style: TextStyle(
+                                                                  fontSize: 13,
+                                                                  color: Zwart
+                                                                      .withOpacity(
+                                                                          0.8))),
+                                                          Text(
+                                                              endDate.day
+                                                                  .toString(),
+                                                              style: TextStyle(
+                                                                  color: Blauw,
+                                                                  fontSize:
+                                                                      40)),
+                                                          Text(
+                                                              getMonth(endDate
+                                                                          .month)
+                                                                      .toUpperCase() +
+                                                                  " " +
+                                                                  endDate.year
+                                                                      .toString(),
+                                                              style: TextStyle(
+                                                                  color: Zwart
+                                                                      .withOpacity(
+                                                                          0.8))),
+                                                        ],
+                                                      ))),
                                             ],
                                           ),
                                         ),
                                       ]),
-                                      ButtonComponent(
-                                          label: "Confirmer",
-                                          onClickAction: () {
-                                            if (_currentStep >= 2) {
-                                              return;
-                                            } else {
-                                              setState(() {
-                                                _currentStep += 1;
-                                              });
-                                            }
-                                          }),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.stretch,
+                                        children: <Widget>[
+                                          ButtonComponent(
+                                              label: "Confirmer", //TODO: trad
+                                              onClickAction: () {
+                                                if (_currentStep >= 2) {
+                                                  return;
+                                                } else {
+                                                  setState(() {
+                                                    _currentStep += 1;
+                                                  });
+                                                }
+                                              }),
+                                          FlatButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Text(
+                                                  translate(Keys.Button_Cancel),
+                                                  style:
+                                                      TextStyle(color: Zwart)))
+                                        ],
+                                      )
                                     ],
                                   ),
                                 )),
@@ -680,115 +810,204 @@ class _DetailGarageState extends State<DetailGarage> {
                                         ? StepState.complete
                                         : StepState.indexed,
                                 isActive: _currentStep >= 1 ? true : false,
-                                title: Text('Suppl'),
+                                title: Text('Suppl'), //TODO: trad
                                 //TODO: Rajouter les extra
 
-                                content: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  children: <Widget>[
-                                    Text("Extra",
-                                        style: SubTitleCustom,
-                                        textAlign: TextAlign.center),
-                                    Padding(
-                                        padding: const EdgeInsets.only(top: 10),
-                                        child: ButtonComponent(
-                                            label: "Suivant",
-                                            onClickAction: () {
-                                              if (_currentStep >= 2) {
-                                                return;
-                                              } else {
-                                                setState(() {
-                                                  _currentStep += 1;
-                                                });
-                                              }
-                                            })),
-                                    FlatButton(
-                                        onPressed: () {
-                                          if (_currentStep <= 0) {
-                                            return;
-                                          } else {
-                                            setState(() {
-                                              _currentStep -= 1;
-                                            });
-                                          }
-                                        },
-                                        child: Text("Retour",
-                                            style: TextStyle(color: Zwart)))
-                                  ],
+                                content: Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.4,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children: <Widget>[
+                                      Column(
+                                        children: <Widget>[
+                                          Text("Extra", //TODO: trad
+                                              style: SubTitleCustom,
+                                              textAlign: TextAlign.center),
+                                        ],
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.stretch,
+                                        children: <Widget>[
+                                          Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 10),
+                                              child: ButtonComponent(
+                                                  label: "Suivant", //TODO: trad
+                                                  onClickAction: () {
+                                                    if (_currentStep >= 2) {
+                                                      return;
+                                                    } else {
+                                                      setState(() {
+                                                        _currentStep += 1;
+                                                      });
+                                                    }
+                                                  })),
+                                          FlatButton(
+                                              onPressed: () {
+                                                if (_currentStep <= 0) {
+                                                  return;
+                                                } else {
+                                                  setState(() {
+                                                    _currentStep -= 1;
+                                                  });
+                                                }
+                                              },
+                                              child: Text(
+                                                  translate(Keys.Button_Back),
+                                                  style:
+                                                      TextStyle(color: Zwart)))
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                 )),
                             Step(
                                 isActive: _currentStep >= 2 ? true : false,
-                                title: Text('Payer'),
-                                content: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  children: <Widget>[
-                                    Text("Résumé du paiement",
-                                        style: SubTitleCustom,
-                                        textAlign: TextAlign.center),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 10),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                title: Text('Payer'), //TODO: trad
+                                content: Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.4,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children: <Widget>[
+                                      Column(
                                         children: <Widget>[
-                                          Text("Garage", style: SizeParagraph),
-                                          Text(prijs.toString() + " €"),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 10),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text("Extra", style: SizeParagraph),
-                                          Text("0 €"),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 10),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text("Taxes (15%)",
-                                              style: SizeParagraph),
                                           Text(
-                                              roundDouble(taxes, 2).toString() +
-                                                  " €"),
+                                              "Résumé du paiement", //TODO: trad
+                                              style: SubTitleCustom,
+                                              textAlign: TextAlign.center),
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 10),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                Text("Prix du Garage",
+                                                    style: SizeParagraph),
+                                                 Text(garage['prijs'].toString() + " €"),
+                                              ],
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 10),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                Text("Nombre de jour", //TODO: trad
+                                                    style:
+                                                        SizeParagraph), 
+                                                Text((endDate.difference(beginDate).inDays + 1).toString()),
+                                              ],
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                Text("Total", //TODO: trad
+                                                    style:
+                                                        SizeParagraph), 
+                                                Text((prijs.toString() + " €"))
+                                              ],
+                                            ),
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 10),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                Text("Extra",
+                                                    style:
+                                                        SizeParagraph), //TODO: trad
+                                                Text("0 €"),
+                                              ],
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 10),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                Text("Taxes (15%)", //TODO: trad
+                                                    style: SizeParagraph),
+                                                Text(roundDouble(taxes, 2)
+                                                        .toString() +
+                                                    " €"),
+                                              ],
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: <Widget>[
+                                              Padding(
+                                                padding: const EdgeInsets.only(right: 10),
+                                                child: Text("Total: ",
+                                                    style: SubTitleCustom),
+                                              ),
+                                              Text(roundDouble(finalPrijs, 2)
+                                                      .toString() +
+                                                  "€",
+                                                  style: SubTitleCustom),
+                                            ],
+                                          ),
                                         ],
                                       ),
-                                    ),
-                                    Divider(),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Text("Total", style: SubTitleCustom),
-                                        Text(roundDouble(finalPrijs, 2)
-                                                .toString() +
-                                            "€"),
-                                      ],
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 10),
-                                      child: ButtonComponent(
-                                          label: "Payer",
-                                          onClickAction: () {
-                                            createReservatie();
-                                          }),
-                                    ),
-                                    FlatButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text("Annuler",
-                                            style: TextStyle(color: Zwart)))
-                                  ],
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.stretch,
+                                        children: <Widget>[
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 10),
+                                            child: ButtonComponent(
+                                              label: "Paye avec PayPal",
+                                              onClickAction: () {
+                                                  createReservatie();
+                                                }),
+                                          ),
+                                          
+                                          FlatButton(
+                                              onPressed: () {
+                                                if (_currentStep <= 0) {
+                                                  return;
+                                                } else {
+                                                  setState(() {
+                                                    _currentStep -= 1;
+                                                  });
+                                                }
+                                              },
+                                              child: Text(
+                                                  translate(Keys.Button_Back),
+                                                  style:
+                                                      TextStyle(color: Zwart)))
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                 )),
                           ]),
                     )),
