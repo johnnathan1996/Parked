@@ -3,6 +3,7 @@ import 'package:parkly/constant.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:parkly/editPages/editProfile.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:parkly/ui/listText.dart';
 import 'package:parkly/ui/navigation.dart';
 import 'package:parkly/ui/profileTab.dart';
 import 'package:parkly/ui/agendaTab.dart';
@@ -12,6 +13,7 @@ import 'package:parkly/localization/keys.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:full_screen_image/full_screen_image.dart';
+import 'package:simple_tooltip/simple_tooltip.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -22,6 +24,8 @@ class _ProfilePageState extends State<ProfilePage> {
   double percentage = 0.70;
 
   int percent;
+
+  bool showTooltip = false;
 
   @override
   void initState() {
@@ -66,6 +70,11 @@ class _ProfilePageState extends State<ProfilePage> {
                               IconButton(
                                   icon: Icon(Icons.edit),
                                   onPressed: () {
+                                    if (this.mounted) {
+                                      setState(() {
+                                        showTooltip = false;
+                                      });
+                                    }
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -107,28 +116,73 @@ class _ProfilePageState extends State<ProfilePage> {
                                     backgroundColor: LichtGrijs,
                                     header: Padding(
                                         padding: EdgeInsets.only(bottom: 10),
-                                        child: Text(
-                                            //TODO: POURCENTAGE PROFILE
-                                            /*
-                                          CHANGER DE PHOTO DE PROFIL
-                                          RAJOUTER UNE MAISON
-                                          RAJOUTER ADRESSE TRAVAIL/ETABLISSEMENT SCOLAIRE
-                                          METTRE  UN GARAGE EN LIGNE OU BIEN LOUER UN GARAGE 
-                                          METTRE UN GARAGE EN FAVORIS
-                                          ENVOYER UN MESSAGE -> CHECK CONEVRSATIONS.LENGTH IS NOT NULL
-                                          PARTAGER L'APP AVEC DES AMIS, TRUE DNS DATABASE?
-                                          */
-                                            percent == 100
-                                                ? translate(Keys
-                                                    .Apptext_Completeprofile)
-                                                : percent > 80
-                                                    ? translate(Keys
-                                                            .Apptext_Alittlebit) +
-                                                        ' $percent%'
-                                                    : translate(Keys
-                                                            .Apptext_Statusprofile) +
-                                                        ' $percent%',
-                                            style: TextStyle(color: Grijs))),
+                                        child: SimpleTooltip(
+                                            borderWidth: 0,
+                                            arrowLength: 5,
+                                            arrowBaseWidth: 10,
+                                            ballonPadding: EdgeInsets.symmetric(
+                                                horizontal: 10, vertical: 5),
+                                            customShadows: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.4),
+                                                spreadRadius: 1,
+                                                blurRadius: 5,
+                                                offset: Offset(0, 2),
+                                              ),
+                                            ],
+                                            show: showTooltip,
+                                            tooltipDirection:
+                                                TooltipDirection.down,
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                if (this.mounted) {
+                                                  setState(() {
+                                                    showTooltip = !showTooltip;
+                                                  });
+                                                }
+                                              },
+                                              child: Text(
+                                                  //TODO: POURCENTAGE PROFILE
+                                                  percent == 100
+                                                      ? translate(Keys
+                                                          .Apptext_Completeprofile)
+                                                      : percent > 80
+                                                          ? translate(Keys
+                                                                  .Apptext_Alittlebit) +
+                                                              ' $percent%'
+                                                          : translate(Keys
+                                                                  .Apptext_Statusprofile) +
+                                                              ' $percent%',
+                                                  style:
+                                                      TextStyle(color: Grijs)),
+                                            ),
+                                            content: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: <Widget>[
+                                                ListTextComponent(
+                                                    label:
+                                                        "Changer de photo de profile"),
+                                                ListTextComponent(
+                                                    label:
+                                                        "Rajouter une maison"),
+                                                ListTextComponent(
+                                                    label:
+                                                        "Rajouter une adresse de travaille"),
+                                                ListTextComponent(
+                                                    label:
+                                                        "Ajouter ou louer un garage"),
+                                                ListTextComponent(
+                                                    label:
+                                                        "Mettre un garage en favoris"),
+                                                ListTextComponent(
+                                                    label:
+                                                        "Envoyer un message"),
+                                                ListTextComponent(
+                                                    label:
+                                                        "Partager Parkly avec des amis"),
+                                              ],
+                                            ))),
                                     radius: 120.0,
                                     lineWidth: 5.0,
                                     animation: true,
@@ -144,9 +198,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                                   child: Hero(
                                                     tag: "smallImage",
                                                     child: Image.network(
-                                                        snapshot.data["imgUrl"],
-                                                        fit: BoxFit.cover,
-                                                      ),
+                                                      snapshot.data["imgUrl"],
+                                                      fit: BoxFit.cover,
+                                                    ),
                                                   ),
                                                 ),
                                               )
@@ -155,9 +209,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                                   child: Hero(
                                                     tag: "smallImage",
                                                     child: Image.asset(
-                                                        'assets/images/default-user-image.png',
-                                                        fit: BoxFit.cover,
-                                                      ),
+                                                      'assets/images/default-user-image.png',
+                                                      fit: BoxFit.cover,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
