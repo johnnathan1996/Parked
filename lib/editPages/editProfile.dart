@@ -6,12 +6,11 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:parkly/constant.dart';
 import 'package:parkly/localization/keys.dart';
+import 'package:parkly/script/changeDate.dart';
 import 'package:parkly/ui/button.dart';
 import '../setup/globals.dart' as globals;
 import 'dart:io';
 import 'package:path/path.dart';
-
-//TODO: completer edit page
 
 class EditProfile extends StatefulWidget {
   @override
@@ -20,7 +19,7 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfile> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String _lastName, _name, _newUrlImage;
+  String _lastName, _name, _newUrlImage, _gender;
   DateTime birthday;
   File fileName;
 
@@ -190,6 +189,77 @@ class _EditProfileState extends State<EditProfile> {
                                   ),
                                 ),
                               ),
+                              Container(
+                                padding: EdgeInsets.symmetric(horizontal: 10.0),
+                                margin: EdgeInsets.only(bottom: 10.0),
+                                color: Wit,
+                                child: DropdownButtonHideUnderline(
+                                    child: DropdownButton<String>(
+                                  value: _gender == null ? snapshot.data["gender"] : _gender,
+                                  icon: Icon(Icons.keyboard_arrow_down),
+                                  iconSize: 24,
+                                  hint: Text(translate(Keys.Inputs_Gender),
+                                      style: TextStyle(
+                                          color: Zwart,
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 15)),
+                                  style: TextStyle(color: Zwart),
+                                  onChanged: (String newValue) {
+                                    if (this.mounted) {
+                                      setState(() {
+                                        _gender = newValue;
+                                      });
+                                    }
+                                  },
+                                  items: <String>[
+                                    "M",
+                                    "W",
+                                    "X",
+                                  ].map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                    String tekst;
+                                    if (value == "M") {
+                                      tekst = translate(Keys.Inputs_Man);
+                                    }
+                                    if (value == "W") {
+                                      tekst = translate(Keys.Inputs_Woman);
+                                    }
+                                    if (value == "X") {
+                                      tekst = translate(Keys.Inputs_Other);
+                                    }
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(tekst),
+                                    );
+                                  }).toList(),
+                                )),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 10),
+                                child: TextFormField(
+                                  enabled: false,
+                                  initialValue: changeDate(snapshot.data["age"].toDate()),
+                                  style: TextStyle(color: Grijs,),
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    filled: true,
+                                    fillColor: Wit,
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 10),
+                                child: TextFormField(
+                                  enabled: false,
+                                  initialValue: snapshot.data["nummer"],
+                                  style: TextStyle(color: Grijs),
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    filled: true,
+                                    fillColor: Wit,
+                                  ),
+                                ),
+                              ),
                               ButtonComponent(
                                 label: translate(Keys.Button_Update),
                                 onClickAction: () {
@@ -197,7 +267,8 @@ class _EditProfileState extends State<EditProfile> {
                                       context,
                                       snapshot.data["voornaam"],
                                       snapshot.data["achternaam"],
-                                      snapshot.data["imgUrl"]);
+                                      snapshot.data["imgUrl"],
+                                      snapshot.data["gender"]);
                                 },
                               )
                             ],
@@ -302,7 +373,7 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   updateProfile(
-      BuildContext context, String firstName, String lastName, String url) {
+      BuildContext context, String firstName, String lastName, String url, String gender) {
     final formState = _formKey.currentState;
 
     if (formState.validate()) {
@@ -317,7 +388,8 @@ class _EditProfileState extends State<EditProfile> {
                 .updateData({
               'voornaam': _name == null ? firstName : _name,
               'achternaam': _lastName == null ? lastName : _lastName,
-              "imgUrl": _newUrlImage == null ? url : _newUrlImage,
+              'gender': _gender == null ? gender : _gender,
+              'imgUrl': _newUrlImage == null ? url : _newUrlImage,
             }).whenComplete(() {
               Navigator.of(context).pop();
             });
@@ -333,6 +405,7 @@ class _EditProfileState extends State<EditProfile> {
                 .updateData({
               'voornaam': _name == null ? firstName : _name,
               'achternaam': _lastName == null ? lastName : _lastName,
+              'gender': _gender == null ? gender : _gender,
               "imgUrl": url,
             }).whenComplete(() {
               Navigator.of(context).pop();
