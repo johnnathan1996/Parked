@@ -70,6 +70,12 @@
 @import geocoder;
 #endif
 
+#if __has_include(<geoflutterfire/GeoflutterfirePlugin.h>)
+#import <geoflutterfire/GeoflutterfirePlugin.h>
+#else
+@import geoflutterfire;
+#endif
+
 #if __has_include(<geolocator/GeolocatorPlugin.h>)
 #import <geolocator/GeolocatorPlugin.h>
 #else
@@ -150,6 +156,7 @@
   [FlutterLocalNotificationsPlugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterLocalNotificationsPlugin"]];
   [FluttertoastPlugin registerWithRegistrar:[registry registrarForPlugin:@"FluttertoastPlugin"]];
   [GeocoderPlugin registerWithRegistrar:[registry registrarForPlugin:@"GeocoderPlugin"]];
+  [GeoflutterfirePlugin registerWithRegistrar:[registry registrarForPlugin:@"GeoflutterfirePlugin"]];
   [GeolocatorPlugin registerWithRegistrar:[registry registrarForPlugin:@"GeolocatorPlugin"]];
   [FLTImagePickerPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTImagePickerPlugin"]];
   [LibphonenumberPlugin registerWithRegistrar:[registry registrarForPlugin:@"LibphonenumberPlugin"]];

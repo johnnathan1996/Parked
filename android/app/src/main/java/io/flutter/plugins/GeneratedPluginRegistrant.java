@@ -13,6 +13,7 @@ import com.dexterous.flutterlocalnotifications.FlutterLocalNotificationsPlugin;
 import io.flutter.plugins.flutter_plugin_android_lifecycle.FlutterAndroidLifecyclePlugin;
 import io.github.ponnamkarthik.toast.fluttertoast.FluttertoastPlugin;
 import com.aloisdeniel.geocoder.GeocoderPlugin;
+import com.noeatsleepdev.geoflutterfire.GeoflutterfirePlugin;
 import com.baseflow.geolocator.GeolocatorPlugin;
 import com.baseflow.googleapiavailability.GoogleApiAvailabilityPlugin;
 import io.flutter.plugins.imagepicker.ImagePickerPlugin;
@@ -46,6 +47,7 @@ public final class GeneratedPluginRegistrant {
     FlutterAndroidLifecyclePlugin.registerWith(registry.registrarFor("io.flutter.plugins.flutter_plugin_android_lifecycle.FlutterAndroidLifecyclePlugin"));
     FluttertoastPlugin.registerWith(registry.registrarFor("io.github.ponnamkarthik.toast.fluttertoast.FluttertoastPlugin"));
     GeocoderPlugin.registerWith(registry.registrarFor("com.aloisdeniel.geocoder.GeocoderPlugin"));
+    GeoflutterfirePlugin.registerWith(registry.registrarFor("com.noeatsleepdev.geoflutterfire.GeoflutterfirePlugin"));
     GeolocatorPlugin.registerWith(registry.registrarFor("com.baseflow.geolocator.GeolocatorPlugin"));
     GoogleApiAvailabilityPlugin.registerWith(registry.registrarFor("com.baseflow.googleapiavailability.GoogleApiAvailabilityPlugin"));
     ImagePickerPlugin.registerWith(registry.registrarFor("io.flutter.plugins.imagepicker.ImagePickerPlugin"));

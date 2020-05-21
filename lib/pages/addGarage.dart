@@ -142,6 +142,13 @@ class _AddGarageState extends State<AddGarage> {
                                 }
                                 return null;
                               },
+                              onChanged: (input) {
+                                if (this.mounted) {
+                                  setState(() {
+                                    _street = input;
+                                  });
+                                }
+                              },
                               onSaved: (input) => _street = input,
                               decoration: InputDecoration(
                                   border: InputBorder.none,
@@ -159,6 +166,13 @@ class _AddGarageState extends State<AddGarage> {
                               return translate(Keys.Errors_Isempty);
                             }
                             return null;
+                          },
+                          onChanged: (input) {
+                            if (this.mounted) {
+                              setState(() {
+                                _number = input;
+                              });
+                            }
                           },
                           onSaved: (input) => _number = input,
                           decoration: InputDecoration(
@@ -182,6 +196,13 @@ class _AddGarageState extends State<AddGarage> {
                             }
                             return null;
                           },
+                          onChanged: (input) {
+                            if (this.mounted) {
+                              setState(() {
+                                _city = input;
+                              });
+                            }
+                          },
                           onSaved: (input) => _city = input,
                           decoration: InputDecoration(
                               border: InputBorder.none,
@@ -198,6 +219,13 @@ class _AddGarageState extends State<AddGarage> {
                       return translate(Keys.Errors_Isempty);
                     }
                     return null;
+                  },
+                  onChanged: (input) {
+                    if (this.mounted) {
+                      setState(() {
+                        _postcode = input;
+                      });
+                    }
                   },
                   onSaved: (input) => _postcode = input,
                   decoration: InputDecoration(
@@ -266,7 +294,9 @@ class _AddGarageState extends State<AddGarage> {
               Expanded(
                 flex: 2,
                 child: FlatButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      searchPricNearby(context);
+                    },
                     child: Text("Prix moyens dans ta region",
                         style: TextStyle(color: Blauw))),
               ),
@@ -506,6 +536,38 @@ class _AddGarageState extends State<AddGarage> {
             ],
           );
         });
+  }
+
+  void searchPricNearby(BuildContext context) async {
+    if (_street != null ||
+        _number != null ||
+        _city != null ||
+        _postcode != null) {
+      try {
+        final query = _street + " " + _number + ", " + _city + " " + _postcode;
+        var addresses =
+            await Geocoder.local.findAddressesFromQuery(query.toString());
+        var first = addresses.first;
+
+        _longitude = first.coordinates.longitude;
+        _latitude = first.coordinates.latitude;
+
+        print(_longitude);
+        print(_latitude);
+      } catch (e) {
+        print(e);
+        showDialog(
+          context: context,
+          builder: (_) => ModalComponent(modalTekst: "Adresse non valable"),
+        );
+      }
+    } else {
+      showDialog(
+        context: context,
+        builder: (_) =>
+            ModalComponent(modalTekst: "Veuillez ecrire une adresse"),
+      );
+    }
   }
 
   void calculateCoordonateAndCreate(BuildContext context) async {
