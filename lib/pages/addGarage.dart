@@ -14,7 +14,7 @@ import '../setup/globals.dart' as globals;
 import 'package:geocoder/geocoder.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:parkly/localization/keys.dart';
-// import 'package:geoflutterfire/geoflutterfire.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 
 class AddGarage extends StatefulWidget {
   @override
@@ -539,6 +539,9 @@ class _AddGarageState extends State<AddGarage> {
   }
 
   void searchPricNearby(BuildContext context) async {
+    Geoflutterfire geo = Geoflutterfire();
+    Firestore _firestore = Firestore.instance;
+
     if (_street != null ||
         _number != null ||
         _city != null ||
@@ -549,11 +552,23 @@ class _AddGarageState extends State<AddGarage> {
             await Geocoder.local.findAddressesFromQuery(query.toString());
         var first = addresses.first;
 
-        _longitude = first.coordinates.longitude;
-        _latitude = first.coordinates.latitude;
+        GeoFirePoint center = geo.point(
+            latitude: first.coordinates.latitude,
+            longitude: first.coordinates.longitude);
 
-        print(_longitude);
-        print(_latitude);
+        var collectionReference = _firestore.collection('locations');
+
+        double radius = 50;
+        String field = 'position';
+
+        Stream<List<DocumentSnapshot>> stream = geo
+            .collection(collectionRef: collectionReference)
+            .within(center: center, radius: radius, field: field);
+
+        stream.listen((List<DocumentSnapshot> documentList) {
+          print(documentList);
+        });
+        
       } catch (e) {
         print(e);
         showDialog(
@@ -600,8 +615,7 @@ class _AddGarageState extends State<AddGarage> {
                 'kenmerken': _listChecked,
                 'types': _typeVoertuigen,
                 'rating': [],
-                'latitude': _latitude,
-                'longitude': _longitude,
+                'location': GeoPoint(_latitude, _longitude),
               }).then((data) {
                 try {
                   Firestore.instance

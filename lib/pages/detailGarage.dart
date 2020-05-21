@@ -147,9 +147,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                 children: <Widget>[
                                   FlutterMap(
                                     options: new MapOptions(
-                                      center: new LatLng(
-                                          snapshot.data["latitude"],
-                                          snapshot.data["longitude"]),
+                                      center: new LatLng(snapshot.data["location"].latitude, snapshot.data["location"].longitude),
                                       zoom: 15.0,
                                     ),
                                     layers: [
@@ -166,9 +164,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                       MarkerLayerOptions(
                                         markers: [
                                           new Marker(
-                                              point: new LatLng(
-                                                  snapshot.data["latitude"],
-                                                  snapshot.data["longitude"]),
+                                              point: new LatLng(snapshot.data["location"].latitude, snapshot.data["location"].longitude),
                                               height: 50,
                                               width: 50,
                                               builder: (ctx) => new Container(
