@@ -31,12 +31,14 @@ class _FavoritePageState extends State<FavoritePage> {
             .document(favorieteID)
             .get()
             .then((value) {
-          if (this.mounted) {
-            setState(() {
-              garageFav.add(FavoriteCardComponent(
-                garage: value,
-              ));
-            });
+          if (value.exists) {
+            if (this.mounted) {
+              setState(() {
+                garageFav.add(FavoriteCardComponent(
+                  garage: value,
+                ));
+              });
+            }
           }
         });
       });

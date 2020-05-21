@@ -35,7 +35,7 @@ String getMonth(int grade) {
 
     case 6:
       {
-       return translate(Keys.Monthsname_June);
+        return translate(Keys.Monthsname_June);
       }
       break;
 
@@ -50,7 +50,7 @@ String getMonth(int grade) {
         return translate(Keys.Monthsname_August);
       }
       break;
-    
+
     case 9:
       {
         return translate(Keys.Monthsname_September);

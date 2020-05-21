@@ -454,9 +454,7 @@ class _DetailGarageState extends State<DetailGarage> {
   Widget imageComponent(DocumentSnapshot garage) {
     return ConstrainedBox(
         constraints: const BoxConstraints(minWidth: double.infinity),
-        child: Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
+        child: Stack(alignment: Alignment.center, children: <Widget>[
           ClipRect(
             child: Align(
                 alignment: Alignment.center,
@@ -474,11 +472,11 @@ class _DetailGarageState extends State<DetailGarage> {
                 )),
           ),
           Container(
-            padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Grijs.withOpacity(0.8)),
-            child: Text("Tap to view image", style: SizeParagraph)),
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Grijs.withOpacity(0.8)),
+              child: Text("Tap to view image", style: SizeParagraph)),
         ]));
   }
 

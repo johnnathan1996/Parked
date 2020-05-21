@@ -177,14 +177,6 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
     GeolocationStatus geolocationStatus =
         await Geolocator().checkGeolocationPermissionStatus();
 
-    if (geolocationStatus == GeolocationStatus.granted) {
-      if (this.mounted) {
-        setState(() {
-          showMaps = true;
-        });
-      }
-    }
-
     if (geolocationStatus == GeolocationStatus.denied) {
       if (this.mounted) {
         setState(() {
@@ -193,37 +185,46 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
       }
     }
 
-    try {
-      position = await Geolocator()
-          .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-
+    if (geolocationStatus == GeolocationStatus.granted) {
       if (this.mounted) {
         setState(() {
-          userLat = position.latitude;
-          userLon = position.longitude;
+          showMaps = true;
         });
       }
+      try {
+        position = await Geolocator()
+            .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
-      zoomToPosition(mapController,
-          LatLng(position.latitude, position.longitude), 15, this);
-      Geolocator()
-          .getPositionStream(LocationOptions(
-              accuracy: LocationAccuracy.bestForNavigation, distanceFilter: 0))
-          .listen((Position position) {
         if (this.mounted) {
           setState(() {
             userLat = position.latitude;
             userLon = position.longitude;
           });
         }
-      });
-    } catch (error) {
-      print(error);
 
-      if (this.mounted) {
-        setState(() {
-          showMaps = false;
+        zoomToPosition(mapController,
+            LatLng(position.latitude, position.longitude), 15, this);
+
+        Geolocator()
+            .getPositionStream(LocationOptions(
+                accuracy: LocationAccuracy.bestForNavigation,
+                distanceFilter: 0))
+            .listen((Position position) {
+          if (this.mounted) {
+            setState(() {
+              userLat = position.latitude;
+              userLon = position.longitude;
+            });
+          }
         });
+      } catch (error) {
+        print(error);
+
+        if (this.mounted) {
+          setState(() {
+            showMaps = false;
+          });
+        }
       }
     }
   }

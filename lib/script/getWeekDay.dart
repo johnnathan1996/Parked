@@ -35,7 +35,7 @@ String getWeekDay(int grade) {
 
     case 6:
       {
-       return translate(Keys.Weekdays_Saturday);
+        return translate(Keys.Weekdays_Saturday);
       }
       break;
 

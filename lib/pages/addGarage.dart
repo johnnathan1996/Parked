@@ -231,7 +231,7 @@ class _AddGarageState extends State<AddGarage> {
                   onSaved: (input) => _price = input,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
-                    contentPadding: EdgeInsets.all(10),
+                      contentPadding: EdgeInsets.all(10),
                       border: OutlineInputBorder(
                         borderSide: BorderSide(color: Wit, width: 0.0),
                       ),
@@ -549,13 +549,12 @@ class _AddGarageState extends State<AddGarage> {
           });
         } else {
           showDialog(
-              context: context,
-              builder: (_) => ModalComponent(modalTekst: translate(Keys.Modal_Noimage)),
-            );
+            context: context,
+            builder: (_) =>
+                ModalComponent(modalTekst: translate(Keys.Modal_Noimage)),
+          );
         }
       });
     }
   }
 }
-
-

@@ -99,6 +99,7 @@ flutter:
    - assets/images/logo.png
    - assets/images/backgroundP.png
    - assets/images/default-user-image.png
+   - assets/images/del_garage.jpg
    - assets/anim/position.json
    - assets/anim/success.json
    - assets/i18n/fr.json

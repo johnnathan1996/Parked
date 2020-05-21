@@ -100,8 +100,12 @@ class _MessagePageState extends State<MessagePage> {
                                               AsyncSnapshot<DocumentSnapshot>
                                                   snapshots) {
                                             if (snapshots.hasData) {
-                                              return Text(
-                                                  snapshots.data["voornaam"]+ " " + snapshots.data["achternaam"][0] + ".");
+                                              return Text(snapshots
+                                                      .data["voornaam"] +
+                                                  " " +
+                                                  snapshots.data["achternaam"]
+                                                      [0] +
+                                                  ".");
                                             } else {
                                               return Container();
                                             }
@@ -122,10 +126,16 @@ class _MessagePageState extends State<MessagePage> {
                                                           DocumentSnapshot>
                                                       snapshots) {
                                                 if (snapshots.hasData) {
-                                                  return Image.network(
-                                                      snapshots
-                                                          .data['garageImg'],
-                                                      fit: BoxFit.cover);
+                                                  if (snapshots.data.exists) {
+                                                    return Image.network(
+                                                        snapshots
+                                                            .data['garageImg'],
+                                                        fit: BoxFit.cover);
+                                                  } else {
+                                                    return Image.asset(
+                                                        "assets/images/del_garage.jpg",
+                                                        fit: BoxFit.cover);
+                                                  }
                                                 } else {
                                                   return ContentPlaceholder();
                                                 }
@@ -269,10 +279,10 @@ class _MessagePageState extends State<MessagePage> {
                   );
                 } else {
                   return Container(
-                  alignment: Alignment.center,
-                  child: CircularProgressIndicator(
-                      valueColor: new AlwaysStoppedAnimation<Color>(Blauw)),
-                );
+                    alignment: Alignment.center,
+                    child: CircularProgressIndicator(
+                        valueColor: new AlwaysStoppedAnimation<Color>(Blauw)),
+                  );
                 }
               },
             )),

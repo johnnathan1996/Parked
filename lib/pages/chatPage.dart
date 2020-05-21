@@ -123,53 +123,70 @@ class _ChatPageState extends State<ChatPage> {
                                       AsyncSnapshot<DocumentSnapshot>
                                           snapshotten) {
                                     if (snapshotten.hasData) {
-                                      return OpenContainer(
-                                          closedShape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.only(
-                                                  bottomLeft:
-                                                      Radius.circular(10.0),
-                                                  bottomRight:
-                                                      Radius.circular(10.0))),
-                                          closedElevation: 0,
-                                          closedColor: Wit,
-                                          transitionType: _transitionType,
-                                          openBuilder: (BuildContext context,
-                                              VoidCallback _) {
-                                            return DetailGarage(
-                                                viaChat: true,
-                                                idGarage: snapshot
-                                                    .data.data['garageId']);
-                                          },
-                                          closedBuilder: (BuildContext context,
-                                              VoidCallback openContainer) {
-                                            return ListTile(
-                                                onTap: openContainer,
-                                                leading: Image.network(
-                                                    snapshotten
-                                                        .data['garageImg']),
-                                                title: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: <Widget>[
-                                                      Text(
-                                                          snapshotten
-                                                              .data['street'],
-                                                          style: TextStyle(
-                                                              fontSize: 16.0)),
-                                                      Text(
-                                                          snapshotten.data[
-                                                                  'city'] +
-                                                              " " +
-                                                              snapshotten.data[
-                                                                  'postcode'],
-                                                          style: TextStyle(
-                                                              fontSize: 16.0)),
-                                                    ]),
-                                                trailing: Icon(
-                                                    Icons.arrow_forward_ios,
-                                                    color: Zwart));
-                                          });
+                                      if (snapshotten.data.exists) {
+                                        return OpenContainer(
+                                            closedShape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.only(
+                                                    bottomLeft:
+                                                        Radius.circular(10.0),
+                                                    bottomRight:
+                                                        Radius.circular(10.0))),
+                                            closedElevation: 0,
+                                            closedColor: Wit,
+                                            transitionType: _transitionType,
+                                            openBuilder: (BuildContext context,
+                                                VoidCallback _) {
+                                              return DetailGarage(
+                                                  viaChat: true,
+                                                  idGarage: snapshot
+                                                      .data.data['garageId']);
+                                            },
+                                            closedBuilder: (BuildContext
+                                                    context,
+                                                VoidCallback openContainer) {
+                                              return ListTile(
+                                                  onTap: openContainer,
+                                                  leading: Image.network(
+                                                      snapshotten
+                                                          .data['garageImg']),
+                                                  title: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: <Widget>[
+                                                        Text(
+                                                            snapshotten
+                                                                .data['street'],
+                                                            style: TextStyle(
+                                                                fontSize:
+                                                                    16.0)),
+                                                        Text(
+                                                            snapshotten.data[
+                                                                    'city'] +
+                                                                " " +
+                                                                snapshotten
+                                                                        .data[
+                                                                    'postcode'],
+                                                            style: TextStyle(
+                                                                fontSize:
+                                                                    16.0)),
+                                                      ]),
+                                                  trailing: Icon(
+                                                      Icons.arrow_forward_ios,
+                                                      color: Zwart));
+                                            });
+                                      } else {
+                                        return Container(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 20),
+                                            color: Wit,
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                                "Attention, ce garage n'existe plus !",
+                                                style: TextStyle(
+                                                    color: Colors.red,
+                                                    fontSize: 18)));
+                                      }
                                     } else {
                                       return Container();
                                     }

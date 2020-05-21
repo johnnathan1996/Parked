@@ -195,7 +195,9 @@ class _EditProfileState extends State<EditProfile> {
                                 color: Wit,
                                 child: DropdownButtonHideUnderline(
                                     child: DropdownButton<String>(
-                                  value: _gender == null ? snapshot.data["gender"] : _gender,
+                                  value: _gender == null
+                                      ? snapshot.data["gender"]
+                                      : _gender,
                                   icon: Icon(Icons.keyboard_arrow_down),
                                   iconSize: 24,
                                   hint: Text(translate(Keys.Inputs_Gender),
@@ -238,8 +240,11 @@ class _EditProfileState extends State<EditProfile> {
                                 padding: const EdgeInsets.only(bottom: 10),
                                 child: TextFormField(
                                   enabled: false,
-                                  initialValue: changeDate(snapshot.data["age"].toDate()),
-                                  style: TextStyle(color: Grijs,),
+                                  initialValue:
+                                      changeDate(snapshot.data["age"].toDate()),
+                                  style: TextStyle(
+                                    color: Grijs,
+                                  ),
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
                                     filled: true,
@@ -372,8 +377,8 @@ class _EditProfileState extends State<EditProfile> {
         });
   }
 
-  updateProfile(
-      BuildContext context, String firstName, String lastName, String url, String gender) {
+  updateProfile(BuildContext context, String firstName, String lastName,
+      String url, String gender) {
     final formState = _formKey.currentState;
 
     if (formState.validate()) {
@@ -399,20 +404,20 @@ class _EditProfileState extends State<EditProfile> {
         });
       } else {
         try {
-            Firestore.instance
-                .collection('users')
-                .document(globals.userId)
-                .updateData({
-              'voornaam': _name == null ? firstName : _name,
-              'achternaam': _lastName == null ? lastName : _lastName,
-              'gender': _gender == null ? gender : _gender,
-              "imgUrl": url,
-            }).whenComplete(() {
-              Navigator.of(context).pop();
-            });
-          } catch (e) {
-            print(e.message);
-          }
+          Firestore.instance
+              .collection('users')
+              .document(globals.userId)
+              .updateData({
+            'voornaam': _name == null ? firstName : _name,
+            'achternaam': _lastName == null ? lastName : _lastName,
+            'gender': _gender == null ? gender : _gender,
+            "imgUrl": url,
+          }).whenComplete(() {
+            Navigator.of(context).pop();
+          });
+        } catch (e) {
+          print(e.message);
+        }
       }
     }
   }

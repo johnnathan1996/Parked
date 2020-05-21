@@ -78,8 +78,9 @@ class _GaragePageState extends State<GaragePage> {
                                 itemCount: snapshot.data.documents.length,
                                 itemBuilder: (_, index) {
                                   return Padding(
-                                    padding: new EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                                    child:GarageCardComponent(
+                                      padding: new EdgeInsets.symmetric(
+                                          vertical: 10, horizontal: 10),
+                                      child: GarageCardComponent(
                                         garage: snapshot.data.documents[index],
                                       ));
                                 },
