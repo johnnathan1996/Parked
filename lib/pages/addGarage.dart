@@ -14,6 +14,7 @@ import '../setup/globals.dart' as globals;
 import 'package:geocoder/geocoder.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:parkly/localization/keys.dart';
+// import 'package:geoflutterfire/geoflutterfire.dart';
 
 class AddGarage extends StatefulWidget {
   @override
@@ -72,7 +73,7 @@ class _AddGarageState extends State<AddGarage> {
                         child: ButtonComponent(
                             label: translate(Keys.Button_Add),
                             onClickAction: () {
-                              createGarage(context);
+                              calculateCoordonateAndCreate(context);
                             })),
                   ],
                 ),
@@ -221,41 +222,54 @@ class _AddGarageState extends State<AddGarage> {
           Row(
             children: <Widget>[
               Expanded(
-                child: TextFormField(
-                  validator: (input) {
-                    if (input.isEmpty) {
-                      return "";
-                    }
-                    return null;
-                  },
-                  onSaved: (input) => _price = input,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                      contentPadding: EdgeInsets.all(10),
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(color: Wit, width: 0.0),
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: TextFormField(
+                        validator: (input) {
+                          if (input.isEmpty) {
+                            return "";
+                          }
+                          return null;
+                        },
+                        onSaved: (input) => _price = input,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                            contentPadding: EdgeInsets.all(10),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(color: Wit, width: 0.0),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Wit, width: 0.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Wit, width: 0.0),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.red, width: 1.0),
+                            ),
+                            filled: true,
+                            fillColor: Wit,
+                            hintText: "5",
+                            labelStyle: TextStyle(color: Zwart)),
                       ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Wit, width: 0.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Wit, width: 0.0),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.red, width: 1.0),
-                      ),
-                      filled: true,
-                      fillColor: Wit,
-                      hintText: "5",
-                      labelStyle: TextStyle(color: Zwart)),
+                    ),
+                    Expanded(
+                        child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      child: Text("€" + translate(Keys.Apptext_Hourly)),
+                    )),
+                  ],
                 ),
               ),
               Expanded(
-                  flex: 7,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: Text("€" + translate(Keys.Apptext_Hourly)),
-                  )),
+                flex: 2,
+                child: FlatButton(
+                    onPressed: () {},
+                    child: Text("Prix moyens dans ta region",
+                        style: TextStyle(color: Blauw))),
+              ),
             ],
           )
         ]);
@@ -406,17 +420,6 @@ class _AddGarageState extends State<AddGarage> {
     ));
   }
 
-  Future calculateCoordonate(
-      String straat, String nummer, String gemeente, String postcode) async {
-    final query = straat + " " + nummer + ", " + gemeente + " " + postcode;
-    var addresses =
-        await Geocoder.local.findAddressesFromQuery(query.toString());
-    var first = addresses.first;
-
-    _longitude = first.coordinates.longitude;
-    _latitude = first.coordinates.latitude;
-  }
-
   Future takePicture() async {
     var imageFromCamera =
         await ImagePicker.pickImage(source: ImageSource.camera);
@@ -505,12 +508,20 @@ class _AddGarageState extends State<AddGarage> {
         });
   }
 
-  void createGarage(BuildContext context) async {
+  void calculateCoordonateAndCreate(BuildContext context) async {
     final formState = _formKey.currentState;
     if (formState.validate()) {
       formState.save();
 
-      calculateCoordonate(_street, _number, _city, _postcode).whenComplete(() {
+      try {
+        final query = _street + " " + _number + ", " + _city + " " + _postcode;
+        var addresses =
+            await Geocoder.local.findAddressesFromQuery(query.toString());
+        var first = addresses.first;
+
+        _longitude = first.coordinates.longitude;
+        _latitude = first.coordinates.latitude;
+
         if (fileName != null) {
           uploadToStorage(context, fileName).whenComplete(() {
             try {
@@ -554,7 +565,13 @@ class _AddGarageState extends State<AddGarage> {
                 ModalComponent(modalTekst: translate(Keys.Modal_Noimage)),
           );
         }
-      });
+      } catch (e) {
+        print(e);
+        showDialog(
+          context: context,
+          builder: (_) => ModalComponent(modalTekst: "Adresse non valable"),
+        );
+      }
     }
   }
 }
