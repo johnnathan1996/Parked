@@ -64,6 +64,7 @@ dependencies:
   date_range_picker: ^1.0.5
   full_screen_image: ^1.0.2
   simple_tooltip: ^0.1.8
+  badges: ^1.1.1
   geoflutterfire: ^2.1.0
 
   # The following adds the Cupertino Icons font to your application.

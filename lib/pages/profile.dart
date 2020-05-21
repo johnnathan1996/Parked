@@ -14,6 +14,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:full_screen_image/full_screen_image.dart';
 import 'package:simple_tooltip/simple_tooltip.dart';
+import 'package:badges/badges.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -100,7 +101,25 @@ class _ProfilePageState extends State<ProfilePage> {
                                     text: translate(Keys.Apptext_Profile),
                                   ),
                                   Tab(
-                                    text: translate(Keys.Apptext_Reservation),
+                                    icon: Badge(
+                                      shape: BadgeShape.square,
+                                      borderRadius: 5,
+                                      position: BadgePosition.topRight(
+                                          top: -12, right: -20),
+                                      padding: EdgeInsets.all(2),
+                                      badgeContent: Text(
+                                        'NEW',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      child: Text(
+                                        translate(Keys.Apptext_Reservation),
+                                        style:
+                                            TextStyle(color: Colors.grey[600]),
+                                      ),
+                                    ),
                                   )
                                 ],
                               ),
