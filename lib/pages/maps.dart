@@ -165,7 +165,7 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
                     label: "Activer votre Geolocalitation"),
                 FlatButton(
                     onPressed: () {
-                      //TODO: refresh button
+                      _getUserPosition();
                     },
                     child: Text("Refresh", style: TextStyle(color: Blauw)))
               ],
