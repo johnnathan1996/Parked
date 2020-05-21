@@ -238,12 +238,12 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
         markers.add(
           Marker(
             width: 60,
-            point: new LatLng(data.data["latitude"], data.data["longitude"]),
+            point: new LatLng(data.data["location"]["geopoint"].latitude, data.data["location"]["geopoint"].longitude),
             builder: (ctx) => GestureDetector(
                 onTap: () {
                   zoomToPosition(
                       mapController,
-                      LatLng(data.data["latitude"], data.data["longitude"]),
+                      new LatLng(data.data["location"]["geopoint"].latitude, data.data["location"]["geopoint"].longitude),
                       15,
                       this);
                   _showModalBottomSheet(context, data);

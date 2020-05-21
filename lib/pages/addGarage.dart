@@ -23,8 +23,9 @@ class AddGarage extends StatefulWidget {
 
 class _AddGarageState extends State<AddGarage> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String _street, _number, _city, _postcode, _desciption, _price, downloadLink;
+  String _street, _number, _city, _postcode, _desciption, downloadLink;
   String _high = "Geen";
+  String _price = "";
 
   File fileName;
 
@@ -32,6 +33,8 @@ class _AddGarageState extends State<AddGarage> {
 
   List<String> _listChecked = [];
   List<String> _typeVoertuigen = [];
+
+  TextEditingController priceController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -260,6 +263,7 @@ class _AddGarageState extends State<AddGarage> {
                           }
                           return null;
                         },
+                        controller: priceController,
                         onSaved: (input) => _price = input,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
@@ -540,7 +544,6 @@ class _AddGarageState extends State<AddGarage> {
 
   void searchPricNearby(BuildContext context) async {
     Geoflutterfire geo = Geoflutterfire();
-    Firestore _firestore = Firestore.instance;
 
     if (_street != null ||
         _number != null ||
@@ -556,19 +559,24 @@ class _AddGarageState extends State<AddGarage> {
             latitude: first.coordinates.latitude,
             longitude: first.coordinates.longitude);
 
-        var collectionReference = _firestore.collection('locations');
+        var collectionReference = Firestore.instance.collection("garages");
 
-        double radius = 50;
-        String field = 'position';
+        double radius = 30;
+        String field = 'location';
 
         Stream<List<DocumentSnapshot>> stream = geo
             .collection(collectionRef: collectionReference)
             .within(center: center, radius: radius, field: field);
 
         stream.listen((List<DocumentSnapshot> documentList) {
-          print(documentList);
+          double gemiddeldePrijs = 0;
+          documentList.forEach((element) {
+            gemiddeldePrijs += element.data["prijs"];
+          });
+          setState(() {
+            priceController.text = (gemiddeldePrijs / documentList.length).round().toString();
+          });
         });
-        
       } catch (e) {
         print(e);
         showDialog(
@@ -601,6 +609,10 @@ class _AddGarageState extends State<AddGarage> {
 
         if (fileName != null) {
           uploadToStorage(context, fileName).whenComplete(() {
+            Geoflutterfire geo = Geoflutterfire();
+            GeoFirePoint center =
+                geo.point(latitude: _latitude, longitude: _longitude);
+
             try {
               Firestore.instance.collection('garages').add({
                 'eigenaar': globals.userId,
@@ -615,7 +627,7 @@ class _AddGarageState extends State<AddGarage> {
                 'kenmerken': _listChecked,
                 'types': _typeVoertuigen,
                 'rating': [],
-                'location': GeoPoint(_latitude, _longitude),
+                'location': center.data,
               }).then((data) {
                 try {
                   Firestore.instance
