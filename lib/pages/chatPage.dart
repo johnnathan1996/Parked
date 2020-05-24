@@ -155,8 +155,12 @@ class _ChatPageState extends State<ChatPage> {
                                                               .start,
                                                       children: <Widget>[
                                                         Text(
-                                                            snapshotten
-                                                                .data['street'],
+                                                            snapshotten.data[
+                                                                    'street'] +
+                                                                ", " +
+                                                                snapshotten
+                                                                        .data[
+                                                                    'huisnummer'],
                                                             style: TextStyle(
                                                                 fontSize:
                                                                     16.0)),
@@ -182,7 +186,8 @@ class _ChatPageState extends State<ChatPage> {
                                             color: Wit,
                                             alignment: Alignment.center,
                                             child: Text(
-                                                translate(Keys.Apptext_Nogarage),
+                                                translate(
+                                                    Keys.Apptext_Nogarage),
                                                 style: TextStyle(
                                                     color: Colors.red,
                                                     fontSize: 18)));

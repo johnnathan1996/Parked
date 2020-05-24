@@ -133,7 +133,8 @@ class _ModalMapComponentState extends State<ModalMapComponent> {
                                   )
                                 ],
                               )),
-                          Text(garage['street'], style: SubTitleCustom),
+                          Text(garage['street'] + ", " + garage['huisnummer'],
+                              style: SubTitleCustom),
                           Text(garage['city'] + " " + garage['postcode'],
                               style: SubTitleCustom),
                         ],

@@ -16,12 +16,20 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:parkly/localization/keys.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 
-class AddGarage extends StatefulWidget {
+class EditGarage extends StatefulWidget {
+  final String idGarage;
+
+  EditGarage({
+    @required this.idGarage,
+  });
   @override
-  _AddGarageState createState() => _AddGarageState();
+  _EditGarageState createState() => _EditGarageState(idGarage: idGarage);
 }
 
-class _AddGarageState extends State<AddGarage> {
+class _EditGarageState extends State<EditGarage> {
+  String idGarage;
+  _EditGarageState({Key key, this.idGarage});
+
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String _street, _number, _city, _postcode, _desciption, downloadLink;
   String _high = translate(Keys.Featuregarage_None);
@@ -31,11 +39,36 @@ class _AddGarageState extends State<AddGarage> {
 
   num _longitude, _latitude;
 
-  List<String> _listChecked = [];
-  List<String> _typeVoertuigen = [];
+  List<dynamic> _listChecked = [];
+  List<dynamic> _typeVoertuigen = [];
 
   TextEditingController priceController = TextEditingController();
   bool showbtn = true;
+
+  @override
+  void initState() {
+    Firestore.instance
+        .collection('garages')
+        .document(idGarage)
+        .snapshots()
+        .listen((snapshot) {
+      if (this.mounted) {
+        setState(() {
+          _street = snapshot.data["street"];
+          _number = snapshot.data["huisnummer"];
+          _city = snapshot.data["city"];
+          _postcode = snapshot.data["postcode"];
+          _desciption = snapshot.data["beschrijving"];
+          downloadLink = snapshot.data["garageImg"];
+          priceController.text = snapshot.data["prijs"].toString();
+          _listChecked = snapshot.data["kenmerden"];
+          _typeVoertuigen = snapshot.data["types"];
+          _high = snapshot.data["maxHoogte"];
+        });
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,42 +80,59 @@ class _AddGarageState extends State<AddGarage> {
           title: Image.asset('assets/images/logo.png', height: 32),
         ),
         body: Container(
-          margin: EdgeInsets.all(20),
-          child: Form(
-              key: _formKey,
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                        child: imageComponent(context)),
-                    Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                        child: adresComponent()),
-                    Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                        child: priceComponent(context)),
-                    Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                        child: descComponent()),
-                    Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                        child: featuresComponent(context)),
-                    Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                        child: typesComponent(context)),
-                    Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                        child: ButtonComponent(
-                            label: translate(Keys.Button_Add),
-                            onClickAction: () {
-                              calculateCoordonateAndCreate(context);
-                            })),
-                  ],
-                ),
-              )),
-        ));
+            margin: EdgeInsets.all(20),
+            child: StreamBuilder<DocumentSnapshot>(
+                stream: Firestore.instance
+                    .collection('garages')
+                    .document(idGarage)
+                    .snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<DocumentSnapshot> snapshot) {
+                  if (snapshot.hasData) {
+                    return Form(
+                        key: _formKey,
+                        child: SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: <Widget>[
+                              Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  child: imageComponent(context)),
+                              Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  child: adresComponent()),
+                              Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  child: priceComponent(context)),
+                              Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  child: descComponent()),
+                              Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  child: featuresComponent(context)),
+                              Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  child: typesComponent(context)),
+                              Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  child: ButtonComponent(
+                                      label: translate(Keys.Button_Add),
+                                      onClickAction: () {
+                                        // updategarage(context);
+                                      })),
+                            ],
+                          ),
+                        ));
+                  } else {
+                    return Container(
+                      width: 200,
+                      height: 200,
+                      alignment: Alignment.center,
+                      child: CircularProgressIndicator(
+                          valueColor: new AlwaysStoppedAnimation<Color>(Blauw)),
+                    );
+                  }
+                })));
   }
 
   Widget imageComponent(BuildContext context) {
@@ -95,24 +145,13 @@ class _AddGarageState extends State<AddGarage> {
             actionUploadImage(context);
           },
           child: (fileName == null)
-              ? Container(
-                  alignment: Alignment.center,
-                  height: 70,
-                  color: Wit,
-                  child: RichText(
-                    text: TextSpan(
-                      style: SizeParagraph,
-                      children: [
-                        WidgetSpan(
-                          child: Padding(
-                            padding: EdgeInsets.only(right: 5),
-                            child: Icon(Icons.camera_alt),
-                          ),
-                        ),
-                        TextSpan(text: translate(Keys.Inputs_Uploadimg)),
-                      ],
-                    ),
-                  ))
+              ? ClipRect(
+                  child: Align(
+                    alignment: Alignment.center,
+                    heightFactor: 0.5,
+                    child: Image.network(downloadLink),
+                  ),
+                )
               : ClipRect(
                   child: Align(
                     alignment: Alignment.center,
@@ -140,6 +179,7 @@ class _AddGarageState extends State<AddGarage> {
                         child: Padding(
                             padding: EdgeInsets.only(right: 10),
                             child: TextFormField(
+                              initialValue: _street,
                               validator: (input) {
                                 if (input.isEmpty) {
                                   return translate(Keys.Errors_Isempty);
@@ -164,6 +204,7 @@ class _AddGarageState extends State<AddGarage> {
                     SizedBox(
                         width: 80,
                         child: TextFormField(
+                          initialValue: _number,
                           keyboardType: TextInputType.number,
                           validator: (input) {
                             if (input.isEmpty) {
@@ -194,6 +235,7 @@ class _AddGarageState extends State<AddGarage> {
                     child: Padding(
                         padding: EdgeInsets.only(right: 10),
                         child: TextFormField(
+                          initialValue: _city,
                           validator: (input) {
                             if (input.isEmpty) {
                               return translate(Keys.Errors_Isempty);
@@ -217,6 +259,7 @@ class _AddGarageState extends State<AddGarage> {
                         ))),
                 Expanded(
                     child: TextFormField(
+                  initialValue: _postcode,
                   keyboardType: TextInputType.number,
                   validator: (input) {
                     if (input.isEmpty) {
@@ -324,6 +367,7 @@ class _AddGarageState extends State<AddGarage> {
               child:
                   Text(translate(Keys.Subtitle_Desc), style: SubTitleCustom)),
           TextFormField(
+            initialValue: _desciption,
             validator: (input) {
               if (input.isEmpty) {
                 return translate(Keys.Errors_Isempty);
@@ -351,6 +395,7 @@ class _AddGarageState extends State<AddGarage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               CheckboxGroup(
+                checked: _listChecked,
                 activeColor: Blauw,
                 labels: <String>[
                   translate(Keys.Featuregarage_One),
@@ -602,7 +647,7 @@ class _AddGarageState extends State<AddGarage> {
     }
   }
 
-  void calculateCoordonateAndCreate(BuildContext context) async {
+  void updategarage(BuildContext context) async {
     final formState = _formKey.currentState;
     if (formState.validate()) {
       formState.save();
@@ -627,8 +672,7 @@ class _AddGarageState extends State<AddGarage> {
                 'eigenaar': globals.userId,
                 'garageImg': downloadLink,
                 'time': new DateTime.now(),
-                'street': _street.capitalize(),
-                'huisnummer': _number,
+                'street': _street.capitalize() + ", " + _number,
                 'city': _city,
                 'postcode': _postcode,
                 'prijs': int.parse(_price),

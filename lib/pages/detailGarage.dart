@@ -5,6 +5,7 @@ import 'package:flutter_map/plugin_api.dart';
 import 'package:full_screen_image/full_screen_image.dart';
 import 'package:latlong/latlong.dart';
 import 'package:parkly/constant.dart';
+import 'package:parkly/editPages/editGarage.dart';
 import 'package:parkly/pages/chatPage.dart';
 import 'package:parkly/script/changeDate.dart';
 import 'package:parkly/script/checkFavorite.dart';
@@ -115,9 +116,14 @@ class _DetailGarageState extends State<DetailGarage> {
                 ? Padding(
                     padding: EdgeInsets.only(right: 10),
                     child: IconButton(
-                        icon: Icon(Icons.edit, color: Blauw), onPressed: () {
-                          //TODO: edit garage 
-                          print("Edit garage");
+                        icon: Icon(Icons.edit, color: Blauw),
+                        onPressed: () {
+                          //TODO: edit garage
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      EditGarage(idGarage: idGarage)));
                         }))
                 : Padding(
                     padding: EdgeInsets.only(right: 10),
@@ -272,7 +278,8 @@ class _DetailGarageState extends State<DetailGarage> {
               Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(garage['street'], style: SubTitleCustom),
+                    Text(garage['street'] + ", " + garage['huisnummer'],
+                        style: SubTitleCustom),
                     Text(garage['city'] + " " + garage['postcode'],
                         style: SubTitleCustom),
                     Row(
@@ -707,7 +714,11 @@ class _DetailGarageState extends State<DetailGarage> {
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: <Widget>[
-                                                      Text(garage['street'],
+                                                      Text(
+                                                          garage['street'] +
+                                                              ", " +
+                                                              garage[
+                                                                  'huisnummer'],
                                                           style: SizeParagraph),
                                                       Text(
                                                           garage['city'] +

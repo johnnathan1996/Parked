@@ -84,7 +84,7 @@ class _FavoriteCardComponentState extends State<FavoriteCardComponent> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(garage['street'],
+                          Text(garage['street'] + ", " + garage['huisnummer'],
                               style: TextStyle(
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.w500,
