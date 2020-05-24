@@ -69,40 +69,38 @@ Future<void> main() async {
     selectNotificationSubject.add(payload);
   });
 
-  
-    FirebaseAuth.instance.currentUser().then((e) {
+  FirebaseAuth.instance.currentUser().then((e) {
+    Firestore.instance
+        .collection('users')
+        .document(e.uid)
+        .snapshots()
+        .listen((snapshot) {
       Firestore.instance
-          .collection('users')
-          .document(e.uid)
+          .collection('conversation')
+          .where('userInChat', arrayContains: e.uid)
           .snapshots()
-          .listen((snapshot) {
-        Firestore.instance
-            .collection('conversation')
-            .where('userInChat', arrayContains: e.uid)
-            .snapshots()
-            .listen((snapshots) {
-          snapshots.documents.forEach((element) {
-            if (element.data["chat"].length != 0) {
-              if (element.data["seenLastMessage"] == false &&
-                  element.data["chat"].last["auteur"] !=
-                      snapshot.data["voornaam"]) {
-                unreadedMessage++;
-              }
+          .listen((snapshots) {
+        snapshots.documents.forEach((element) {
+          if (element.data["chat"].length != 0) {
+            if (element.data["seenLastMessage"] == false &&
+                element.data["chat"].last["auteur"] !=
+                    snapshot.data["voornaam"]) {
+              unreadedMessage++;
             }
-          });
-
-          globals.notifications = unreadedMessage;
-          unreadedMessage = 0;
+          }
         });
 
-        checkMessages(snapshot.data["voornaam"], e.uid);
-
-        FlutterAppBadger.updateBadgeCount(globals.notifications);
+        globals.notifications = unreadedMessage;
+        unreadedMessage = 0;
       });
-    }).catchError((onError){
-      print(onError);
+
+      checkMessages(snapshot.data["voornaam"], e.uid);
+
+      FlutterAppBadger.updateBadgeCount(globals.notifications);
     });
-  
+  }).catchError((onError) {
+    print(onError);
+  });
 
   initializeDateFormatting().then((_) => runApp(LocalizedApp(
       delegate,

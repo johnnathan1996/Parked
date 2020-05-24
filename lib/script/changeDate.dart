@@ -1,7 +1,7 @@
 import 'dart:math';
 
-double roundDouble(double value, int places) {
-  double mod = pow(10.0, places);
+double roundDouble(num value, int places) {
+  num mod = pow(10.0, places);
   return ((value * mod).round().toDouble() / mod);
 }
 
@@ -61,10 +61,10 @@ String getTime(DateTime date) {
   return result;
 }
 
-double calculatePrice(DateTime firstDate, DateTime secondDate, double price) {
+double calculatePrice(DateTime firstDate, DateTime secondDate, num price) {
   int timeInDays = secondDate.difference(firstDate).inDays;
 
-  double result = (timeInDays + 1) * price;
+  num result = (timeInDays + 1) * price;
 
   return roundDouble(result, 2);
 }

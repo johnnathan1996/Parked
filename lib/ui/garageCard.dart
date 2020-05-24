@@ -62,12 +62,13 @@ class GarageCardComponent extends StatelessWidget {
                 child: Image.network(
                   garage['garageImg'],
                   fit: BoxFit.cover,
-                  loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent progress) {
-                    return progress == null 
-                    ? child
-                    : ContentPlaceholder(
-                      height: 250,
-                    );
+                  loadingBuilder: (BuildContext context, Widget child,
+                      ImageChunkEvent progress) {
+                    return progress == null
+                        ? child
+                        : ContentPlaceholder(
+                            height: 250,
+                          );
                   },
                 ),
               ),
@@ -117,8 +118,9 @@ class GarageCardComponent extends StatelessWidget {
 
   deletePost(String id) async {
     Firestore.instance.collection('users').document(globals.userId).updateData({
-      "mijnGarage": FieldValue.arrayRemove([id])
-    }).then((value) {
+      "mijnGarage": FieldValue.arrayRemove([id]),
+      "favoriet": FieldValue.arrayRemove([id]) //TODO: check si ça fonctionne
+    }).whenComplete(() {
       Firestore.instance.collection("garages").document(id).delete();
     });
   }

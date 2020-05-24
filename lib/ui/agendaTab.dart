@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:parkly/constant.dart';
+import 'package:parkly/localization/keys.dart';
 import '../setup/globals.dart' as globals;
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -195,11 +196,13 @@ class _AgendaTabState extends State<AgendaTab> {
                                     ),
                                     child: Column(
                                       children: <Widget>[
-                                        Text("Garage reservé par " +
-                                            snapshots.data["voornaam"] +
-                                            " pour " +
-                                            snapshot.data["prijs"].toString() +
-                                            " €"),
+                                        Text(
+                                            translate(Keys.Apptext_Reservedby) +
+                                                snapshots.data["voornaam"] +
+                                                " pour " +
+                                                snapshot.data["prijs"]
+                                                    .toString() +
+                                                " €"),
                                         Text(snapshot.data["status"]),
                                         snapshot.data["status"] == "EN ATTENTE"
                                             ? Row(
@@ -207,16 +210,20 @@ class _AgendaTabState extends State<AgendaTab> {
                                                     MainAxisAlignment.center,
                                                 children: <Widget>[
                                                   FlatButton(
-                                                      onPressed:(){
-                                                        cancelReservation(garageId[index]);
+                                                      onPressed: () {
+                                                        cancelReservation(
+                                                            garageId[index]);
                                                       },
-                                                      child: Text("refuser"),
+                                                      child: Text(translate(
+                                                          Keys.Button_Refuse)),
                                                       textColor: Colors.red),
                                                   FlatButton(
-                                                    onPressed:(){
-                                                      acceptReservation(garageId[index]);
+                                                    onPressed: () {
+                                                      acceptReservation(
+                                                          garageId[index]);
                                                     },
-                                                    child: Text("accepter"),
+                                                    child: Text(translate(
+                                                        Keys.Button_Accept)),
                                                     textColor: Blauw,
                                                   ),
                                                 ],

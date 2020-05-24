@@ -168,11 +168,11 @@ class _NavigationState extends State<Navigation> {
                   accountName: snapshot.hasData
                       ? Text(snapshot.data['voornaam'],
                           style: TextStyle(color: Zwart))
-                      : Text("voornaam", style: TextStyle(color: Zwart)),
+                      : Text("", style: TextStyle(color: Zwart)),
                   accountEmail: snapshot.hasData
                       ? Text(snapshot.data['email'],
                           style: TextStyle(color: Zwart))
-                      : Text("email", style: TextStyle(color: Zwart)),
+                      : Text("", style: TextStyle(color: Zwart)),
                 ),
                 Column(
                   children: navItemWidget,

@@ -24,7 +24,7 @@ class AddGarage extends StatefulWidget {
 class _AddGarageState extends State<AddGarage> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String _street, _number, _city, _postcode, _desciption, downloadLink;
-  String _high = "Geen";
+  String _high = translate(Keys.Featuregarage_None);
   String _price = "";
 
   File fileName;
@@ -35,6 +35,7 @@ class _AddGarageState extends State<AddGarage> {
   List<String> _typeVoertuigen = [];
 
   TextEditingController priceController = TextEditingController();
+  bool showbtn = true;
 
   @override
   Widget build(BuildContext context) {
@@ -283,7 +284,7 @@ class _AddGarageState extends State<AddGarage> {
                             ),
                             filled: true,
                             fillColor: Wit,
-                            hintText: "5",
+                            hintText: translate(Keys.Subtitle_Price),
                             labelStyle: TextStyle(color: Zwart)),
                       ),
                     ),
@@ -297,12 +298,17 @@ class _AddGarageState extends State<AddGarage> {
               ),
               Expanded(
                 flex: 2,
-                child: FlatButton(
-                    onPressed: () {
-                      searchPricNearby(context);
-                    },
-                    child: Text("Prix moyens dans ta region",
-                        style: TextStyle(color: Blauw))),
+                child: showbtn
+                    ? FlatButton(
+                        onPressed: () {
+                          searchPricNearby(context);
+                        },
+                        child: Text(translate(Keys.Button_Averageprice),
+                            style: TextStyle(color: Blauw)))
+                    : Text(translate(Keys.Apptext_Avaragekm),
+                        style: TextStyle(
+                            color: Zwart.withOpacity(0.7),
+                            fontStyle: FontStyle.italic)),
               ),
             ],
           )
@@ -574,21 +580,24 @@ class _AddGarageState extends State<AddGarage> {
             gemiddeldePrijs += element.data["prijs"];
           });
           setState(() {
-            priceController.text = (gemiddeldePrijs / documentList.length).round().toString();
+            priceController.text =
+                (gemiddeldePrijs / documentList.length).round().toString();
+            showbtn = false;
           });
         });
       } catch (e) {
         print(e);
         showDialog(
           context: context,
-          builder: (_) => ModalComponent(modalTekst: "Adresse non valable"),
+          builder: (_) =>
+              ModalComponent(modalTekst: translate(Keys.Modal_Invalidaddress)),
         );
       }
     } else {
       showDialog(
         context: context,
         builder: (_) =>
-            ModalComponent(modalTekst: "Veuillez ecrire une adresse"),
+            ModalComponent(modalTekst: translate(Keys.Modal_Writeaddress)),
       );
     }
   }

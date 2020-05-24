@@ -8,17 +8,33 @@ const LichtGrijs = Color(0xFFFAFAFA);
 
 const Transparant = Color(0x00FFFFFF);
 
-const TitleCustom =
-    TextStyle(fontSize: 30.0, fontWeight: FontWeight.w500, color: Zwart, decoration: TextDecoration.none,);
+const TitleCustom = TextStyle(
+  fontSize: 30.0,
+  fontWeight: FontWeight.w500,
+  color: Zwart,
+  decoration: TextDecoration.none,
+);
 
-const SubTitleCustom =
-    TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500, color: Zwart, decoration: TextDecoration.none,);
+const SubTitleCustom = TextStyle(
+  fontSize: 20.0,
+  fontWeight: FontWeight.w500,
+  color: Zwart,
+  decoration: TextDecoration.none,
+);
 
-const SizeParagraph =
-    TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400, color: Zwart, decoration: TextDecoration.none,);
+const SizeParagraph = TextStyle(
+  fontSize: 16.0,
+  fontWeight: FontWeight.w400,
+  color: Zwart,
+  decoration: TextDecoration.none,
+);
 
-const ShowPriceStyle =
-    TextStyle(fontSize: 25.0, fontWeight: FontWeight.w500, color: Zwart, decoration: TextDecoration.none,);
+const ShowPriceStyle = TextStyle(
+  fontSize: 25.0,
+  fontWeight: FontWeight.w500,
+  color: Zwart,
+  decoration: TextDecoration.none,
+);
 
 const ChatStyle = TextStyle(fontSize: 14.0, color: Grijs);
 

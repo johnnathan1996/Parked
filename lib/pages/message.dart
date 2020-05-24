@@ -245,7 +245,7 @@ class _MessagePageState extends State<MessagePage> {
                                                                 .data["chat"]
                                                                 .last["message"],
                                                           )))
-                                              : Text("Pas encore de message")
+                                              : Text(translate(Keys.Apptext_Nomessage))
                                         ],
                                       ),
                                       trailing: snapshot.data.documents[index]

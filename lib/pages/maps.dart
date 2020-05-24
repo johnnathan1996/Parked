@@ -167,7 +167,8 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
                     onPressed: () {
                       _getUserPosition();
                     },
-                    child: Text("Refresh", style: TextStyle(color: Blauw)))
+                    child: Text(translate(Keys.Button_Refresh),
+                        style: TextStyle(color: Blauw)))
               ],
             ),
           );
@@ -238,12 +239,14 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
         markers.add(
           Marker(
             width: 60,
-            point: new LatLng(data.data["location"]["geopoint"].latitude, data.data["location"]["geopoint"].longitude),
+            point: new LatLng(data.data["location"]["geopoint"].latitude,
+                data.data["location"]["geopoint"].longitude),
             builder: (ctx) => GestureDetector(
                 onTap: () {
                   zoomToPosition(
                       mapController,
-                      new LatLng(data.data["location"]["geopoint"].latitude, data.data["location"]["geopoint"].longitude),
+                      new LatLng(data.data["location"]["geopoint"].latitude,
+                          data.data["location"]["geopoint"].longitude),
                       15,
                       this);
                   _showModalBottomSheet(context, data);

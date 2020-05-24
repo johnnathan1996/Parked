@@ -147,7 +147,11 @@ class _DetailGarageState extends State<DetailGarage> {
                                 children: <Widget>[
                                   FlutterMap(
                                     options: new MapOptions(
-                                      center: new LatLng(snapshot.data["location"]["geopoint"].latitude, snapshot.data["location"]["geopoint"].longitude),
+                                      center: new LatLng(
+                                          snapshot.data["location"]["geopoint"]
+                                              .latitude,
+                                          snapshot.data["location"]["geopoint"]
+                                              .longitude),
                                       zoom: 15.0,
                                     ),
                                     layers: [
@@ -164,7 +168,15 @@ class _DetailGarageState extends State<DetailGarage> {
                                       MarkerLayerOptions(
                                         markers: [
                                           new Marker(
-                                              point: new LatLng(snapshot.data["location"]["geopoint"].latitude, snapshot.data["location"]["geopoint"].longitude),
+                                              point: new LatLng(
+                                                  snapshot
+                                                      .data["location"]
+                                                          ["geopoint"]
+                                                      .latitude,
+                                                  snapshot
+                                                      .data["location"]
+                                                          ["geopoint"]
+                                                      .longitude),
                                               height: 50,
                                               width: 50,
                                               builder: (ctx) => new Container(
@@ -472,7 +484,8 @@ class _DetailGarageState extends State<DetailGarage> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: Grijs.withOpacity(0.8)),
-              child: Text("Tap to view image", style: SizeParagraph)),
+              child:
+                  Text(translate(Keys.Apptext_Tapimage), style: SizeParagraph)),
         ]));
   }
 
@@ -847,7 +860,8 @@ class _DetailGarageState extends State<DetailGarage> {
                                       Column(
                                         children: <Widget>[
                                           Text(
-                                              "Ce que le proprietaire vous propose",
+                                              translate(
+                                                  Keys.Subtitle_Owneroffers),
                                               style: SubTitleCustom,
                                               textAlign: TextAlign.center),
                                           new CheckboxListTile(
@@ -933,7 +947,9 @@ class _DetailGarageState extends State<DetailGarage> {
                                     children: <Widget>[
                                       Column(
                                         children: <Widget>[
-                                          Text("Résumé du paiement",
+                                          Text(
+                                              translate(
+                                                  Keys.Subtitle_Paymentsummary),
                                               style: SubTitleCustom,
                                               textAlign: TextAlign.center),
                                           Padding(
@@ -944,7 +960,9 @@ class _DetailGarageState extends State<DetailGarage> {
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: <Widget>[
-                                                Text("Prix du Garage",
+                                                Text(
+                                                    translate(Keys
+                                                        .Apptext_Pricegarage),
                                                     style: SizeParagraph),
                                                 Text(
                                                     garage['prijs'].toString() +
@@ -960,7 +978,9 @@ class _DetailGarageState extends State<DetailGarage> {
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: <Widget>[
-                                                Text("Nombre de jour",
+                                                Text(
+                                                    translate(Keys
+                                                        .Apptext_Numberdays),
                                                     style: SizeParagraph),
                                                 Text((endDate
                                                             .difference(
@@ -976,7 +996,8 @@ class _DetailGarageState extends State<DetailGarage> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: <Widget>[
-                                              Text("Total",
+                                              Text(
+                                                  translate(Keys.Apptext_Total),
                                                   style: SizeParagraph),
                                               Text((prijs.toString() + " €"))
                                             ],
@@ -989,7 +1010,9 @@ class _DetailGarageState extends State<DetailGarage> {
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: <Widget>[
-                                                Text("Extra",
+                                                Text(
+                                                    translate(
+                                                        Keys.Apptext_Extra),
                                                     style: SizeParagraph),
                                                 Text("0 €"),
                                               ],
@@ -1003,7 +1026,9 @@ class _DetailGarageState extends State<DetailGarage> {
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: <Widget>[
-                                                Text("Taxes Parkly (15%)",
+                                                Text(
+                                                    translate(Keys
+                                                        .Apptext_Feesparked),
                                                     style: SizeParagraph),
                                                 Text(roundDouble(taxes, 2)
                                                         .toString() +
@@ -1019,7 +1044,10 @@ class _DetailGarageState extends State<DetailGarage> {
                                               Padding(
                                                 padding: const EdgeInsets.only(
                                                     right: 10),
-                                                child: Text("Total: ",
+                                                child: Text(
+                                                    translate(Keys
+                                                            .Apptext_Total) +
+                                                        ": ",
                                                     style: SubTitleCustom),
                                               ),
                                               Text(
@@ -1039,7 +1067,9 @@ class _DetailGarageState extends State<DetailGarage> {
                                             padding:
                                                 const EdgeInsets.only(top: 10),
                                             child: ButtonComponent(
-                                                label: "Paye avec PayPal",
+                                                label: translate(
+                                                        Keys.Button_Paywith) +
+                                                    " PayPal",
                                                 onClickAction: () {
                                                   createReservatie();
                                                 }),

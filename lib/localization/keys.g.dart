@@ -47,6 +47,10 @@ class Keys {
 
   static const String Subtitle_Invalidcode = 'SubTitle.InvalidCode';
 
+  static const String Subtitle_Owneroffers = 'SubTitle.OwnerOffers';
+
+  static const String Subtitle_Paymentsummary = 'SubTitle.PaymentSummary';
+
   static const String Button_Login = 'Button.LogIn';
 
   static const String Button_Logout = 'Button.LogOut';
@@ -90,6 +94,16 @@ class Keys {
   static const String Button_Update = 'Button.Update';
 
   static const String Button_Changeimg = 'Button.ChangeImg';
+
+  static const String Button_Averageprice = 'Button.AveragePrice';
+
+  static const String Button_Paywith = 'Button.PayWith';
+
+  static const String Button_Refresh = 'Button.Refresh';
+
+  static const String Button_Accept = 'Button.Accept';
+
+  static const String Button_Refuse = 'Button.Refuse';
 
   static const String Inputs_Firstname = 'Inputs.Firstname';
 
@@ -163,6 +177,10 @@ class Keys {
 
   static const String Modal_Datenotposs = 'Modal.DateNotPoss';
 
+  static const String Modal_Invalidaddress = 'Modal.InvalidAddress';
+
+  static const String Modal_Writeaddress = 'Modal.WriteAddress';
+
   static const String Errors_Isempty = 'Errors.IsEmpty';
 
   static const String Errors_Mailempty = 'Errors.MailEmpty';
@@ -170,6 +188,66 @@ class Keys {
   static const String Errors_Badphone = 'Errors.BadPhone';
 
   static const String Errors_Mincar = 'Errors.MinCar';
+
+  static const String Chattext_You = 'ChatText.You';
+
+  static const String Chattext_Message = 'ChatText.Message';
+
+  static const String Chattext_Lastmessage = 'ChatText.LastMessage';
+
+  static const String Chattext_Seen = 'ChatText.Seen';
+
+  static const String Chattext_Delivered = 'ChatText.Delivered';
+
+  static const String Featuregarage_None = 'FeatureGarage.None';
+
+  static const String Featuregarage_One = 'FeatureGarage.One';
+
+  static const String Featuregarage_Two = 'FeatureGarage.Two';
+
+  static const String Featuregarage_Three = 'FeatureGarage.Three';
+
+  static const String Featuregarage_Four = 'FeatureGarage.Four';
+
+  static const String Featuregarage_Five = 'FeatureGarage.Five';
+
+  static const String Weekdays_Monday = 'WeekDays.Monday';
+
+  static const String Weekdays_Tuesday = 'WeekDays.Tuesday';
+
+  static const String Weekdays_Wednesday = 'WeekDays.Wednesday';
+
+  static const String Weekdays_Thursday = 'WeekDays.Thursday';
+
+  static const String Weekdays_Friday = 'WeekDays.Friday';
+
+  static const String Weekdays_Saturday = 'WeekDays.Saturday';
+
+  static const String Weekdays_Sunday = 'WeekDays.Sunday';
+
+  static const String Monthsname_January = 'MonthsName.January';
+
+  static const String Monthsname_February = 'MonthsName.February';
+
+  static const String Monthsname_March = 'MonthsName.March';
+
+  static const String Monthsname_April = 'MonthsName.April';
+
+  static const String Monthsname_May = 'MonthsName.May';
+
+  static const String Monthsname_June = 'MonthsName.June';
+
+  static const String Monthsname_July = 'MonthsName.July';
+
+  static const String Monthsname_August = 'MonthsName.August';
+
+  static const String Monthsname_September = 'MonthsName.September';
+
+  static const String Monthsname_October = 'MonthsName.October';
+
+  static const String Monthsname_November = 'MonthsName.November';
+
+  static const String Monthsname_December = 'MonthsName.December';
 
   static const String Apptext_Offeredby = 'AppText.OfferedBy';
 
@@ -239,63 +317,19 @@ class Keys {
 
   static const String Apptext_Yourreservation = 'AppText.YourReservation';
 
-  static const String Chattext_You = 'ChatText.You';
+  static const String Apptext_Avaragekm = 'AppText.AvarageKM';
 
-  static const String Chattext_Message = 'ChatText.Message';
+  static const String Apptext_Tapimage = 'AppText.TapImage';
 
-  static const String Chattext_Lastmessage = 'ChatText.LastMessage';
+  static const String Apptext_Pricegarage = 'AppText.PriceGarage';
 
-  static const String Chattext_Seen = 'ChatText.Seen';
+  static const String Apptext_Numberdays = 'AppText.NumberDays';
 
-  static const String Chattext_Delivered = 'ChatText.Delivered';
+  static const String Apptext_Extra = 'AppText.Extra';
 
-  static const String Featuregarage_None = 'FeatureGarage.None';
+  static const String Apptext_Feesparked = 'AppText.FeesParked';
 
-  static const String Featuregarage_One = 'FeatureGarage.One';
+  static const String Apptext_Nomessage = 'AppText.NoMessage';
 
-  static const String Featuregarage_Two = 'FeatureGarage.Two';
-
-  static const String Featuregarage_Three = 'FeatureGarage.Three';
-
-  static const String Featuregarage_Four = 'FeatureGarage.Four';
-
-  static const String Featuregarage_Five = 'FeatureGarage.Five';
-
-  static const String Weekdays_Monday = 'WeekDays.Monday';
-
-  static const String Weekdays_Tuesday = 'WeekDays.Tuesday';
-
-  static const String Weekdays_Wednesday = 'WeekDays.Wednesday';
-
-  static const String Weekdays_Thursday = 'WeekDays.Thursday';
-
-  static const String Weekdays_Friday = 'WeekDays.Friday';
-
-  static const String Weekdays_Saturday = 'WeekDays.Saturday';
-
-  static const String Weekdays_Sunday = 'WeekDays.Sunday';
-
-  static const String Monthsname_January = 'MonthsName.January';
-
-  static const String Monthsname_February = 'MonthsName.February';
-
-  static const String Monthsname_March = 'MonthsName.March';
-
-  static const String Monthsname_April = 'MonthsName.April';
-
-  static const String Monthsname_May = 'MonthsName.May';
-
-  static const String Monthsname_June = 'MonthsName.June';
-
-  static const String Monthsname_July = 'MonthsName.July';
-
-  static const String Monthsname_August = 'MonthsName.August';
-
-  static const String Monthsname_September = 'MonthsName.September';
-
-  static const String Monthsname_October = 'MonthsName.October';
-
-  static const String Monthsname_November = 'MonthsName.November';
-
-  static const String Monthsname_December = 'MonthsName.December';
+  static const String Apptext_Reservedby = 'AppText.ReservedBy';
 }

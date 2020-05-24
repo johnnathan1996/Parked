@@ -52,71 +52,73 @@ class _FavoriteCardComponentState extends State<FavoriteCardComponent> {
   Widget build(BuildContext context) {
     ContainerTransitionType _transitionType = ContainerTransitionType.fade;
     return OpenContainer(
-      transitionType: _transitionType,
-      openBuilder: (BuildContext context, VoidCallback _) {
-        return DetailGarage(idGarage: garage.documentID);
-      },
-      closedBuilder: (BuildContext context, VoidCallback openContainer) {
-        return ListTile(
-            onTap: openContainer,
-            title: ClipRect(
-              child: Align(
-                alignment: Alignment.center,
-                heightFactor: 0.5,
-                child: Image.network(
-                  garage['garageImg'],
-                  fit: BoxFit.cover,
-                  loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent loadingProgress) {
-                    if (loadingProgress == null) return child;
-                    return ContentPlaceholder(
-                      height: 250,
-                    );
-                  },
+        transitionType: _transitionType,
+        openBuilder: (BuildContext context, VoidCallback _) {
+          return DetailGarage(idGarage: garage.documentID);
+        },
+        closedBuilder: (BuildContext context, VoidCallback openContainer) {
+          return ListTile(
+              onTap: openContainer,
+              title: ClipRect(
+                child: Align(
+                  alignment: Alignment.center,
+                  heightFactor: 0.5,
+                  child: Image.network(
+                    garage['garageImg'],
+                    fit: BoxFit.cover,
+                    loadingBuilder: (BuildContext context, Widget child,
+                        ImageChunkEvent loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return ContentPlaceholder(
+                        height: 250,
+                      );
+                    },
+                  ),
                 ),
               ),
-            ),
-            subtitle: Padding(
-                padding: EdgeInsets.symmetric(vertical: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(garage['street'],
-                            style: TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.w500,
-                                color: Zwart)),
-                        Text(garage['city'] + " " + garage['postcode'],
-                            style: TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.w500,
-                                color: Zwart)),
-                        Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              ShowStars(rating: garage["rating"]),
-                              Padding(
-                                  padding: EdgeInsets.only(left: 10, top: 5),
-                                  child: Text("( " +
-                                      garage['rating'].length.toString() +
-                                      " " +
-                                      translate(Keys.Subtitle_Reviews) +
-                                      " )"))
-                            ])
-                      ],
-                    ),
-                    IconButton(
-                      icon: mijnFavorieten.contains(garage.documentID)
-                          ? Icon(Icons.favorite)
-                          : Icon(Icons.favorite_border),
-                      color: Blauw,
-                      onPressed: () {
-                        CheckFav().isgarageInFavorite(garage.documentID);
-                      },
-                    )
-                  ],
-                )));});
+              subtitle: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(garage['street'],
+                              style: TextStyle(
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w500,
+                                  color: Zwart)),
+                          Text(garage['city'] + " " + garage['postcode'],
+                              style: TextStyle(
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w500,
+                                  color: Zwart)),
+                          Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                ShowStars(rating: garage["rating"]),
+                                Padding(
+                                    padding: EdgeInsets.only(left: 10, top: 5),
+                                    child: Text("( " +
+                                        garage['rating'].length.toString() +
+                                        " " +
+                                        translate(Keys.Subtitle_Reviews) +
+                                        " )"))
+                              ])
+                        ],
+                      ),
+                      IconButton(
+                        icon: mijnFavorieten.contains(garage.documentID)
+                            ? Icon(Icons.favorite)
+                            : Icon(Icons.favorite_border),
+                        color: Blauw,
+                        onPressed: () {
+                          CheckFav().isgarageInFavorite(garage.documentID);
+                        },
+                      )
+                    ],
+                  )));
+        });
   }
 }
