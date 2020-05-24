@@ -281,6 +281,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.6"
+  dio:
+    dependency: transitive
+    description:
+      name: dio
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.9"
   dotted_border:
     dependency: "direct main"
     description:
@@ -1017,6 +1024,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.5"
+  stripe_fl:
+    dependency: "direct main"
+    description:
+      name: stripe_fl
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.0"
+  stripe_payment:
+    dependency: "direct main"
+    description:
+      name: stripe_payment
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.7"
   synchronized:
     dependency: transitive
     description:

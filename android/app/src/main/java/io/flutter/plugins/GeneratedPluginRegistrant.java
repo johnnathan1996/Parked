@@ -25,6 +25,7 @@ import io.flutter.plugins.sharedpreferences.SharedPreferencesPlugin;
 import com.jaumard.smsautofill.SmsAutoFillPlugin;
 import com.plushundred.speechbubble.SpeechBubblePlugin;
 import com.tekartik.sqflite.SqflitePlugin;
+import de.jonasbark.stripepayment.StripePaymentPlugin;
 import io.flutter.plugins.urllauncher.UrlLauncherPlugin;
 
 /**
@@ -59,6 +60,7 @@ public final class GeneratedPluginRegistrant {
     SmsAutoFillPlugin.registerWith(registry.registrarFor("com.jaumard.smsautofill.SmsAutoFillPlugin"));
     SpeechBubblePlugin.registerWith(registry.registrarFor("com.plushundred.speechbubble.SpeechBubblePlugin"));
     SqflitePlugin.registerWith(registry.registrarFor("com.tekartik.sqflite.SqflitePlugin"));
+    StripePaymentPlugin.registerWith(registry.registrarFor("de.jonasbark.stripepayment.StripePaymentPlugin"));
     UrlLauncherPlugin.registerWith(registry.registrarFor("io.flutter.plugins.urllauncher.UrlLauncherPlugin"));
   }
 

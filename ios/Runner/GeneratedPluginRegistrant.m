@@ -136,6 +136,12 @@
 @import sqflite;
 #endif
 
+#if __has_include(<stripe_payment/StripePaymentPlugin.h>)
+#import <stripe_payment/StripePaymentPlugin.h>
+#else
+@import stripe_payment;
+#endif
+
 #if __has_include(<url_launcher/FLTURLLauncherPlugin.h>)
 #import <url_launcher/FLTURLLauncherPlugin.h>
 #else
@@ -167,6 +173,7 @@
   [SmsAutoFillPlugin registerWithRegistrar:[registry registrarForPlugin:@"SmsAutoFillPlugin"]];
   [SpeechBubblePlugin registerWithRegistrar:[registry registrarForPlugin:@"SpeechBubblePlugin"]];
   [SqflitePlugin registerWithRegistrar:[registry registrarForPlugin:@"SqflitePlugin"]];
+  [StripePaymentPlugin registerWithRegistrar:[registry registrarForPlugin:@"StripePaymentPlugin"]];
   [FLTURLLauncherPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTURLLauncherPlugin"]];
 }
 

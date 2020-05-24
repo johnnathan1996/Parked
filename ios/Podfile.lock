@@ -375,6 +375,10 @@ PODS:
   - sqflite (0.0.1):
     - Flutter
     - FMDB (~> 2.7.2)
+  - Stripe (19.2.0)
+  - stripe_payment (1.0.0):
+    - Flutter
+    - Stripe (>= 19.0.1)
   - url_launcher (0.0.1):
     - Flutter
   - url_launcher_macos (0.0.1):
@@ -414,6 +418,7 @@ DEPENDENCIES:
   - sms_autofill (from `.symlinks/plugins/sms_autofill/ios`)
   - speech_bubble (from `.symlinks/plugins/speech_bubble/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
+  - stripe_payment (from `.symlinks/plugins/stripe_payment/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
   - url_launcher_macos (from `.symlinks/plugins/url_launcher_macos/ios`)
   - url_launcher_web (from `.symlinks/plugins/url_launcher_web/ios`)
@@ -448,6 +453,7 @@ SPEC REPOS:
     - nanopb
     - PromisesObjC
     - Protobuf
+    - Stripe
 
 EXTERNAL SOURCES:
   app_settings:
@@ -512,6 +518,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/speech_bubble/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
+  stripe_payment:
+    :path: ".symlinks/plugins/stripe_payment/ios"
   url_launcher:
     :path: ".symlinks/plugins/url_launcher/ios"
   url_launcher_macos:
@@ -579,10 +587,12 @@ SPEC CHECKSUMS:
   sms_autofill: c461043483362c3f1709ee76eaae6eb570b31686
   speech_bubble: 51ae0c27684a0d858d4283cafd66591337a851c2
   sqflite: 4001a31ff81d210346b500c55b17f4d6c7589dd0
+  Stripe: d481c2dab9a892fd923f097f854661217f70dc7f
+  stripe_payment: ad86f099179edb7b9fe12b9b62ac3746d5e56802
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
   url_launcher_macos: fd7894421cd39320dce5f292fc99ea9270b2a313
   url_launcher_web: e5527357f037c87560776e36436bf2b0288b965c
 
-PODFILE CHECKSUM: 1b66dae606f75376c5f2135a8290850eeb09ae83
+PODFILE CHECKSUM: 73d69d282a87aa0aafabdecb47f632fc347a9aac
 
 COCOAPODS: 1.9.1

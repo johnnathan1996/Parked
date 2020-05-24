@@ -25,6 +25,9 @@ import 'package:flutter_translate/flutter_translate.dart';
 import 'package:parkly/localization/keys.dart';
 import 'package:date_range_picker/date_range_picker.dart' as DateRangePicker;
 
+import 'package:stripe_payment/stripe_payment.dart' as stripe;
+import 'package:stripe_fl/stripe_fl.dart' as stripefl;
+
 class DetailGarage extends StatefulWidget {
   final String idGarage;
   final bool isVanMij;
@@ -98,6 +101,16 @@ class _DetailGarageState extends State<DetailGarage> {
 
   @override
   void initState() {
+    String _public = "pk_test_xtE146xFZ2hPd7DLX1ZLSYLD00DslzQde1";
+    String _secret = "sk_test_dseukxCDuvk2kzgh7xPXaHkE002cLR7vDv";
+    stripe.StripePayment.setOptions(
+        stripe.StripeOptions(publishableKey: _public, merchantId: _secret));
+    stripefl.Stripe.init(
+        publicKey: _public,
+        secretKey: _secret,
+        restart: true,
+        production: false);
+
     getUserData();
     getEigenaarData();
     super.initState();
@@ -1085,6 +1098,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                                         Keys.Button_Paywith) +
                                                     " PayPal",
                                                 onClickAction: () {
+                                                  payment(idGarage, finalPrijs);
                                                   createReservatie();
                                                 }),
                                           ),
@@ -1113,5 +1127,132 @@ class _DetailGarageState extends State<DetailGarage> {
             );
           });
         });
+  }
+
+  payment(id, amount) {
+    try {
+      stripe.StripePayment.createSourceWithParams(stripe.SourceParams(
+        type: 'bancontact',
+        amount: (amount * 100).toInt(),
+        name: idGarage,
+        statementDescriptor: "Paiement",
+        currency: 'eur',
+        returnURL: 'http://google.be',
+      )).then((source) {
+        print(source.sourceId);
+        try {
+          stripefl.Charge()
+              .card(
+                  currency: stripefl.Currency.eur,
+                  source: source.sourceId,
+                  amount: source.amount,
+                  description: 'Paiement',
+                  receiptEmail: "john@live.be")
+              .catchError((e) {
+            print(e);
+          }).then((e) async {
+            print(e);
+            if (e.data.paid) {
+              try {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(12.0))),
+                      title: new Text(
+                        "C'EST FAIT !",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.check_circle,
+                            size: 60,
+                            color: Blauw,
+                          ),
+                          Text("Votre portefeuille a été approvisionné !",
+                              style: TextStyle(fontWeight: FontWeight.bold))
+                        ],
+                      ),
+                      actions: <Widget>[
+                        ButtonTheme(
+                            minWidth: 400.0,
+                            child: RaisedButton(
+                              color: Grijs,
+                              child: Text(
+                                "OK",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ))
+                      ],
+                    );
+                  },
+                );
+              } catch (e) {
+                print(e);
+              }
+            }
+          });
+        } catch (e) {
+          print(e);
+        }
+      }).catchError((e) {
+        print(e);
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(12.0))),
+              title: new Text(
+                "OOPS..",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Icon(
+                    Icons.error,
+                    size: 60,
+                    color: Blauw,
+                  ),
+                  Text("Une érreur s'est produite..",
+                      style: TextStyle(fontWeight: FontWeight.bold))
+                ],
+              ),
+              actions: <Widget>[
+                ButtonTheme(
+                    minWidth: 400.0,
+                    child: RaisedButton(
+                      color: Grijs,
+                      child: Text(
+                        "OK",
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ))
+              ],
+            );
+          },
+        );
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 }
