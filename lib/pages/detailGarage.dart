@@ -115,7 +115,10 @@ class _DetailGarageState extends State<DetailGarage> {
                 ? Padding(
                     padding: EdgeInsets.only(right: 10),
                     child: IconButton(
-                        icon: Icon(Icons.edit, color: Blauw), onPressed: () {}))
+                        icon: Icon(Icons.edit, color: Blauw), onPressed: () {
+                          //TODO: edit garage 
+                          print("Edit garage");
+                        }))
                 : Padding(
                     padding: EdgeInsets.only(right: 10),
                     child: IconButton(

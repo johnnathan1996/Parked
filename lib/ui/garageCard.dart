@@ -118,8 +118,7 @@ class GarageCardComponent extends StatelessWidget {
 
   deletePost(String id) async {
     Firestore.instance.collection('users').document(globals.userId).updateData({
-      "mijnGarage": FieldValue.arrayRemove([id]),
-      "favoriet": FieldValue.arrayRemove([id]) //TODO: check si ça fonctionne
+      "mijnGarage": FieldValue.arrayRemove([id])
     }).whenComplete(() {
       Firestore.instance.collection("garages").document(id).delete();
     });

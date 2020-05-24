@@ -65,18 +65,41 @@ class _ProfileTabState extends State<ProfileTab> {
                   crossAxisCount: 2,
                   crossAxisSpacing: 15,
                   children: [
-                    Container(
+                    GestureDetector(
+                      onTap: (){
+                        //TODO: aller sur carte et montrer les garage pres de la maison
+                        print("object");
+                      },
+                      child: Container(
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
                             color: Wit),
-                        child: Text("maison")),
-                    Container(
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Wit),
-                        child: Text("travaille")),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(Icons.home),
+                            Text("Ajouter un domicile"),//TODO: ajouter adresse
+                          ],
+                        ))), 
+                    GestureDetector(
+                      onTap: (){
+                        //TODO: aller sur carte et montrer les garage pres de la travaille
+                        print("object");
+                      },
+                      child: Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Wit),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(Icons.business),
+                              Text("Ajouter un travaille"),//TODO: ajouter adresse
+                            ],
+                          )), 
+                    ),
                   ]))
         ]);
   }

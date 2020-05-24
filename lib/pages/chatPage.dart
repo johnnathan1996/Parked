@@ -182,7 +182,7 @@ class _ChatPageState extends State<ChatPage> {
                                             color: Wit,
                                             alignment: Alignment.center,
                                             child: Text(
-                                                "Attention, ce garage n'existe plus !",
+                                                translate(Keys.Apptext_Nogarage),
                                                 style: TextStyle(
                                                     color: Colors.red,
                                                     fontSize: 18)));

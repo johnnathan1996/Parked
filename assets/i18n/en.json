@@ -184,6 +184,7 @@
 		"Extra": "Extra",
 		"FeesParked": "Parked fees",
 		"NoMessage": "No message yet",
-		"ReservedBy": "Garage reserved by "
+		"ReservedBy": "Garage reserved by ",
+		"NoGarage": "Please note, this garage no longer exists!"
 	}
 }

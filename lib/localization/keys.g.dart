@@ -332,4 +332,6 @@ class Keys {
   static const String Apptext_Nomessage = 'AppText.NoMessage';
 
   static const String Apptext_Reservedby = 'AppText.ReservedBy';
+
+  static const String Apptext_Nogarage = 'AppText.NoGarage';
 }

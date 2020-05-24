@@ -184,6 +184,7 @@
 		"Extra": "Extra",
 		"FeesParked": "Kosten Parked",
 		"NoMessage": "Nog geen bericht",
-		"ReservedBy": "Garage gereserveerd door "
+		"ReservedBy": "Garage gereserveerd door ",
+		"NoGarage": "Let op, deze garage bestaat niet meer!"
 	}
 }
