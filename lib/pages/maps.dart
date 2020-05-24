@@ -27,8 +27,6 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
   static final GlobalKey<ScaffoldState> scaffoldKey =
       new GlobalKey<ScaffoldState>();
 
-  dynamic denied = PermissionStatus.denied;
-
   MapController mapController = new MapController();
   double userLat = 0;
   double userLon = 0;
@@ -101,7 +99,7 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
             mapController: mapController,
             options: new MapOptions(
               center: new LatLng(userLat, userLon),
-              zoom: 12.0,
+              zoom: 13.0,
               plugins: [plugin],
             ),
             layers: [
@@ -174,6 +172,8 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
   }
 
   _getUserPosition() async {
+    await LocationPermissions().requestPermissions();
+
     GeolocationStatus geolocationStatus =
         await Geolocator().checkGeolocationPermissionStatus();
 
@@ -186,25 +186,7 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
     }
 
     if (geolocationStatus == GeolocationStatus.granted) {
-      if (this.mounted) {
-        setState(() {
-          showMaps = true;
-        });
-      }
       try {
-        position = await Geolocator()
-            .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-
-        if (this.mounted) {
-          setState(() {
-            userLat = position.latitude;
-            userLon = position.longitude;
-          });
-        }
-
-        zoomToPosition(mapController,
-            LatLng(position.latitude, position.longitude), 15, this);
-
         Geolocator()
             .getPositionStream(LocationOptions(
                 accuracy: LocationAccuracy.bestForNavigation,
@@ -214,6 +196,7 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
             setState(() {
               userLat = position.latitude;
               userLon = position.longitude;
+              showMaps = true;
             });
           }
         });
