@@ -58,7 +58,6 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
         key: scaffoldKey,
-        extendBodyBehindAppBar: true,
         appBar: AppBar(
           iconTheme: IconThemeData(color: Zwart),
           actionsIconTheme: IconThemeData(color: Zwart),
