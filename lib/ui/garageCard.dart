@@ -21,99 +21,102 @@ class GarageCardComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ContainerTransitionType _transitionType = ContainerTransitionType.fade;
-    return OpenContainer(
-      transitionType: _transitionType,
-      openBuilder: (BuildContext context, VoidCallback _) {
-        return DetailGarage(idGarage: garage.documentID, isVanMij: true);
-      },
-      closedBuilder: (BuildContext context, VoidCallback openContainer) {
-        return ListTile(
-            onTap: openContainer,
-            onLongPress: () {
-              showCupertinoModalPopup(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return CupertinoActionSheet(
-                      cancelButton: CupertinoActionSheetAction(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Text(translate(Keys.Button_Cancel)),
-                      ),
-                      actions: <Widget>[
-                        CupertinoActionSheetAction(
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: OpenContainer(
+        transitionType: _transitionType,
+        openBuilder: (BuildContext context, VoidCallback _) {
+          return DetailGarage(idGarage: garage.documentID, isVanMij: true);
+        },
+        closedBuilder: (BuildContext context, VoidCallback openContainer) {
+          return ListTile(
+              onTap: openContainer,
+              onLongPress: () {
+                showCupertinoModalPopup(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return CupertinoActionSheet(
+                        cancelButton: CupertinoActionSheetAction(
                           onPressed: () {
-                            deletePost(garage.documentID);
                             Navigator.of(context).pop();
                           },
-                          child: Text(
-                            translate(Keys.Button_Delete),
-                            style: TextStyle(color: Colors.red),
-                          ),
-                        )
-                      ],
-                    );
-                  });
-            },
-            title: ClipRect(
-              child: Align(
-                alignment: Alignment.center,
-                heightFactor: 0.5,
-                child: Image.network(
-                  garage['garageImg'],
-                  fit: BoxFit.cover,
-                  loadingBuilder: (BuildContext context, Widget child,
-                      ImageChunkEvent progress) {
-                    return progress == null
-                        ? child
-                        : ContentPlaceholder(
-                            height: 250,
-                          );
-                  },
+                          child: Text(translate(Keys.Button_Cancel)),
+                        ),
+                        actions: <Widget>[
+                          CupertinoActionSheetAction(
+                            onPressed: () {
+                              deletePost(garage.documentID);
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(
+                              translate(Keys.Button_Delete),
+                              style: TextStyle(color: Colors.red),
+                            ),
+                          )
+                        ],
+                      );
+                    });
+              },
+              title: ClipRect(
+                child: Align(
+                  alignment: Alignment.center,
+                  heightFactor: 0.5,
+                  child: Image.network(
+                    garage['garageImg'],
+                    fit: BoxFit.cover,
+                    loadingBuilder: (BuildContext context, Widget child,
+                        ImageChunkEvent progress) {
+                      return progress == null
+                          ? child
+                          : ContentPlaceholder(
+                              height: 250,
+                            );
+                    },
+                  ),
                 ),
               ),
-            ),
-            subtitle: Padding(
-                padding: EdgeInsets.symmetric(vertical: 10),
-                child: ExpandablePanel(
-                  hasIcon: true,
-                  header: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(garage['street'] + ", " + garage['huisnummer'],
-                                style: SubTitleCustom),
-                            Text(garage['city'] + " " + garage['postcode'],
-                                style: SubTitleCustom),
-                          ],
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            ShowStars(rating: garage["rating"]),
-                            Padding(
-                                padding: EdgeInsets.only(left: 10, top: 5),
-                                child: Text("( " +
-                                    garage['rating'].length.toString() +
-                                    " " +
-                                    translate(Keys.Subtitle_Reviews) +
-                                    " )"))
-                          ],
-                        )
-                      ]),
-                  expanded: Padding(
-                      padding: EdgeInsets.only(top: 20, bottom: 10),
-                      child: Row(
+              subtitle: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  child: ExpandablePanel(
+                    hasIcon: true,
+                    header: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Expanded(child: Text(garage['beschrijving'])),
-                          Text(garage['prijs'].toString() + " €",
-                              style: ShowPriceStyle)
-                        ],
-                      )),
-                )));
-      },
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(garage['street'] + ", " + garage['huisnummer'],
+                                  style: SubTitleCustom),
+                              Text(garage['city'] + " " + garage['postcode'],
+                                  style: SubTitleCustom),
+                            ],
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              ShowStars(rating: garage["rating"]),
+                              Padding(
+                                  padding: EdgeInsets.only(left: 10, top: 5),
+                                  child: Text("( " +
+                                      garage['rating'].length.toString() +
+                                      " " +
+                                      translate(Keys.Subtitle_Reviews) +
+                                      " )"))
+                            ],
+                          )
+                        ]),
+                    expanded: Padding(
+                        padding: EdgeInsets.only(top: 20, bottom: 10),
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(child: Text(garage['beschrijving'])),
+                            Text(garage['prijs'].toString() + " €",
+                                style: ShowPriceStyle)
+                          ],
+                        )),
+                  )));
+        },
+      ),
     );
   }
 

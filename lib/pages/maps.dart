@@ -183,10 +183,10 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
           showMaps = false;
         });
       }
-    }
+    } else if (geolocationStatus == GeolocationStatus.granted) {
+      Position positionUser = await Geolocator()
+            .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
-    if (geolocationStatus == GeolocationStatus.granted) {
-      try {
         Geolocator()
             .getPositionStream(LocationOptions(
                 accuracy: LocationAccuracy.bestForNavigation,
@@ -196,19 +196,21 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
             setState(() {
               userLat = position.latitude;
               userLon = position.longitude;
-              showMaps = true;
             });
           }
         });
-      } catch (error) {
-        print(error);
 
         if (this.mounted) {
-          setState(() {
-            showMaps = false;
-          });
-        }
-      }
+            setState(() {
+              showMaps = true;
+              userLat = positionUser.latitude;
+              userLon = positionUser.longitude;
+            });
+          }
+
+         zoomToPosition(mapController,
+            LatLng(positionUser.latitude, positionUser.longitude), 15, this);
+      
     }
   }
 
