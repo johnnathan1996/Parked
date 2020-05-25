@@ -130,7 +130,6 @@ class _DetailGarageState extends State<DetailGarage> {
                     child: IconButton(
                         icon: Icon(Icons.edit, color: Blauw),
                         onPressed: () {
-                          //TODO: edit garage
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -448,6 +447,7 @@ class _DetailGarageState extends State<DetailGarage> {
                   return ListTextComponent(label: garage["kenmerken"][index]);
                 }))
             : Container(),
+            Text(translate(Keys.Subtitle_Maxheigt)+ " " + garage["maxHoogte"] + "m", style: TextStyle(color: Blauw,fontStyle: FontStyle.italic, fontSize: 16),),
         garage["types"].length != 0
             ? Padding(
                 padding: EdgeInsets.only(bottom: 10, top: 10),

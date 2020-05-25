@@ -61,7 +61,7 @@ class _EditGarageState extends State<EditGarage> {
           _desciption = snapshot.data["beschrijving"];
           downloadLink = snapshot.data["garageImg"];
           priceController.text = snapshot.data["prijs"].toString();
-          _listChecked = snapshot.data["kenmerden"];
+          _listChecked = snapshot.data["kenmerken"].cast<String>();
           _typeVoertuigen = snapshot.data["types"];
           _high = snapshot.data["maxHoogte"];
         });
@@ -118,7 +118,7 @@ class _EditGarageState extends State<EditGarage> {
                                   child: ButtonComponent(
                                       label: translate(Keys.Button_Add),
                                       onClickAction: () {
-                                        // updategarage(context);
+                                        updategarage(context, snapshot.data);
                                       })),
                             ],
                           ),
@@ -647,7 +647,7 @@ class _EditGarageState extends State<EditGarage> {
     }
   }
 
-  void updategarage(BuildContext context) async {
+  void updategarage(BuildContext context, garage) async {
     final formState = _formKey.currentState;
     if (formState.validate()) {
       formState.save();
@@ -668,11 +668,12 @@ class _EditGarageState extends State<EditGarage> {
                 geo.point(latitude: _latitude, longitude: _longitude);
 
             try {
-              Firestore.instance.collection('garages').add({
-                'eigenaar': globals.userId,
+              Firestore.instance.collection('garages')
+              .document(idGarage)
+                .updateData({
                 'garageImg': downloadLink,
-                'time': new DateTime.now(),
-                'street': _street.capitalize() + ", " + _number,
+                'street': _street.capitalize(),
+                'huisnummer': _number,
                 'city': _city,
                 'postcode': _postcode,
                 'prijs': int.parse(_price),
@@ -680,19 +681,7 @@ class _EditGarageState extends State<EditGarage> {
                 'maxHoogte': _high,
                 'kenmerken': _listChecked,
                 'types': _typeVoertuigen,
-                'rating': [],
                 'location': center.data,
-              }).then((data) {
-                try {
-                  Firestore.instance
-                      .collection('users')
-                      .document(globals.userId)
-                      .updateData({
-                    "mijnGarage": FieldValue.arrayUnion([data.documentID])
-                  });
-                } catch (e) {
-                  print(e.message);
-                }
               }).then((value) {
                 Navigator.of(context).pop();
               });
@@ -701,11 +690,30 @@ class _EditGarageState extends State<EditGarage> {
             }
           });
         } else {
-          showDialog(
-            context: context,
-            builder: (_) =>
-                ModalComponent(modalTekst: translate(Keys.Modal_Noimage)),
-          );
+          Geoflutterfire geo = Geoflutterfire();
+            GeoFirePoint center =
+                geo.point(latitude: _latitude, longitude: _longitude);
+          try {
+              Firestore.instance.collection('garages')
+              .document(idGarage)
+                .updateData({
+                'garageImg': garage["garageImg"],
+                'street': _street.capitalize(),
+                'huisnummer': _number,
+                'city': _city,
+                'postcode': _postcode,
+                'prijs': int.parse(_price),
+                'beschrijving': _desciption.capitalize(),
+                'maxHoogte': _high,
+                'kenmerken': _listChecked,
+                'types': _typeVoertuigen,
+                'location': center.data,
+              }).then((value) {
+                Navigator.of(context).pop();
+              });
+            } catch (e) {
+              print(e.message);
+            }
         }
       } catch (e) {
         print(e);
