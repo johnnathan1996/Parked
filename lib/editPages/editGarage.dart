@@ -10,7 +10,6 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:parkly/ui/button.dart';
 import 'package:grouped_buttons/grouped_buttons.dart';
-import '../setup/globals.dart' as globals;
 import 'package:geocoder/geocoder.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:parkly/localization/keys.dart';

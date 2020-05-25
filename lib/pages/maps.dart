@@ -16,7 +16,7 @@ import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:parkly/localization/keys.dart';
 import 'package:location_permissions/location_permissions.dart';
-import 'package:search_map_place/search_map_place.dart';
+// import 'package:search_map_place/search_map_place.dart';
 
 class MapsPage extends StatefulWidget {
   const MapsPage();
@@ -148,14 +148,14 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
                         ),
                 ],
               ),
-              Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: SearchMapPlaceWidget(
-                    apiKey: "AIzaSyDL2u39a8en6Bov3RP3CzJ5XkxHnO9xRDM",
-                    onSelected: (Place place) async {
-                      print(place.geolocation);
-                    },
-                  )),
+              // Padding(
+              //     padding: const EdgeInsets.only(top: 10),
+              //     child: SearchMapPlaceWidget(
+              //       apiKey: "",
+              //       onSelected: (Place place) async {
+              //         print(place.geolocation);
+              //       },
+              //     )),
             ],
           )
         : Container(
