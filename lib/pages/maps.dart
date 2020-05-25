@@ -16,6 +16,7 @@ import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:parkly/localization/keys.dart';
 import 'package:location_permissions/location_permissions.dart';
+import 'package:search_map_place/search_map_place.dart';
 
 class MapsPage extends StatefulWidget {
   const MapsPage();
@@ -36,8 +37,6 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
   Position position;
   List<Marker> markers = [];
 
-  TextEditingController _searchQuery;
-  bool _isSearching = false;
   String searchQuery = "";
 
   Map showGarage = {};
@@ -48,7 +47,6 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
   initState() {
     _getUserPosition();
     _getGaragePosition();
-    _searchQuery = new TextEditingController();
     super.initState();
   }
 
@@ -59,12 +57,9 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
         appBar: AppBar(
           iconTheme: IconThemeData(color: Zwart),
           actionsIconTheme: IconThemeData(color: Zwart),
-          title: _isSearching
-              ? _buildSearchField()
-              : Image.asset('assets/images/logo.png', height: 32),
+          title: Image.asset('assets/images/logo.png', height: 32),
           backgroundColor: Wit,
           elevation: 0.0,
-          actions: _buildActions(),
         ),
         floatingActionButton: showMaps
             ? FloatingActionButton(
@@ -95,58 +90,72 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
 
   Widget showFlutterMap() {
     return showMaps
-        ? FlutterMap(
-            mapController: mapController,
-            options: new MapOptions(
-              center: new LatLng(userLat, userLon),
-              zoom: 13.0,
-              plugins: [plugin],
-            ),
-            layers: [
-              new TileLayerOptions(
-                urlTemplate: "https://api.tiles.mapbox.com/v4/"
-                    "{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
-                additionalOptions: {
-                  'accessToken':
-                      'pk.eyJ1Ijoiam9obm5hdGhhbjk2IiwiYSI6ImNrM3p1M2pwcjFkYmIzZHA3ZGZ5dW1wcGIifQ.pcrBkGP2Jq3H6bcX1M0CYg',
-                  'id': 'mapbox.outdoors',
-                },
-              ),
-              MarkerLayerOptions(
-                markers: [
-                  new Marker(
-                      point: new LatLng(userLat, userLon),
-                      height: 50,
-                      width: 50,
-                      builder: (ctx) => new Container(
-                            child: Lottie.asset('assets/anim/position.json'),
-                          )),
+        ? Stack(
+            alignment: AlignmentDirectional.topCenter,
+            children: <Widget>[
+              FlutterMap(
+                mapController: mapController,
+                options: new MapOptions(
+                  center: new LatLng(userLat, userLon),
+                  zoom: 13.0,
+                  plugins: [plugin],
+                ),
+                layers: [
+                  new TileLayerOptions(
+                    urlTemplate: "https://api.tiles.mapbox.com/v4/"
+                        "{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
+                    additionalOptions: {
+                      'accessToken':
+                          'pk.eyJ1Ijoiam9obm5hdGhhbjk2IiwiYSI6ImNrM3p1M2pwcjFkYmIzZHA3ZGZ5dW1wcGIifQ.pcrBkGP2Jq3H6bcX1M0CYg',
+                      'id': 'mapbox.outdoors',
+                    },
+                  ),
+                  MarkerLayerOptions(
+                    markers: [
+                      new Marker(
+                          point: new LatLng(userLat, userLon),
+                          height: 50,
+                          width: 50,
+                          builder: (ctx) => new Container(
+                                child:
+                                    Lottie.asset('assets/anim/position.json'),
+                              )),
+                    ],
+                  ),
+                  (plugin != null)
+                      ? MarkerClusterLayerOptions(
+                          maxClusterRadius: 120,
+                          size: Size(40, 40),
+                          fitBoundsOptions: FitBoundsOptions(
+                            padding: EdgeInsets.all(50),
+                          ),
+                          markers: markers,
+                          polygonOptions: PolygonOptions(
+                              borderColor: Blauw,
+                              color: Colors.black12,
+                              borderStrokeWidth: 3),
+                          builder: (context, markers) {
+                            return FloatingActionButton(
+                              heroTag: "markers",
+                              child: Text(markers.length.toString()),
+                              backgroundColor: Blauw,
+                              onPressed: null,
+                            );
+                          },
+                        )
+                      : MarkerLayerOptions(
+                          markers: markers,
+                        ),
                 ],
               ),
-              (plugin != null)
-                  ? MarkerClusterLayerOptions(
-                      maxClusterRadius: 120,
-                      size: Size(40, 40),
-                      fitBoundsOptions: FitBoundsOptions(
-                        padding: EdgeInsets.all(50),
-                      ),
-                      markers: markers,
-                      polygonOptions: PolygonOptions(
-                          borderColor: Blauw,
-                          color: Colors.black12,
-                          borderStrokeWidth: 3),
-                      builder: (context, markers) {
-                        return FloatingActionButton(
-                          heroTag: "markers",
-                          child: Text(markers.length.toString()),
-                          backgroundColor: Blauw,
-                          onPressed: null,
-                        );
-                      },
-                    )
-                  : MarkerLayerOptions(
-                      markers: markers,
-                    ),
+              Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: SearchMapPlaceWidget(
+                    apiKey: "AIzaSyDL2u39a8en6Bov3RP3CzJ5XkxHnO9xRDM",
+                    onSelected: (Place place) async {
+                      print(place.geolocation);
+                    },
+                  )),
             ],
           )
         : Container(
@@ -183,34 +192,34 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
           showMaps = false;
         });
       }
-    } else if (geolocationStatus == GeolocationStatus.granted) {
+    }
+
+    if (geolocationStatus == GeolocationStatus.granted) {
       Position positionUser = await Geolocator()
-            .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+          .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
-        Geolocator()
-            .getPositionStream(LocationOptions(
-                accuracy: LocationAccuracy.bestForNavigation,
-                distanceFilter: 0))
-            .listen((Position position) {
-          if (this.mounted) {
-            setState(() {
-              userLat = position.latitude;
-              userLon = position.longitude;
-            });
-          }
-        });
-
+      Geolocator()
+          .getPositionStream(LocationOptions(
+              accuracy: LocationAccuracy.bestForNavigation, distanceFilter: 0))
+          .listen((Position position) {
         if (this.mounted) {
-            setState(() {
-              showMaps = true;
-              userLat = positionUser.latitude;
-              userLon = positionUser.longitude;
-            });
-          }
+          setState(() {
+            userLat = position.latitude;
+            userLon = position.longitude;
+          });
+        }
+      });
 
-         zoomToPosition(mapController,
-            LatLng(positionUser.latitude, positionUser.longitude), 15, this);
-      
+      if (this.mounted) {
+        setState(() {
+          showMaps = true;
+          userLat = positionUser.latitude;
+          userLon = positionUser.longitude;
+        });
+      }
+
+      zoomToPosition(mapController,
+          LatLng(positionUser.latitude, positionUser.longitude), 15, this);
     }
   }
 
@@ -254,84 +263,6 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
         plugin = MarkerClusterPlugin();
       });
     }
-  }
-
-  void _startSearch() {
-    ModalRoute.of(context)
-        .addLocalHistoryEntry(new LocalHistoryEntry(onRemove: _stopSearching));
-
-    if (this.mounted) {
-      setState(() {
-        _isSearching = true;
-      });
-    }
-  }
-
-  void _stopSearching() {
-    _clearSearchQuery();
-
-    if (this.mounted) {
-      setState(() {
-        _isSearching = false;
-      });
-    }
-  }
-
-  void _clearSearchQuery() {
-    if (this.mounted) {
-      setState(() {
-        _searchQuery.clear();
-      });
-    }
-  }
-
-  Widget _buildSearchField() {
-    //TODO: search adress
-    return new TextField(
-      controller: _searchQuery,
-      autofocus: true,
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: Wit,
-        hintText: translate(Keys.Inputs_Search),
-        border: InputBorder.none,
-        hintStyle: const TextStyle(color: Grijs),
-      ),
-      style: SizeParagraph,
-      onChanged: updateSearchQuery,
-    );
-  }
-
-  void updateSearchQuery(String newQuery) {
-    if (this.mounted) {
-      setState(() {
-        searchQuery = newQuery;
-      });
-    }
-  }
-
-  List<Widget> _buildActions() {
-    if (_isSearching) {
-      return <Widget>[
-        new IconButton(
-          icon: const Icon(Icons.clear),
-          onPressed: () {
-            if (_searchQuery == null || _searchQuery.text.isEmpty) {
-              Navigator.pop(context);
-              return;
-            }
-            _clearSearchQuery();
-          },
-        ),
-      ];
-    }
-
-    return <Widget>[
-      new IconButton(
-        icon: Icon(Icons.search),
-        onPressed: _startSearch,
-      ),
-    ];
   }
 
   _showModalBottomSheet(context, DocumentSnapshot garage) {

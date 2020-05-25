@@ -12,6 +12,8 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="parkly"
         android:icon="@mipmap/launcher_icon">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyDL2u39a8en6Bov3RP3CzJ5XkxHnO9xRDM"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
