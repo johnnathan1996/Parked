@@ -24,7 +24,6 @@ import '../setup/globals.dart' as globals;
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:parkly/localization/keys.dart';
 import 'package:date_range_picker/date_range_picker.dart' as DateRangePicker;
-
 import 'package:stripe_payment/stripe_payment.dart' as stripe;
 import 'package:stripe_fl/stripe_fl.dart' as stripefl;
 
@@ -657,7 +656,7 @@ class _DetailGarageState extends State<DetailGarage> {
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20))),
               child: Container(
-                height: MediaQuery.of(context).size.height * 0.6,
+                height: MediaQuery.of(context).size.height * 0.65,
                 child: Padding(
                     padding: const EdgeInsets.only(top: 20),
                     child: Theme(
@@ -691,7 +690,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                 title: Text('Info'),
                                 content: Container(
                                   height:
-                                      MediaQuery.of(context).size.height * 0.4,
+                                      MediaQuery.of(context).size.height * 0.5,
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     mainAxisAlignment:
@@ -876,7 +875,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                 title: Text('Suppl'),
                                 content: Container(
                                   height:
-                                      MediaQuery.of(context).size.height * 0.4,
+                                      MediaQuery.of(context).size.height * 0.5,
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     mainAxisAlignment:
@@ -964,7 +963,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                 title: Text('Payer'),
                                 content: Container(
                                   height:
-                                      MediaQuery.of(context).size.height * 0.4,
+                                      MediaQuery.of(context).size.height * 0.5,
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     mainAxisAlignment:
@@ -1099,7 +1098,6 @@ class _DetailGarageState extends State<DetailGarage> {
                                                     " PayPal",
                                                 onClickAction: () {
                                                   payment(idGarage, finalPrijs);
-                                                  createReservatie();
                                                 }),
                                           ),
                                           FlatButton(
@@ -1137,9 +1135,8 @@ class _DetailGarageState extends State<DetailGarage> {
         name: idGarage,
         statementDescriptor: "Paiement",
         currency: 'eur',
-        returnURL: 'http://google.be',
+        returnURL: 'parked://stripe-redirect',
       )).then((source) {
-        print(source.sourceId);
         try {
           stripefl.Charge()
               .card(
@@ -1147,13 +1144,13 @@ class _DetailGarageState extends State<DetailGarage> {
                   source: source.sourceId,
                   amount: source.amount,
                   description: 'Paiement',
-                  receiptEmail: "john@live.be")
+                  receiptEmail: "john96@hotmail.be")
               .catchError((e) {
             print(e);
           }).then((e) async {
-            print(e);
             if (e.data.paid) {
               try {
+                createReservatie();
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
@@ -1162,7 +1159,7 @@ class _DetailGarageState extends State<DetailGarage> {
                           borderRadius:
                               BorderRadius.all(Radius.circular(12.0))),
                       title: new Text(
-                        "C'EST FAIT !",
+                        "Votre reservation est ok !",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       content: Column(
@@ -1175,25 +1172,17 @@ class _DetailGarageState extends State<DetailGarage> {
                             size: 60,
                             color: Blauw,
                           ),
-                          Text("Votre portefeuille a été approvisionné !",
+                          Text("Vous avez payer",
                               style: TextStyle(fontWeight: FontWeight.bold))
                         ],
                       ),
                       actions: <Widget>[
-                        ButtonTheme(
-                            minWidth: 400.0,
-                            child: RaisedButton(
-                              color: Grijs,
-                              child: Text(
-                                "OK",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ))
+                        ButtonComponent(
+                          label: "ok",
+                          onClickAction: () {
+                            Navigator.of(context).pop();
+                          },
+                        )
                       ],
                     );
                   },
@@ -1215,7 +1204,7 @@ class _DetailGarageState extends State<DetailGarage> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(12.0))),
               title: new Text(
-                "OOPS..",
+                "Erreur..",
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               content: Column(
@@ -1233,19 +1222,12 @@ class _DetailGarageState extends State<DetailGarage> {
                 ],
               ),
               actions: <Widget>[
-                ButtonTheme(
-                    minWidth: 400.0,
-                    child: RaisedButton(
-                      color: Grijs,
-                      child: Text(
-                        "OK",
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ))
+                ButtonComponent(
+                          label: "Continuer",
+                          onClickAction: () {
+                            Navigator.of(context).pop();
+                          },
+                        )
               ],
             );
           },
