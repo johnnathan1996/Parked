@@ -1083,7 +1083,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                             child: ButtonComponent(
                                                 label: translate(
                                                         Keys.Button_Paywith) +
-                                                    " PayPal",
+                                                    " Bancontact",
                                                 onClickAction: () {
                                                   payment(idGarage, finalPrijs);
                                                 }),
@@ -1147,7 +1147,7 @@ class _DetailGarageState extends State<DetailGarage> {
                           borderRadius:
                               BorderRadius.all(Radius.circular(12.0))),
                       title: new Text(
-                        "Votre reservation est ok !",
+                        translate(Keys.Apptext_Payaccepter),
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       content: Column(
@@ -1160,13 +1160,11 @@ class _DetailGarageState extends State<DetailGarage> {
                             size: 60,
                             color: Blauw,
                           ),
-                          Text("Vous avez payer",
-                              style: TextStyle(fontWeight: FontWeight.bold))
                         ],
                       ),
                       actions: <Widget>[
                         ButtonComponent(
-                          label: "ok",
+                          label: translate(Keys.Button_Back),
                           onClickAction: () {
                             Navigator.of(context).pop();
                           },
@@ -1192,7 +1190,7 @@ class _DetailGarageState extends State<DetailGarage> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(12.0))),
               title: new Text(
-                "Erreur..",
+                translate(Keys.Apptext_Payrefused),
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               content: Column(
@@ -1203,15 +1201,13 @@ class _DetailGarageState extends State<DetailGarage> {
                   Icon(
                     Icons.error,
                     size: 60,
-                    color: Blauw,
+                    color: Colors.red,
                   ),
-                  Text("Une érreur s'est produite..",
-                      style: TextStyle(fontWeight: FontWeight.bold))
                 ],
               ),
               actions: <Widget>[
                 ButtonComponent(
-                  label: "Continuer",
+                  label: translate(Keys.Button_Back),
                   onClickAction: () {
                     Navigator.of(context).pop();
                   },

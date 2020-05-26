@@ -53,130 +53,140 @@ class _ProfileTabState extends State<ProfileTab> {
   }
 
   placesComponent(userData) {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
-        Widget>[
-      Padding(
-          padding: EdgeInsets.symmetric(vertical: 5),
-          child:
-              Text("Emplacement favoris", style: SubTitleCustom)), //TODO: trad
-      MediaQuery.removePadding(
-          context: context,
-          removeBottom: true,
-          removeTop: true,
-          child: GridView.count(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              crossAxisCount: 2,
-              crossAxisSpacing: 15,
-              children: [
-                GestureDetector(
-                    onTap: userData["home"] == null
-                        ? () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => AddHome()));
-                          }
-                        : () {
-                            //TODO: Go to carte
-                            print("go to carte");
-                          },
-                    child: Stack(
-                      children: <Widget>[
-                        Container(
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: Wit),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Icon(Icons.home),
-                                userData["home"] == null
-                                    ? Text("Ajouter un domicile") //TODO: trad
-                                    : Text(
-                                        userData["home"]["adress"],
-                                        textAlign: TextAlign.center,
-                                        maxLines: 2,
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+              padding: EdgeInsets.symmetric(vertical: 5),
+              child: Text(translate(Keys.Apptext_Favoritelocations),
+                  style: SubTitleCustom)),
+          MediaQuery.removePadding(
+              context: context,
+              removeBottom: true,
+              removeTop: true,
+              child: GridView.count(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 15,
+                  children: [
+                    GestureDetector(
+                        onTap: userData["home"] == null
+                            ? () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => AddHome()));
+                              }
+                            : () {
+                                //TODO: Go to map
+                                print("go to carte");
+                              },
+                        child: Stack(
+                          children: <Widget>[
+                            Container(
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: Wit),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Icon(Icons.home),
+                                    userData["home"] == null
+                                        ? Text(translate(Keys.Apptext_Addhome))
+                                        : Text(
+                                            userData["home"]["adress"],
+                                            textAlign: TextAlign.center,
+                                            maxLines: 2,
+                                          ),
+                                  ],
+                                )),
+                            Align(
+                                alignment: Alignment.topRight,
+                                child: userData["home"] == null
+                                    ? IconButton(
+                                        icon: Icon(
+                                          Icons.add_circle,
+                                          color: Blauw,
+                                        ),
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      AddHome()));
+                                        })
+                                    : IconButton(
+                                        icon: Icon(Icons.more_vert),
+                                        onPressed: () {
+                                          actionMore(
+                                              context,
+                                              translate(Keys.Apptext_Home),
+                                              userData["job"]);
+                                        }))
+                          ],
+                        )),
+                    GestureDetector(
+                      onTap: userData["job"] == null
+                          ? () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AddJob()));
+                            }
+                          : () {
+                              //TODO: Go to map
+                              print("Go to carte");
+                            },
+                      child: Stack(
+                        children: <Widget>[
+                          Container(
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: Wit),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Icon(Icons.business),
+                                  userData["job"] == null
+                                      ? Text(translate(Keys.Apptext_Addjob))
+                                      : Text(
+                                          userData["job"]["adress"],
+                                          textAlign: TextAlign.center,
+                                          maxLines: 2,
+                                        ),
+                                ],
+                              )),
+                          Align(
+                              alignment: Alignment.topRight,
+                              child: userData["job"] == null
+                                  ? IconButton(
+                                      icon: Icon(
+                                        Icons.add_circle,
+                                        color: Blauw,
                                       ),
-                              ],
-                            )),
-                        Align(
-                            alignment: Alignment.topRight,
-                            child: userData["home"] == null
-                                ? IconButton(
-                                    icon: Icon(
-                                      Icons.add_circle,
-                                      color: Blauw,
-                                    ),
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => AddHome()));
-                                    })
-                                : IconButton(
-                                    icon: Icon(Icons.more_vert),
-                                    onPressed: () {
-                                      actionMore(context, "Domicile", userData["job"]);
-                                    }))
-                      ],
-                    )),
-                GestureDetector(
-                  onTap: userData["job"] == null
-                      ? () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AddJob()));
-                        }
-                      : () {
-                          print("Go to carte");
-                        },
-                  child: Stack(
-                    children: <Widget>[
-                      Container(
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Wit),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Icon(Icons.business),
-                              userData["job"] == null
-                                  ? Text("Ajouter un travaille") //TODO: trad
-                                  : Text(
-                                      userData["job"]["adress"],
-                                      textAlign: TextAlign.center,
-                                      maxLines: 2,
-                                    ),
-                            ],
-                          )),
-                      Align(
-                          alignment: Alignment.topRight,
-                          child: userData["job"] == null
-                              ? IconButton(
-                                  icon: Icon(
-                                    Icons.add_circle,
-                                    color: Blauw,
-                                  ),
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => AddJob()));
-                                  })
-                              : IconButton(
-                                  icon: Icon(Icons.more_vert),
-                                  onPressed: () {
-                                    actionMore(context, "Job", userData["job"]);
-                                  }))
-                    ],
-                  ),
-                ),
-              ]))
-    ]);
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    AddJob()));
+                                      })
+                                  : IconButton(
+                                      icon: Icon(Icons.more_vert),
+                                      onPressed: () {
+                                        actionMore(
+                                            context,
+                                            translate(Keys.Apptext_Job),
+                                            userData["job"]);
+                                      }))
+                        ],
+                      ),
+                    ),
+                  ]))
+        ]);
   }
 
   Future actionMore(BuildContext context, String title, dynamic data) async {
@@ -193,23 +203,22 @@ class _ProfileTabState extends State<ProfileTab> {
             title: Text(title),
             actions: <Widget>[
               CupertinoActionSheetAction(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  //TODO: Go to map
-                },
-                child: Text("Cherchez un garage"),
-              ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    //TODO: Go to map
+                  },
+                  child: Text(translate(Keys.Button_Searchgarage))),
               CupertinoActionSheetAction(
                 onPressed: () {
                   Navigator.of(context).pop();
                   //TODO: go to editpage
                 },
-                child: Text("Modifier"),
+                child: Text(translate(Keys.Button_Edit)),
               ),
               CupertinoActionSheetAction(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  // TODO: delite adress
+                  // TODO: delete adress
                 },
                 child: Text(
                   translate(Keys.Button_Delete),

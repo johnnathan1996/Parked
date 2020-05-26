@@ -594,8 +594,8 @@ class _EditGarageState extends State<EditGarage> {
           } else {
             showDialog(
               context: context,
-              builder: (_) => ModalComponent(
-                  modalTekst: 'pas de garage des les 30km'), //TODO: Trad
+              builder: (_) =>
+                  ModalComponent(modalTekst: translate(Keys.Modal_Nogarageray)),
             );
           }
         });
@@ -683,7 +683,8 @@ class _EditGarageState extends State<EditGarage> {
           print(e);
           showDialog(
             context: context,
-            builder: (_) => ModalComponent(modalTekst: "Adresse non valable"),
+            builder: (_) => ModalComponent(
+                modalTekst: translate(Keys.Modal_Invalidaddress)),
           );
         }
       } else {

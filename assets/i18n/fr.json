@@ -54,7 +54,9 @@
 		"PayWith": "Paye avec",
 		"Refresh": "Actualisé",
 		"Accept": "Accepter",
-		"Refuse": "Refuser"
+		"Refuse": "Refuser",
+		"Edit": "Modifier",
+		"SearchGarage" : "Cherchez un garage"
 	},
 	"Inputs": {
 		"Firstname": "Prénom",
@@ -81,7 +83,8 @@
 		"CardExp": "Date d'expiration",
 		"Search": "Cherchez",
 		"TellUsWhy": "Ecrivez ici pourquoi",
-		"SendMessage": "Envoyer un message"
+		"SendMessage": "Envoyer un message",
+		"SearchAdress": "Recherchez une adresse"
 	},
 	"Modal": {
 		"NoCard": "Vous n'avez pas de carte",
@@ -96,7 +99,8 @@
 		"NoImage": "Vous n'avez pas de photo",
 		"DateNotPoss": "Les dates choisies ne sont pas possibles",
 		"InvalidAddress": "Adresse non valable",
-		"WriteAddress": "Veuillez écrire une adresse"
+		"WriteAddress": "Veuillez écrire une adresse",
+		"NoGarageRay": "Il n'y a pas de garages dans les 30 km"
 	},
 	"Errors": {
 		"IsEmpty": "Veuillez remplir le champs",
@@ -185,6 +189,13 @@
 		"FeesParked": "Frais Parked",
 		"NoMessage": "Pas encore de message",
 		"ReservedBy": "Garage reservé par ",
-		"NoGarage": "Attention, ce garage n'existe plus !"
+		"NoGarage": "Attention, ce garage n'existe plus !",
+		"FavoriteLocations": "Emplacement favoris",
+		"AddHome": "Ajouter un domicile",
+		"AddJob": "Ajouter un travaille",
+		"Job": "Travaille",
+		"Home": "Domicile",
+		"PayAccepter": "Paiement accepté",
+		"PayRefused": "Paiement refusé"
 	}
 }

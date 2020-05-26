@@ -105,6 +105,10 @@ class Keys {
 
   static const String Button_Refuse = 'Button.Refuse';
 
+  static const String Button_Edit = 'Button.Edit';
+
+  static const String Button_Searchgarage = 'Button.SearchGarage';
+
   static const String Inputs_Firstname = 'Inputs.Firstname';
 
   static const String Inputs_Lastname = 'Inputs.Lastname';
@@ -155,6 +159,8 @@ class Keys {
 
   static const String Inputs_Sendmessage = 'Inputs.SendMessage';
 
+  static const String Inputs_Searchadress = 'Inputs.SearchAdress';
+
   static const String Modal_Nocard = 'Modal.NoCard';
 
   static const String Modal_Invalidemail = 'Modal.invalidEmail';
@@ -180,6 +186,8 @@ class Keys {
   static const String Modal_Invalidaddress = 'Modal.InvalidAddress';
 
   static const String Modal_Writeaddress = 'Modal.WriteAddress';
+
+  static const String Modal_Nogarageray = 'Modal.NoGarageRay';
 
   static const String Errors_Isempty = 'Errors.IsEmpty';
 
@@ -334,4 +342,18 @@ class Keys {
   static const String Apptext_Reservedby = 'AppText.ReservedBy';
 
   static const String Apptext_Nogarage = 'AppText.NoGarage';
+
+  static const String Apptext_Favoritelocations = 'AppText.FavoriteLocations';
+
+  static const String Apptext_Addhome = 'AppText.AddHome';
+
+  static const String Apptext_Addjob = 'AppText.AddJob';
+
+  static const String Apptext_Job = 'AppText.Job';
+
+  static const String Apptext_Home = 'AppText.Home';
+
+  static const String Apptext_Payaccepter = 'AppText.PayAccepter';
+
+  static const String Apptext_Payrefused = 'AppText.PayRefused';
 }

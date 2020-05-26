@@ -562,7 +562,7 @@ class _AddGarageState extends State<AddGarage> {
             showDialog(
               context: context,
               builder: (_) => ModalComponent(
-                  modalTekst: 'pas de garage des les 30km'), //TODO: Trad
+                  modalTekst: translate(Keys.Modal_Nogarageray)),
             );
           }
         });

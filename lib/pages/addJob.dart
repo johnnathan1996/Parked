@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:mapbox_search/mapbox_search.dart';
 import 'package:parkly/constant.dart';
+import 'package:parkly/localization/keys.dart';
 import '../setup/globals.dart' as globals;
 
 class AddJob extends StatefulWidget {
@@ -53,7 +55,7 @@ class _AddJobState extends State<AddJob> {
                         border: InputBorder.none,
                         filled: true,
                         fillColor: Wit,
-                        hintText: "Recherche une adresse",
+                        hintText: translate(Keys.Inputs_Searchadress),
                         labelStyle: TextStyle(color: Zwart)),
                   ),
                 ),

@@ -54,7 +54,9 @@
 		"PayWith": "Pay with",
 		"Refresh": "Refresh",
 		"Accept": "Accept",
-		"Refuse": "Refuse"
+		"Refuse": "Refuse",
+		"Edit": "Edit",
+		"SearchGarage" : "Find a garage"
 	},
 	"Inputs": {
 		"Firstname": "First name",
@@ -81,7 +83,8 @@
 		"CardExp": "Expiry date",
 		"Search": "Search",
 		"TellUsWhy": "Write here why",
-		"SendMessage": "Send a message"
+		"SendMessage": "Send a message",
+		"SearchAdress": "Find an address"
 	},
 	"Modal": {
 		"NoCard": "You don't have a card",
@@ -96,7 +99,8 @@
 		"NoImage": "You have not added a photo",
 		"DateNotPoss": "Your chosen dates are not possible",
 		"InvalidAddress": "Invalid address",
-		"WriteAddress": "Please write an address"
+		"WriteAddress": "Please write an address",
+		"NoGarageRay": "There are no garages within 30 km"
 	},
 	"Errors": {
 		"IsEmpty": "Please fill in the field",
@@ -185,6 +189,13 @@
 		"FeesParked": "Parked fees",
 		"NoMessage": "No message yet",
 		"ReservedBy": "Garage reserved by ",
-		"NoGarage": "Please note, this garage no longer exists!"
+		"NoGarage": "Please note, this garage no longer exists!",
+		"FavoriteLocations": "Favorite locations",
+		"AddHome": "Add a home",
+		"AddJob": "Add a job",
+		"Job": "Job",
+		"Home": "Home",
+		"PayAccepter": "Accepted payment",
+		"PayRefused": "Refused payment"
 	}
 }

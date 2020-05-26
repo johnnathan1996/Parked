@@ -54,7 +54,9 @@
 		"PayWith": "betaal met",
 		"Refresh": "Refresh",
 		"Accept": "Accepteren",
-		"Refuse": "Weigeren"
+		"Refuse": "Weigeren",
+		"Edit": "Bewerken",
+		"SearchGarage" : "Zoek een garage"
 	},
 	"Inputs": {
 		"Firstname": "Voornaam",
@@ -81,7 +83,8 @@
 		"CardExp": "Vervaldatum",
 		"Search": "Zoeken",
 		"TellUsWhy": "Schijf hier waarom",
-		"SendMessage": "Stuur een bericht"
+		"SendMessage": "Stuur een bericht",
+		"SearchAdress": "Zoek een adres"
 	},
 	"Modal": {
 		"NoCard": "Je hebt geen kaart.",
@@ -96,7 +99,8 @@
 		"NoImage": "Je hebt geen foto toegevoegd",
 		"DateNotPoss": "Uw gekozen datums zijn niet mogelijk",
 		"InvalidAddress": "Ongeldig adres",
-		"WriteAddress": "Schrijf een adres"
+		"WriteAddress": "Schrijf een adres",
+		"NoGarageRay": "Er zijn geen garages binnen 30 km"
 	},
 	"Errors": {
 		"IsEmpty": "Gelieve het veld in te vullen",
@@ -185,6 +189,13 @@
 		"FeesParked": "Kosten Parked",
 		"NoMessage": "Nog geen bericht",
 		"ReservedBy": "Garage gereserveerd door ",
-		"NoGarage": "Let op, deze garage bestaat niet meer!"
+		"NoGarage": "Let op, deze garage bestaat niet meer!",
+		"FavoriteLocations": "Favoriete locaties",
+		"AddHome": "Voeg een huis toe",
+		"AddJob": "Voeg een job",
+		"Job": "Job",
+		"Home": "Huis",
+		"PayAccepter": "Geaccepteerde betaling",
+		"PayRefused": "Geweigerde betaling"
 	}
 }
