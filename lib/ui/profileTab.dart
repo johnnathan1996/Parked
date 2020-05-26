@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:parkly/constant.dart';
+import 'package:parkly/pages/addHome.dart';
+import 'package:parkly/pages/addJob.dart';
 import '../setup/globals.dart' as globals;
 
 class ProfileTab extends StatefulWidget {
@@ -37,7 +39,7 @@ class _ProfileTabState extends State<ProfileTab> {
                     children: <Widget>[
                       Padding(
                           padding: EdgeInsets.only(bottom: 20),
-                          child: placesComponent()),
+                          child: placesComponent(snapshot.data)),
                     ],
                   ));
                 } else {
@@ -47,46 +49,91 @@ class _ProfileTabState extends State<ProfileTab> {
         ]));
   }
 
-  placesComponent() {
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-              padding: EdgeInsets.symmetric(vertical: 5),
-              child: Text("places", style: SubTitleCustom)),
-          MediaQuery.removePadding(
-              context: context,
-              removeBottom: true,
-              removeTop: true,
-              child: GridView.count(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 15,
-                  children: [
-                    GestureDetector(
-                      onTap: (){
-                        //TODO: aller sur carte et montrer les garage pres de la maison
-                        print("object");
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Wit),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(Icons.home),
-                            Text("Ajouter un domicile"),//TODO: ajouter adresse
-                          ],
-                        ))), 
-                    GestureDetector(
-                      onTap: (){
-                        //TODO: aller sur carte et montrer les garage pres de la travaille
-                        print("object");
-                      },
-                      child: Container(
+  placesComponent(userData) {
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
+        Widget>[
+      Padding(
+          padding: EdgeInsets.symmetric(vertical: 5),
+          child: Text("Emplacement favoris", style: SubTitleCustom)), //TODO: trad
+      MediaQuery.removePadding(
+          context: context,
+          removeBottom: true,
+          removeTop: true,
+          child: GridView.count(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              crossAxisCount: 2,
+              crossAxisSpacing: 15,
+              children: [
+                GestureDetector(
+                    onTap: userData["home"] == null
+                        ? () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AddHome()));
+                          }
+                        : () {
+                            //TODO: Go to carte
+                            print("go to carte");
+                          },
+                    child: Stack(
+                      children: <Widget>[
+                        Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Wit),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Icon(Icons.home),
+                                userData["home"] == null
+                                    ? Text("Ajouter un domicile") //TODO: trad
+                                    : Text(
+                                        userData["home"]["adress"],
+                                        textAlign: TextAlign.center,
+                                        maxLines: 2,
+                                      ),
+                              ],
+                            )),
+                        Align(
+                            alignment: Alignment.topRight,
+                            child: userData["home"] == null
+                                ? IconButton(
+                                    icon: Icon(
+                                      Icons.add_circle,
+                                      color: Blauw,
+                                    ),
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => AddHome()));
+                                    })
+                                : IconButton(
+                                    icon: Icon(Icons.more_vert),
+                                    onPressed: () {
+                                      //TODO: edit or delete
+                                      print("more");
+                                    }))
+                      ],
+                    )),
+                GestureDetector(
+                  onTap: userData["job"] == null
+                      ? () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AddJob()));
+                        }
+                      : () {
+                          //TODO: Go to carte
+                          print("Go to carte");
+                        },
+                  child: Stack(
+                    children: <Widget>[
+                      Container(
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
@@ -95,11 +142,39 @@ class _ProfileTabState extends State<ProfileTab> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Icon(Icons.business),
-                              Text("Ajouter un travaille"),//TODO: ajouter adresse
+                              userData["job"] == null
+                                  ? Text("Ajouter un travaille") //TODO: trad
+                                  : Text(
+                                      userData["job"]["adress"],
+                                      textAlign: TextAlign.center,
+                                      maxLines: 2,
+                                    ),
                             ],
-                          )), 
-                    ),
-                  ]))
-        ]);
+                          )),
+                      Align(
+                          alignment: Alignment.topRight,
+                          child: userData["job"] == null
+                              ? IconButton(
+                                  icon: Icon(
+                                    Icons.add_circle,
+                                    color: Blauw,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => AddJob()));
+                                  })
+                              : IconButton(
+                                  icon: Icon(Icons.more_vert),
+                                  onPressed: () {
+                                    //TODO: edit or delete
+                                    print("more");
+                                  }))
+                    ],
+                  ),
+                ),
+              ]))
+    ]);
   }
 }
