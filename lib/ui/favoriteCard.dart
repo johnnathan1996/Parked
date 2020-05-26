@@ -83,32 +83,14 @@ class _FavoriteCardComponentState extends State<FavoriteCardComponent> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(garage['street'] + ", " + garage['huisnummer'],
-                                style: TextStyle(
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.w500,
-                                    color: Zwart)),
-                            Text(garage['city'] + " " + garage['postcode'],
-                                style: TextStyle(
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.w500,
-                                    color: Zwart)),
-                            Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  ShowStars(rating: garage["rating"]),
-                                  Padding(
-                                      padding: EdgeInsets.only(left: 10, top: 5),
-                                      child: Text("( " +
-                                          garage['rating'].length.toString() +
-                                          " " +
-                                          translate(Keys.Subtitle_Reviews) +
-                                          " )"))
-                                ])
-                          ],
+                        Expanded(
+                          child: Text(
+                            garage['adress'],
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w500,
+                                color: Zwart),
+                          ),
                         ),
                         IconButton(
                           icon: mijnFavorieten.contains(garage.documentID)

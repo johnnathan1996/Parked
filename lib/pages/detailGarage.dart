@@ -286,26 +286,25 @@ class _DetailGarageState extends State<DetailGarage> {
         Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(garage['street'] + ", " + garage['huisnummer'],
-                        style: SubTitleCustom),
-                    Text(garage['city'] + " " + garage['postcode'],
-                        style: SubTitleCustom),
-                    Row(
-                      children: <Widget>[
-                        ShowStars(rating: garage["rating"]),
-                        Padding(
-                            padding: EdgeInsets.only(left: 10, top: 5),
-                            child: Text("( " +
-                                garage['rating'].length.toString() +
-                                " " +
-                                translate(Keys.Subtitle_Reviews) +
-                                " )"))
-                      ],
-                    ),
-                  ]),
+              Expanded(
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(garage['adress'], style: SubTitleCustom),
+                      Row(
+                        children: <Widget>[
+                          ShowStars(rating: garage["rating"]),
+                          Padding(
+                              padding: EdgeInsets.only(left: 10, top: 5),
+                              child: Text("( " +
+                                  garage['rating'].length.toString() +
+                                  " " +
+                                  translate(Keys.Subtitle_Reviews) +
+                                  " )"))
+                        ],
+                      ),
+                    ]),
+              ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
@@ -447,7 +446,11 @@ class _DetailGarageState extends State<DetailGarage> {
                   return ListTextComponent(label: garage["kenmerken"][index]);
                 }))
             : Container(),
-            Text(translate(Keys.Subtitle_Maxheigt)+ " " + garage["maxHoogte"] + "m", style: TextStyle(color: Blauw,fontStyle: FontStyle.italic, fontSize: 16),),
+        Text(
+          translate(Keys.Subtitle_Maxheigt) + " " + garage["maxHoogte"] + "m",
+          style: TextStyle(
+              color: Blauw, fontStyle: FontStyle.italic, fontSize: 16),
+        ),
         garage["types"].length != 0
             ? Padding(
                 padding: EdgeInsets.only(bottom: 10, top: 10),
@@ -721,25 +724,10 @@ class _DetailGarageState extends State<DetailGarage> {
                                                       child: Image.network(
                                                           garage['garageImg'],
                                                           fit: BoxFit.cover)),
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: <Widget>[
-                                                      Text(
-                                                          garage['street'] +
-                                                              ", " +
-                                                              garage[
-                                                                  'huisnummer'],
-                                                          style: SizeParagraph),
-                                                      Text(
-                                                          garage['city'] +
-                                                              " " +
-                                                              garage[
-                                                                  'postcode'],
-                                                          style: SizeParagraph),
-                                                    ],
-                                                  )
+                                                  Expanded(
+                                                    child: Text(garage['adress'],
+                                                        style: SizeParagraph,),
+                                                  ),
                                                 ])),
                                         Container(
                                           margin: EdgeInsets.only(top: 10),
@@ -1223,11 +1211,11 @@ class _DetailGarageState extends State<DetailGarage> {
               ),
               actions: <Widget>[
                 ButtonComponent(
-                          label: "Continuer",
-                          onClickAction: () {
-                            Navigator.of(context).pop();
-                          },
-                        )
+                  label: "Continuer",
+                  onClickAction: () {
+                    Navigator.of(context).pop();
+                  },
+                )
               ],
             );
           },

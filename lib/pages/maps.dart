@@ -274,9 +274,6 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
           userLon = positionUser.longitude;
         });
       }
-
-      // zoomToPosition(mapController,
-      //     LatLng(positionUser.latitude, positionUser.longitude), 15, this);
     }
   }
 

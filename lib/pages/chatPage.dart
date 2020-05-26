@@ -149,32 +149,8 @@ class _ChatPageState extends State<ChatPage> {
                                                   leading: Image.network(
                                                       snapshotten
                                                           .data['garageImg']),
-                                                  title: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: <Widget>[
-                                                        Text(
-                                                            snapshotten.data[
-                                                                    'street'] +
-                                                                ", " +
-                                                                snapshotten
-                                                                        .data[
-                                                                    'huisnummer'],
-                                                            style: TextStyle(
-                                                                fontSize:
-                                                                    16.0)),
-                                                        Text(
-                                                            snapshotten.data[
-                                                                    'city'] +
-                                                                " " +
-                                                                snapshotten
-                                                                        .data[
-                                                                    'postcode'],
-                                                            style: TextStyle(
-                                                                fontSize:
-                                                                    16.0)),
-                                                      ]),
+                                                  title: Text(snapshotten
+                                                      .data['adress']),
                                                   trailing: Icon(
                                                       Icons.arrow_forward_ios,
                                                       color: Zwart));

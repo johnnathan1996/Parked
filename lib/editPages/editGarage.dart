@@ -3,6 +3,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mapbox_search/mapbox_search.dart';
 import 'package:parkly/constant.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:parkly/ui/modal.dart';
@@ -30,7 +31,7 @@ class _EditGarageState extends State<EditGarage> {
   _EditGarageState({Key key, this.idGarage});
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String _street, _number, _city, _postcode, _desciption, downloadLink;
+  String _adress, _desciption, downloadLink;
   String _high = translate(Keys.Featuregarage_None);
   String _price = "";
 
@@ -40,9 +41,16 @@ class _EditGarageState extends State<EditGarage> {
 
   List<dynamic> _listChecked = [];
   List<dynamic> _typeVoertuigen = [];
+  List listAdresses = [];
 
   TextEditingController priceController = TextEditingController();
   bool showbtn = true;
+
+  var placesSearch = PlacesSearch(
+    apiKey:
+        'pk.eyJ1Ijoiam9obm5hdGhhbjk2IiwiYSI6ImNrM3p1M2pwcjFkYmIzZHA3ZGZ5dW1wcGIifQ.pcrBkGP2Jq3H6bcX1M0CYg',
+    limit: 5,
+  );
 
   @override
   void initState() {
@@ -53,10 +61,7 @@ class _EditGarageState extends State<EditGarage> {
         .listen((snapshot) {
       if (this.mounted) {
         setState(() {
-          _street = snapshot.data["street"];
-          _number = snapshot.data["huisnummer"];
-          _city = snapshot.data["city"];
-          _postcode = snapshot.data["postcode"];
+          _adress = snapshot.data["adress"];
           _desciption = snapshot.data["beschrijving"];
           downloadLink = snapshot.data["garageImg"];
           priceController.text = snapshot.data["prijs"].toString();
@@ -99,7 +104,7 @@ class _EditGarageState extends State<EditGarage> {
                                   child: imageComponent(context)),
                               Padding(
                                   padding: EdgeInsets.symmetric(vertical: 10),
-                                  child: adresComponent()),
+                                  child: adresComponent(context)),
                               Padding(
                                   padding: EdgeInsets.symmetric(vertical: 10),
                                   child: priceComponent(context)),
@@ -128,7 +133,7 @@ class _EditGarageState extends State<EditGarage> {
                       height: 200,
                       alignment: Alignment.center,
                       child: CircularProgressIndicator(
-                          valueColor: new AlwaysStoppedAnimation<Color>(Blauw)),
+                          valueColor: new AlwaysStoppedAnimation(Blauw)),
                     );
                   }
                 })));
@@ -161,7 +166,7 @@ class _EditGarageState extends State<EditGarage> {
         ));
   }
 
-  Widget adresComponent() {
+  Widget adresComponent(BuildContext context) {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -171,117 +176,68 @@ class _EditGarageState extends State<EditGarage> {
                   Text(translate(Keys.Subtitle_Adres), style: SubTitleCustom)),
           Padding(
               padding: EdgeInsets.symmetric(vertical: 5),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
+                children: <Widget>[
+                  _adress == null
+                      ? TextFormField(
+                          onChanged: (input) {
+                            getPlaces(input);
+                            if (input.isEmpty) {
+                              setState(() {
+                                listAdresses = [];
+                              });
+                            }
+                          },
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              filled: true,
+                              fillColor: Wit,
+                              hintText: translate(Keys.Subtitle_Adres),
+                              labelStyle: TextStyle(color: Zwart)),
+                        )
+                      : Container(),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: listAdresses.length == 0 ? 0 : 300,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: listAdresses.length,
+                      itemBuilder: (_, index) {
+                        return Card(
+                          elevation: 0,
+                          margin: EdgeInsets.zero,
+                          color: Wit,
+                          child: ListTile(
+                            onTap: () {
+                              _adress = listAdresses[index].placeName;
+
+                              setState(() {
+                                listAdresses = [];
+                              });
+                            },
+                            title: Text(listAdresses[index].placeName),
+                          ),
+                        );
+                      },
+                    ),
+                  )
+                ],
+              )),
+          _adress != null
+              ? Row(
                   children: <Widget>[
-                    Flexible(
-                        child: Padding(
-                            padding: EdgeInsets.only(right: 10),
-                            child: TextFormField(
-                              initialValue: _street,
-                              validator: (input) {
-                                if (input.isEmpty) {
-                                  return translate(Keys.Errors_Isempty);
-                                }
-                                return null;
-                              },
-                              onChanged: (input) {
-                                if (this.mounted) {
-                                  setState(() {
-                                    _street = input;
-                                  });
-                                }
-                              },
-                              onSaved: (input) => _street = input,
-                              decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  filled: true,
-                                  fillColor: Wit,
-                                  hintText: translate(Keys.Inputs_Street),
-                                  labelStyle: TextStyle(color: Zwart)),
-                            ))),
-                    SizedBox(
-                        width: 80,
-                        child: TextFormField(
-                          initialValue: _number,
-                          keyboardType: TextInputType.number,
-                          validator: (input) {
-                            if (input.isEmpty) {
-                              return translate(Keys.Errors_Isempty);
-                            }
-                            return null;
-                          },
-                          onChanged: (input) {
-                            if (this.mounted) {
-                              setState(() {
-                                _number = input;
-                              });
-                            }
-                          },
-                          onSaved: (input) => _number = input,
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-                              filled: true,
-                              fillColor: Wit,
-                              hintText: translate(Keys.Inputs_Number),
-                              labelStyle: TextStyle(color: Zwart)),
-                        )),
-                  ])),
-          Padding(
-              padding: EdgeInsets.symmetric(vertical: 5),
-              child: Row(children: <Widget>[
-                Expanded(
-                    child: Padding(
-                        padding: EdgeInsets.only(right: 10),
-                        child: TextFormField(
-                          initialValue: _city,
-                          validator: (input) {
-                            if (input.isEmpty) {
-                              return translate(Keys.Errors_Isempty);
-                            }
-                            return null;
-                          },
-                          onChanged: (input) {
-                            if (this.mounted) {
-                              setState(() {
-                                _city = input;
-                              });
-                            }
-                          },
-                          onSaved: (input) => _city = input,
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-                              filled: true,
-                              fillColor: Wit,
-                              hintText: translate(Keys.Inputs_City),
-                              labelStyle: TextStyle(color: Zwart)),
-                        ))),
-                Expanded(
-                    child: TextFormField(
-                  initialValue: _postcode,
-                  keyboardType: TextInputType.number,
-                  validator: (input) {
-                    if (input.isEmpty) {
-                      return translate(Keys.Errors_Isempty);
-                    }
-                    return null;
-                  },
-                  onChanged: (input) {
-                    if (this.mounted) {
-                      setState(() {
-                        _postcode = input;
-                      });
-                    }
-                  },
-                  onSaved: (input) => _postcode = input,
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      filled: true,
-                      fillColor: Wit,
-                      hintText: translate(Keys.Inputs_Postal),
-                      labelStyle: TextStyle(color: Zwart)),
-                )),
-              ])),
+                    Expanded(child: Text(_adress)),
+                    IconButton(
+                        icon: Icon(Icons.close),
+                        onPressed: () {
+                          setState(() {
+                            _adress = null;
+                            listAdresses = [];
+                          });
+                        })
+                  ],
+                )
+              : Container()
         ]);
   }
 
@@ -542,7 +498,7 @@ class _EditGarageState extends State<EditGarage> {
           height: 200,
           alignment: Alignment.center,
           child: CircularProgressIndicator(
-              valueColor: new AlwaysStoppedAnimation<Color>(Blauw)),
+              valueColor: new AlwaysStoppedAnimation(Blauw)),
         );
       },
     );
@@ -592,17 +548,23 @@ class _EditGarageState extends State<EditGarage> {
         });
   }
 
+  getPlaces(String searchQuery) {
+    if (searchQuery.isNotEmpty) {
+      Future<List<MapBoxPlace>> places = placesSearch.getPlaces(searchQuery);
+      places.then((value) {
+        setState(() {
+          listAdresses = value;
+        });
+      });
+    }
+  }
+
   void searchPricNearby(BuildContext context) async {
     Geoflutterfire geo = Geoflutterfire();
 
-    if (_street != null ||
-        _number != null ||
-        _city != null ||
-        _postcode != null) {
+    if (_adress != null) {
       try {
-        final query = _street + " " + _number + ", " + _city + " " + _postcode;
-        var addresses =
-            await Geocoder.local.findAddressesFromQuery(query.toString());
+        var addresses = await Geocoder.local.findAddressesFromQuery(_adress);
         var first = addresses.first;
 
         GeoFirePoint center = geo.point(
@@ -619,15 +581,23 @@ class _EditGarageState extends State<EditGarage> {
             .within(center: center, radius: radius, field: field);
 
         stream.listen((List<DocumentSnapshot> documentList) {
-          double gemiddeldePrijs = 0;
-          documentList.forEach((element) {
-            gemiddeldePrijs += element.data["prijs"];
-          });
-          setState(() {
-            priceController.text =
-                (gemiddeldePrijs / documentList.length).round().toString();
-            showbtn = false;
-          });
+          if (documentList.length != 0) {
+            double gemiddeldePrijs = 0;
+            documentList.forEach((element) {
+              gemiddeldePrijs += element.data["prijs"];
+            });
+            setState(() {
+              priceController.text =
+                  (gemiddeldePrijs / documentList.length).round().toString();
+              showbtn = false;
+            });
+          } else {
+            showDialog(
+              context: context,
+              builder: (_) => ModalComponent(
+                  modalTekst: 'pas de garage des les 30km'), //TODO: Trad
+            );
+          }
         });
       } catch (e) {
         print(e);
@@ -651,56 +621,51 @@ class _EditGarageState extends State<EditGarage> {
     if (formState.validate()) {
       formState.save();
 
-      try {
-        final query = _street + " " + _number + ", " + _city + " " + _postcode;
-        var addresses =
-            await Geocoder.local.findAddressesFromQuery(query.toString());
-        var first = addresses.first;
+      if (_adress != null) {
+        try {
+          var addresses = await Geocoder.local.findAddressesFromQuery(_adress);
+          var first = addresses.first;
 
-        _longitude = first.coordinates.longitude;
-        _latitude = first.coordinates.latitude;
+          _longitude = first.coordinates.longitude;
+          _latitude = first.coordinates.latitude;
 
-        if (fileName != null) {
-          uploadToStorage(context, fileName).whenComplete(() {
+          if (fileName != null) {
+            uploadToStorage(context, fileName).whenComplete(() {
+              Geoflutterfire geo = Geoflutterfire();
+              GeoFirePoint center =
+                  geo.point(latitude: _latitude, longitude: _longitude);
+
+              try {
+                Firestore.instance
+                    .collection('garages')
+                    .document(idGarage)
+                    .updateData({
+                  'garageImg': downloadLink,
+                  'adress': _adress,
+                  'prijs': int.parse(_price),
+                  'beschrijving': _desciption.capitalize(),
+                  'maxHoogte': _high,
+                  'kenmerken': _listChecked,
+                  'types': _typeVoertuigen,
+                  'location': center.data,
+                }).then((value) {
+                  Navigator.of(context).pop();
+                });
+              } catch (e) {
+                print(e.message);
+              }
+            });
+          } else {
             Geoflutterfire geo = Geoflutterfire();
             GeoFirePoint center =
                 geo.point(latitude: _latitude, longitude: _longitude);
-
             try {
-              Firestore.instance.collection('garages')
-              .document(idGarage)
-                .updateData({
-                'garageImg': downloadLink,
-                'street': _street.capitalize(),
-                'huisnummer': _number,
-                'city': _city,
-                'postcode': _postcode,
-                'prijs': int.parse(_price),
-                'beschrijving': _desciption.capitalize(),
-                'maxHoogte': _high,
-                'kenmerken': _listChecked,
-                'types': _typeVoertuigen,
-                'location': center.data,
-              }).then((value) {
-                Navigator.of(context).pop();
-              });
-            } catch (e) {
-              print(e.message);
-            }
-          });
-        } else {
-          Geoflutterfire geo = Geoflutterfire();
-            GeoFirePoint center =
-                geo.point(latitude: _latitude, longitude: _longitude);
-          try {
-              Firestore.instance.collection('garages')
-              .document(idGarage)
-                .updateData({
+              Firestore.instance
+                  .collection('garages')
+                  .document(idGarage)
+                  .updateData({
                 'garageImg': garage["garageImg"],
-                'street': _street.capitalize(),
-                'huisnummer': _number,
-                'city': _city,
-                'postcode': _postcode,
+                'adress': _adress,
                 'prijs': int.parse(_price),
                 'beschrijving': _desciption.capitalize(),
                 'maxHoogte': _high,
@@ -713,12 +678,19 @@ class _EditGarageState extends State<EditGarage> {
             } catch (e) {
               print(e.message);
             }
+          }
+        } catch (e) {
+          print(e);
+          showDialog(
+            context: context,
+            builder: (_) => ModalComponent(modalTekst: "Adresse non valable"),
+          );
         }
-      } catch (e) {
-        print(e);
+      } else {
         showDialog(
           context: context,
-          builder: (_) => ModalComponent(modalTekst: "Adresse non valable"),
+          builder: (_) =>
+              ModalComponent(modalTekst: translate(Keys.Modal_Writeaddress)),
         );
       }
     }
