@@ -45,7 +45,7 @@ class GarageCardComponent extends StatelessWidget {
                         actions: <Widget>[
                           CupertinoActionSheetAction(
                             onPressed: () {
-                              deletePost(garage.documentID);
+                              deleteGarage(garage.documentID);
                               Navigator.of(context).pop();
                             },
                             child: Text(
@@ -117,7 +117,7 @@ class GarageCardComponent extends StatelessWidget {
     );
   }
 
-  deletePost(String id) async {
+  deleteGarage(String id) {
     Firestore.instance.collection('users').document(globals.userId).updateData({
       "mijnGarage": FieldValue.arrayRemove([id])
     }).whenComplete(() {

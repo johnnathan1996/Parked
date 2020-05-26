@@ -123,7 +123,8 @@ class _ProfileTabState extends State<ProfileTab> {
                                           actionMore(
                                               context,
                                               translate(Keys.Apptext_Home),
-                                              userData["job"]);
+                                              userData["home"],
+                                              "home");
                                         }))
                           ],
                         )),
@@ -180,7 +181,8 @@ class _ProfileTabState extends State<ProfileTab> {
                                         actionMore(
                                             context,
                                             translate(Keys.Apptext_Job),
-                                            userData["job"]);
+                                            userData["job"],
+                                            "job");
                                       }))
                         ],
                       ),
@@ -189,7 +191,8 @@ class _ProfileTabState extends State<ProfileTab> {
         ]);
   }
 
-  Future actionMore(BuildContext context, String title, dynamic data) async {
+  Future actionMore(
+      BuildContext context, String title, dynamic data, String type) async {
     await showCupertinoModalPopup(
         context: context,
         builder: (context) {
@@ -217,8 +220,8 @@ class _ProfileTabState extends State<ProfileTab> {
               ),
               CupertinoActionSheetAction(
                 onPressed: () {
+                  deleteAdress(type);
                   Navigator.of(context).pop();
-                  // TODO: delete adress
                 },
                 child: Text(
                   translate(Keys.Button_Delete),
@@ -228,5 +231,20 @@ class _ProfileTabState extends State<ProfileTab> {
             ],
           );
         });
+  }
+
+  deleteAdress(String type) {
+    if (type == "job") {
+      Firestore.instance
+          .collection('users')
+          .document(globals.userId)
+          .updateData({"job": FieldValue.delete()});
+    }
+    if (type == "home") {
+      Firestore.instance
+          .collection('users')
+          .document(globals.userId)
+          .updateData({"home": FieldValue.delete()});
+    }
   }
 }
