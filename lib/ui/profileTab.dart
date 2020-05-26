@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:parkly/constant.dart';
+import 'package:parkly/localization/keys.dart';
 import 'package:parkly/pages/addHome.dart';
 import 'package:parkly/pages/addJob.dart';
 import '../setup/globals.dart' as globals;
@@ -54,7 +57,8 @@ class _ProfileTabState extends State<ProfileTab> {
         Widget>[
       Padding(
           padding: EdgeInsets.symmetric(vertical: 5),
-          child: Text("Emplacement favoris", style: SubTitleCustom)), //TODO: trad
+          child:
+              Text("Emplacement favoris", style: SubTitleCustom)), //TODO: trad
       MediaQuery.removePadding(
           context: context,
           removeBottom: true,
@@ -114,8 +118,7 @@ class _ProfileTabState extends State<ProfileTab> {
                                 : IconButton(
                                     icon: Icon(Icons.more_vert),
                                     onPressed: () {
-                                      //TODO: edit or delete
-                                      print("more");
+                                      actionMore(context, "Domicile", userData["job"]);
                                     }))
                       ],
                     )),
@@ -128,7 +131,6 @@ class _ProfileTabState extends State<ProfileTab> {
                                   builder: (context) => AddJob()));
                         }
                       : () {
-                          //TODO: Go to carte
                           print("Go to carte");
                         },
                   child: Stack(
@@ -168,13 +170,54 @@ class _ProfileTabState extends State<ProfileTab> {
                               : IconButton(
                                   icon: Icon(Icons.more_vert),
                                   onPressed: () {
-                                    //TODO: edit or delete
-                                    print("more");
+                                    actionMore(context, "Job", userData["job"]);
                                   }))
                     ],
                   ),
                 ),
               ]))
     ]);
+  }
+
+  Future actionMore(BuildContext context, String title, dynamic data) async {
+    await showCupertinoModalPopup(
+        context: context,
+        builder: (context) {
+          return CupertinoActionSheet(
+            cancelButton: CupertinoActionSheetAction(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(translate(Keys.Button_Cancel)),
+            ),
+            title: Text(title),
+            actions: <Widget>[
+              CupertinoActionSheetAction(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  //TODO: Go to map
+                },
+                child: Text("Cherchez un garage"),
+              ),
+              CupertinoActionSheetAction(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  //TODO: go to editpage
+                },
+                child: Text("Modifier"),
+              ),
+              CupertinoActionSheetAction(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  // TODO: delite adress
+                },
+                child: Text(
+                  translate(Keys.Button_Delete),
+                  style: TextStyle(color: Colors.red),
+                ),
+              )
+            ],
+          );
+        });
   }
 }
