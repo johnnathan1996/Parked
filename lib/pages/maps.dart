@@ -3,6 +3,7 @@ import 'package:app_settings/app_settings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:parkly/constant.dart';
 import 'package:latlong/latlong.dart';
@@ -16,7 +17,7 @@ import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:parkly/localization/keys.dart';
 import 'package:location_permissions/location_permissions.dart';
-// import 'package:search_map_place/search_map_place.dart';
+import 'package:mapbox_search/mapbox_search.dart';
 
 class MapsPage extends StatefulWidget {
   const MapsPage();
@@ -27,15 +28,21 @@ class MapsPage extends StatefulWidget {
 class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
   static final GlobalKey<ScaffoldState> scaffoldKey =
       new GlobalKey<ScaffoldState>();
+  TextEditingController _searchQuery;
+  bool _isSearching = false;
 
   MapController mapController = new MapController();
   double userLat = 0;
   double userLon = 0;
 
+  double searchedLat = 0;
+  double searchedLon = 0;
+
   bool showMaps = false;
 
   Position position;
   List<Marker> markers = [];
+  List listAdresses = [];
 
   String searchQuery = "";
 
@@ -43,10 +50,17 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
 
   MarkerClusterPlugin plugin;
 
+  var placesSearch = PlacesSearch(
+    apiKey:
+        'pk.eyJ1Ijoiam9obm5hdGhhbjk2IiwiYSI6ImNrM3p1M2pwcjFkYmIzZHA3ZGZ5dW1wcGIifQ.pcrBkGP2Jq3H6bcX1M0CYg',
+    limit: 5,
+  );
+
   @override
   initState() {
     _getUserPosition();
     _getGaragePosition();
+    _searchQuery = new TextEditingController();
     super.initState();
   }
 
@@ -57,9 +71,12 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
         appBar: AppBar(
           iconTheme: IconThemeData(color: Zwart),
           actionsIconTheme: IconThemeData(color: Zwart),
-          title: Image.asset('assets/images/logo.png', height: 32),
+          title: _isSearching
+              ? _buildSearchField()
+              : Image.asset('assets/images/logo.png', height: 32),
           backgroundColor: Wit,
           elevation: 0.0,
+          actions: _buildActions(),
         ),
         floatingActionButton: showMaps
             ? FloatingActionButton(
@@ -122,6 +139,17 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
                               )),
                     ],
                   ),
+                  
+                  MarkerLayerOptions(
+                    markers: searchedLat != 0 ? [
+                      new Marker(
+                          point: new LatLng(searchedLat, searchedLon),
+                          height: 50,
+                          width: 50,
+                          builder: (ctx) =>
+                              new Container(child: Icon(Icons.place, color: Zwart))),
+                    ] : [],
+                  ),
                   (plugin != null)
                       ? MarkerClusterLayerOptions(
                           maxClusterRadius: 120,
@@ -148,14 +176,43 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
                         ),
                 ],
               ),
-              // Padding(
-              //     padding: const EdgeInsets.only(top: 10),
-              //     child: SearchMapPlaceWidget(
-              //       apiKey: "",
-              //       onSelected: (Place place) async {
-              //         print(place.geolocation);
-              //       },
-              //     )),
+              listAdresses.length != 0
+                  ? Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: ListView.builder(
+                        itemCount: listAdresses.length,
+                        itemBuilder: (_, index) {
+                          return Card(
+                            elevation: 0,
+                            margin: EdgeInsets.zero,
+                            color: Wit,
+                            child: ListTile(
+                              onTap: () async {
+                                var address = await Geocoder.local
+                                    .findAddressesFromQuery(
+                                        listAdresses[index].placeName);
+
+                                zoomToPosition(
+                                    mapController,
+                                    LatLng(address.first.coordinates.latitude,
+                                        address.first.coordinates.longitude),
+                                    15,
+                                    this);
+                                setState(() {
+                                  listAdresses = [];
+                                  searchedLat =
+                                      address.first.coordinates.latitude;
+                                  searchedLon =
+                                      address.first.coordinates.longitude;
+                                });
+                              },
+                              title: Text(listAdresses[index].placeName),
+                            ),
+                          );
+                        },
+                      ),
+                    )
+                  : Container()
             ],
           )
         : Container(
@@ -218,8 +275,8 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
         });
       }
 
-      zoomToPosition(mapController,
-          LatLng(positionUser.latitude, positionUser.longitude), 15, this);
+      // zoomToPosition(mapController,
+      //     LatLng(positionUser.latitude, positionUser.longitude), 15, this);
     }
   }
 
@@ -281,5 +338,103 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
             child: ModalMapComponent(garage: garage),
           );
         });
+  }
+
+  void _startSearch() {
+    ModalRoute.of(context)
+        .addLocalHistoryEntry(new LocalHistoryEntry(onRemove: _stopSearching));
+
+    if (this.mounted) {
+      setState(() {
+        _isSearching = true;
+      });
+    }
+  }
+
+  void _stopSearching() {
+    _clearSearchQuery();
+
+    if (this.mounted) {
+      setState(() {
+        _isSearching = false;
+      });
+    }
+  }
+
+  void _clearSearchQuery() {
+    if (this.mounted) {
+      setState(() {
+        _searchQuery.clear();
+        listAdresses = [];
+      });
+    }
+  }
+
+  Widget _buildSearchField() {
+    return new TextField(
+      controller: _searchQuery,
+      autofocus: true,
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: Wit,
+        hintText: translate(Keys.Inputs_Search),
+        border: InputBorder.none,
+        hintStyle: const TextStyle(color: Grijs),
+      ),
+      style: SizeParagraph,
+      onChanged: updateSearchQuery,
+    );
+  }
+
+  void updateSearchQuery(String newQuery) {
+    if (this.mounted) {
+      setState(() {
+        searchQuery = newQuery;
+      });
+    }
+    if (searchQuery.isEmpty) {
+      if (this.mounted) {
+        setState(() {
+          _searchQuery.clear();
+          listAdresses = [];
+        });
+      }
+    }
+    getPlaces();
+  }
+
+  getPlaces() {
+    if (searchQuery.isNotEmpty) {
+      Future<List<MapBoxPlace>> places = placesSearch.getPlaces(searchQuery);
+      places.then((value) {
+        setState(() {
+          listAdresses = value;
+        });
+      });
+    }
+  }
+
+  List<Widget> _buildActions() {
+    if (_isSearching) {
+      return <Widget>[
+        new IconButton(
+          icon: const Icon(Icons.clear),
+          onPressed: () {
+            if (_searchQuery == null || _searchQuery.text.isEmpty) {
+              Navigator.pop(context);
+              return;
+            }
+            _clearSearchQuery();
+          },
+        ),
+      ];
+    }
+
+    return <Widget>[
+      new IconButton(
+        icon: Icon(Icons.search),
+        onPressed: _startSearch,
+      ),
+    ];
   }
 }

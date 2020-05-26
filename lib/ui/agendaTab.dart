@@ -118,7 +118,7 @@ class _AgendaTabState extends State<AgendaTab> {
           builders: CalendarBuilders(
             markersBuilder: (context, date, events, holidays) {
               final children = <Widget>[];
-
+              //TODO: rendre plus beau l'agenda
               if (events.isNotEmpty) {
                 children.add(
                   Positioned(
