@@ -49,12 +49,17 @@ class _AgendaTabState extends State<AgendaTab> {
           setState(() {
             element.data["dates"].forEach((date) {
               _myReservations[date.toDate()] = [element.documentID];
+              //TODO:MONTRER QUE CEUX QUI SONT ACCEPTER OU EN ATTENTE SSUR L'AGENDA
             });
           });
         }
       });
     });
   }
+
+  //TODO: RENDRE EVIDENT QUAND CEST ACCEPTER, REFUSER OU EN ATTENTE
+  //TODO: RETROUVER LA COULEUR DU BADGE ROUGE DANS L'AGENDA, ESSAYER QU'IL SOIS DIRECTEMENT RETORUVABLE
+  //TODO: POUVOIR ACCEDER AU DETAIL DU GARAGE VIA L'AGENDA
 
   @override
   void initState() {
@@ -83,7 +88,7 @@ class _AgendaTabState extends State<AgendaTab> {
               localizationDelegate.currentLocale.languageCode),
           startingDayOfWeek: StartingDayOfWeek.monday,
           initialCalendarFormat: CalendarFormat.month,
-          events: _reservations,
+          events: _reservations..addAll(_myReservations),
           holidays: _myReservations,
           availableGestures: AvailableGestures.horizontalSwipe,
           headerStyle: HeaderStyle(
@@ -91,18 +96,31 @@ class _AgendaTabState extends State<AgendaTab> {
             formatButtonVisible: false,
           ),
           onDaySelected: (value, a) {
-            if (a.length != 0) {
-              if (this.mounted) {
-                setState(() {
-                  showGarageId = a;
-                  showGarage = true;
-                });
-              }
-            } else {
+            if (_myReservations.containsValue(a)) {
+              print("celui la est dans mees reservations personnelles!!");
               if (this.mounted) {
                 setState(() {
                   showGarage = false;
+                  //TODO: SHOW HUIDIGE RESERVEGIN
+                  //enlever le gris derriere si il est dans mes reservations
                 });
+              }
+            } else {
+              print("test");
+              if (a.length != 0) {
+                if (this.mounted) {
+                  setState(() {
+                    print(a);
+                    showGarageId = a;
+                    showGarage = true;
+                  });
+                }
+              } else {
+                if (this.mounted) {
+                  setState(() {
+                    showGarage = false;
+                  });
+                }
               }
             }
           },

@@ -18,7 +18,7 @@ class MessagePage extends StatefulWidget {
 
 class _MessagePageState extends State<MessagePage> {
   String sendName;
-
+//TODO: NE PAS AFFICHER LES CONVERSATIONS VIDE, VOIR YSN CHATPAGE
   void getSendName() {
     Firestore.instance
         .collection('users')
@@ -245,7 +245,8 @@ class _MessagePageState extends State<MessagePage> {
                                                                 .data["chat"]
                                                                 .last["message"],
                                                           )))
-                                              : Text(translate(Keys.Apptext_Nomessage))
+                                              : Text(translate(
+                                                  Keys.Apptext_Nomessage))
                                         ],
                                       ),
                                       trailing: snapshot.data.documents[index]

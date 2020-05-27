@@ -29,6 +29,7 @@ class _AddGarageState extends State<AddGarage> {
   String _price = "";
 
   File fileName;
+  //TODO: SUPPLEMENTS RAJOUTER PRIX LIFT ELECTRICITE
 
   num _longitude, _latitude;
 
@@ -150,13 +151,15 @@ class _AddGarageState extends State<AddGarage> {
                   _adress == null
                       ? TextFormField(
                           onChanged: (input) {
-                            getPlaces(input);
-                            if (input.isEmpty) {
+                            if (input.isEmpty || input == "" || input == null) {
+//TODO: QUAND TU EFFACE RAPIDEMENT YA UNE LISTE QUI APPARAIT QUAND MEME
                               if (this.mounted) {
                                 setState(() {
                                   listAdresses = [];
                                 });
                               }
+                            } else {
+                              getPlaces(input);
                             }
                           },
                           decoration: InputDecoration(
@@ -169,7 +172,6 @@ class _AddGarageState extends State<AddGarage> {
                       : Container(),
                   Container(
                     width: MediaQuery.of(context).size.width,
-                    height: listAdresses.length == 0 ? 0 : 300,
                     child: ListView.builder(
                       shrinkWrap: true,
                       itemCount: listAdresses.length,
@@ -521,16 +523,14 @@ class _AddGarageState extends State<AddGarage> {
   }
 
   getPlaces(String searchQuery) {
-    if (searchQuery.isNotEmpty) {
-      Future<List<MapBoxPlace>> places = placesSearch.getPlaces(searchQuery);
-      places.then((value) {
-        if (this.mounted) {
-          setState(() {
-            listAdresses = value;
-          });
-        }
-      });
-    }
+    Future<List<MapBoxPlace>> places = placesSearch.getPlaces(searchQuery);
+    places.then((value) {
+      if (this.mounted) {
+        setState(() {
+          listAdresses = value;
+        });
+      }
+    });
   }
 
   void searchPricNearby(BuildContext context) async {

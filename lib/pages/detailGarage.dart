@@ -308,7 +308,7 @@ class _DetailGarageState extends State<DetailGarage> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
-                  Text(garage['prijs'].toString() + " €",
+                  Text(garage['prijs'].toStringAsFixed(2) + " €",
                       style: ShowPriceStyle),
                   Text(translate(Keys.Apptext_Hourly))
                 ],
@@ -503,7 +503,7 @@ class _DetailGarageState extends State<DetailGarage> {
                     ),
                   ),
                 )),
-          ),
+          ),//TODO: ONTAP/GESTUREDECTOR SUR LE TEXT POUR VOIR L'IMAGE EN GRAND
           Container(
               padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
@@ -912,6 +912,8 @@ class _DetailGarageState extends State<DetailGarage> {
                                               }
                                             },
                                             title: new Text('Electricité'),
+                                            //TODO: SUPPLEMENTS RAJOUTER PRIX
+                                            //TODO: TRADUCTION
                                             controlAffinity:
                                                 ListTileControlAffinity
                                                     .trailing,
@@ -963,7 +965,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                 )),
                             Step(
                                 isActive: _currentStep >= 2 ? true : false,
-                                title: Text('Payer'),
+                                title: Text('Payer'),//TODO: TRADUIRE
                                 content: Container(
                                   height:
                                       MediaQuery.of(context).size.height * 0.5,
@@ -993,9 +995,9 @@ class _DetailGarageState extends State<DetailGarage> {
                                                     translate(Keys
                                                         .Apptext_Pricegarage),
                                                     style: SizeParagraph),
-                                                Text(
-                                                    garage['prijs'].toString() +
-                                                        " €"),
+                                                Text(garage['prijs']
+                                                        .toStringAsFixed(2) +
+                                                    " €"),
                                               ],
                                             ),
                                           ),
@@ -1028,7 +1030,8 @@ class _DetailGarageState extends State<DetailGarage> {
                                               Text(
                                                   translate(Keys.Apptext_Total),
                                                   style: SizeParagraph),
-                                              Text((prijs.toString() + " €"))
+                                              Text((prijs.toStringAsFixed(2) +
+                                                  " €"))
                                             ],
                                           ),
                                           Padding(
@@ -1043,7 +1046,8 @@ class _DetailGarageState extends State<DetailGarage> {
                                                     translate(
                                                         Keys.Apptext_Extra),
                                                     style: SizeParagraph),
-                                                Text("0 €"),
+                                                Text(
+                                                    "0 €"), //TODO: CALCULER PRIX EXTRA + toStringAsFixed(2)
                                               ],
                                             ),
                                           ),
@@ -1060,7 +1064,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                                         .Apptext_Feesparked),
                                                     style: SizeParagraph),
                                                 Text(roundDouble(taxes, 2)
-                                                        .toString() +
+                                                        .toStringAsFixed(2) +
                                                     " €"),
                                               ],
                                             ),
@@ -1081,7 +1085,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                               ),
                                               Text(
                                                   roundDouble(finalPrijs, 2)
-                                                          .toString() +
+                                                          .toStringAsFixed(2) +
                                                       "€",
                                                   style: SubTitleCustom),
                                             ],
@@ -1101,6 +1105,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                                     " Bancontact",
                                                 onClickAction: () {
                                                   payment(idGarage, finalPrijs);
+                                                  Navigator.pop(context);
                                                 }),
                                           ),
                                           FlatButton(

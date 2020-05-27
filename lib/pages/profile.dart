@@ -33,6 +33,8 @@ class _ProfilePageState extends State<ProfilePage> {
   bool hasConvers = false;
   bool hasGarage = false;
 
+  //TODO: TOOLTIP BUG , IL SE FEMRE PAS
+
   @override
   void initState() {
     checkGamification();
@@ -168,19 +170,35 @@ class _ProfilePageState extends State<ProfilePage> {
                                                   });
                                                 }
                                               },
-                                              child: Text(
-                                                  percent == 100
-                                                      ? translate(Keys
-                                                          .Apptext_Completeprofile)
-                                                      : percent >= 80
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: <Widget>[
+                                                  Text(
+                                                      percent == 100
                                                           ? translate(Keys
-                                                                  .Apptext_Alittlebit) +
-                                                              ' $percent%'
-                                                          : translate(Keys
-                                                                  .Apptext_Statusprofile) +
-                                                              ' $percent%',
-                                                  style:
-                                                      TextStyle(color: Zwart)),
+                                                              .Apptext_Completeprofile)
+                                                          : percent >= 80
+                                                              ? translate(Keys
+                                                                  .Apptext_Alittlebit)
+                                                              : translate(Keys
+                                                                  .Apptext_Statusprofile),
+                                                      style: TextStyle(
+                                                          color: Zwart)),
+                                                  Text(' $percent%',
+                                                      style: TextStyle(
+                                                          color: Zwart,
+                                                          fontWeight:
+                                                              FontWeight.w500)),
+                                                  percent == 100
+                                                      ? Icon(Icons.star,
+                                                          color: Colors.amber,
+                                                          size: 15)
+                                                      : Container(),
+                                                ],
+                                              ),
                                             ),
                                             content: Column(
                                               crossAxisAlignment:

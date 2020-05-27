@@ -78,7 +78,7 @@ class GarageCardComponent extends StatelessWidget {
               subtitle: Padding(
                   padding: EdgeInsets.symmetric(vertical: 10),
                   child: ExpandablePanel(
-                    hasIcon: true,
+                    theme: ExpandableThemeData(hasIcon: true),
                     header: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[

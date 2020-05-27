@@ -63,7 +63,6 @@ class _AddHomeState extends State<AddHome> {
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width,
-                  height: listAdresses.length == 0 ? 0 : 300,
                   child: ListView.builder(
                     shrinkWrap: true,
                     itemCount: listAdresses.length,

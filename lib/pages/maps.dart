@@ -12,7 +12,7 @@ import 'package:parkly/ui/button.dart';
 import 'package:parkly/ui/modalMaps.dart';
 import 'package:parkly/ui/navigation.dart';
 import '../setup/globals.dart' as globals;
-import 'package:lottie/lottie.dart';
+import 'package:lottie/lottie.dart' as Lottie;
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:parkly/localization/keys.dart';
@@ -152,8 +152,8 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
                           height: 50,
                           width: 50,
                           builder: (ctx) => new Container(
-                                child:
-                                    Lottie.asset('assets/anim/position.json'),
+                                child: Lottie.Lottie.asset(
+                                    'assets/anim/position.json'),
                               )),
                     ],
                   ),
