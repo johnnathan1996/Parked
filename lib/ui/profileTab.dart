@@ -6,6 +6,7 @@ import 'package:parkly/constant.dart';
 import 'package:parkly/localization/keys.dart';
 import 'package:parkly/pages/addHome.dart';
 import 'package:parkly/pages/addJob.dart';
+import 'package:parkly/script/changeDate.dart';
 import '../setup/globals.dart' as globals;
 
 class ProfileTab extends StatefulWidget {
@@ -36,15 +37,23 @@ class _ProfileTabState extends State<ProfileTab> {
                   AsyncSnapshot<DocumentSnapshot> snapshot) {
                 if (snapshot.hasData) {
                   return Expanded(
-                      child: Column(
+                      child: SingleChildScrollView(
+                          child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       Padding(
                           padding: EdgeInsets.only(bottom: 20),
-                          child: placesComponent(snapshot.data)),
+                          child: Column(
+                            children: <Widget>[
+                              Padding(
+                                  padding: EdgeInsets.only(bottom: 10),
+                                  child: placesComponent(snapshot.data)),
+                              reservationComponent()
+                            ],
+                          )),
                     ],
-                  ));
+                  )));
                 } else {
                   return Container();
                 }
@@ -189,6 +198,63 @@ class _ProfileTabState extends State<ProfileTab> {
                     ),
                   ]))
         ]);
+  }
+
+  reservationComponent() {
+    return StreamBuilder<QuerySnapshot>(
+        stream: Firestore.instance
+            .collection('reservaties')
+            .where("aanvrager", isEqualTo: globals.userId)
+            .snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasData) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Text("Vos reservation",
+                      style: SubTitleCustom), //TODO: trad
+                ),
+                MediaQuery.removePadding(
+                    context: context,
+                    removeBottom: true,
+                    removeTop: true,
+                    child: ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: snapshot.data.documents.length,
+                      itemBuilder: (_, index) {
+                        return Card(
+                          elevation: 0,
+                          child: ListTile(
+                              title: Text(changeDate(snapshot
+                                  .data.documents[index].data["begin"]
+                                  .toDate())),
+                              trailing: getStatus(snapshot
+                                  .data.documents[index].data["status"])),
+                        );
+                      },
+                    ))
+              ],
+            );
+          } else {
+            return Container();
+          }
+        });
+  }
+
+  getStatus(String status) {
+    switch (status) {
+      case "EN ATTENTE":
+        return Icon(Icons.access_time, color: Colors.orange);
+      case "REFUSER":
+        return Icon(Icons.close, color: Colors.red);
+      case "ACCEPTER":
+        return Icon(Icons.check, color: Colors.green);
+      default:
+        return Text("en attente");
+    }
   }
 
   Future actionMore(
