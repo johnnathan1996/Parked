@@ -28,8 +28,11 @@ class _ProfilePageState extends State<ProfilePage> {
 
   bool showTooltip = false;
 
+  bool hasNotif = false;
+
   @override
   void initState() {
+    checkForNotif();
     setState(() {
       percent = (percentage * 100).toInt();
     });
@@ -101,25 +104,28 @@ class _ProfilePageState extends State<ProfilePage> {
                                     text: translate(Keys.Apptext_Profile),
                                   ),
                                   Tab(
-                                    icon: Badge(
-                                      shape: BadgeShape.square,
-                                      borderRadius: 5,
-                                      position: BadgePosition.topRight(
-                                          top: -12, right: -20),
-                                      padding: EdgeInsets.all(2),
-                                      badgeContent: Text(
-                                        'NEW',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      child: Text(
-                                        translate(Keys.Apptext_Reservation),
-                                        style:
-                                            TextStyle(color: Colors.grey[600]),
-                                      ),
-                                    ),
+                                    icon: hasNotif
+                                        ? Badge(
+                                            elevation: 0,
+                                            shape: BadgeShape.circle,
+                                            borderRadius: 5,
+                                            position: BadgePosition.topRight(
+                                                top: -12, right: -15),
+                                            padding: EdgeInsets.all(5),
+                                            badgeContent: Text(
+                                              '1',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            child: Text(translate(
+                                                Keys.Apptext_Reservation)),
+                                          )
+                                        : null,
+                                    text: !hasNotif
+                                        ? translate(Keys.Apptext_Reservation)
+                                        : null,
                                   )
                                 ],
                               ),
@@ -269,6 +275,27 @@ class _ProfilePageState extends State<ProfilePage> {
                   },
                 )),
             drawer: Navigation(activeProf: true)));
+  }
+
+  checkForNotif() {
+    Firestore.instance
+        .collection('reservaties')
+        .where('eigenaar', isEqualTo: globals.userId)
+        .where('status', isEqualTo: "EN ATTENTE")
+        .snapshots()
+        .listen((snapshot) {
+      if (snapshot.documents.isNotEmpty) {
+        setState(() {
+          hasNotif = true;
+        });
+      }
+
+      if (snapshot.documents.isEmpty) {
+        setState(() {
+          hasNotif = false;
+        });
+      }
+    });
   }
 }
 

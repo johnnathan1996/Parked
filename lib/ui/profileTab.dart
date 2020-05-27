@@ -57,7 +57,7 @@ class _ProfileTabState extends State<ProfileTab> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Padding(
-              padding: EdgeInsets.symmetric(vertical: 5),
+              padding: EdgeInsets.only(bottom: 15),
               child: Text(translate(Keys.Apptext_Favoritelocations),
                   style: SubTitleCustom)),
           MediaQuery.removePadding(
