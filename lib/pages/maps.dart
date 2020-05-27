@@ -139,16 +139,17 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
                               )),
                     ],
                   ),
-                  
                   MarkerLayerOptions(
-                    markers: searchedLat != 0 ? [
-                      new Marker(
-                          point: new LatLng(searchedLat, searchedLon),
-                          height: 50,
-                          width: 50,
-                          builder: (ctx) =>
-                              new Container(child: Icon(Icons.place, color: Zwart))),
-                    ] : [],
+                    markers: searchedLat != 0
+                        ? [
+                            new Marker(
+                                point: new LatLng(searchedLat, searchedLon),
+                                height: 50,
+                                width: 50,
+                                builder: (ctx) => new Container(
+                                    child: Icon(Icons.place, color: Zwart))),
+                          ]
+                        : [],
                   ),
                   (plugin != null)
                       ? MarkerClusterLayerOptions(
@@ -404,9 +405,11 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
     if (searchQuery.isNotEmpty) {
       Future<List<MapBoxPlace>> places = placesSearch.getPlaces(searchQuery);
       places.then((value) {
-        setState(() {
-          listAdresses = value;
-        });
+        if (this.mounted) {
+          setState(() {
+            listAdresses = value;
+          });
+        }
       });
     }
   }

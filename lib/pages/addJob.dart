@@ -45,9 +45,11 @@ class _AddJobState extends State<AddJob> {
                     onChanged: (input) {
                       getPlaces(input);
                       if (input.isEmpty) {
-                        setState(() {
-                          listAdresses = [];
-                        });
+                        if (this.mounted) {
+                          setState(() {
+                            listAdresses = [];
+                          });
+                        }
                       }
                     },
                     decoration: InputDecoration(
@@ -92,9 +94,11 @@ class _AddJobState extends State<AddJob> {
     if (searchQuery.isNotEmpty) {
       Future<List<MapBoxPlace>> places = placesSearch.getPlaces(searchQuery);
       places.then((value) {
-        setState(() {
-          listAdresses = value;
-        });
+        if (this.mounted) {
+          setState(() {
+            listAdresses = value;
+          });
+        }
       });
     }
   }

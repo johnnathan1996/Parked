@@ -45,9 +45,11 @@ class _AddHomeState extends State<AddHome> {
                     onChanged: (input) {
                       getPlaces(input);
                       if (input.isEmpty) {
-                        setState(() {
-                          listAdresses = [];
-                        });
+                        if (this.mounted) {
+                          setState(() {
+                            listAdresses = [];
+                          });
+                        }
                       }
                     },
                     decoration: InputDecoration(
@@ -92,9 +94,11 @@ class _AddHomeState extends State<AddHome> {
     if (searchQuery.isNotEmpty) {
       Future<List<MapBoxPlace>> places = placesSearch.getPlaces(searchQuery);
       places.then((value) {
-        setState(() {
-          listAdresses = value;
-        });
+        if (this.mounted) {
+          setState(() {
+            listAdresses = value;
+          });
+        }
       });
     }
   }

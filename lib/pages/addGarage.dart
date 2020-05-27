@@ -152,9 +152,11 @@ class _AddGarageState extends State<AddGarage> {
                           onChanged: (input) {
                             getPlaces(input);
                             if (input.isEmpty) {
-                              setState(() {
-                                listAdresses = [];
-                              });
+                              if (this.mounted) {
+                                setState(() {
+                                  listAdresses = [];
+                                });
+                              }
                             }
                           },
                           decoration: InputDecoration(
@@ -179,10 +181,11 @@ class _AddGarageState extends State<AddGarage> {
                           child: ListTile(
                             onTap: () {
                               _adress = listAdresses[index].placeName;
-
-                              setState(() {
-                                listAdresses = [];
-                              });
+                              if (this.mounted) {
+                                setState(() {
+                                  listAdresses = [];
+                                });
+                              }
                             },
                             title: Text(listAdresses[index].placeName),
                           ),
@@ -199,10 +202,12 @@ class _AddGarageState extends State<AddGarage> {
                     IconButton(
                         icon: Icon(Icons.close),
                         onPressed: () {
-                          setState(() {
-                            _adress = null;
-                            listAdresses = [];
-                          });
+                          if (this.mounted) {
+                            setState(() {
+                              _adress = null;
+                              listAdresses = [];
+                            });
+                          }
                         })
                   ],
                 )
@@ -519,9 +524,11 @@ class _AddGarageState extends State<AddGarage> {
     if (searchQuery.isNotEmpty) {
       Future<List<MapBoxPlace>> places = placesSearch.getPlaces(searchQuery);
       places.then((value) {
-        setState(() {
-          listAdresses = value;
-        });
+        if (this.mounted) {
+          setState(() {
+            listAdresses = value;
+          });
+        }
       });
     }
   }
@@ -553,16 +560,18 @@ class _AddGarageState extends State<AddGarage> {
             documentList.forEach((element) {
               gemiddeldePrijs += element.data["prijs"];
             });
-            setState(() {
-              priceController.text =
-                  (gemiddeldePrijs / documentList.length).round().toString();
-              showbtn = false;
-            });
+            if (this.mounted) {
+              setState(() {
+                priceController.text =
+                    (gemiddeldePrijs / documentList.length).round().toString();
+                showbtn = false;
+              });
+            }
           } else {
             showDialog(
               context: context,
-              builder: (_) => ModalComponent(
-                  modalTekst: translate(Keys.Modal_Nogarageray)),
+              builder: (_) =>
+                  ModalComponent(modalTekst: translate(Keys.Modal_Nogarageray)),
             );
           }
         });

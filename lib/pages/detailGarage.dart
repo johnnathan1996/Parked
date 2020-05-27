@@ -641,11 +641,13 @@ class _DetailGarageState extends State<DetailGarage> {
   }
 
   _showModalBottomSheet(context, DocumentSnapshot garage) {
-    setState(() {
-      _currentStep = 0;
-      finalPrijs = prijs * 1.15;
-      taxes = finalPrijs - prijs;
-    });
+    if (this.mounted) {
+      setState(() {
+        _currentStep = 0;
+        finalPrijs = prijs * 1.15;
+        taxes = finalPrijs - prijs;
+      });
+    }
     showModalBottomSheet(
         isScrollControlled: true,
         backgroundColor: Transparant,
@@ -725,8 +727,10 @@ class _DetailGarageState extends State<DetailGarage> {
                                                           garage['garageImg'],
                                                           fit: BoxFit.cover)),
                                                   Expanded(
-                                                    child: Text(garage['adress'],
-                                                        style: SizeParagraph,),
+                                                    child: Text(
+                                                      garage['adress'],
+                                                      style: SizeParagraph,
+                                                    ),
                                                   ),
                                                 ])),
                                         Container(
