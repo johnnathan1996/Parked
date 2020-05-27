@@ -26,7 +26,7 @@ class _ProfilePageState extends State<ProfilePage> {
   double percentage = 0;
   int result = 0;
 
-  int percent;
+  int percent = 0;
 
   bool showTooltip = false;
   bool hasNotif = false;
@@ -172,7 +172,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                   percent == 100
                                                       ? translate(Keys
                                                           .Apptext_Completeprofile)
-                                                      : percent > 80
+                                                      : percent >= 80
                                                           ? translate(Keys
                                                                   .Apptext_Alittlebit) +
                                                               ' $percent%'
