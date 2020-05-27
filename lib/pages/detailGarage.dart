@@ -627,6 +627,7 @@ class _DetailGarageState extends State<DetailGarage> {
       Firestore.instance.collection('conversation').add({
         'chat': [],
         'garageId': idGarage,
+        'creator': globals.userId,
         'seenLastIndex': 0,
         'seenLastMessage': false,
         'userInChat': [globals.userId, eigenaarId],

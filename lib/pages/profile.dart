@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:parkly/constant.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -31,6 +30,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   bool showTooltip = false;
   bool hasNotif = false;
+  bool hasConvers = false;
 
   @override
   void initState() {
@@ -237,8 +237,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 ListTextComponent(
                                                     label:
                                                         "Ajouter ou louer un garage"),
-                                                snapshot.data["favoriet"] ==
-                                                        null
+                                                snapshot.data["favoriet"]
+                                                            .length ==
+                                                        0
                                                     ? ListTextComponent(
                                                         label:
                                                             "Mettre un garage en favoris")
@@ -254,9 +255,22 @@ class _ProfilePageState extends State<ProfilePage> {
                                                                   .none,
                                                         ),
                                                       ),
-                                                ListTextComponent(
-                                                    label:
-                                                        "Envoyer un message"),
+                                                !hasConvers
+                                                    ? ListTextComponent(
+                                                        label:
+                                                            "Creer une conversation")
+                                                    : Text(
+                                                        "Creer une conversation",
+                                                        style: TextStyle(
+                                                          fontSize: 16.0,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color: Grijs,
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
+                                                        ),
+                                                      ),
                                                 !snapshot.data["share"]
                                                     ? ListTextComponent(
                                                         label:
@@ -353,76 +367,90 @@ class _ProfilePageState extends State<ProfilePage> {
         .listen((snapshot) {
       if (snapshot.documents.isNotEmpty) {
         if (this.mounted) {
-        setState(() {
-          hasNotif = true;
-        });
+          setState(() {
+            hasNotif = true;
+          });
         }
       }
 
       if (snapshot.documents.isEmpty) {
         if (this.mounted) {
-        setState(() {
-          hasNotif = false;
-        });
+          setState(() {
+            hasNotif = false;
+          });
         }
       }
     });
   }
 
   void checkGamification() {
-    
     Firestore.instance
         .collection('users')
         .document(globals.userId)
         .snapshots()
-        .listen((snapshot) {
+        .listen((snapshot) async {
       result = 0;
-      if (snapshot.data["imgUrl"] != null) {
-        if (this.mounted) {
-          setState(() {
-            result += 1;
-          });
-        }
-      }
-      if (snapshot.data["favoriet"] != null) {
-        if (this.mounted) {
-          setState(() {
-            result += 1;
-          });
-        }
-      }
 
-      if (snapshot.data["home"] != null) {
+      Firestore.instance
+          .collection('conversation')
+          .where("creator", isEqualTo: globals.userId)
+          .snapshots()
+          .listen((snapshotten) {
+        if (snapshotten.documents.length != 0) {
+          if (this.mounted) {
+            setState(() {
+              result += 1;
+              hasConvers = true;
+            });
+          }
+        }
+
+        if (snapshot.data["imgUrl"] != null) {
+          if (this.mounted) {
+            setState(() {
+              result += 1;
+            });
+          }
+        }
+        if (snapshot.data["favoriet"].length != 0) {
+          if (this.mounted) {
+            setState(() {
+              result += 1;
+            });
+          }
+        }
+
+        if (snapshot.data["home"] != null) {
+          if (this.mounted) {
+            setState(() {
+              result += 1;
+            });
+          }
+        }
+
+        if (snapshot.data["job"] != null) {
+          if (this.mounted) {
+            setState(() {
+              result += 1;
+            });
+          }
+        }
+
+        if (snapshot.data["share"]) {
+          if (this.mounted) {
+            setState(() {
+              result += 1;
+            });
+          }
+        }
+
         if (this.mounted) {
           setState(() {
-            result += 1;
+            percentage = result / 7; //(7 = Total de mes point)
+            percent = (percentage * 100).toInt();
           });
         }
-      }
-
-      if (snapshot.data["job"] != null) {
-        if (this.mounted) {
-          setState(() {
-            result += 1;
-          });
-        }
-      }
-
-      if (snapshot.data["share"]) {
-        if (this.mounted) {
-          setState(() {
-            result += 1;
-          });
-        }
-      }
-
-      
-      if (this.mounted) {
-        setState(() {
-          percentage = result / 7; //(7 = Total de mes point)
-          percent = (percentage * 100).toInt();
-        });
-      }
+      });
     });
   }
 }

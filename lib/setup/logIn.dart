@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:parkly/pages/maps.dart';
 import 'package:parkly/setup/resetPassword.dart';
 import 'package:parkly/setup/signUp.dart';
@@ -180,11 +179,6 @@ class _LogInPageState extends State<LogInPage> {
             .signInWithEmailAndPassword(email: _email, password: _password);
 
         FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
-
-        Firestore.instance
-            .collection('users')
-            .document(currentUser.uid)
-            .updateData({"online": true});
 
         if (this.mounted) {
           setState(() {
