@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:parkly/constant.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -22,7 +24,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  double percentage = 0.70;
+  double percentage = 0;
 
   int percent;
 
@@ -32,10 +34,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   void initState() {
+    checkGamification();
     checkForNotif();
-    setState(() {
-      percent = (percentage * 100).toInt();
-    });
     super.initState();
   }
 
@@ -185,9 +185,22 @@ class _ProfilePageState extends State<ProfilePage> {
                                             content: Column(
                                               mainAxisSize: MainAxisSize.min,
                                               children: <Widget>[
-                                                ListTextComponent(
-                                                    label:
-                                                        "Changer de photo de profile"),
+                                                snapshot.data["imgUrl"] == null
+                                                    ? ListTextComponent(
+                                                        label:
+                                                            "Changer de photo de profile")
+                                                    : Text(
+                                                        "Changer de photo de test",
+                                                        style: TextStyle(
+                                                          fontSize: 16.0,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color: Grijs,
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
+                                                        ),
+                                                      ),
                                                 ListTextComponent(
                                                     label:
                                                         "Rajouter une maison"),
@@ -197,9 +210,23 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 ListTextComponent(
                                                     label:
                                                         "Ajouter ou louer un garage"),
-                                                ListTextComponent(
-                                                    label:
-                                                        "Mettre un garage en favoris"),
+                                                snapshot.data["favoriet"] ==
+                                                        null
+                                                    ? ListTextComponent(
+                                                        label:
+                                                            "Mettre un garage en favoris")
+                                                    : Text(
+                                                        "Mettre un garage en favoris",
+                                                        style: TextStyle(
+                                                          fontSize: 16.0,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color: Grijs,
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
+                                                        ),
+                                                      ),
                                                 ListTextComponent(
                                                     label:
                                                         "Envoyer un message"),
@@ -295,6 +322,31 @@ class _ProfilePageState extends State<ProfilePage> {
           hasNotif = false;
         });
       }
+    });
+  }
+
+  void checkGamification() {
+    int result = 0;
+    Firestore.instance
+        .collection('users')
+        .document(globals.userId)
+        .snapshots()
+        .listen((snapshot) {
+      if (snapshot.data["imgUrl"] != null) {
+        setState(() {
+          result += 1;
+        });
+      }
+      if (snapshot.data["favoriet"] != null) {
+        setState(() {
+          result += 1;
+        });
+      }
+
+      setState(() {
+        percentage = result / 7; //(7 = Total de mes point)
+        percent = (percentage * 100).toInt();
+      });
     });
   }
 }
