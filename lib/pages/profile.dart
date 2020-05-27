@@ -24,13 +24,14 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   double percentage = 0;
-  int result;
+  int result = 0;
 
   int percent;
 
   bool showTooltip = false;
   bool hasNotif = false;
   bool hasConvers = false;
+  bool hasGarage = false;
 
   @override
   void initState() {
@@ -234,9 +235,22 @@ class _ProfilePageState extends State<ProfilePage> {
                                                                   .none,
                                                         ),
                                                       ),
-                                                ListTextComponent(
-                                                    label:
-                                                        "Ajouter ou louer un garage"),
+                                                !hasGarage
+                                                    ? ListTextComponent(
+                                                        label:
+                                                            "Ajouter ou louer un garage")
+                                                    : Text(
+                                                        "Ajouter ou louer un garage",
+                                                        style: TextStyle(
+                                                          fontSize: 16.0,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color: Grijs,
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
+                                                        ),
+                                                      ),
                                                 snapshot.data["favoriet"]
                                                             .length ==
                                                         0
@@ -388,68 +402,84 @@ class _ProfilePageState extends State<ProfilePage> {
         .collection('users')
         .document(globals.userId)
         .snapshots()
-        .listen((snapshot) async {
+        .listen((userSnapshot) async {
       result = 0;
 
       Firestore.instance
           .collection('conversation')
           .where("creator", isEqualTo: globals.userId)
           .snapshots()
-          .listen((snapshotten) {
-        if (snapshotten.documents.length != 0) {
-          if (this.mounted) {
-            setState(() {
-              result += 1;
-              hasConvers = true;
-            });
+          .listen((convSnapshot) {
+        Firestore.instance
+            .collection('reservaties')
+            .where("aanvrager", isEqualTo: globals.userId)
+            .snapshots()
+            .listen((reservSnapshot) {
+          if (reservSnapshot.documents.length != 0 ||
+              userSnapshot.data["mijnGarage"].length != 0) {
+            if (this.mounted) {
+              setState(() {
+                result += 1;
+                hasGarage = true;
+              });
+            }
           }
-        }
 
-        if (snapshot.data["imgUrl"] != null) {
-          if (this.mounted) {
-            setState(() {
-              result += 1;
-            });
+          if (convSnapshot.documents.length != 0) {
+            if (this.mounted) {
+              setState(() {
+                result += 1;
+                hasConvers = true;
+              });
+            }
           }
-        }
-        if (snapshot.data["favoriet"].length != 0) {
-          if (this.mounted) {
-            setState(() {
-              result += 1;
-            });
-          }
-        }
 
-        if (snapshot.data["home"] != null) {
+          if (userSnapshot.data["imgUrl"] != null) {
+            if (this.mounted) {
+              setState(() {
+                result += 1;
+              });
+            }
+          }
+          if (userSnapshot.data["favoriet"].length != 0) {
+            if (this.mounted) {
+              setState(() {
+                result += 1;
+              });
+            }
+          }
+
+          if (userSnapshot.data["home"] != null) {
+            if (this.mounted) {
+              setState(() {
+                result += 1;
+              });
+            }
+          }
+
+          if (userSnapshot.data["job"] != null) {
+            if (this.mounted) {
+              setState(() {
+                result += 1;
+              });
+            }
+          }
+
+          if (userSnapshot.data["share"]) {
+            if (this.mounted) {
+              setState(() {
+                result += 1;
+              });
+            }
+          }
+
           if (this.mounted) {
             setState(() {
-              result += 1;
+              percentage = result / 7; //(7 = Total de mes point)
+              percent = (percentage * 100).toInt();
             });
           }
-        }
-
-        if (snapshot.data["job"] != null) {
-          if (this.mounted) {
-            setState(() {
-              result += 1;
-            });
-          }
-        }
-
-        if (snapshot.data["share"]) {
-          if (this.mounted) {
-            setState(() {
-              result += 1;
-            });
-          }
-        }
-
-        if (this.mounted) {
-          setState(() {
-            percentage = result / 7; //(7 = Total de mes point)
-            percent = (percentage * 100).toInt();
-          });
-        }
+        });
       });
     });
   }
