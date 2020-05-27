@@ -208,36 +208,65 @@ class _ProfileTabState extends State<ProfileTab> {
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasData) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(bottom: 10),
-                  child: Text("Vos reservation",
-                      style: SubTitleCustom), //TODO: trad
-                ),
-                MediaQuery.removePadding(
-                    context: context,
-                    removeBottom: true,
-                    removeTop: true,
-                    child: ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: snapshot.data.documents.length,
-                      itemBuilder: (_, index) {
-                        return Card(
-                          elevation: 0,
-                          child: ListTile(
-                              title: Text(changeDate(snapshot
-                                  .data.documents[index].data["begin"]
-                                  .toDate())),
-                              trailing: getStatus(snapshot
-                                  .data.documents[index].data["status"])),
-                        );
-                      },
-                    ))
-              ],
-            );
+            return snapshot.data.documents.length != 0
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 10),
+                        child: Text(translate(Keys.Apptext_Yourreservation),
+                            style: SubTitleCustom),
+                      ),
+                      MediaQuery.removePadding(
+                          context: context,
+                          removeBottom: true,
+                          removeTop: true,
+                          child: ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: snapshot.data.documents.length,
+                            itemBuilder: (_, index) {
+                              return Card(
+                                  elevation: 0,
+                                  child: StreamBuilder<DocumentSnapshot>(
+                                      stream: Firestore.instance
+                                          .collection('garages')
+                                          .document(snapshot
+                                              .data
+                                              .documents[index]
+                                              .data['garageId'])
+                                          .snapshots(),
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot<DocumentSnapshot>
+                                              snapshotten) {
+                                        if (snapshotten.hasData) {
+                                          return ListTile(
+                                              leading: Image.network(snapshotten
+                                                  .data['garageImg']),
+                                              title: Text(changeDate(snapshot
+                                                      .data
+                                                      .documents[index]
+                                                      .data["begin"]
+                                                      .toDate()) +
+                                                  " - " +
+                                                  changeDate(snapshot
+                                                      .data
+                                                      .documents[index]
+                                                      .data["end"]
+                                                      .toDate())),
+                                              trailing: getStatus(snapshot
+                                                  .data
+                                                  .documents[index]
+                                                  .data["status"]));
+                                        } else {
+                                          return Container();
+                                        }
+                                      }));
+                            },
+                          ))
+                    ],
+                  )
+                : Container();
           } else {
             return Container();
           }
