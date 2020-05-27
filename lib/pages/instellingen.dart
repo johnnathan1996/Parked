@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:parkly/constant.dart';
@@ -7,6 +8,7 @@ import 'package:parkly/ui/title.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:parkly/localization/keys.dart';
 import 'package:share/share.dart';
+import '../setup/globals.dart' as globals;
 
 class Instellingen extends StatefulWidget {
   @override
@@ -95,7 +97,13 @@ class _InstellingenState extends State<Instellingen> {
                     child: ListTile(
                       onTap: () {
                         Share.share(
-                            'Check the new parking app, the easiest way to park, Download now!');
+                                'Check the new parking app, the easiest way to park, Download now!')
+                            .whenComplete(() {
+                          Firestore.instance
+                              .collection('users')
+                              .document(globals.userId)
+                              .updateData({'share': true});
+                        });
                       },
                       leading: Icon(Icons.card_giftcard, color: Zwart),
                       title: Text(translate(Keys.Apptext_Invite),

@@ -199,13 +199,15 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
                                         address.first.coordinates.longitude),
                                     15,
                                     this);
-                                setState(() {
-                                  listAdresses = [];
-                                  searchedLat =
-                                      address.first.coordinates.latitude;
-                                  searchedLon =
-                                      address.first.coordinates.longitude;
-                                });
+                                if (this.mounted) {
+                                  setState(() {
+                                    listAdresses = [];
+                                    searchedLat =
+                                        address.first.coordinates.latitude;
+                                    searchedLon =
+                                        address.first.coordinates.longitude;
+                                  });
+                                }
                               },
                               title: Text(listAdresses[index].placeName),
                             ),

@@ -495,6 +495,7 @@ class _SignUpPageState extends State<SignUpPage> {
         'email': _email,
         'nummer': phoneNo,
         'gender': _gender,
+        'share': false,
         'age': birthday,
         'favoriet': [],
         'mijnGarage': []

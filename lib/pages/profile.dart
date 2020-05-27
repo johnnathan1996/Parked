@@ -25,11 +25,11 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   double percentage = 0;
+  int result;
 
   int percent;
 
   bool showTooltip = false;
-
   bool hasNotif = false;
 
   @override
@@ -168,7 +168,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 }
                                               },
                                               child: Text(
-                                                  //TODO: POURCENTAGE PROFILE
                                                   percent == 100
                                                       ? translate(Keys
                                                           .Apptext_Completeprofile)
@@ -183,6 +182,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                                       TextStyle(color: Grijs)),
                                             ),
                                             content: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               mainAxisSize: MainAxisSize.min,
                                               children: <Widget>[
                                                 snapshot.data["imgUrl"] == null
@@ -190,7 +191,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                         label:
                                                             "Changer de photo de profile")
                                                     : Text(
-                                                        "Changer de photo de test",
+                                                        "Changer de photo de profile",
                                                         style: TextStyle(
                                                           fontSize: 16.0,
                                                           fontWeight:
@@ -201,12 +202,38 @@ class _ProfilePageState extends State<ProfilePage> {
                                                                   .none,
                                                         ),
                                                       ),
-                                                ListTextComponent(
-                                                    label:
-                                                        "Rajouter une maison"),
-                                                ListTextComponent(
-                                                    label:
-                                                        "Rajouter une adresse de travaille"),
+                                                snapshot.data["home"] == null
+                                                    ? ListTextComponent(
+                                                        label:
+                                                            "Rajouter une maison")
+                                                    : Text(
+                                                        "Rajouter une maison",
+                                                        style: TextStyle(
+                                                          fontSize: 16.0,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color: Grijs,
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
+                                                        ),
+                                                      ),
+                                                snapshot.data["job"] == null
+                                                    ? ListTextComponent(
+                                                        label:
+                                                            "Rajouter une adresse de travaille")
+                                                    : Text(
+                                                        "Rajouter une adresse de travaille",
+                                                        style: TextStyle(
+                                                          fontSize: 16.0,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color: Grijs,
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
+                                                        ),
+                                                      ),
                                                 ListTextComponent(
                                                     label:
                                                         "Ajouter ou louer un garage"),
@@ -230,9 +257,22 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 ListTextComponent(
                                                     label:
                                                         "Envoyer un message"),
-                                                ListTextComponent(
-                                                    label:
-                                                        "Partager Parkly avec des amis"),
+                                                !snapshot.data["share"]
+                                                    ? ListTextComponent(
+                                                        label:
+                                                            "Partager Parkly avec des amis")
+                                                    : Text(
+                                                        "Partager Parkly avec des amis",
+                                                        style: TextStyle(
+                                                          fontSize: 16.0,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color: Grijs,
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
+                                                        ),
+                                                      ),
                                               ],
                                             ))),
                                     radius: 120.0,
@@ -312,41 +352,77 @@ class _ProfilePageState extends State<ProfilePage> {
         .snapshots()
         .listen((snapshot) {
       if (snapshot.documents.isNotEmpty) {
+        if (this.mounted) {
         setState(() {
           hasNotif = true;
         });
+        }
       }
 
       if (snapshot.documents.isEmpty) {
+        if (this.mounted) {
         setState(() {
           hasNotif = false;
         });
+        }
       }
     });
   }
 
   void checkGamification() {
-    int result = 0;
+    
     Firestore.instance
         .collection('users')
         .document(globals.userId)
         .snapshots()
         .listen((snapshot) {
+      result = 0;
       if (snapshot.data["imgUrl"] != null) {
-        setState(() {
-          result += 1;
-        });
+        if (this.mounted) {
+          setState(() {
+            result += 1;
+          });
+        }
       }
       if (snapshot.data["favoriet"] != null) {
-        setState(() {
-          result += 1;
-        });
+        if (this.mounted) {
+          setState(() {
+            result += 1;
+          });
+        }
       }
 
-      setState(() {
-        percentage = result / 7; //(7 = Total de mes point)
-        percent = (percentage * 100).toInt();
-      });
+      if (snapshot.data["home"] != null) {
+        if (this.mounted) {
+          setState(() {
+            result += 1;
+          });
+        }
+      }
+
+      if (snapshot.data["job"] != null) {
+        if (this.mounted) {
+          setState(() {
+            result += 1;
+          });
+        }
+      }
+
+      if (snapshot.data["share"]) {
+        if (this.mounted) {
+          setState(() {
+            result += 1;
+          });
+        }
+      }
+
+      
+      if (this.mounted) {
+        setState(() {
+          percentage = result / 7; //(7 = Total de mes point)
+          percent = (percentage * 100).toInt();
+        });
+      }
     });
   }
 }

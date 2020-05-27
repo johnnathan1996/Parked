@@ -839,9 +839,11 @@ class _DetailGarageState extends State<DetailGarage> {
                                                 if (_currentStep >= 2) {
                                                   return;
                                                 } else {
-                                                  setState(() {
-                                                    _currentStep += 1;
-                                                  });
+                                                  if (this.mounted) {
+                                                    setState(() {
+                                                      _currentStep += 1;
+                                                    });
+                                                  }
                                                 }
                                               }),
                                           FlatButton(
@@ -885,9 +887,11 @@ class _DetailGarageState extends State<DetailGarage> {
                                           new CheckboxListTile(
                                             value: valueCheckOne,
                                             onChanged: (value) {
-                                              setState(() {
-                                                valueCheckOne = value;
-                                              });
+                                              if (this.mounted) {
+                                                setState(() {
+                                                  valueCheckOne = value;
+                                                });
+                                              }
                                             },
                                             title: new Text('Besoin de lift ?'),
                                             controlAffinity:
@@ -900,9 +904,11 @@ class _DetailGarageState extends State<DetailGarage> {
                                           new CheckboxListTile(
                                             value: valueCheckTwo,
                                             onChanged: (value) {
-                                              setState(() {
-                                                valueCheckTwo = value;
-                                              });
+                                              if (this.mounted) {
+                                                setState(() {
+                                                  valueCheckTwo = value;
+                                                });
+                                              }
                                             },
                                             title: new Text('Electricité'),
                                             controlAffinity:
@@ -926,9 +932,11 @@ class _DetailGarageState extends State<DetailGarage> {
                                                     if (_currentStep >= 2) {
                                                       return;
                                                     } else {
-                                                      setState(() {
-                                                        _currentStep += 1;
-                                                      });
+                                                      if (this.mounted) {
+                                                        setState(() {
+                                                          _currentStep += 1;
+                                                        });
+                                                      }
                                                     }
                                                   })),
                                           FlatButton(
@@ -936,9 +944,11 @@ class _DetailGarageState extends State<DetailGarage> {
                                                 if (_currentStep <= 0) {
                                                   return;
                                                 } else {
-                                                  setState(() {
-                                                    _currentStep -= 1;
-                                                  });
+                                                  if (this.mounted) {
+                                                    setState(() {
+                                                      _currentStep -= 1;
+                                                    });
+                                                  }
                                                 }
                                               },
                                               child: Text(
@@ -1097,9 +1107,11 @@ class _DetailGarageState extends State<DetailGarage> {
                                                 if (_currentStep <= 0) {
                                                   return;
                                                 } else {
-                                                  setState(() {
-                                                    _currentStep -= 1;
-                                                  });
+                                                  if (this.mounted) {
+                                                    setState(() {
+                                                      _currentStep -= 1;
+                                                    });
+                                                  }
                                                 }
                                               },
                                               child: Text(
