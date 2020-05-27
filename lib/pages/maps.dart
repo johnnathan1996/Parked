@@ -101,11 +101,29 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
                   }
                 })
             : Container(),
-        body: showFlutterMap(),
+        body: StreamBuilder<DocumentSnapshot>(
+            stream: Firestore.instance
+                .collection('users')
+                .document(globals.userId)
+                .snapshots(),
+            builder: (BuildContext context,
+                AsyncSnapshot<DocumentSnapshot> snapshot) {
+              if (snapshot.hasData) {
+                return showFlutterMap(snapshot.data);
+              } else {
+                return Container(
+                  width: 200,
+                  height: 200,
+                  alignment: Alignment.center,
+                  child: CircularProgressIndicator(
+                      valueColor: new AlwaysStoppedAnimation(Blauw)),
+                );
+              }
+            }),
         drawer: Navigation(activeMap: true));
   }
 
-  Widget showFlutterMap() {
+  Widget showFlutterMap(DocumentSnapshot user) {
     return showMaps
         ? Stack(
             alignment: AlignmentDirectional.topCenter,
@@ -151,6 +169,44 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
                           ]
                         : [],
                   ),
+                  MarkerLayerOptions(
+                    markers: user["home"] != null
+                        ? [
+                            new Marker(
+                                point: new LatLng(user["home"]["latitude"],
+                                    user["home"]["longitude"]),
+                                height: 30,
+                                width: 30,
+                                builder: (ctx) => Container(
+                                      decoration: new BoxDecoration(
+                                        color: Colors.white,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Icon(Icons.home,
+                                          color: Zwart, size: 16),
+                                    )),
+                          ]
+                        : [],
+                  ),
+                  MarkerLayerOptions(
+                    markers: user["job"] != null
+                        ? [
+                            new Marker(
+                                point: new LatLng(user["job"]["latitude"],
+                                    user["job"]["longitude"]),
+                                height: 30,
+                                width: 30,
+                                builder: (ctx) => Container(
+                                      decoration: new BoxDecoration(
+                                        color: Colors.white,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Icon(Icons.work,
+                                          color: Zwart, size: 16),
+                                    )),
+                          ]
+                        : [],
+                  ),
                   (plugin != null)
                       ? MarkerClusterLayerOptions(
                           maxClusterRadius: 120,
@@ -177,6 +233,62 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
                         ),
                 ],
               ),
+              _isSearching
+                  ? Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: Column(
+                        children: <Widget>[
+                          user.data["home"] != null
+                              ? Card(
+                                  elevation: 0,
+                                  margin: EdgeInsets.zero,
+                                  color: Wit,
+                                  child: ListTile(
+                                    onTap: () {
+                                      if (this.mounted) {
+                                        setState(() {
+                                          _isSearching = false;
+                                        });
+                                      }
+                                      zoomToPosition(
+                                          mapController,
+                                          LatLng(user.data["home"]["latitude"],
+                                              user.data["home"]["longitude"]),
+                                          15,
+                                          this);
+                                    },
+                                    title: Text("Home"),
+                                    trailing: Icon(Icons.my_location),
+                                  ),
+                                )
+                              : Container(),
+                          user.data["job"] != null
+                              ? Card(
+                                  elevation: 0,
+                                  margin: EdgeInsets.zero,
+                                  color: Wit,
+                                  child: ListTile(
+                                    onTap: () {
+                                      if (this.mounted) {
+                                        setState(() {
+                                          _isSearching = false;
+                                        });
+                                      }
+                                      zoomToPosition(
+                                          mapController,
+                                          LatLng(user.data["job"]["latitude"],
+                                              user.data["job"]["longitude"]),
+                                          15,
+                                          this);
+                                    },
+                                    title: Text("Job"),
+                                    trailing: Icon(Icons.my_location),
+                                  ),
+                                )
+                              : Container(),
+                        ],
+                      ))
+                  : Container(),
               listAdresses.length != 0
                   ? Container(
                       width: MediaQuery.of(context).size.width,
@@ -228,7 +340,7 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
                     onClickAction: () {
                       AppSettings.openLocationSettings();
                     },
-                    label: "Activer votre Geolocalitation"),
+                    label: "Activer votre Geolocalitation"), //TODO trad
                 FlatButton(
                     onPressed: () {
                       _getUserPosition();

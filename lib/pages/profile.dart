@@ -180,7 +180,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                                   .Apptext_Statusprofile) +
                                                               ' $percent%',
                                                   style:
-                                                      TextStyle(color: Grijs)),
+                                                      TextStyle(color: Zwart)),
                                             ),
                                             content: Column(
                                               crossAxisAlignment:
