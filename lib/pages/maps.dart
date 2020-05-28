@@ -340,7 +340,7 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
                     onClickAction: () {
                       AppSettings.openLocationSettings();
                     },
-                    label: "Activer votre Geolocalitation"), //TODO trad
+                    label: translate(Keys.Button_Activelocation)),
                 FlatButton(
                     onPressed: () {
                       _getUserPosition();

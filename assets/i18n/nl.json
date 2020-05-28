@@ -25,7 +25,8 @@
 		"EnterSmsCode": "Voer sms-code in",
 		"InvalidCode": "Ongeldige code",
 		"OwnerOffers": "Wat de eigenaar biedt",
-		"PaymentSummary": "Betalingsoverzicht"
+		"PaymentSummary": "Betalingsoverzicht",
+		"Pay" : "Betalen"
 	},
 	"Button": {
 		"LogIn": "Inloggen",
@@ -56,7 +57,9 @@
 		"Accept": "Accepteren",
 		"Refuse": "Weigeren",
 		"Edit": "Bewerken",
-		"SearchGarage" : "Zoek een garage"
+		"SearchGarage" : "Zoek een garage",
+		"Confirm": "Bevestigen",
+		"ActiveLocation": "Activeer uw locatie"
 	},
 	"Inputs": {
 		"Firstname": "Voornaam",
@@ -196,6 +199,9 @@
 		"Job": "Job",
 		"Home": "Huis",
 		"PayAccepter": "Geaccepteerde betaling",
-		"PayRefused": "Geweigerde betaling"
+		"PayRefused": "Geweigerde betaling",
+		"WantReserve": "wil uw garage reserveren voor ",
+		"NeedLift": "Een lift nodig?",
+		"ElectricalTerminal": "Elektrische aansluiting"
 	}
 }

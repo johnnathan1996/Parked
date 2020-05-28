@@ -273,7 +273,7 @@ class _AgendaTabState extends State<AgendaTab> {
                                               snapshot.data["status"] == 1
                                                   ? Text(snapshots
                                                           .data["voornaam"] +
-                                                      "veut reserver votre garage pour " + //TODO: trad
+                                                      translate(Keys.Apptext_Wantreserve) + 
                                                       snapshot.data["prijs"]
                                                           .toString())
                                                   : snapshot.data["status"] == 2

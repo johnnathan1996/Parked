@@ -51,6 +51,8 @@ class Keys {
 
   static const String Subtitle_Paymentsummary = 'SubTitle.PaymentSummary';
 
+  static const String Subtitle_Pay = 'SubTitle.Pay';
+
   static const String Button_Login = 'Button.LogIn';
 
   static const String Button_Logout = 'Button.LogOut';
@@ -108,6 +110,10 @@ class Keys {
   static const String Button_Edit = 'Button.Edit';
 
   static const String Button_Searchgarage = 'Button.SearchGarage';
+
+  static const String Button_Confirm = 'Button.Confirm';
+
+  static const String Button_Activelocation = 'Button.ActiveLocation';
 
   static const String Inputs_Firstname = 'Inputs.Firstname';
 
@@ -356,4 +362,10 @@ class Keys {
   static const String Apptext_Payaccepter = 'AppText.PayAccepter';
 
   static const String Apptext_Payrefused = 'AppText.PayRefused';
+
+  static const String Apptext_Wantreserve = 'AppText.WantReserve';
+
+  static const String Apptext_Needlift = 'AppText.NeedLift';
+
+  static const String Apptext_Electricalterminal = 'AppText.ElectricalTerminal';
 }

@@ -828,7 +828,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                             CrossAxisAlignment.stretch,
                                         children: <Widget>[
                                           ButtonComponent(
-                                              label: "Confirmer",
+                                              label: translate(Keys.Button_Confirm),
                                               onClickAction: () {
                                                 if (_currentStep >= 2) {
                                                   return;
@@ -860,7 +860,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                         ? StepState.complete
                                         : StepState.indexed,
                                 isActive: _currentStep >= 1 ? true : false,
-                                title: Text('Suppl'),
+                                title: Text('Extra'),
                                 content: Container(
                                   height:
                                       MediaQuery.of(context).size.height * 0.5,
@@ -887,7 +887,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                                 });
                                               }
                                             },
-                                            title: new Text('Besoin de lift ?'),
+                                            title: new Text(translate(Keys.Apptext_Needlift)),
                                             controlAffinity:
                                                 ListTileControlAffinity
                                                     .trailing,
@@ -904,7 +904,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                                 });
                                               }
                                             },
-                                            title: new Text('Electricité'), //TODO: trad
+                                            title: new Text('Electricité'), //TODO: trad ElectricalTerminal
                                             //TODO: SUPPLEMENTS RAJOUTER PRIX
                                             
                                             controlAffinity:
@@ -958,7 +958,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                 )),
                             Step(
                                 isActive: _currentStep >= 2 ? true : false,
-                                title: Text('Payer'), //TODO: trad
+                                title: Text(translate(Keys.Subtitle_Pay)),
                                 content: Container(
                                   height:
                                       MediaQuery.of(context).size.height * 0.5,

@@ -25,7 +25,8 @@
 		"EnterSmsCode": "Enter SMS code",
 		"InvalidCode": "Invalid code",
 		"OwnerOffers": "What the owner offers",
-		"PaymentSummary": "Payment summary"
+		"PaymentSummary": "Payment summary",
+		"Pay" : "Payment"
 	},
 	"Button": {
 		"LogIn": "Log in",
@@ -56,7 +57,9 @@
 		"Accept": "Accept",
 		"Refuse": "Refuse",
 		"Edit": "Edit",
-		"SearchGarage" : "Find a garage"
+		"SearchGarage" : "Find a garage",
+		"Confirm": "Confirm",
+		"ActiveLocation": "Activate your location"
 	},
 	"Inputs": {
 		"Firstname": "First name",
@@ -196,6 +199,9 @@
 		"Job": "Job",
 		"Home": "Home",
 		"PayAccepter": "Accepted payment",
-		"PayRefused": "Refused payment"
+		"PayRefused": "Refused payment",
+		"WantReserve": "wants to reserve your garage for ",
+		"NeedLift": "Need a lift?",
+		"ElectricalTerminal": "Electrical terminal"
 	}
 }
