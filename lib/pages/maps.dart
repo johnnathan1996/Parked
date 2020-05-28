@@ -20,12 +20,29 @@ import 'package:location_permissions/location_permissions.dart';
 import 'package:mapbox_search/mapbox_search.dart';
 
 class MapsPage extends StatefulWidget {
-  const MapsPage();
+  final bool zoomToOtherplace;
+  final double givenLat;
+  final double givenLon;
+
+  MapsPage({
+    this.zoomToOtherplace: false,
+    this.givenLat,
+    this.givenLon,
+  });
+
   @override
-  _MapsPageState createState() => new _MapsPageState();
+  _MapsPageState createState() => new _MapsPageState(
+      zoomToOtherplace: zoomToOtherplace,
+      givenLat: givenLat,
+      givenLon: givenLon);
 }
 
 class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
+  bool zoomToOtherplace;
+  double givenLat;
+  double givenLon;
+  _MapsPageState(
+      {Key key, this.zoomToOtherplace, this.givenLat, this.givenLon});
   static final GlobalKey<ScaffoldState> scaffoldKey =
       new GlobalKey<ScaffoldState>();
   TextEditingController _searchQuery;
@@ -131,7 +148,9 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
               FlutterMap(
                 mapController: mapController,
                 options: new MapOptions(
-                  center: new LatLng(userLat, userLon),
+                  center: zoomToOtherplace
+                      ? LatLng(givenLat, givenLon)
+                      : LatLng(userLat, userLon),
                   zoom: 13.0,
                   plugins: [plugin],
                 ),
