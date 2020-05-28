@@ -26,7 +26,8 @@
 		"InvalidCode": "ongeldige code",
 		"OwnerOffers": "Ce que le propriétaire vous propose",
 		"PaymentSummary": "Résumé du paiement",
-		"Pay" : "Payer"
+		"Pay" : "Payer",
+		"Services": "Services"
 	},
 	"Button": {
 		"LogIn": "Se connecter",
@@ -59,7 +60,9 @@
 		"Edit": "Modifier",
 		"SearchGarage" : "Cherchez un garage",
 		"Confirm": "Confirmer",
-		"ActiveLocation": "Activer votre localisation"
+		"ActiveLocation": "Activer votre localisation",
+		"Next": "Suivant"
+		
 	},
 	"Inputs": {
 		"Firstname": "Prénom",
@@ -202,6 +205,8 @@
 		"PayRefused": "Paiement refusé",
 		"WantReserve": "veut réserver votre garage pour ",
 		"NeedLift": "Besoin de lift?",
-		"ElectricalTerminal": "Borne électrique"
+		"ElectricalTerminal": "Borne électrique",
+		"OfferLift": "Proposer un lift",
+		"NoOffer": "Malheureusement le propriétaire n'a rien à vous proposer."
 	}
 }

@@ -29,7 +29,6 @@ class _AddGarageState extends State<AddGarage> {
   String _price = "";
 
   File fileName;
-  //TODO: SUPPLEMENTS RAJOUTER PRIX LIFT ELECTRICITE
 
   num _longitude, _latitude;
 
@@ -39,6 +38,8 @@ class _AddGarageState extends State<AddGarage> {
 
   TextEditingController priceController = TextEditingController();
   bool showbtn = true;
+  bool valueLift = false;
+  bool valueLader = false;
 
   var placesSearch = PlacesSearch(
     apiKey:
@@ -83,6 +84,9 @@ class _AddGarageState extends State<AddGarage> {
                         Padding(
                             padding: EdgeInsets.symmetric(vertical: 10),
                             child: typesComponent(context)),
+                        Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            child: servicesComponent()),
                         Padding(
                             padding: EdgeInsets.symmetric(vertical: 10),
                             child: ButtonComponent(
@@ -426,11 +430,50 @@ class _AddGarageState extends State<AddGarage> {
                     ));
               }),
             )),
+      ],
+    ));
+  }
+
+  Widget servicesComponent() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        Text(translate(Keys.Subtitle_Services), style: SubTitleCustom),
+        CheckboxListTile(
+          value: valueLift,
+          onChanged: (value) {
+            if (this.mounted) {
+              setState(() {
+                valueLift = value;
+              });
+            }
+          },
+          title: new Text(translate(Keys.Apptext_Offerlift)),
+          controlAffinity: ListTileControlAffinity.trailing,
+          subtitle: new Text('5€'),
+          activeColor: Blauw,
+        ),
         _typeVoertuigen.contains(translate(Keys.Apptext_Veryhigh))
+            ? CheckboxListTile(
+                value: valueLader,
+                onChanged: (value) {
+                  if (this.mounted) {
+                    setState(() {
+                      valueLader = value;
+                    });
+                  }
+                },
+                title: new Text(translate(Keys.Apptext_Electricalterminal)),
+                controlAffinity: ListTileControlAffinity.trailing,
+                subtitle: new Text('10€'),
+                activeColor: Blauw,
+              )
+            : Container(),
+        valueLader
             ? Text("*" + translate(Keys.Apptext_Chargingstation))
             : Container()
       ],
-    ));
+    );
   }
 
   Future takePicture() async {
@@ -623,6 +666,8 @@ class _AddGarageState extends State<AddGarage> {
                   'types': _typeVoertuigen,
                   'rating': [],
                   'location': center.data,
+                  'lift': valueLift,
+                  'lader': valueLader
                 }).then((data) {
                   try {
                     Firestore.instance

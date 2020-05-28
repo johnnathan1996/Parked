@@ -26,7 +26,8 @@
 		"InvalidCode": "Ongeldige code",
 		"OwnerOffers": "Wat de eigenaar biedt",
 		"PaymentSummary": "Betalingsoverzicht",
-		"Pay" : "Betalen"
+		"Pay" : "Betalen",
+		"Services": "Diensten"
 	},
 	"Button": {
 		"LogIn": "Inloggen",
@@ -59,7 +60,8 @@
 		"Edit": "Bewerken",
 		"SearchGarage" : "Zoek een garage",
 		"Confirm": "Bevestigen",
-		"ActiveLocation": "Activeer uw locatie"
+		"ActiveLocation": "Activeer uw locatie",
+		"Next": "Volgende"
 	},
 	"Inputs": {
 		"Firstname": "Voornaam",
@@ -202,6 +204,8 @@
 		"PayRefused": "Geweigerde betaling",
 		"WantReserve": "wil uw garage reserveren voor ",
 		"NeedLift": "Een lift nodig?",
-		"ElectricalTerminal": "Elektrische aansluiting"
+		"ElectricalTerminal": "Elektrische aansluiting",
+		"OfferLift": "Bied een lift aan",
+		"NoOffer": "Helaas heeft de eigenaar u niets te bieden."
 	}
 }

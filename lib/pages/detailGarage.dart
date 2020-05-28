@@ -640,6 +640,14 @@ class _DetailGarageState extends State<DetailGarage> {
         _currentStep = 0;
         finalPrijs = prijs * 1.15;
         taxes = finalPrijs - prijs;
+
+        if (valueCheckOne) {
+          finalPrijs += 5;
+        }
+
+        if (valueCheckTwo) {
+          finalPrijs += 10;
+        }
       });
     }
     showModalBottomSheet(
@@ -828,7 +836,8 @@ class _DetailGarageState extends State<DetailGarage> {
                                             CrossAxisAlignment.stretch,
                                         children: <Widget>[
                                           ButtonComponent(
-                                              label: translate(Keys.Button_Confirm),
+                                              label: translate(
+                                                  Keys.Button_Confirm),
                                               onClickAction: () {
                                                 if (_currentStep >= 2) {
                                                   return;
@@ -860,7 +869,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                         ? StepState.complete
                                         : StepState.indexed,
                                 isActive: _currentStep >= 1 ? true : false,
-                                title: Text('Extra'),
+                                title: Text(translate(Keys.Apptext_Extra)),
                                 content: Container(
                                   height:
                                       MediaQuery.of(context).size.height * 0.5,
@@ -878,41 +887,64 @@ class _DetailGarageState extends State<DetailGarage> {
                                                   Keys.Subtitle_Owneroffers),
                                               style: SubTitleCustom,
                                               textAlign: TextAlign.center),
-                                          new CheckboxListTile(
-                                            value: valueCheckOne,
-                                            onChanged: (value) {
-                                              if (this.mounted) {
-                                                setState(() {
-                                                  valueCheckOne = value;
-                                                });
-                                              }
-                                            },
-                                            title: new Text(translate(Keys.Apptext_Needlift)),
-                                            controlAffinity:
-                                                ListTileControlAffinity
-                                                    .trailing,
-                                            subtitle: new Text('10€'),
-                                            activeColor: Blauw,
-                                          ),
+                                          garage["lift"]
+                                              ? CheckboxListTile(
+                                                  value: valueCheckOne,
+                                                  onChanged: (value) {
+                                                    if (this.mounted) {
+                                                      setState(() {
+                                                        valueCheckOne = value;
+                                                        if (valueCheckOne) {
+                                                          finalPrijs += 5;
+                                                        } else {
+                                                          finalPrijs -= 5;
+                                                        }
+                                                        
+                                                      });
+                                                    }
+                                                  },
+                                                  title: new Text(translate(
+                                                      Keys.Apptext_Needlift)),
+                                                  controlAffinity:
+                                                      ListTileControlAffinity
+                                                          .trailing,
+                                                  subtitle: new Text('5€'),
+                                                  activeColor: Blauw,
+                                                )
+                                              : Container(),
                                           Divider(),
-                                          new CheckboxListTile(
-                                            value: valueCheckTwo,
-                                            onChanged: (value) {
-                                              if (this.mounted) {
-                                                setState(() {
-                                                  valueCheckTwo = value;
-                                                });
-                                              }
-                                            },
-                                            title: new Text('Electricité'), //TODO: trad ElectricalTerminal
-                                            //TODO: SUPPLEMENTS RAJOUTER PRIX
-                                            
-                                            controlAffinity:
-                                                ListTileControlAffinity
-                                                    .trailing,
-                                            subtitle: new Text('5€'),
-                                            activeColor: Blauw,
-                                          ),
+                                          garage["lader"]
+                                              ? CheckboxListTile(
+                                                  value: valueCheckTwo,
+                                                  onChanged: (value) {
+                                                    if (this.mounted) {
+                                                      setState(() {
+                                                        valueCheckTwo = value;
+                                                        if (valueCheckTwo) {
+                                                          finalPrijs += 10;
+                                                        } else {
+                                                          finalPrijs -= 10;
+                                                        }
+                                                      });
+                                                    }
+                                                  },
+                                                  title: new Text(translate(Keys
+                                                      .Apptext_Electricalterminal)),
+                                                  controlAffinity:
+                                                      ListTileControlAffinity
+                                                          .trailing,
+                                                  subtitle: new Text('10€'),
+                                                  activeColor: Blauw,
+                                                )
+                                              : Container(),
+                                          !garage["lift"] && !garage["lader"]
+                                              ? Text(
+                                                  translate(
+                                                      Keys.Apptext_Nooffer),
+                                                  style: SizeParagraph,
+                                                  textAlign: TextAlign.center,
+                                                )
+                                              : Container()
                                         ],
                                       ),
                                       Column(
@@ -923,7 +955,8 @@ class _DetailGarageState extends State<DetailGarage> {
                                               padding: const EdgeInsets.only(
                                                   top: 10),
                                               child: ButtonComponent(
-                                                  label: "Suivant",
+                                                  label: translate(
+                                                      Keys.Button_Next),
                                                   onClickAction: () {
                                                     if (_currentStep >= 2) {
                                                       return;
@@ -1024,26 +1057,41 @@ class _DetailGarageState extends State<DetailGarage> {
                                                   translate(Keys.Apptext_Total),
                                                   style: SizeParagraph),
                                               Text((prijs.toStringAsFixed(2) +
-                                                  " €"))
+                                                  " €"), style: TextStyle(fontWeight: FontWeight.w500),)
                                             ],
                                           ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 10),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: <Widget>[
-                                                Text(
-                                                    translate(
-                                                        Keys.Apptext_Extra),
-                                                    style: SizeParagraph),
-                                                Text(
-                                                    "0 €"), //TODO: CALCULER PRIX EXTRA + toStringAsFixed(2)
-                                              ],
-                                            ),
-                                          ),
+                                          valueCheckOne
+                                              ? Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 10),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: <Widget>[
+                                                      Text("Lift",
+                                                          style: SizeParagraph),
+                                                      Text("5.00 €"),
+                                                    ],
+                                                  ))
+                                              : Container(),
+                                          valueCheckTwo
+                                              ? Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 10),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: <Widget>[
+                                                      Text(translate(Keys.Apptext_Electricalterminal),
+                                                          style: SizeParagraph),
+                                                      Text("10.00 €"),
+                                                    ],
+                                                  ))
+                                              : Container(),
                                           Padding(
                                             padding:
                                                 const EdgeInsets.only(top: 10),

@@ -26,7 +26,8 @@
 		"InvalidCode": "Invalid code",
 		"OwnerOffers": "What the owner offers",
 		"PaymentSummary": "Payment summary",
-		"Pay" : "Payment"
+		"Pay" : "Payment",
+		"Services": "Services"
 	},
 	"Button": {
 		"LogIn": "Log in",
@@ -59,7 +60,8 @@
 		"Edit": "Edit",
 		"SearchGarage" : "Find a garage",
 		"Confirm": "Confirm",
-		"ActiveLocation": "Activate your location"
+		"ActiveLocation": "Activate your location",
+		"Next": "Next"
 	},
 	"Inputs": {
 		"Firstname": "First name",
@@ -202,6 +204,8 @@
 		"PayRefused": "Refused payment",
 		"WantReserve": "wants to reserve your garage for ",
 		"NeedLift": "Need a lift?",
-		"ElectricalTerminal": "Electrical terminal"
+		"ElectricalTerminal": "Electrical terminal",
+		"OfferLift": "Offer a lift",
+		"NoOffer": "Unfortunately the owner has nothing to offer."
 	}
 }
