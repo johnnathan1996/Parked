@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:parkly/constant.dart';
 import 'package:parkly/localization/keys.dart';
+import 'package:parkly/script/changeDate.dart';
 import '../setup/globals.dart' as globals;
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -15,6 +16,7 @@ class _AgendaTabState extends State<AgendaTab> {
   CalendarController _calendarController;
   List<dynamic> showGarageId = [];
   bool showGarage = false;
+  bool showMyResevation = false;
   Map<DateTime, List> _reservations = {};
   Map<DateTime, List> _myReservations = {};
 
@@ -49,7 +51,6 @@ class _AgendaTabState extends State<AgendaTab> {
           setState(() {
             element.data["dates"].forEach((date) {
               _myReservations[date.toDate()] = [element.documentID];
-              //TODO:MONTRER QUE CEUX QUI SONT ACCEPTER OU EN ATTENTE SSUR L'AGENDA
             });
           });
         }
@@ -80,102 +81,117 @@ class _AgendaTabState extends State<AgendaTab> {
   Widget build(BuildContext context) {
     var localizationDelegate = LocalizedApp.of(context).delegate;
 
-    return Column(
-      children: <Widget>[
-        TableCalendar(
-          calendarController: _calendarController,
-          locale: getCurrentLanguageLocalizationKey(
-              localizationDelegate.currentLocale.languageCode),
-          startingDayOfWeek: StartingDayOfWeek.monday,
-          initialCalendarFormat: CalendarFormat.month,
-          events: _reservations..addAll(_myReservations),
-          holidays: _myReservations,
-          availableGestures: AvailableGestures.horizontalSwipe,
-          headerStyle: HeaderStyle(
-            centerHeaderTitle: true,
-            formatButtonVisible: false,
-          ),
-          onDaySelected: (value, a) {
-            if (_myReservations.containsValue(a)) {
-              print("celui la est dans mees reservations personnelles!!");
-              if (this.mounted) {
-                setState(() {
-                  showGarage = false;
-                  //TODO: SHOW HUIDIGE RESERVEGIN
-                  //enlever le gris derriere si il est dans mes reservations
-                });
-              }
-            } else {
-              print("test");
-              if (a.length != 0) {
-                if (this.mounted) {
-                  setState(() {
-                    print(a);
-                    showGarageId = a;
-                    showGarage = true;
-                  });
-                }
-              } else {
-                if (this.mounted) {
-                  setState(() {
-                    showGarage = false;
-                  });
-                }
-              }
-            }
-          },
-          daysOfWeekStyle: DaysOfWeekStyle(
-              weekendStyle: TextStyle().copyWith(color: Blauw),
-              weekdayStyle: TextStyle().copyWith(color: Zwart)),
-          calendarStyle: CalendarStyle(
-              todayColor: Grijs,
-              selectedColor: Blauw,
-              weekdayStyle: TextStyle().copyWith(color: Zwart),
-              weekendStyle: TextStyle().copyWith(color: Blauw),
-              holidayStyle: TextStyle().copyWith(color: Colors.green)),
-          builders: CalendarBuilders(
-            markersBuilder: (context, date, events, holidays) {
-              final children = <Widget>[];
-              if (events.isNotEmpty) {
-                children.add(
-                  Positioned(
-                      right: 0,
-                      top: 0,
-                      left: 0,
-                      bottom: 0,
-                      child: Container(color: Grijs.withOpacity(0.5))),
-                );
-              }
+    return StreamBuilder<QuerySnapshot>(
+        stream: Firestore.instance.collection('reservaties').snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasData) {
+            return Column(
+              children: <Widget>[
+                TableCalendar(
+                  calendarController: _calendarController,
+                  locale: getCurrentLanguageLocalizationKey(
+                      localizationDelegate.currentLocale.languageCode),
+                  startingDayOfWeek: StartingDayOfWeek.monday,
+                  initialCalendarFormat: CalendarFormat.month,
+                  events: _reservations,
+                  holidays: _myReservations,
+                  availableGestures: AvailableGestures.horizontalSwipe,
+                  headerStyle: HeaderStyle(
+                    centerHeaderTitle: true,
+                    formatButtonVisible: false,
+                  ),
+                  onDaySelected: (value, a) {
+                   
+                    if(_myReservations.containsKey(changeDatetimeToDatetime(value))){
+                      if (this.mounted) {
+                          setState(() {
+                            showMyResevation = true;
+                          });
+                        }
+                    } else {
 
-              if (holidays.isNotEmpty) {
-                children.add(
-                  Positioned(
-                      bottom: 10,
-                      child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 300),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: _calendarController.isSelected(date)
-                                ? Wit
-                                : _calendarController.isToday(date)
-                                    ? Wit
-                                    : Colors.green,
-                          ),
-                          width: 5,
-                          height: 5)),
-                );
-              }
+                      if (this.mounted) {
+                          setState(() {
+                            showMyResevation = false;
+                          });
+                        }
 
-              return children;
-            },
-          ),
-        ),
-        Divider(),
-        showGarage
-            ? Expanded(child: showReservation(showGarageId))
-            : Container()
-      ],
-    );
+                    }
+                    
+                      if (a.length != 0) {
+                        if (this.mounted) {
+                          setState(() {
+                            showGarageId = a;
+                            showGarage = true;
+                          });
+                        }
+                      } else {
+                        if (this.mounted) {
+                          setState(() {
+                            showGarage = false;
+                          });
+                        }
+                      }
+                  },
+                  daysOfWeekStyle: DaysOfWeekStyle(
+                      weekendStyle: TextStyle().copyWith(color: Blauw),
+                      weekdayStyle: TextStyle().copyWith(color: Zwart)),
+                  calendarStyle: CalendarStyle(
+                      todayColor: Grijs,
+                      selectedColor: Blauw,
+                      weekdayStyle: TextStyle().copyWith(color: Zwart),
+                      weekendStyle: TextStyle().copyWith(color: Blauw),
+                      holidayStyle: TextStyle().copyWith(color: Colors.green)),
+                  builders: CalendarBuilders(
+                      markersBuilder: (context, date, events, holidays) {
+                    final children = <Widget>[];
+
+                    if (events.isNotEmpty) {
+                      children.add(
+                        Positioned(
+                            right: 0,
+                            top: 0,
+                            left: 0,
+                            bottom: 0,
+                            child: Container(color: Grijs.withOpacity(0.5))),
+                      );
+                    }
+
+                    if (holidays.isNotEmpty) {
+                      children.add(
+                        Positioned(
+                            bottom: 10,
+                            child: AnimatedContainer(
+                                duration: const Duration(milliseconds: 300),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: _calendarController.isSelected(date)
+                                      ? Wit
+                                      : _calendarController.isToday(date)
+                                          ? Wit
+                                          : Colors.green,
+                                ),
+                                width: 5,
+                                height: 5)),
+                      );
+                    }
+
+                    return children;
+                  }),
+                ),
+                Divider(),
+                showGarage
+                    ? Expanded(child: showReservation(showGarageId))
+                    : Container(),
+                showMyResevation
+                    ? Expanded(child: showMyReservations(showGarageId))
+                    : Container()
+              ],
+            );
+          } else {
+            return Container();
+          }
+        });
   }
 
   showReservation(List<dynamic> garageId) {
@@ -249,6 +265,58 @@ class _AgendaTabState extends State<AgendaTab> {
                                       ],
                                     ),
                                   );
+                                } else {
+                                  return Text("");
+                                }
+                              });
+                        } else {
+                          return Container(
+                            width: 200,
+                            height: 200,
+                            alignment: Alignment.center,
+                            child: CircularProgressIndicator(
+                                valueColor:
+                                    new AlwaysStoppedAnimation<Color>(Blauw)),
+                          );
+                        }
+                      });
+                })));
+  }
+
+  showMyReservations(List<dynamic> garageId) {
+    return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 15),
+        child: MediaQuery.removePadding(
+            context: context,
+            removeTop: true,
+            child: ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: garageId.length,
+                itemBuilder: (_, index) {
+                  return StreamBuilder<DocumentSnapshot>(
+                      stream: Firestore.instance
+                          .collection('reservaties')
+                          .document(garageId[index])
+                          .snapshots(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<DocumentSnapshot> snapshot) {
+                        if (snapshot.hasData) {
+                          return StreamBuilder<DocumentSnapshot>(
+                              stream: Firestore.instance
+                                  .collection('users')
+                                  .document(snapshot.data["aanvrager"])
+                                  .snapshots(),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<DocumentSnapshot> snapshots) {
+                                if (snapshots.hasData) {
+                                  return Container(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 20, horizontal: 10),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(12),
+                                        color: Wit,
+                                      ),
+                                      child: Text("mes reservations"));
                                 } else {
                                   return Text("");
                                 }

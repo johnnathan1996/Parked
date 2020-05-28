@@ -18,7 +18,6 @@ class MessagePage extends StatefulWidget {
 
 class _MessagePageState extends State<MessagePage> {
   String sendName;
-//TODO: NE PAS AFFICHER LES CONVERSATIONS VIDE, VOIR YSN CHATPAGE
   void getSendName() {
     Firestore.instance
         .collection('users')
@@ -32,7 +31,6 @@ class _MessagePageState extends State<MessagePage> {
   @override
   void initState() {
     getSendName();
-
     super.initState();
   }
 
@@ -77,126 +75,171 @@ class _MessagePageState extends State<MessagePage> {
                                       .data['userInChat'][0];
                                 }
 
-                                return Card(
-                                    elevation: 0,
-                                    child: ListTile(
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) => ChatPage(
-                                                    sendName: sendName,
-                                                    conversationID: snapshot
-                                                        .data
-                                                        .documents[index]
-                                                        .documentID)));
-                                      },
-                                      title: StreamBuilder<DocumentSnapshot>(
-                                          stream: Firestore.instance
-                                              .collection('users')
-                                              .document(otherUser)
-                                              .snapshots(),
-                                          builder: (BuildContext context,
-                                              AsyncSnapshot<DocumentSnapshot>
-                                                  snapshots) {
-                                            if (snapshots.hasData) {
-                                              return Text(snapshots
-                                                      .data["voornaam"] +
-                                                  " " +
-                                                  snapshots.data["achternaam"]
-                                                      [0] +
-                                                  ".");
-                                            } else {
-                                              return Container();
-                                            }
-                                          }),
-                                      leading: SizedBox(
-                                          width: 80,
-                                          child: StreamBuilder<
+                                return snapshot.data.documents[index]
+                                            .data["chat"].length !=
+                                        0
+                                    ? Card(
+                                        elevation: 0,
+                                        child: ListTile(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) => ChatPage(
+                                                        sendName: sendName,
+                                                        conversationID: snapshot
+                                                            .data
+                                                            .documents[index]
+                                                            .documentID)));
+                                          },
+                                          title: StreamBuilder<
                                                   DocumentSnapshot>(
                                               stream: Firestore.instance
-                                                  .collection('garages')
-                                                  .document(snapshot
-                                                      .data
-                                                      .documents[index]
-                                                      .data["garageId"])
+                                                  .collection('users')
+                                                  .document(otherUser)
                                                   .snapshots(),
                                               builder: (BuildContext context,
                                                   AsyncSnapshot<
                                                           DocumentSnapshot>
                                                       snapshots) {
                                                 if (snapshots.hasData) {
-                                                  if (snapshots.data.exists) {
-                                                    return Image.network(
-                                                        snapshots
-                                                            .data['garageImg'],
-                                                        fit: BoxFit.cover);
-                                                  } else {
-                                                    return Image.asset(
-                                                        "assets/images/del_garage.jpg",
-                                                        fit: BoxFit.cover);
-                                                  }
+                                                  return Text(snapshots
+                                                          .data["voornaam"] +
+                                                      " " +
+                                                      snapshots.data[
+                                                          "achternaam"][0] +
+                                                      ".");
                                                 } else {
-                                                  return ContentPlaceholder();
+                                                  return Container();
                                                 }
-                                              })),
-                                      subtitle: Row(
-                                        children: <Widget>[
-                                          snapshot.data.documents[index]
-                                                      .data["chat"].length !=
-                                                  0
-                                              ? Text(
-                                                  snapshot
-                                                              .data
-                                                              .documents[index]
-                                                              .data["chat"]
-                                                              .last["auteur"] ==
-                                                          sendName
-                                                      ? translate(Keys
-                                                              .Chattext_You) +
-                                                          " : "
-                                                      : "",
-                                                  style: ChatStyle)
-                                              : Text(""),
-                                          snapshot.data.documents[index]
-                                                      .data["chat"].length !=
-                                                  0
-                                              ? snapshot.data.documents[index]
-                                                              .data[
-                                                          "seenLastMessage"] ==
-                                                      false
-                                                  ? sendName !=
-                                                          snapshot
-                                                              .data
-                                                              .documents[index]
-                                                              .data["chat"]
-                                                              .last["auteur"]
-                                                      ? Flexible(
-                                                          child: RichText(
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              strutStyle:
-                                                                  StrutStyle(
-                                                                      fontSize:
-                                                                          12.0),
-                                                              text: TextSpan(
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        14.0,
-                                                                    color:
-                                                                        Zwart,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500),
-                                                                text: snapshot
-                                                                    .data
-                                                                    .documents[
-                                                                        index]
-                                                                    .data[
-                                                                        "chat"]
-                                                                    .last["message"],
-                                                              )))
+                                              }),
+                                          leading: SizedBox(
+                                              width: 80,
+                                              child: StreamBuilder<
+                                                      DocumentSnapshot>(
+                                                  stream: Firestore.instance
+                                                      .collection('garages')
+                                                      .document(snapshot
+                                                          .data
+                                                          .documents[index]
+                                                          .data["garageId"])
+                                                      .snapshots(),
+                                                  builder: (BuildContext
+                                                          context,
+                                                      AsyncSnapshot<
+                                                              DocumentSnapshot>
+                                                          snapshots) {
+                                                    if (snapshots.hasData) {
+                                                      if (snapshots
+                                                          .data.exists) {
+                                                        return Image.network(
+                                                            snapshots.data[
+                                                                'garageImg'],
+                                                            fit: BoxFit.cover);
+                                                      } else {
+                                                        return Image.asset(
+                                                            "assets/images/del_garage.jpg",
+                                                            fit: BoxFit.cover);
+                                                      }
+                                                    } else {
+                                                      return ContentPlaceholder();
+                                                    }
+                                                  })),
+                                          subtitle: Row(
+                                            children: <Widget>[
+                                              snapshot
+                                                          .data
+                                                          .documents[index]
+                                                          .data["chat"]
+                                                          .length !=
+                                                      0
+                                                  ? Text(
+                                                      snapshot
+                                                                      .data
+                                                                      .documents[
+                                                                          index]
+                                                                      .data["chat"]
+                                                                      .last[
+                                                                  "auteur"] ==
+                                                              sendName
+                                                          ? translate(Keys
+                                                                  .Chattext_You) +
+                                                              " : "
+                                                          : "",
+                                                      style: ChatStyle)
+                                                  : Text(""),
+                                              snapshot
+                                                          .data
+                                                          .documents[index]
+                                                          .data["chat"]
+                                                          .length !=
+                                                      0
+                                                  ? snapshot
+                                                                  .data
+                                                                  .documents[index]
+                                                                  .data[
+                                                              "seenLastMessage"] ==
+                                                          false
+                                                      ? sendName !=
+                                                              snapshot
+                                                                      .data
+                                                                      .documents[
+                                                                          index]
+                                                                      .data["chat"]
+                                                                      .last[
+                                                                  "auteur"]
+                                                          ? Flexible(
+                                                              child: RichText(
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                  strutStyle:
+                                                                      StrutStyle(
+                                                                          fontSize:
+                                                                              12.0),
+                                                                  text:
+                                                                      TextSpan(
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            14.0,
+                                                                        color:
+                                                                            Zwart,
+                                                                        fontWeight:
+                                                                            FontWeight.w500),
+                                                                    text: snapshot
+                                                                        .data
+                                                                        .documents[
+                                                                            index]
+                                                                        .data[
+                                                                            "chat"]
+                                                                        .last["message"],
+                                                                  )))
+                                                          : Flexible(
+                                                              child: RichText(
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                  strutStyle:
+                                                                      StrutStyle(
+                                                                          fontSize:
+                                                                              12.0),
+                                                                  text:
+                                                                      TextSpan(
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            14.0,
+                                                                        color:
+                                                                            Grijs,
+                                                                        fontWeight:
+                                                                            FontWeight.w300),
+                                                                    text: snapshot
+                                                                        .data
+                                                                        .documents[
+                                                                            index]
+                                                                        .data[
+                                                                            "chat"]
+                                                                        .last["message"],
+                                                                  )))
                                                       : Flexible(
                                                           child: RichText(
                                                               overflow:
@@ -223,58 +266,40 @@ class _MessagePageState extends State<MessagePage> {
                                                                         "chat"]
                                                                     .last["message"],
                                                               )))
-                                                  : Flexible(
-                                                      child: RichText(
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          strutStyle:
-                                                              StrutStyle(
-                                                                  fontSize:
-                                                                      12.0),
-                                                          text: TextSpan(
-                                                            style: TextStyle(
-                                                                fontSize: 14.0,
-                                                                color: Grijs,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w300),
-                                                            text: snapshot
-                                                                .data
-                                                                .documents[
-                                                                    index]
-                                                                .data["chat"]
-                                                                .last["message"],
-                                                          )))
-                                              : Text(translate(
-                                                  Keys.Apptext_Nomessage))
-                                        ],
-                                      ),
-                                      trailing: snapshot.data.documents[index]
-                                                  .data["chat"].length !=
-                                              0
-                                          ? snapshot.data.documents[index].data[
-                                                      "seenLastMessage"] ==
-                                                  false
-                                              ? sendName !=
-                                                      snapshot
-                                                          .data
-                                                          .documents[index]
-                                                          .data["chat"]
-                                                          .last["auteur"]
-                                                  ? DotComponent(
-                                                      number: snapshot
-                                                              .data
-                                                              .documents[index]
-                                                              .data["chat"]
-                                                              .length -
+                                                  : Text(translate(
+                                                      Keys.Apptext_Nomessage))
+                                            ],
+                                          ),
+                                          trailing: snapshot
+                                                      .data
+                                                      .documents[index]
+                                                      .data["chat"]
+                                                      .length !=
+                                                  0
+                                              ? snapshot.data.documents[index].data["seenLastMessage"] ==
+                                                      false
+                                                  ? sendName !=
                                                           snapshot
                                                               .data
                                                               .documents[index]
-                                                              .data["seenLastIndex"])
+                                                              .data["chat"]
+                                                              .last["auteur"]
+                                                      ? DotComponent(
+                                                          number: snapshot
+                                                                  .data
+                                                                  .documents[
+                                                                      index]
+                                                                  .data["chat"]
+                                                                  .length -
+                                                              snapshot
+                                                                  .data
+                                                                  .documents[index]
+                                                                  .data["seenLastIndex"])
+                                                      : Text(changeDate(snapshot.data.documents[index].data["chat"].last["time"].toDate()), style: ChatStyle)
                                                   : Text(changeDate(snapshot.data.documents[index].data["chat"].last["time"].toDate()), style: ChatStyle)
-                                              : Text(changeDate(snapshot.data.documents[index].data["chat"].last["time"].toDate()), style: ChatStyle)
-                                          : Text(""),
-                                    ));
+                                              : Text(""),
+                                        ))
+                                    : Container();
                               }))
                     ],
                   );

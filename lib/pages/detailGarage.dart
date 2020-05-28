@@ -503,14 +503,7 @@ class _DetailGarageState extends State<DetailGarage> {
                     ),
                   ),
                 )),
-          ),//TODO: ONTAP/GESTUREDECTOR SUR LE TEXT POUR VOIR L'IMAGE EN GRAND
-          Container(
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Grijs.withOpacity(0.8)),
-              child:
-                  Text(translate(Keys.Apptext_Tapimage), style: SizeParagraph)),
+          ),
         ]));
   }
 
@@ -911,9 +904,9 @@ class _DetailGarageState extends State<DetailGarage> {
                                                 });
                                               }
                                             },
-                                            title: new Text('Electricité'),
+                                            title: new Text('Electricité'), //TODO: trad
                                             //TODO: SUPPLEMENTS RAJOUTER PRIX
-                                            //TODO: TRADUCTION
+                                            
                                             controlAffinity:
                                                 ListTileControlAffinity
                                                     .trailing,
@@ -965,7 +958,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                 )),
                             Step(
                                 isActive: _currentStep >= 2 ? true : false,
-                                title: Text('Payer'),//TODO: TRADUIRE
+                                title: Text('Payer'), //TODO: trad
                                 content: Container(
                                   height:
                                       MediaQuery.of(context).size.height * 0.5,

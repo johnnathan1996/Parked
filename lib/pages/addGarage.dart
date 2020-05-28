@@ -152,7 +152,6 @@ class _AddGarageState extends State<AddGarage> {
                       ? TextFormField(
                           onChanged: (input) {
                             if (input.isEmpty || input == "" || input == null) {
-//TODO: QUAND TU EFFACE RAPIDEMENT YA UNE LISTE QUI APPARAIT QUAND MEME
                               if (this.mounted) {
                                 setState(() {
                                   listAdresses = [];
