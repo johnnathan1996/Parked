@@ -563,7 +563,7 @@ class _DetailGarageState extends State<DetailGarage> {
         'begin': beginDate,
         'end': endDate,
         'prijs': prijs,
-        'status': "EN ATTENTE",
+        'status': 1,
         'dates': getDaysInBeteween(beginDate, endDate),
         'eigenaar': eigenaarId,
         'aanvrager': globals.userId,

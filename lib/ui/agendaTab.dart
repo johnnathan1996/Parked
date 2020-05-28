@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:parkly/constant.dart';
 import 'package:parkly/localization/keys.dart';
 import 'package:parkly/script/changeDate.dart';
+import 'package:parkly/script/getStatus.dart';
 import '../setup/globals.dart' as globals;
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -20,10 +21,13 @@ class _AgendaTabState extends State<AgendaTab> {
   Map<DateTime, List> _reservations = {};
   Map<DateTime, List> _myReservations = {};
 
+  MaterialColor color = Colors.orange;
+
   getResevations() {
     Firestore.instance
         .collection('reservaties')
         .where('eigenaar', isEqualTo: globals.userId)
+        .where('status', isGreaterThan: 0)
         .snapshots()
         .listen((data) {
       _reservations = {};
@@ -43,6 +47,7 @@ class _AgendaTabState extends State<AgendaTab> {
     Firestore.instance
         .collection('reservaties')
         .where('aanvrager', isEqualTo: globals.userId)
+        .where('status', isGreaterThan: 0)
         .snapshots()
         .listen((data) {
       _myReservations = {};
@@ -57,10 +62,6 @@ class _AgendaTabState extends State<AgendaTab> {
       });
     });
   }
-
-  //TODO: RENDRE EVIDENT QUAND CEST ACCEPTER, REFUSER OU EN ATTENTE
-  //TODO: RETROUVER LA COULEUR DU BADGE ROUGE DANS L'AGENDA, ESSAYER QU'IL SOIS DIRECTEMENT RETORUVABLE
-  //TODO: POUVOIR ACCEDER AU DETAIL DU GARAGE VIA L'AGENDA
 
   @override
   void initState() {
@@ -81,117 +82,124 @@ class _AgendaTabState extends State<AgendaTab> {
   Widget build(BuildContext context) {
     var localizationDelegate = LocalizedApp.of(context).delegate;
 
-    return StreamBuilder<QuerySnapshot>(
-        stream: Firestore.instance.collection('reservaties').snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasData) {
-            return Column(
-              children: <Widget>[
-                TableCalendar(
-                  calendarController: _calendarController,
-                  locale: getCurrentLanguageLocalizationKey(
-                      localizationDelegate.currentLocale.languageCode),
-                  startingDayOfWeek: StartingDayOfWeek.monday,
-                  initialCalendarFormat: CalendarFormat.month,
-                  events: _reservations,
-                  holidays: _myReservations,
-                  availableGestures: AvailableGestures.horizontalSwipe,
-                  headerStyle: HeaderStyle(
-                    centerHeaderTitle: true,
-                    formatButtonVisible: false,
-                  ),
-                  onDaySelected: (value, a) {
-                   
-                    if(_myReservations.containsKey(changeDatetimeToDatetime(value))){
-                      if (this.mounted) {
-                          setState(() {
-                            showMyResevation = true;
-                          });
-                        }
-                    } else {
+    return Column(
+      children: <Widget>[
+        TableCalendar(
+          calendarController: _calendarController,
+          locale: getCurrentLanguageLocalizationKey(
+              localizationDelegate.currentLocale.languageCode),
+          startingDayOfWeek: StartingDayOfWeek.monday,
+          initialCalendarFormat: CalendarFormat.month,
+          events: _reservations,
+          holidays: _myReservations,
+          availableGestures: AvailableGestures.horizontalSwipe,
+          headerStyle: HeaderStyle(
+            centerHeaderTitle: true,
+            formatButtonVisible: false,
+          ),
+          onDaySelected: (value, a) {
+            if (_myReservations.containsKey(changeDatetimeToDatetime(value))) {
+              if (this.mounted) {
+                setState(() {
+                  showGarageId = _myReservations.values.first;
+                  showMyResevation = true;
+                });
+              }
+            } else {
+              if (this.mounted) {
+                setState(() {
+                  showMyResevation = false;
+                });
+              }
+            }
 
-                      if (this.mounted) {
-                          setState(() {
-                            showMyResevation = false;
-                          });
-                        }
+            if (a.length != 0) {
+              if (this.mounted) {
+                setState(() {
+                  showGarageId = a;
+                  showGarage = true;
+                });
+              }
+            } else {
+              if (this.mounted) {
+                setState(() {
+                  showGarage = false;
+                });
+              }
+            }
+          },
+          daysOfWeekStyle: DaysOfWeekStyle(
+              weekendStyle: TextStyle().copyWith(color: Blauw),
+              weekdayStyle: TextStyle().copyWith(color: Zwart)),
+          calendarStyle: CalendarStyle(
+              todayColor: Grijs,
+              selectedColor: Blauw,
+              weekdayStyle: TextStyle().copyWith(color: Zwart),
+              weekendStyle: TextStyle().copyWith(color: Blauw),
+              holidayStyle: TextStyle().copyWith(color: color)),
+          builders: CalendarBuilders(
+              markersBuilder: (context, date, events, holidays) {
+            final children = <Widget>[];
 
-                    }
-                    
-                      if (a.length != 0) {
-                        if (this.mounted) {
-                          setState(() {
-                            showGarageId = a;
-                            showGarage = true;
-                          });
-                        }
-                      } else {
-                        if (this.mounted) {
-                          setState(() {
-                            showGarage = false;
-                          });
-                        }
-                      }
-                  },
-                  daysOfWeekStyle: DaysOfWeekStyle(
-                      weekendStyle: TextStyle().copyWith(color: Blauw),
-                      weekdayStyle: TextStyle().copyWith(color: Zwart)),
-                  calendarStyle: CalendarStyle(
-                      todayColor: Grijs,
-                      selectedColor: Blauw,
-                      weekdayStyle: TextStyle().copyWith(color: Zwart),
-                      weekendStyle: TextStyle().copyWith(color: Blauw),
-                      holidayStyle: TextStyle().copyWith(color: Colors.green)),
-                  builders: CalendarBuilders(
-                      markersBuilder: (context, date, events, holidays) {
-                    final children = <Widget>[];
+            if (events.isNotEmpty) {
+              children.add(Positioned(
+                  bottom: 10,
+                  child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 300),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        color: _calendarController.isSelected(date)
+                            ? Wit
+                            : _calendarController.isToday(date) ? Wit : Blauw,
+                      ),
+                      width: 5,
+                      height: 5)));
+            }
 
-                    if (events.isNotEmpty) {
-                      children.add(
-                        Positioned(
-                            right: 0,
-                            top: 0,
-                            left: 0,
-                            bottom: 0,
-                            child: Container(color: Grijs.withOpacity(0.5))),
-                      );
-                    }
+            if (holidays.isNotEmpty) {
+              if (this.mounted) {
+                getColor(holidays.first);
+              }
+              children.add(
+                Positioned(
+                    bottom: 10,
+                    child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 300),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: _calendarController.isSelected(date)
+                              ? Wit
+                              : _calendarController.isToday(date) ? Wit : color,
+                        ),
+                        width: 5,
+                        height: 5)),
+              );
+            }
 
-                    if (holidays.isNotEmpty) {
-                      children.add(
-                        Positioned(
-                            bottom: 10,
-                            child: AnimatedContainer(
-                                duration: const Duration(milliseconds: 300),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: _calendarController.isSelected(date)
-                                      ? Wit
-                                      : _calendarController.isToday(date)
-                                          ? Wit
-                                          : Colors.green,
-                                ),
-                                width: 5,
-                                height: 5)),
-                      );
-                    }
+            return children;
+          }),
+        ),
+        Divider(),
+        showGarage
+            ? Expanded(child: showReservation(showGarageId))
+            : Container(),
+        showMyResevation
+            ? Expanded(child: showMyReservations(showGarageId))
+            : Container()
+      ],
+    );
+  }
 
-                    return children;
-                  }),
-                ),
-                Divider(),
-                showGarage
-                    ? Expanded(child: showReservation(showGarageId))
-                    : Container(),
-                showMyResevation
-                    ? Expanded(child: showMyReservations(showGarageId))
-                    : Container()
-              ],
-            );
-          } else {
-            return Container();
-          }
-        });
+  getColor(reservationId) {
+    Firestore.instance
+        .collection('reservaties')
+        .document(reservationId)
+        .snapshots()
+        .listen((data) {
+      setState(() {
+        color = data.data["status"] == 1 ? Colors.orange : Colors.green;
+      });
+    });
   }
 
   showReservation(List<dynamic> garageId) {
@@ -236,8 +244,7 @@ class _AgendaTabState extends State<AgendaTab> {
                                                 snapshot.data["prijs"]
                                                     .toString() +
                                                 " €"),
-                                        Text(snapshot.data["status"]),
-                                        snapshot.data["status"] == "EN ATTENTE"
+                                        snapshot.data["status"] == 1
                                             ? Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.center,
@@ -299,24 +306,50 @@ class _AgendaTabState extends State<AgendaTab> {
                           .document(garageId[index])
                           .snapshots(),
                       builder: (BuildContext context,
-                          AsyncSnapshot<DocumentSnapshot> snapshot) {
-                        if (snapshot.hasData) {
+                          AsyncSnapshot<DocumentSnapshot> reservationSnapshot) {
+                        if (reservationSnapshot.hasData) {
                           return StreamBuilder<DocumentSnapshot>(
                               stream: Firestore.instance
                                   .collection('users')
-                                  .document(snapshot.data["aanvrager"])
+                                  .document(
+                                      reservationSnapshot.data["aanvrager"])
                                   .snapshots(),
                               builder: (BuildContext context,
-                                  AsyncSnapshot<DocumentSnapshot> snapshots) {
-                                if (snapshots.hasData) {
-                                  return Container(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 20, horizontal: 10),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(12),
-                                        color: Wit,
-                                      ),
-                                      child: Text("mes reservations"));
+                                  AsyncSnapshot<DocumentSnapshot>
+                                      userSnapshot) {
+                                if (userSnapshot.hasData) {
+                                  return Card(
+                                      elevation: 0,
+                                      child: StreamBuilder<DocumentSnapshot>(
+                                          stream: Firestore.instance
+                                              .collection('garages')
+                                              .document(reservationSnapshot
+                                                  .data['garageId'])
+                                              .snapshots(),
+                                          builder: (BuildContext context,
+                                              AsyncSnapshot<DocumentSnapshot>
+                                                  garageSnapchot) {
+                                            if (garageSnapchot.hasData) {
+                                              return ListTile(
+                                                  leading: Image.network(
+                                                      garageSnapchot
+                                                          .data['garageImg']),
+                                                  title: Text(changeDate(
+                                                          reservationSnapshot
+                                                              .data["begin"]
+                                                              .toDate()) +
+                                                      " - " +
+                                                      changeDate(
+                                                          reservationSnapshot
+                                                              .data["end"]
+                                                              .toDate())),
+                                                  trailing: getStatus(
+                                                      reservationSnapshot
+                                                          .data["status"]));
+                                            } else {
+                                              return Container();
+                                            }
+                                          }));
                                 } else {
                                   return Text("");
                                 }
@@ -342,7 +375,7 @@ class _AgendaTabState extends State<AgendaTab> {
           .document(garageId)
           .updateData({
         "accepted": true,
-        "status": "ACCEPTER",
+        "status": 2,
       });
     } catch (e) {
       print(e.message);
@@ -356,7 +389,7 @@ class _AgendaTabState extends State<AgendaTab> {
           .document(garageId)
           .updateData({
         "accepted": false,
-        "status": "REFUSER",
+        "status": 0,
       });
     } catch (e) {
       print(e.message);

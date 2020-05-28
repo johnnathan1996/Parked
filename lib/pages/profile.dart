@@ -23,8 +23,8 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  double percentage = 0;
-  int result = 0;
+  double percentage;
+  int result;
 
   int percent = 0;
 
@@ -37,8 +37,10 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   void initState() {
-    checkGamification();
-    checkForNotif();
+    if (this.mounted) {
+      checkGamification();
+      checkForNotif();
+    }
     super.initState();
   }
 
@@ -394,7 +396,7 @@ class _ProfilePageState extends State<ProfilePage> {
     Firestore.instance
         .collection('reservaties')
         .where('eigenaar', isEqualTo: globals.userId)
-        .where('status', isEqualTo: "EN ATTENTE")
+        .where('status', isEqualTo: 1)
         .snapshots()
         .listen((snapshot) {
       if (snapshot.documents.isNotEmpty) {
@@ -421,8 +423,6 @@ class _ProfilePageState extends State<ProfilePage> {
         .document(globals.userId)
         .snapshots()
         .listen((userSnapshot) async {
-      result = 0;
-
       Firestore.instance
           .collection('conversation')
           .where("creator", isEqualTo: globals.userId)
@@ -433,6 +433,9 @@ class _ProfilePageState extends State<ProfilePage> {
             .where("aanvrager", isEqualTo: globals.userId)
             .snapshots()
             .listen((reservSnapshot) {
+          result = 0;
+          percentage = 0;
+          percent = 0;
           if (reservSnapshot.documents.length != 0 ||
               userSnapshot.data["mijnGarage"].length != 0) {
             if (this.mounted) {

@@ -7,6 +7,7 @@ import 'package:parkly/localization/keys.dart';
 import 'package:parkly/pages/addHome.dart';
 import 'package:parkly/pages/addJob.dart';
 import 'package:parkly/script/changeDate.dart';
+import 'package:parkly/script/getStatus.dart';
 import '../setup/globals.dart' as globals;
 
 class ProfileTab extends StatefulWidget {
@@ -273,18 +274,6 @@ class _ProfileTabState extends State<ProfileTab> {
         });
   }
 
-  getStatus(String status) {
-    switch (status) {
-      case "EN ATTENTE":
-        return Icon(Icons.access_time, color: Colors.orange);
-      case "REFUSER":
-        return Icon(Icons.close, color: Colors.red);
-      case "ACCEPTER":
-        return Icon(Icons.check, color: Colors.green);
-      default:
-        return Text("en attente");
-    }
-  }
 
   Future actionMore(
       BuildContext context, String title, dynamic data, String type) async {
