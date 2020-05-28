@@ -23,8 +23,8 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  double percentage;
-  int result;
+  double percentage = 0;
+  int result = 0;
 
   int percent = 0;
 

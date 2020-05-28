@@ -22,6 +22,8 @@ class _AgendaTabState extends State<AgendaTab> {
   Map<DateTime, List> _myReservations = {};
 
   MaterialColor color = Colors.orange;
+  bool showNotification = false;
+  bool dontShowWhenRefused = true;
 
   getResevations() {
     Firestore.instance
@@ -65,8 +67,10 @@ class _AgendaTabState extends State<AgendaTab> {
 
   @override
   void initState() {
-    getResevations();
-    getMyResevations();
+    if (this.mounted) {
+      getResevations();
+      getMyResevations();
+    }
 
     super.initState();
     _calendarController = CalendarController();
@@ -142,18 +146,29 @@ class _AgendaTabState extends State<AgendaTab> {
             final children = <Widget>[];
 
             if (events.isNotEmpty) {
-              children.add(Positioned(
-                  bottom: 10,
-                  child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 300),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        color: _calendarController.isSelected(date)
-                            ? Wit
-                            : _calendarController.isToday(date) ? Wit : Blauw,
-                      ),
-                      width: 5,
-                      height: 5)));
+              if (this.mounted) {
+                getNotificationAgenda(events.first);
+              }
+              children.add(showNotification
+                  ? Positioned(
+                      top: 5,
+                      right: 5,
+                      child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.red,
+                          ),
+                          width: 12,
+                          height: 12))
+                  : Center(
+                      child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: dontShowWhenRefused ? Grijs.withOpacity(0.5) : Grijs.withOpacity(0),
+                          ),
+                          width: 50,
+                          height: 50),
+                    ));
             }
 
             if (holidays.isNotEmpty) {
@@ -196,9 +211,25 @@ class _AgendaTabState extends State<AgendaTab> {
         .document(reservationId)
         .snapshots()
         .listen((data) {
-      setState(() {
-        color = data.data["status"] == 1 ? Colors.orange : Colors.green;
-      });
+      if (this.mounted) {
+        setState(() {
+          color = data.data["status"] == 1 ? Colors.orange : Colors.green;
+        });
+      }
+    });
+  }
+
+  getNotificationAgenda(reservationId) {
+    Firestore.instance
+        .collection('reservaties')
+        .document(reservationId)
+        .snapshots()
+        .listen((data) {
+      if (this.mounted) {
+        setState(() {
+          showNotification = data.data["status"] == 1 ? true : false;
+        });
+      }
     });
   }
 
@@ -228,50 +259,72 @@ class _AgendaTabState extends State<AgendaTab> {
                               builder: (BuildContext context,
                                   AsyncSnapshot<DocumentSnapshot> snapshots) {
                                 if (snapshots.hasData) {
-                                  return Container(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 20, horizontal: 10),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12),
-                                      color: Wit,
-                                    ),
-                                    child: Column(
-                                      children: <Widget>[
-                                        Text(
-                                            translate(Keys.Apptext_Reservedby) +
-                                                snapshots.data["voornaam"] +
-                                                " pour " +
-                                                snapshot.data["prijs"]
-                                                    .toString() +
-                                                " €"),
-                                        snapshot.data["status"] == 1
-                                            ? Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: <Widget>[
-                                                  FlatButton(
-                                                      onPressed: () {
-                                                        cancelReservation(
-                                                            garageId[index]);
-                                                      },
-                                                      child: Text(translate(
-                                                          Keys.Button_Refuse)),
-                                                      textColor: Colors.red),
-                                                  FlatButton(
-                                                    onPressed: () {
-                                                      acceptReservation(
-                                                          garageId[index]);
-                                                    },
-                                                    child: Text(translate(
-                                                        Keys.Button_Accept)),
-                                                    textColor: Blauw,
-                                                  ),
-                                                ],
-                                              )
-                                            : Container()
-                                      ],
-                                    ),
-                                  );
+                                  return dontShowWhenRefused
+                                      ? Container(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 20, horizontal: 10),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            color: Wit,
+                                          ),
+                                          child: Column(
+                                            children: <Widget>[
+                                              snapshot.data["status"] == 1
+                                                  ? Text(snapshots
+                                                          .data["voornaam"] +
+                                                      "veut reserver votre garage pour " + //TODO: trad
+                                                      snapshot.data["prijs"]
+                                                          .toString())
+                                                  : snapshot.data["status"] == 2
+                                                      ? Text(translate(Keys
+                                                              .Apptext_Reservedby) +
+                                                          snapshots.data[
+                                                              "voornaam"] +
+                                                          " pour " +
+                                                          snapshot.data["prijs"]
+                                                              .toString() +
+                                                          " €")
+                                                      : Container(),
+                                              snapshot.data["status"] == 1
+                                                  ? Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: <Widget>[
+                                                        FlatButton(
+                                                            onPressed: () {
+                                                              if (this
+                                                                  .mounted) {
+                                                                cancelReservation(
+                                                                    garageId[
+                                                                        index]);
+                                                              }
+                                                            },
+                                                            child: Text(
+                                                                translate(Keys
+                                                                    .Button_Refuse)),
+                                                            textColor:
+                                                                Colors.red),
+                                                        FlatButton(
+                                                          onPressed: () {
+                                                            if (this.mounted) {
+                                                              acceptReservation(
+                                                                  garageId[
+                                                                      index]);
+                                                            }
+                                                          },
+                                                          child: Text(translate(
+                                                              Keys.Button_Accept)),
+                                                          textColor: Blauw,
+                                                        ),
+                                                      ],
+                                                    )
+                                                  : Container()
+                                            ],
+                                          ),
+                                        )
+                                      : Container();
                                 } else {
                                   return Text("");
                                 }
@@ -390,6 +443,12 @@ class _AgendaTabState extends State<AgendaTab> {
           .updateData({
         "accepted": false,
         "status": 0,
+      }).whenComplete(() {
+        if (this.mounted) {
+          setState(() {
+            dontShowWhenRefused = false;
+          });
+        }
       });
     } catch (e) {
       print(e.message);
