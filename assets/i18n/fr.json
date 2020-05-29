@@ -61,7 +61,8 @@
 		"SearchGarage" : "Cherchez un garage",
 		"Confirm": "Confirmer",
 		"ActiveLocation": "Activer votre localisation",
-		"Next": "Suivant"
+		"Next": "Suivant",
+		"Report": "Signaler"
 		
 	},
 	"Inputs": {
@@ -106,7 +107,9 @@
 		"DateNotPoss": "Les dates choisies ne sont pas possibles",
 		"InvalidAddress": "Adresse non valable",
 		"WriteAddress": "Veuillez écrire une adresse",
-		"NoGarageRay": "Il n'y a pas de garages dans les 30 km"
+		"NoGarageRay": "Il n'y a pas de garages dans les 30 km",
+		"ReportConv": "Vous êtes sur le point de signaler cette conversation",
+		"reportThanks": "Merci pour votre signalement"
 	},
 	"Errors": {
 		"IsEmpty": "Veuillez remplir le champs",

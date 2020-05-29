@@ -119,6 +119,8 @@ class Keys {
 
   static const String Button_Next = 'Button.Next';
 
+  static const String Button_Report = 'Button.Report';
+
   static const String Inputs_Firstname = 'Inputs.Firstname';
 
   static const String Inputs_Lastname = 'Inputs.Lastname';
@@ -198,6 +200,10 @@ class Keys {
   static const String Modal_Writeaddress = 'Modal.WriteAddress';
 
   static const String Modal_Nogarageray = 'Modal.NoGarageRay';
+
+  static const String Modal_Reportconv = 'Modal.ReportConv';
+
+  static const String Modal_Reportthanks = 'Modal.reportThanks';
 
   static const String Errors_Isempty = 'Errors.IsEmpty';
 

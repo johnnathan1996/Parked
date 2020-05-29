@@ -61,7 +61,8 @@
 		"SearchGarage" : "Find a garage",
 		"Confirm": "Confirm",
 		"ActiveLocation": "Activate your location",
-		"Next": "Next"
+		"Next": "Next",
+		"Report": "Report"
 	},
 	"Inputs": {
 		"Firstname": "First name",
@@ -105,7 +106,9 @@
 		"DateNotPoss": "Your chosen dates are not possible",
 		"InvalidAddress": "Invalid address",
 		"WriteAddress": "Please write an address",
-		"NoGarageRay": "There are no garages within 30 km"
+		"NoGarageRay": "There are no garages within 30 km",
+		"ReportConv": "You are about to report this conversation",
+		"reportThanks": "Thank you for your report"
 	},
 	"Errors": {
 		"IsEmpty": "Please fill in the field",
