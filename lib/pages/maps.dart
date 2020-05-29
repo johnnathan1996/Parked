@@ -151,7 +151,7 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
                   center: zoomToOtherplace
                       ? LatLng(givenLat, givenLon)
                       : LatLng(userLat, userLon),
-                  zoom: 13.0,
+                  zoom: 14.0,
                   plugins: [plugin],
                 ),
                 layers: [
