@@ -381,7 +381,7 @@ class _ProfileTabState extends State<ProfileTab> {
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20))),
             child: Container(
-              height: MediaQuery.of(context).size.height * 0.5,
+              height: MediaQuery.of(context).size.height * 0.60,
               child: Padding(
                   padding: const EdgeInsets.only(top: 20),
                   child: Theme(
@@ -395,7 +395,10 @@ class _ProfileTabState extends State<ProfileTab> {
                               AsyncSnapshot<DocumentSnapshot>
                                   reservationSnapshot) {
                             if (reservationSnapshot.hasData) {
-                              return Column(
+                              return Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.4,
+                                  child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -596,16 +599,17 @@ class _ProfileTabState extends State<ProfileTab> {
                                         ],
                                       ),
                                     ),
-                                    FlatButton(
+                                    
+                                  ]),
+                                FlatButton(
                                         onPressed: () {
                                           Navigator.of(context).pop();
                                         },
                                         child: Text(
                                             translate(Keys.Button_Back),
                                             style: TextStyle(color: Zwart)))
-                                  ]),
                                 ],
-                              );
+                              ));
                             } else {
                               return Container(
                                 width: 200,

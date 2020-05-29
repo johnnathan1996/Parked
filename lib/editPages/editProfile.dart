@@ -290,26 +290,26 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   Future takePicture() async {
-    var imageFromCamera =
-        await ImagePicker.pickImage(source: ImageSource.camera);
+    PickedFile imageFromCamera =
+        await ImagePicker().getImage(source: ImageSource.camera);
 
     if (imageFromCamera != null) {
       if (this.mounted) {
         setState(() {
-          fileName = imageFromCamera;
+          fileName = File(imageFromCamera.path);
         });
       }
     }
   }
 
   Future choosePicture() async {
-    var imageFromLibrary =
-        await ImagePicker.pickImage(source: ImageSource.gallery);
+    PickedFile imageFromLibrary =
+        await ImagePicker().getImage(source: ImageSource.gallery);
 
     if (imageFromLibrary != null) {
       if (this.mounted) {
         setState(() {
-          fileName = imageFromLibrary;
+          fileName = File(imageFromLibrary.path);
         });
       }
     }
