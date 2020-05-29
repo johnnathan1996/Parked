@@ -254,6 +254,14 @@ class _ProfileTabState extends State<ProfileTab> {
                                               snapshotten) {
                                         if (snapshotten.hasData) {
                                           return ListTile(
+                                              onTap: () {
+                                                //TODO: bottomsheetmodal pour montrer les details
+                                                print("reservation ID : " +
+                                                    snapshot
+                                                        .data
+                                                        .documents[index]
+                                                        .documentID);
+                                              },
                                               leading: Image.network(snapshotten
                                                   .data['garageImg']),
                                               title: Text(changeDate(snapshot
@@ -316,7 +324,15 @@ class _ProfileTabState extends State<ProfileTab> {
               CupertinoActionSheetAction(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  //TODO: go to editpage
+                  if (type == "home") {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => AddHome()));
+                  }
+
+                  if (type == "job") {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => AddJob()));
+                  }
                 },
                 child: Text(translate(Keys.Button_Edit)),
               ),

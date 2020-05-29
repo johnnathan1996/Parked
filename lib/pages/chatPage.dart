@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:parkly/constant.dart';
 import 'package:parkly/pages/detailGarage.dart';
 import 'package:parkly/script/changeDate.dart';
+import 'package:parkly/ui/reportModal.dart';
 import 'package:speech_bubble/speech_bubble.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:parkly/localization/keys.dart';
@@ -71,7 +72,6 @@ class _ChatPageState extends State<ChatPage> {
   @override
   void initState() {
     checkLastMessage();
-
     super.initState();
   }
 
@@ -85,13 +85,35 @@ class _ChatPageState extends State<ChatPage> {
           elevation: 0.0,
           title: Text(translate(Keys.Chattext_Message)),
           actions: <Widget>[
-            new IconButton(
-              icon: Icon(Icons.more_vert),
-              onPressed: () {
-                print("signaler");
-                // TODO: signaler chatpage
-              },
-            )
+            PopupMenuButton<String>(
+                icon: Icon(Icons.more_vert),
+                onSelected: (value) {
+                  if (value == translate(Keys.Button_Report)) {
+                    showDialog(
+                          context: context,
+                          builder: (_) => ReportModal(),
+                        );
+                  }
+
+                  if (value == translate(Keys.Button_Delete)) {
+                    Navigator.of(context).pop();
+                    Future.delayed(const Duration(seconds: 1), () {
+                      Firestore.instance
+                          .collection('conversation')
+                          .document(conversationID)
+                          .delete();
+                    });
+                  }
+                },
+                itemBuilder: (BuildContext context) {
+                  return <String>[
+                    translate(Keys.Button_Report),
+                    translate(Keys.Button_Delete)
+                  ].map((choice) {
+                    return PopupMenuItem<String>(
+                        value: choice, child: Text(choice));
+                  }).toList();
+                })
           ],
         ),
         body: SafeArea(
