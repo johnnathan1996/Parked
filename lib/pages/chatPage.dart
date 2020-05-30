@@ -309,7 +309,7 @@ class _ChatPageState extends State<ChatPage> {
         .document(conversationID)
         .updateData({
       "chat": FieldValue.arrayUnion([
-        {'auteur': sendName, 'time': DateTime.now(), 'message': message}
+        {'auteur': sendName, 'time': DateTime.now(), 'message': message.trim()}
       ])
     });
 

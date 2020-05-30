@@ -662,7 +662,7 @@ class _AddGarageState extends State<AddGarage> {
                     'time': new DateTime.now(),
                     'adress': _adress,
                     'prijs': int.parse(_price),
-                    'beschrijving': _desciption.capitalize(),
+                    'beschrijving': _desciption.capitalize().trim(),
                     'maxHoogte': _high,
                     'kenmerken': _listChecked,
                     'types': _typeVoertuigen,

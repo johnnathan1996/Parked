@@ -206,13 +206,23 @@ class _MessagePageState extends State<MessagePage> {
                                                                             Zwart,
                                                                         fontWeight:
                                                                             FontWeight.w500),
-                                                                    text: snapshot
-                                                                        .data
-                                                                        .documents[
-                                                                            index]
-                                                                        .data[
-                                                                            "chat"]
-                                                                        .last["message"],
+                                                                    text: snapshot.data.documents[index].data["chat"].last["message"].length >
+                                                                            10
+                                                                        ? snapshot
+                                                                            .data
+                                                                            .documents[
+                                                                                index]
+                                                                            .data[
+                                                                                "chat"]
+                                                                            .last[
+                                                                                "message"]
+                                                                            .substring(0,
+                                                                                10)
+                                                                        : snapshot
+                                                                            .data
+                                                                            .documents[index]
+                                                                            .data["chat"]
+                                                                            .last["message"],
                                                                   )))
                                                           : Flexible(
                                                               child: RichText(
@@ -232,13 +242,23 @@ class _MessagePageState extends State<MessagePage> {
                                                                             Grijs,
                                                                         fontWeight:
                                                                             FontWeight.w300),
-                                                                    text: snapshot
-                                                                        .data
-                                                                        .documents[
-                                                                            index]
-                                                                        .data[
-                                                                            "chat"]
-                                                                        .last["message"],
+                                                                    text: snapshot.data.documents[index].data["chat"].last["message"].length >
+                                                                            10
+                                                                        ? snapshot
+                                                                            .data
+                                                                            .documents[
+                                                                                index]
+                                                                            .data[
+                                                                                "chat"]
+                                                                            .last[
+                                                                                "message"]
+                                                                            .substring(0,
+                                                                                10)
+                                                                        : snapshot
+                                                                            .data
+                                                                            .documents[index]
+                                                                            .data["chat"]
+                                                                            .last["message"],
                                                                   )))
                                                       : Flexible(
                                                           child: RichText(
@@ -259,12 +279,33 @@ class _MessagePageState extends State<MessagePage> {
                                                                         FontWeight
                                                                             .w300),
                                                                 text: snapshot
-                                                                    .data
-                                                                    .documents[
-                                                                        index]
-                                                                    .data[
-                                                                        "chat"]
-                                                                    .last["message"],
+                                                                            .data
+                                                                            .documents[
+                                                                                index]
+                                                                            .data[
+                                                                                "chat"]
+                                                                            .last[
+                                                                                "message"]
+                                                                            .length >
+                                                                        10
+                                                                    ? snapshot
+                                                                        .data
+                                                                        .documents[
+                                                                            index]
+                                                                        .data[
+                                                                            "chat"]
+                                                                        .last[
+                                                                            "message"]
+                                                                        .substring(
+                                                                            0,
+                                                                            10)
+                                                                    : snapshot
+                                                                        .data
+                                                                        .documents[
+                                                                            index]
+                                                                        .data[
+                                                                            "chat"]
+                                                                        .last["message"],
                                                               )))
                                                   : Text(translate(
                                                       Keys.Apptext_Nomessage))
