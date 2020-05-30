@@ -205,6 +205,8 @@ class Keys {
 
   static const String Modal_Reportthanks = 'Modal.reportThanks';
 
+  static const String Modal_Badprice = 'Modal.BadPrice';
+
   static const String Errors_Isempty = 'Errors.IsEmpty';
 
   static const String Errors_Mailempty = 'Errors.MailEmpty';

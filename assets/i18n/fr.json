@@ -109,7 +109,8 @@
 		"WriteAddress": "Veuillez écrire une adresse",
 		"NoGarageRay": "Il n'y a pas de garages dans les 30 km",
 		"ReportConv": "Vous êtes sur le point de signaler cette conversation",
-		"reportThanks": "Merci pour votre signalement"
+		"reportThanks": "Merci pour votre signalement",
+		"BadPrice": "Le prix n'est pas conforme"
 	},
 	"Errors": {
 		"IsEmpty": "Veuillez remplir le champs",

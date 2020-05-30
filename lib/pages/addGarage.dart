@@ -640,66 +640,75 @@ class _AddGarageState extends State<AddGarage> {
       formState.save();
 
       if (_adress != null) {
-        try {
-          var addresses = await Geocoder.local.findAddressesFromQuery(_adress);
-          var first = addresses.first;
+        if ( int.parse(_price) > 0 && int.parse(_price) < 1000) {
+          try {
+            var addresses =
+                await Geocoder.local.findAddressesFromQuery(_adress);
+            var first = addresses.first;
 
-          _longitude = first.coordinates.longitude;
-          _latitude = first.coordinates.latitude;
+            _longitude = first.coordinates.longitude;
+            _latitude = first.coordinates.latitude;
 
-          if (fileName != null) {
-            uploadToStorage(context, fileName).whenComplete(() {
-              Geoflutterfire geo = Geoflutterfire();
-              GeoFirePoint center =
-                  geo.point(latitude: _latitude, longitude: _longitude);
+            if (fileName != null) {
+              uploadToStorage(context, fileName).whenComplete(() {
+                Geoflutterfire geo = Geoflutterfire();
+                GeoFirePoint center =
+                    geo.point(latitude: _latitude, longitude: _longitude);
 
-              try {
-                Firestore.instance.collection('garages').add({
-                  'eigenaar': globals.userId,
-                  'garageImg': downloadLink,
-                  'time': new DateTime.now(),
-                  'adress': _adress,
-                  'prijs': int.parse(_price),
-                  'beschrijving': _desciption.capitalize(),
-                  'maxHoogte': _high,
-                  'kenmerken': _listChecked,
-                  'types': _typeVoertuigen,
-                  'rating': [],
-                  'location': center.data,
-                  'lift': valueLift,
-                  'lader': valueLader
-                }).then((data) {
-                  try {
-                    Firestore.instance
-                        .collection('users')
-                        .document(globals.userId)
-                        .updateData({
-                      "mijnGarage": FieldValue.arrayUnion([data.documentID])
-                    });
-                  } catch (e) {
-                    print(e.message);
-                  }
-                }).then((value) {
-                  Navigator.of(context).pop();
-                });
-              } catch (e) {
-                print(e.message);
-              }
-            });
-          } else {
+                try {
+                  Firestore.instance.collection('garages').add({
+                    'eigenaar': globals.userId,
+                    'garageImg': downloadLink,
+                    'time': new DateTime.now(),
+                    'adress': _adress,
+                    'prijs': int.parse(_price),
+                    'beschrijving': _desciption.capitalize(),
+                    'maxHoogte': _high,
+                    'kenmerken': _listChecked,
+                    'types': _typeVoertuigen,
+                    'rating': [],
+                    'location': center.data,
+                    'lift': valueLift,
+                    'lader': valueLader
+                  }).then((data) {
+                    try {
+                      Firestore.instance
+                          .collection('users')
+                          .document(globals.userId)
+                          .updateData({
+                        "mijnGarage": FieldValue.arrayUnion([data.documentID])
+                      });
+                    } catch (e) {
+                      print(e.message);
+                    }
+                  }).then((value) {
+                    Navigator.of(context).pop();
+                  });
+                } catch (e) {
+                  print(e.message);
+                }
+              });
+            } else {
+              showDialog(
+                context: context,
+                builder: (_) =>
+                    ModalComponent(modalTekst: translate(Keys.Modal_Noimage)),
+              );
+            }
+          } catch (e) {
+            print(e);
             showDialog(
               context: context,
-              builder: (_) =>
-                  ModalComponent(modalTekst: translate(Keys.Modal_Noimage)),
+              builder: (_) => ModalComponent(
+                  modalTekst: translate(Keys.Modal_Invalidaddress)),
             );
           }
-        } catch (e) {
-          print(e);
+        } else {
           showDialog(
-            context: context,
-            builder: (_) => ModalComponent(
-                modalTekst: translate(Keys.Modal_Invalidaddress)),
-          );
+              context: context,
+              builder: (_) => ModalComponent(
+                  modalTekst: translate(Keys.Modal_Badprice)), 
+            );
         }
       } else {
         showDialog(

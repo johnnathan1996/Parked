@@ -108,7 +108,8 @@
 		"WriteAddress": "Schrijf een adres",
 		"NoGarageRay": "Er zijn geen garages binnen 30 km",
 		"ReportConv": "Je staat op het punt dit gesprek te melden",
-		"reportThanks": "Bedankt voor je melding"
+		"reportThanks": "Bedankt voor je melding",
+		"BadPrice": "De prijs is niet juist"
 	},
 	"Errors": {
 		"IsEmpty": "Gelieve het veld in te vullen",
