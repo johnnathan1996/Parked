@@ -13,6 +13,7 @@ import 'package:sms_autofill/sms_autofill.dart';
 import '../setup/globals.dart' as globals;
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:parkly/localization/keys.dart';
+import 'package:email_validator/email_validator.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -356,16 +357,25 @@ class _SignUpPageState extends State<SignUpPage> {
     final formState = _formKey.currentState;
     if (formState.validate()) {
       formState.save();
-      if (_gender != null) {
-        if (birthday != null) {
-          if (phoneNo != null) {
-            if (_password == _passwordConfirm && _password != "") {
-              verifyPhone();
+      if (EmailValidator.validate(_email)) {
+        if (_gender != null) {
+          if (birthday != null) {
+            if (phoneNo != null) {
+              if (_password == _passwordConfirm && _password != "") {
+                verifyPhone();
+              } else {
+                showDialog(
+                  context: context,
+                  builder: (_) => ModalComponent(
+                    modalTekst: translate(Keys.Modal_Samepassword),
+                  ),
+                );
+              }
             } else {
               showDialog(
                 context: context,
                 builder: (_) => ModalComponent(
-                  modalTekst: translate(Keys.Modal_Samepassword),
+                  modalTekst: translate(Keys.Modal_Nophone),
                 ),
               );
             }
@@ -373,7 +383,7 @@ class _SignUpPageState extends State<SignUpPage> {
             showDialog(
               context: context,
               builder: (_) => ModalComponent(
-                modalTekst: translate(Keys.Modal_Nophone),
+                modalTekst: translate(Keys.Modal_Nobirthday),
               ),
             );
           }
@@ -381,17 +391,17 @@ class _SignUpPageState extends State<SignUpPage> {
           showDialog(
             context: context,
             builder: (_) => ModalComponent(
-              modalTekst: translate(Keys.Modal_Nobirthday),
+              modalTekst: translate(Keys.Modal_Nogender),
             ),
           );
         }
       } else {
         showDialog(
-          context: context,
-          builder: (_) => ModalComponent(
-            modalTekst: translate(Keys.Modal_Nogender),
-          ),
-        );
+            context: context,
+            builder: (_) => ModalComponent(
+              modalTekst: translate(Keys.Modal_Unexistemail),
+            ),
+          );
       }
     }
   }

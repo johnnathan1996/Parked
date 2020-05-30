@@ -70,6 +70,7 @@ dependencies:
   stripe_payment: ^1.0.7
   stripe_fl: ^0.1.0
   mapbox_search: ^2.0.0
+  email_validator: ^1.0.4
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
