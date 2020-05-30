@@ -40,24 +40,16 @@ class _ProfileTabState extends State<ProfileTab> {
               builder: (BuildContext context,
                   AsyncSnapshot<DocumentSnapshot> snapshot) {
                 if (snapshot.hasData) {
-                  return Expanded(
-                      child: SingleChildScrollView(
-                          child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisSize: MainAxisSize.min,
+                  return Padding(
+                  padding: EdgeInsets.only(bottom: 20),
+                  child: Column(
                     children: <Widget>[
                       Padding(
-                          padding: EdgeInsets.only(bottom: 20),
-                          child: Column(
-                            children: <Widget>[
-                              Padding(
-                                  padding: EdgeInsets.only(bottom: 10),
-                                  child: placesComponent(snapshot.data)),
-                              reservationComponent()
-                            ],
-                          )),
+                          padding: EdgeInsets.only(bottom: 10),
+                          child: placesComponent(snapshot.data)),
+                      reservationComponent()
                     ],
-                  )));
+                  ));
                 } else {
                   return Container();
                 }

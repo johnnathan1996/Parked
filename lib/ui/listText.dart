@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:parkly/constant.dart';
 
@@ -18,9 +19,13 @@ class ListTextComponent extends StatelessWidget {
             height: 7.0,
             decoration:
                 new BoxDecoration(shape: BoxShape.circle, color: Blauw)),
-        Text(
-          label,
-          style: SizeParagraph,
+        Expanded(
+          child: AutoSizeText(
+            label,
+            style: SizeParagraph,
+            maxLines: 1,
+            
+          ),
         ),
       ],
     );

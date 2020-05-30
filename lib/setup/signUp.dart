@@ -53,6 +53,7 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     var localizationDelegate = LocalizedApp.of(context).delegate;
+    final focus = FocusNode();
     return Scaffold(
         resizeToAvoidBottomPadding: false,
         extendBodyBehindAppBar: true,
@@ -60,30 +61,71 @@ class _SignUpPageState extends State<SignUpPage> {
             elevation: 0.0,
             backgroundColor: Transparant,
             iconTheme: IconThemeData(color: Wit)),
-        body: Container(
-          decoration: BoxDecoration(
-              image: new DecorationImage(
-                  image: new AssetImage('assets/images/background.jpg'),
-                  fit: BoxFit.cover)),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Padding(
-                    padding:
-                        EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
-                    child: Theme(
-                        data: new ThemeData(hintColor: Transparant),
-                        child: TextFormField(
+        body: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).requestFocus(new FocusNode());
+          },
+          child: Container(
+            decoration: BoxDecoration(
+                image: new DecorationImage(
+                    image: new AssetImage('assets/images/background.jpg'),
+                    fit: BoxFit.cover)),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Padding(
+                      padding: EdgeInsets.only(
+                          left: 20.0, right: 20.0, bottom: 10.0),
+                      child: Theme(
+                          data: new ThemeData(hintColor: Transparant),
+                          child: TextFormField(
+                              textInputAction: TextInputAction.next,
+                              onFieldSubmitted: (v) {
+                                FocusScope.of(context).requestFocus(focus);
+                              },
+                              validator: (input) {
+                                if (input.isEmpty) {
+                                  return '';
+                                }
+                                return null;
+                              },
+                              onSaved: (input) => _name = input,
+                              decoration: InputDecoration(
+                                  errorStyle: TextStyle(height: 0),
+                                  border: OutlineInputBorder(),
+                                  focusedBorder: OutlineInputBorder(),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.red, width: 1.0),
+                                  ),
+                                  prefixIcon: IconButton(
+                                    icon: Icon(Icons.person_outline,
+                                        color: Zwart),
+                                    onPressed: () {},
+                                  ),
+                                  filled: true,
+                                  fillColor: Wit,
+                                  labelText: translate(Keys.Inputs_Firstname),
+                                  labelStyle: TextStyle(color: Zwart))))),
+                  Padding(
+                      padding: EdgeInsets.only(
+                          left: 20.0, right: 20.0, bottom: 10.0),
+                      child: Theme(
+                          data: new ThemeData(hintColor: Transparant),
+                          child: TextFormField(
+                            focusNode: focus,
                             validator: (input) {
                               if (input.isEmpty) {
-                                return '';
+                                if (input.isEmpty) {
+                                  return '';
+                                }
                               }
                               return null;
                             },
-                            onSaved: (input) => _name = input,
+                            onSaved: (input) => _lastName = input,
                             decoration: InputDecoration(
                                 errorStyle: TextStyle(height: 0),
                                 border: OutlineInputBorder(),
@@ -99,255 +141,236 @@ class _SignUpPageState extends State<SignUpPage> {
                                 ),
                                 filled: true,
                                 fillColor: Wit,
-                                labelText: translate(Keys.Inputs_Firstname),
-                                labelStyle: TextStyle(color: Zwart))))),
-                Padding(
-                    padding:
-                        EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
-                    child: Theme(
-                        data: new ThemeData(hintColor: Transparant),
-                        child: TextFormField(
-                          validator: (input) {
-                            if (input.isEmpty) {
+                                labelText: translate(Keys.Inputs_Lastname),
+                                labelStyle: TextStyle(color: Zwart)),
+                          ))),
+                  Padding(
+                      padding: EdgeInsets.only(
+                          left: 20.0, right: 20.0, bottom: 10.0),
+                      child: Container(
+                          padding: EdgeInsets.only(left: 12.0, right: 20.0),
+                          color: Wit,
+                          child: Row(
+                            children: <Widget>[
+                              Icon(Icons.account_box),
+                              Expanded(
+                                  child: Padding(
+                                      padding: EdgeInsets.only(left: 10.0),
+                                      child: DropdownButtonHideUnderline(
+                                          child: DropdownButton<String>(
+                                        value: _gender,
+                                        icon: Icon(Icons.keyboard_arrow_down),
+                                        iconSize: 24,
+                                        hint: Text(
+                                            translate(Keys.Inputs_Gender),
+                                            style: TextStyle(
+                                                color: Zwart,
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 15)),
+                                        style: TextStyle(color: Zwart),
+                                        onChanged: (String newValue) {
+                                          if (this.mounted) {
+                                            setState(() {
+                                              _gender = newValue;
+                                            });
+                                          }
+                                        },
+                                        items: <String>[
+                                          "M",
+                                          "W",
+                                          "X",
+                                        ].map<DropdownMenuItem<String>>(
+                                            (String value) {
+                                          String tekst;
+                                          if (value == "M") {
+                                            tekst = translate(Keys.Inputs_Man);
+                                          }
+                                          if (value == "W") {
+                                            tekst =
+                                                translate(Keys.Inputs_Woman);
+                                          }
+                                          if (value == "X") {
+                                            tekst =
+                                                translate(Keys.Inputs_Other);
+                                          }
+                                          return DropdownMenuItem<String>(
+                                            value: value,
+                                            child: Text(tekst),
+                                          );
+                                        }).toList(),
+                                      ))))
+                            ],
+                          ))),
+                  Padding(
+                      padding: EdgeInsets.only(
+                          left: 20.0, right: 20.0, bottom: 10.0),
+                      child: Theme(
+                          data: new ThemeData(hintColor: Transparant),
+                          child: TextFormField(
+                            keyboardType: TextInputType.emailAddress,
+                            validator: (input) {
                               if (input.isEmpty) {
                                 return '';
                               }
-                            }
-                            return null;
+                              return null;
+                            },
+                            onSaved: (input) => _email = input,
+                            decoration: InputDecoration(
+                                errorStyle: TextStyle(height: 0),
+                                border: OutlineInputBorder(),
+                                focusedBorder: OutlineInputBorder(),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.red, width: 1.0),
+                                ),
+                                prefixIcon: IconButton(
+                                  icon: Icon(Icons.mail_outline, color: Zwart),
+                                  onPressed: () {},
+                                ),
+                                filled: true,
+                                fillColor: Wit,
+                                labelText: translate(Keys.Inputs_Email),
+                                labelStyle: TextStyle(color: Zwart)),
+                          ))),
+                  Padding(
+                      padding:
+                          EdgeInsets.only(left: 4.0, right: 4.0, bottom: 10.0),
+                      child: FlatButton(
+                          onPressed: () {
+                            DatePicker.showDatePicker(context,
+                                showTitleActions: true,
+                                maxTime: DateTime.now()
+                                    .subtract(Duration(days: 6575)),
+                                locale: getCurrentLanguageLocalizationKey(
+                                    localizationDelegate.currentLocale
+                                        .languageCode), onConfirm: (date) {
+                              if (this.mounted) {
+                                setState(() {
+                                  birthday = date;
+                                });
+                              }
+                            });
                           },
-                          onSaved: (input) => _lastName = input,
-                          decoration: InputDecoration(
-                              errorStyle: TextStyle(height: 0),
-                              border: OutlineInputBorder(),
-                              focusedBorder: OutlineInputBorder(),
-                              errorBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.red, width: 1.0),
-                              ),
-                              prefixIcon: IconButton(
-                                icon: Icon(Icons.person_outline, color: Zwart),
-                                onPressed: () {},
-                              ),
-                              filled: true,
-                              fillColor: Wit,
-                              labelText: translate(Keys.Inputs_Lastname),
-                              labelStyle: TextStyle(color: Zwart)),
-                        ))),
-                Padding(
-                    padding:
-                        EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
-                    child: Container(
-                        padding: EdgeInsets.only(left: 12.0, right: 20.0),
-                        color: Wit,
-                        child: Row(
-                          children: <Widget>[
-                            Icon(Icons.account_box),
-                            Expanded(
-                                child: Padding(
-                                    padding: EdgeInsets.only(left: 10.0),
-                                    child: DropdownButtonHideUnderline(
-                                        child: DropdownButton<String>(
-                                      value: _gender,
-                                      icon: Icon(Icons.keyboard_arrow_down),
-                                      iconSize: 24,
-                                      hint: Text(translate(Keys.Inputs_Gender),
-                                          style: TextStyle(
-                                              color: Zwart,
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 15)),
-                                      style: TextStyle(color: Zwart),
-                                      onChanged: (String newValue) {
-                                        if (this.mounted) {
-                                          setState(() {
-                                            _gender = newValue;
-                                          });
-                                        }
-                                      },
-                                      items: <String>[
-                                        "M",
-                                        "W",
-                                        "X",
-                                      ].map<DropdownMenuItem<String>>(
-                                          (String value) {
-                                        String tekst;
-                                        if (value == "M") {
-                                          tekst = translate(Keys.Inputs_Man);
-                                        }
-                                        if (value == "W") {
-                                          tekst = translate(Keys.Inputs_Woman);
-                                        }
-                                        if (value == "X") {
-                                          tekst = translate(Keys.Inputs_Other);
-                                        }
-                                        return DropdownMenuItem<String>(
-                                          value: value,
-                                          child: Text(tekst),
-                                        );
-                                      }).toList(),
-                                    ))))
-                          ],
-                        ))),
-                Padding(
-                    padding:
-                        EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
-                    child: Theme(
-                        data: new ThemeData(hintColor: Transparant),
-                        child: TextFormField(
-                          keyboardType: TextInputType.emailAddress,
-                          validator: (input) {
-                            if (input.isEmpty) {
-                              return '';
-                            }
-                            return null;
-                          },
-                          onSaved: (input) => _email = input,
-                          decoration: InputDecoration(
-                              errorStyle: TextStyle(height: 0),
-                              border: OutlineInputBorder(),
-                              focusedBorder: OutlineInputBorder(),
-                              errorBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.red, width: 1.0),
-                              ),
-                              prefixIcon: IconButton(
-                                icon: Icon(Icons.mail_outline, color: Zwart),
-                                onPressed: () {},
-                              ),
-                              filled: true,
-                              fillColor: Wit,
-                              labelText: translate(Keys.Inputs_Email),
-                              labelStyle: TextStyle(color: Zwart)),
-                        ))),
-                Padding(
-                    padding:
-                        EdgeInsets.only(left: 4.0, right: 4.0, bottom: 10.0),
-                    child: FlatButton(
-                        onPressed: () {
-                          DatePicker.showDatePicker(context,
-                              showTitleActions: true,
-                              maxTime:
-                                  DateTime.now().subtract(Duration(days: 6575)),
-                              locale: getCurrentLanguageLocalizationKey(
-                                  localizationDelegate.currentLocale
-                                      .languageCode), onConfirm: (date) {
-                            if (this.mounted) {
-                              setState(() {
-                                birthday = date;
-                              });
-                            }
-                          });
-                        },
-                        child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 13),
-                          height: 50,
-                          decoration: BoxDecoration(
-                              color: Wit,
-                              shape: BoxShape.rectangle,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5.0))),
-                          alignment: Alignment.center,
-                          child: Row(
-                            children: <Widget>[
-                              Icon(Icons.cake),
-                              Padding(
-                                  padding: EdgeInsets.only(left: 12),
-                                  child: Text(
-                                    birthday != null
-                                        ? changeDate(birthday)
-                                        : translate(Keys.Inputs_Birthday),
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 15),
-                                  ))
-                            ],
-                          ),
-                        ))),
-                Padding(
-                    padding:
-                        EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
-                    child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 11),
-                        decoration: new BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(4)),
-                        child: InternationalPhoneInput(
-                            enabledCountries: ['+32', '+33', '+31'],
-                            hintText: translate(Keys.Inputs_Phone),
-                            errorText: translate(Keys.Errors_Badphone),
-                            initialPhoneNumber: phoneNo,
-                            onPhoneNumberChange: onPhoneNumberChange,
-                            initialSelection: "BE"))),
-                Padding(
-                    padding:
-                        EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
-                    child: Theme(
-                        data: new ThemeData(hintColor: Transparant),
-                        child: TextFormField(
-                          validator: (input) {
-                            if (input.length < 6) {
-                              return translate(Keys.Errors_Mincar);
-                            }
-                            return null;
-                          },
-                          onSaved: (input) => _password = input,
-                          decoration: InputDecoration(
-                              errorStyle: TextStyle(color: Wit),
-                              border: OutlineInputBorder(),
-                              focusedBorder: OutlineInputBorder(),
-                              errorBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.red, width: 1.0),
-                              ),
-                              prefixIcon: IconButton(
-                                icon: Icon(Icons.visibility_off, color: Zwart),
-                                onPressed: () {},
-                              ),
-                              filled: true,
-                              fillColor: Wit,
-                              labelText: translate(Keys.Inputs_Password),
-                              labelStyle: TextStyle(color: Zwart)),
-                          obscureText: true,
-                        ))),
-                Padding(
-                    padding:
-                        EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
-                    child: Theme(
-                        data: new ThemeData(hintColor: Transparant),
-                        child: TextFormField(
-                          validator: (input) {
-                            if (input.length < 6) {
-                              return '';
-                            }
-                            return null;
-                          },
-                          onSaved: (input) => _passwordConfirm = input,
-                          decoration: InputDecoration(
-                              errorStyle: TextStyle(height: 0),
-                              border: OutlineInputBorder(),
-                              focusedBorder: OutlineInputBorder(),
-                              errorBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.red, width: 1.0),
-                              ),
-                              prefixIcon: IconButton(
-                                icon: Icon(Icons.visibility_off, color: Zwart),
-                                onPressed: () {},
-                              ),
-                              filled: true,
-                              fillColor: Wit,
-                              labelText: translate(Keys.Inputs_Confirmpassword),
-                              labelStyle: TextStyle(color: Zwart)),
-                          obscureText: true,
-                        ))),
-                Padding(
-                    padding:
-                        EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
-                    child: ButtonComponent(
-                        label: translate(Keys.Button_Add),
-                        onClickAction: () {
-                          signUp();
-                        }))
-              ],
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 13),
+                            height: 50,
+                            decoration: BoxDecoration(
+                                color: Wit,
+                                shape: BoxShape.rectangle,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5.0))),
+                            alignment: Alignment.center,
+                            child: Row(
+                              children: <Widget>[
+                                Icon(Icons.cake),
+                                Padding(
+                                    padding: EdgeInsets.only(left: 12),
+                                    child: Text(
+                                      birthday != null
+                                          ? changeDate(birthday)
+                                          : translate(Keys.Inputs_Birthday),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 15),
+                                    ))
+                              ],
+                            ),
+                          ))),
+                  Padding(
+                      padding: EdgeInsets.only(
+                          left: 20.0, right: 20.0, bottom: 10.0),
+                      child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 11),
+                          decoration: new BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(4)),
+                          child: InternationalPhoneInput(
+                              enabledCountries: ['+32', '+33', '+31'],
+                              hintText: translate(Keys.Inputs_Phone),
+                              errorText: translate(Keys.Errors_Badphone),
+                              initialPhoneNumber: phoneNo,
+                              onPhoneNumberChange: onPhoneNumberChange,
+                              initialSelection: "BE"))),
+                  Padding(
+                      padding: EdgeInsets.only(
+                          left: 20.0, right: 20.0, bottom: 10.0),
+                      child: Theme(
+                          data: new ThemeData(hintColor: Transparant),
+                          child: TextFormField(
+                            textInputAction: TextInputAction.next,
+                            onFieldSubmitted: (v) {
+                              FocusScope.of(context).requestFocus(focus);
+                            },
+                            validator: (input) {
+                              if (input.length < 6) {
+                                return translate(Keys.Errors_Mincar);
+                              }
+                              return null;
+                            },
+                            onSaved: (input) => _password = input,
+                            decoration: InputDecoration(
+                                errorStyle: TextStyle(color: Wit),
+                                border: OutlineInputBorder(),
+                                focusedBorder: OutlineInputBorder(),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.red, width: 1.0),
+                                ),
+                                prefixIcon: IconButton(
+                                  icon:
+                                      Icon(Icons.visibility_off, color: Zwart),
+                                  onPressed: () {},
+                                ),
+                                filled: true,
+                                fillColor: Wit,
+                                labelText: translate(Keys.Inputs_Password),
+                                labelStyle: TextStyle(color: Zwart)),
+                            obscureText: true,
+                          ))),
+                  Padding(
+                      padding: EdgeInsets.only(
+                          left: 20.0, right: 20.0, bottom: 10.0),
+                      child: Theme(
+                          data: new ThemeData(hintColor: Transparant),
+                          child: TextFormField(
+                            focusNode: focus,
+                            validator: (input) {
+                              if (input.length < 6) {
+                                return '';
+                              }
+                              return null;
+                            },
+                            onSaved: (input) => _passwordConfirm = input,
+                            decoration: InputDecoration(
+                                errorStyle: TextStyle(height: 0),
+                                border: OutlineInputBorder(),
+                                focusedBorder: OutlineInputBorder(),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.red, width: 1.0),
+                                ),
+                                prefixIcon: IconButton(
+                                  icon:
+                                      Icon(Icons.visibility_off, color: Zwart),
+                                  onPressed: () {},
+                                ),
+                                filled: true,
+                                fillColor: Wit,
+                                labelText:
+                                    translate(Keys.Inputs_Confirmpassword),
+                                labelStyle: TextStyle(color: Zwart)),
+                            obscureText: true,
+                          ))),
+                  Padding(
+                      padding: EdgeInsets.only(
+                          left: 20.0, right: 20.0, bottom: 10.0),
+                      child: ButtonComponent(
+                          label: translate(Keys.Button_Add),
+                          onClickAction: () {
+                            signUp();
+                          }))
+                ],
+              ),
             ),
           ),
         ));
@@ -507,7 +530,6 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   void logIn(dialogContext) async {
-    
     final FirebaseUser userData = await FirebaseAuth.instance.currentUser();
 
     try {

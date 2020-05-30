@@ -301,6 +301,7 @@ class _AddGarageState extends State<AddGarage> {
               child:
                   Text(translate(Keys.Subtitle_Desc), style: SubTitleCustom)),
           TextFormField(
+            textInputAction: TextInputAction.done,
             validator: (input) {
               if (input.isEmpty) {
                 return translate(Keys.Errors_Isempty);

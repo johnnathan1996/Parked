@@ -25,6 +25,7 @@ class _AddJobState extends State<AddJob> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
         appBar: AppBar(
           iconTheme: IconThemeData(color: Zwart),
           backgroundColor: Wit,

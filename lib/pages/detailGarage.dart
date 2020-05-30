@@ -446,10 +446,13 @@ class _DetailGarageState extends State<DetailGarage> {
                   return ListTextComponent(label: garage["kenmerken"][index]);
                 }))
             : Container(),
-        Text(
-          translate(Keys.Subtitle_Maxheigt) + " " + garage["maxHoogte"] + "m",
-          style: TextStyle(
-              color: Blauw, fontStyle: FontStyle.italic, fontSize: 16),
+        Padding(
+          padding: const EdgeInsets.only(top: 10, bottom: 5),
+          child: Text(
+            translate(Keys.Subtitle_Maxheigt) + " " + garage["maxHoogte"] + "m",
+            style: TextStyle(
+                color: Blauw, fontStyle: FontStyle.italic, fontSize: 16),
+          ),
         ),
         garage["types"].length != 0
             ? Padding(

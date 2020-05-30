@@ -81,6 +81,7 @@ class _RatingModalState extends State<RatingModal>
                   Padding(
                       padding: EdgeInsets.only(left: 20, right: 20, bottom: 10),
                       child: TextFormField(
+                        textInputAction: TextInputAction.done,
                         onChanged: (value) {
                           if (this.mounted) {
                             setState(() {
@@ -133,7 +134,7 @@ class _RatingModalState extends State<RatingModal>
           .updateData({
         "rating": FieldValue.arrayUnion([
           {
-            'comment': _beschrijvingRating,
+            'comment': _beschrijvingRating.trim(),
             'date': DateTime.now(),
             'editor': globals.userId,
             'score': rating,

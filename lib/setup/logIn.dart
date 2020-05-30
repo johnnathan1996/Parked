@@ -23,6 +23,7 @@ class _LogInPageState extends State<LogInPage> {
 
   @override
   Widget build(BuildContext context) {
+    final focus = FocusNode();
     return Scaffold(
         resizeToAvoidBottomPadding: false,
         body: Container(
@@ -48,6 +49,10 @@ class _LogInPageState extends State<LogInPage> {
                     child: Theme(
                         data: new ThemeData(hintColor: Transparant),
                         child: TextFormField(
+                           textInputAction: TextInputAction.next,
+                              onFieldSubmitted: (v) {
+                                FocusScope.of(context).requestFocus(focus);
+                              },
                           keyboardType: TextInputType.emailAddress,
                           validator: (input) {
                             if (input.isEmpty) {
@@ -73,6 +78,7 @@ class _LogInPageState extends State<LogInPage> {
                     child: Theme(
                         data: new ThemeData(hintColor: Transparant),
                         child: TextFormField(
+                          focusNode: focus,
                           onSaved: (input) => _password = input,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),

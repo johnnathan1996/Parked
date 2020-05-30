@@ -25,6 +25,7 @@ class _AddHomeState extends State<AddHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
         appBar: AppBar(
           iconTheme: IconThemeData(color: Zwart),
           backgroundColor: Wit,
