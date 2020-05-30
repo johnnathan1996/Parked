@@ -397,11 +397,11 @@ class _SignUpPageState extends State<SignUpPage> {
         }
       } else {
         showDialog(
-            context: context,
-            builder: (_) => ModalComponent(
-              modalTekst: translate(Keys.Modal_Unexistemail),
-            ),
-          );
+          context: context,
+          builder: (_) => ModalComponent(
+            modalTekst: translate(Keys.Modal_Unexistemail),
+          ),
+        );
       }
     }
   }
@@ -464,6 +464,21 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   void createUser() async {
+    var dialogContext;
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        dialogContext = context;
+        return Container(
+          width: 200,
+          height: 200,
+          alignment: Alignment.center,
+          child: CircularProgressIndicator(
+              valueColor: new AlwaysStoppedAnimation<Color>(Blauw)),
+        );
+      },
+    );
     try {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: _email, password: _password);
@@ -477,7 +492,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
       try {
         await userData.linkWithCredential(credential);
-        logIn();
+        logIn(dialogContext);
       } catch (e) {
         handleError(e);
         print('errorCode: $e');
@@ -491,7 +506,8 @@ class _SignUpPageState extends State<SignUpPage> {
     }
   }
 
-  void logIn() async {
+  void logIn(dialogContext) async {
+    
     final FirebaseUser userData = await FirebaseAuth.instance.currentUser();
 
     try {
@@ -519,6 +535,9 @@ class _SignUpPageState extends State<SignUpPage> {
 
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: _email, password: _password);
+      if (dialogContext != null) {
+        Navigator.of(dialogContext).pop();
+      }
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => MapsPage()));
     } catch (e) {
