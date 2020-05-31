@@ -109,7 +109,7 @@ class _DetailGarageState extends State<DetailGarage> {
         .then((value) {
       for (var item in value.documents) {
         item.data["dates"].forEach((date) {
-          simulateDates.add(date.toDate());
+          simulateDates.add(changeDatetimeToDatetime(date.toDate()));
         });
       }
     });

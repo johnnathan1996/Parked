@@ -72,7 +72,12 @@ class _FavoritePageState extends State<FavoritePage> {
                       child: ListView(
                       children: garageFav,
                     ))
-                  : Container(),
+                  : Expanded(
+                      child: Center(
+                          child: Text(
+                              translate(Keys.Apptext_Zerofavorite),
+                              style: SizeParagraph)),
+                    ),
             ])),
         drawer: Navigation(activeFav: true));
   }

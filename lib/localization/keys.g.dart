@@ -281,6 +281,12 @@ class Keys {
 
   static const String Apptext_Zerogarage = 'AppText.ZeroGarage';
 
+  static const String Apptext_Zeromessage = 'AppText.ZeroMessage';
+
+  static const String Apptext_Zerofavorite = 'AppText.ZeroFavorite';
+
+  static const String Apptext_Zerohistorical = 'AppText.ZeroHistorical';
+
   static const String Apptext_Language = 'AppText.Language';
 
   static const String Apptext_Notification = 'AppText.Notification';

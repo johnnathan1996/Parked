@@ -159,7 +159,10 @@
 	"AppText": {
 		"OfferedBy": "Garage proposé par: ",
 		"Total": "Total",
-		"ZeroGarage": "Tu n'as pas encore de garage",
+		"ZeroGarage": "Vous n'avez pas encore de garage",
+		"ZeroMessage": "Vous n'avez pas encore de message",
+		"ZeroFavorite": "Vous n'avez encore aucun favori",
+		"ZeroHistorical": "Vous n'avez pas encore d'historique",
 		"Language": "Langue",
 		"Notification": "Notifications",
 		"Invite": "Invitez des amis",
