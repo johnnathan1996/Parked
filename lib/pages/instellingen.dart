@@ -170,7 +170,7 @@ class _InstellingenState extends State<Instellingen> {
       case "en":
         return translate(Keys.Apptext_English);
       default:
-        return translate(Keys.Apptext_Dutch);
+        return translate(Keys.Apptext_English);
     }
   }
 }

@@ -41,7 +41,7 @@ class ReceivedNotification {
 
 Future<void> main() async {
   var delegate = await LocalizationDelegate.create(
-      fallbackLocale: 'nl', supportedLocales: ['nl', 'fr', 'en']);
+      fallbackLocale: 'en', supportedLocales: ['nl', 'fr', 'en']);
 
   WidgetsFlutterBinding.ensureInitialized();
 

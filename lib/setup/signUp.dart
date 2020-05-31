@@ -603,7 +603,7 @@ class _SignUpPageState extends State<SignUpPage> {
       case "en":
         return LocaleType.en;
       default:
-        return LocaleType.nl;
+        return LocaleType.en;
     }
   }
 }

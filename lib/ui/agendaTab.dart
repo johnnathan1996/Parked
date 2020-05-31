@@ -464,7 +464,7 @@ class _AgendaTabState extends State<AgendaTab> {
       case "en":
         return "en_EN";
       default:
-        return "nl_NL";
+        return "en_EN";
     }
   }
 }
