@@ -161,7 +161,7 @@
 		"Three": "Voeg een werkadres toe",
 		"Four": "Voeg een garage toe of huur deze",
 		"Five": "Voeg een garage toe aan favorieten",
-		"Six": "Creëer een gesprek",
+		"Six": "Maak een gesprek",
 		"Seven": "Delen met vrienden"
 	},
 	"AppText": {
@@ -218,10 +218,13 @@
 		"Home": "Huis",
 		"PayAccepter": "Geaccepteerde betaling",
 		"PayRefused": "Geweigerde betaling",
-		"WantReserve": "wil uw garage reserveren voor ",
+		"WantReserve": " wil uw garage reserveren voor ",
 		"NeedLift": "Een lift nodig?",
 		"ElectricalTerminal": "Elektrische aansluiting",
 		"OfferLift": "Bied een lift aan",
-		"NoOffer": "Helaas heeft de eigenaar u niets te bieden."
+		"NoOffer": "Helaas heeft de eigenaar u niets te bieden.",
+		"waiting": "Aan het wachten",
+		"refuse": "Geweigerd",
+		"accept": "Geaccepteerd"
 	}
 }

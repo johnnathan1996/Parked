@@ -404,4 +404,10 @@ class Keys {
   static const String Apptext_Offerlift = 'AppText.OfferLift';
 
   static const String Apptext_Nooffer = 'AppText.NoOffer';
+
+  static const String Apptext_Waiting = 'AppText.waiting';
+
+  static const String Apptext_Refuse = 'AppText.refuse';
+
+  static const String Apptext_Accept = 'AppText.accept';
 }

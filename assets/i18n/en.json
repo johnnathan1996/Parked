@@ -26,7 +26,7 @@
 		"InvalidCode": "Invalid code",
 		"OwnerOffers": "What the owner offers",
 		"PaymentSummary": "Payment summary",
-		"Pay" : "Payment",
+		"Pay": "Payment",
 		"Services": "Services"
 	},
 	"Button": {
@@ -58,7 +58,7 @@
 		"Accept": "Accept",
 		"Refuse": "Refuse",
 		"Edit": "Edit",
-		"SearchGarage" : "Find a garage",
+		"SearchGarage": "Find a garage",
 		"Confirm": "Confirm",
 		"ActiveLocation": "Activate your location",
 		"Next": "Next",
@@ -218,10 +218,13 @@
 		"Home": "Home",
 		"PayAccepter": "Accepted payment",
 		"PayRefused": "Refused payment",
-		"WantReserve": "wants to reserve your garage for ",
+		"WantReserve": " wants to reserve your garage for ",
 		"NeedLift": "Need a lift?",
 		"ElectricalTerminal": "Electrical terminal",
 		"OfferLift": "Offer a lift",
-		"NoOffer": "Unfortunately the owner has nothing to offer."
+		"NoOffer": "Unfortunately the owner has nothing to offer.",
+		"waiting": "Waiting",
+		"refuse": "Refused",
+		"accept": "Accepted"
 	}
 }

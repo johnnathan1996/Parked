@@ -219,10 +219,13 @@
 		"Home": "Domicile",
 		"PayAccepter": "Paiement accepté",
 		"PayRefused": "Paiement refusé",
-		"WantReserve": "veut réserver votre garage pour ",
+		"WantReserve": " veut réserver votre garage pour ",
 		"NeedLift": "Besoin de lift?",
 		"ElectricalTerminal": "Borne électrique",
 		"OfferLift": "Proposer un lift",
-		"NoOffer": "Malheureusement le propriétaire n'a rien à vous proposer."
+		"NoOffer": "Malheureusement le propriétaire n'a rien à vous proposer.",
+		"waiting": "En attente",
+		"refuse": "Refusé",
+		"accept": "Accepté"
 	}
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_translate/flutter_translate.dart';
+import 'package:parkly/localization/keys.dart';
 
 getStatus(int status) {
     switch (status) {
@@ -16,11 +18,11 @@ getStatus(int status) {
   getStatusText(int status) {
     switch (status) {
       case 1:
-        return "En attente";
+        return translate(Keys.Apptext_Waiting);
       case 0:
-        return "refuser";
+        return translate(Keys.Apptext_Refuse);
       case 2:
-        return "Accepter";
+        return translate(Keys.Apptext_Accept);
       default:
         return "";
     }
