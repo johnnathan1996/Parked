@@ -56,7 +56,6 @@ class _MessagePageState extends State<MessagePage> {
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasData) {
-                  print(snapshot.data.documents.length);
                   return Column(
                     children: <Widget>[
                       TitleComponent(label: translate(Keys.Title_Message)),
@@ -211,9 +210,9 @@ class _MessagePageState extends State<MessagePage> {
                                                                             fontWeight:
                                                                                 FontWeight.w500),
                                                                         text: snapshot.data.documents[index].data["chat"].last["message"].length >
-                                                                                10
+                                                                              15
                                                                             ? snapshot.data.documents[index].data["chat"].last["message"].substring(0,
-                                                                                10)
+                                                                                15) + "..."
                                                                             : snapshot.data.documents[index].data["chat"].last["message"],
                                                                       )))
                                                               : Flexible(
@@ -229,9 +228,9 @@ class _MessagePageState extends State<MessagePage> {
                                                                             fontWeight:
                                                                                 FontWeight.w300),
                                                                         text: snapshot.data.documents[index].data["chat"].last["message"].length >
-                                                                                10
+                                                                                15
                                                                             ? snapshot.data.documents[index].data["chat"].last["message"].substring(0,
-                                                                                10)
+                                                                                15) + "..."
                                                                             : snapshot.data.documents[index].data["chat"].last["message"],
                                                                       )))
                                                           : Flexible(
@@ -247,7 +246,7 @@ class _MessagePageState extends State<MessagePage> {
                                                                         fontWeight:
                                                                             FontWeight.w300),
                                                                     text: snapshot.data.documents[index].data["chat"].last["message"].length >
-                                                                            10
+                                                                            15
                                                                         ? snapshot
                                                                             .data
                                                                             .documents[
@@ -257,7 +256,7 @@ class _MessagePageState extends State<MessagePage> {
                                                                             .last[
                                                                                 "message"]
                                                                             .substring(0,
-                                                                                10)
+                                                                                15) + "..."
                                                                         : snapshot
                                                                             .data
                                                                             .documents[index]

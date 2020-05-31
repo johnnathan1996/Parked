@@ -93,7 +93,12 @@ class _HistoriekPageState extends State<HistoriekPage> {
                                                           .data
                                                           .documents[index]
                                                           .data["status"])),
-                                                      trailing: Icon(Icons.close));
+                                                      trailing: IconButton(
+                                                        onPressed: (){
+                                                          Firestore.instance.collection("reservaties").document(snapshot.data.documents[index].documentID).delete();
+                                                        },
+                                                        icon: Icon(Icons.close),
+                                                      ));
                                                 } else {
                                                   return Container();
                                                 }

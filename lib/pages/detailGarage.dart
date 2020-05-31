@@ -105,6 +105,7 @@ class _DetailGarageState extends State<DetailGarage> {
     Firestore.instance
         .collection("reservaties")
         .where('garageId', isEqualTo: idGarage)
+        .where('status', isGreaterThan: 0)
         .getDocuments()
         .then((value) {
       for (var item in value.documents) {
@@ -597,7 +598,7 @@ class _DetailGarageState extends State<DetailGarage> {
         'aanvrager': globals.userId,
         'garageId': idGarage,
         'accepted': false,
-        'isPassed': false,
+        'isDatePassed': false,
       });
     } catch (e) {
       print(e.message);

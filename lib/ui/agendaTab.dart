@@ -281,7 +281,7 @@ class _AgendaTabState extends State<AgendaTab> {
                                                               .Apptext_Reservedby) +
                                                           snapshots.data[
                                                               "voornaam"] +
-                                                          " pour " +
+                                                          "- " +
                                                           snapshot.data["prijs"]
                                                               .toString() +
                                                           " €")
