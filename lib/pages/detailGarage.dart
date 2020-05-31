@@ -65,11 +65,7 @@ class _DetailGarageState extends State<DetailGarage> {
   bool valueCheckOne = false;
   bool valueCheckTwo = false;
 
-  List simulateDates = [
-    DateTime.now().add(Duration(days: 1)),
-    DateTime.now().add(Duration(days: 2)),
-    DateTime.now().add(Duration(days: 5))
-  ];
+  List simulateDates = [];
 
   getUserData() {
     Firestore.instance
@@ -104,6 +100,21 @@ class _DetailGarageState extends State<DetailGarage> {
     });
   }
 
+  getUserAgenda() {
+    simulateDates = [];
+    Firestore.instance
+        .collection("reservaties")
+        .where('garageId', isEqualTo: idGarage)
+        .getDocuments()
+        .then((value) {
+      for (var item in value.documents) {
+        item.data["dates"].forEach((date) {
+          simulateDates.add(date.toDate());
+        });
+      }
+    });
+  }
+
   @override
   void initState() {
     String _public = "pk_test_xtE146xFZ2hPd7DLX1ZLSYLD00DslzQde1";
@@ -118,6 +129,7 @@ class _DetailGarageState extends State<DetailGarage> {
 
     getUserData();
     getEigenaarData();
+    getUserAgenda();
     super.initState();
   }
 
@@ -365,7 +377,11 @@ class _DetailGarageState extends State<DetailGarage> {
               final List<DateTime> picked =
                   await DateRangePicker.showDatePicker(
                       selectableDayPredicate: (DateTime val) {
-                        //TODO: PREIDCATE
+                        if (simulateDates.contains(val)) {
+                          return false;
+                        } else {
+                          return true;
+                        }
                       },
                       context: context,
                       initialFirstDate:
