@@ -180,8 +180,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 children: <Widget>[
                                                   Text(
                                                       percent == 100
-                                                          ? translate(Keys
-                                                              .Apptext_Completeprofile)
+                                                          ? translate(Keys.Apptext_Completeprofile)
                                                           : percent >= 80
                                                               ? translate(Keys
                                                                   .Apptext_Alittlebit)
@@ -210,9 +209,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 snapshot.data["imgUrl"] == null
                                                     ? ListTextComponent(
                                                         label:
-                                                            "Changer de photo de profile")
+                                                            translate(Keys.Gamification_One))
                                                     : Text(
-                                                        "Changer de photo de profile",
+                                                        translate(Keys.Gamification_One),
                                                         style: TextStyle(
                                                           fontSize: 16.0,
                                                           fontWeight:
@@ -226,9 +225,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 snapshot.data["home"] == null
                                                     ? ListTextComponent(
                                                         label:
-                                                            "Rajouter une maison")
+                                                            translate(Keys.Gamification_Two))
                                                     : Text(
-                                                        "Rajouter une maison",
+                                                        translate(Keys.Gamification_Two),
                                                         style: TextStyle(
                                                           fontSize: 16.0,
                                                           fontWeight:
@@ -242,9 +241,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 snapshot.data["job"] == null
                                                     ? ListTextComponent(
                                                         label:
-                                                            "Rajouter une adresse de travaille")
+                                                            translate(Keys.Gamification_Three))
                                                     : Text(
-                                                        "Rajouter une adresse de travaille",
+                                                        translate(Keys.Gamification_Three),
                                                         style: TextStyle(
                                                           fontSize: 16.0,
                                                           fontWeight:
@@ -258,9 +257,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 !hasGarage
                                                     ? ListTextComponent(
                                                         label:
-                                                            "Ajouter ou louer un garage")
+                                                            translate(Keys.Gamification_Four))
                                                     : Text(
-                                                        "Ajouter ou louer un garage",
+                                                        translate(Keys.Gamification_Four),
                                                         style: TextStyle(
                                                           fontSize: 16.0,
                                                           fontWeight:
@@ -276,9 +275,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                                         0
                                                     ? ListTextComponent(
                                                         label:
-                                                            "Mettre un garage en favoris")
+                                                            translate(Keys.Gamification_Five))
                                                     : Text(
-                                                        "Mettre un garage en favoris",
+                                                        translate(Keys.Gamification_Five),
                                                         style: TextStyle(
                                                           fontSize: 16.0,
                                                           fontWeight:
@@ -292,9 +291,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 !hasConvers
                                                     ? ListTextComponent(
                                                         label:
-                                                            "Creer une conversation")
+                                                            translate(Keys.Gamification_Six))
                                                     : Text(
-                                                        "Creer une conversation",
+                                                        translate(Keys.Gamification_Six),
                                                         style: TextStyle(
                                                           fontSize: 16.0,
                                                           fontWeight:
@@ -308,9 +307,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 !snapshot.data["share"]
                                                     ? ListTextComponent(
                                                         label:
-                                                            "Partager Parkly avec des amis")
+                                                            translate(Keys.Gamification_Seven))
                                                     : Text(
-                                                        "Partager Parkly avec des amis",
+                                                        translate(Keys.Gamification_Seven),
                                                         style: TextStyle(
                                                           fontSize: 16.0,
                                                           fontWeight:

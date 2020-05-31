@@ -155,6 +155,15 @@
 		"November": "November",
 		"December": "December"
 	},
+	"Gamification": {
+		"One": "Wijzig uw profielfoto",
+		"Two": "Voeg een huisadres toe",
+		"Three": "Voeg een werkadres toe",
+		"Four": "Voeg een garage toe of huur deze",
+		"Five": "Voeg een garage toe aan favorieten",
+		"Six": "Creëer een gesprek",
+		"Seven": "Delen met vrienden"
+	},
 	"AppText": {
 		"OfferedBy": "Garage aangeboden door: ",
 		"Total": "Totaal",

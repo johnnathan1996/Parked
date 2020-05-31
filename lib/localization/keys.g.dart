@@ -275,6 +275,20 @@ class Keys {
 
   static const String Monthsname_December = 'MonthsName.December';
 
+  static const String Gamification_One = 'Gamification.One';
+
+  static const String Gamification_Two = 'Gamification.Two';
+
+  static const String Gamification_Three = 'Gamification.Three';
+
+  static const String Gamification_Four = 'Gamification.Four';
+
+  static const String Gamification_Five = 'Gamification.Five';
+
+  static const String Gamification_Six = 'Gamification.Six';
+
+  static const String Gamification_Seven = 'Gamification.Seven';
+
   static const String Apptext_Offeredby = 'AppText.OfferedBy';
 
   static const String Apptext_Total = 'AppText.Total';

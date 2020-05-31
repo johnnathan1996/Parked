@@ -156,6 +156,15 @@
 		"November": "Novembre",
 		"December": "Décembre"
 	},
+	"Gamification": {
+		"One": "Changer votre photo de profile",
+		"Two": "Ajouter une adresse maison",
+		"Three": "Ajouter une adresse de travaille",
+		"Four": "Ajouter ou louer un garage",
+		"Five": "Ajouter un garage dans favoris",
+		"Six": "Créer une conversation",
+		"Seven": "Partager Parked avec des amis"
+	},
 	"AppText": {
 		"OfferedBy": "Garage proposé par: ",
 		"Total": "Total",

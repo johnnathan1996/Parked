@@ -155,6 +155,15 @@
 		"November": "November",
 		"December": "December"
 	},
+	"Gamification": {
+		"One": "Change your profile photo",
+		"Two": "Add a house address",
+		"Three": "Add a work address",
+		"Four": "Add or rent a garage",
+		"Five": "Add a garage to favorites",
+		"Six": "Create a conversation",
+		"Seven": "Share Parked with friends"
+	},
 	"AppText": {
 		"OfferedBy": "Garage proposed by: ",
 		"Total": "Total",
