@@ -8,6 +8,7 @@ import 'package:parkly/ui/title.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:parkly/localization/keys.dart';
 import 'package:share/share.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../setup/globals.dart' as globals;
 
 class Instellingen extends StatefulWidget {
@@ -16,6 +17,7 @@ class Instellingen extends StatefulWidget {
 }
 
 class _InstellingenState extends State<Instellingen> {
+  bool notif = true;
   @override
   Widget build(BuildContext context) {
     var localizationDelegate = LocalizedApp.of(context).delegate;
@@ -47,16 +49,37 @@ class _InstellingenState extends State<Instellingen> {
                                 actions: <Widget>[
                                   CupertinoActionSheetAction(
                                     child: Text(translate(Keys.Apptext_French)),
-                                    onPressed: () => Navigator.pop(context),
+                                    onPressed: () {
+                                      setState(() {
+                                        localizationDelegate
+                                            .changeLocale(Locale('fr'));
+                                      });
+
+                                      Navigator.pop(context);
+                                    },
                                   ),
                                   CupertinoActionSheetAction(
                                     child: Text(translate(Keys.Apptext_Dutch)),
-                                    onPressed: () => Navigator.pop(context),
+                                    onPressed: () {
+                                      setState(() {
+                                        localizationDelegate
+                                            .changeLocale(Locale('nl'));
+                                      });
+
+                                      Navigator.pop(context);
+                                    },
                                   ),
                                   CupertinoActionSheetAction(
                                     child:
                                         Text(translate(Keys.Apptext_English)),
-                                    onPressed: () => Navigator.pop(context),
+                                    onPressed: () {
+                                      setState(() {
+                                        localizationDelegate
+                                            .changeLocale(Locale('en'));
+                                      });
+
+                                      Navigator.pop(context);
+                                    },
                                   ),
                                 ],
                                 cancelButton: CupertinoActionSheetAction(
@@ -82,13 +105,17 @@ class _InstellingenState extends State<Instellingen> {
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   child: Card(
                     child: ListTile(
-                        onTap: () {},
+                        onTap: () {
+                          setState(() {
+                            notif = !notif;
+                          });
+                        },
                         leading: Icon(Icons.notifications, color: Zwart),
                         title: Text(translate(Keys.Apptext_Notification),
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                             )),
-                        trailing: Text(translate(Keys.Apptext_No),
+                        trailing: Text(notif ? translate(Keys.Apptext_Yes) : translate(Keys.Apptext_No),
                             style: TextStyle(color: Grijs))),
                   )),
               Padding(
@@ -128,7 +155,15 @@ class _InstellingenState extends State<Instellingen> {
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   child: Card(
                     child: ListTile(
-                      onTap: () {},
+                      onTap: () async {
+                        String url = "https://www.privacypolicygenerator.info/live.php?token=KEgjKav0Wp5pXzcwRPQzTCZWqORMvn36";
+
+                        if (await canLaunch(url)) {
+                          await launch(url);
+                        } else {
+                          print('Could not launch $url');
+                        }
+                      },
                       leading: Icon(Icons.lock, color: Zwart),
                       title: Text(translate(Keys.Apptext_Privacy),
                           style: TextStyle(
@@ -140,7 +175,16 @@ class _InstellingenState extends State<Instellingen> {
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   child: Card(
                     child: ListTile(
-                      onTap: () {},
+                      onTap: () async {
+                        String url = Uri.encodeFull(
+                            "mailto:john96@hotmail.be?subject=Help%20Parked");
+
+                        if (await canLaunch(url)) {
+                          await launch(url);
+                        } else {
+                          print('Could not launch $url');
+                        }
+                      },
                       leading: Icon(Icons.mail, color: Zwart),
                       title: Text(translate(Keys.Apptext_Contact),
                           style: TextStyle(
