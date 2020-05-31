@@ -164,7 +164,7 @@ class _AgendaTabState extends State<AgendaTab> {
                       child: Container(
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: dontShowWhenRefused ? Grijs.withOpacity(0.5) : Grijs.withOpacity(0),
+                            color: dontShowWhenRefused ? Blauw.withOpacity(0.15) : Grijs.withOpacity(0),
                           ),
                           width: 50,
                           height: 50),

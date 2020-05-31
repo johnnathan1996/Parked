@@ -65,6 +65,12 @@ class _DetailGarageState extends State<DetailGarage> {
   bool valueCheckOne = false;
   bool valueCheckTwo = false;
 
+  List simulateDates = [
+    DateTime.now().add(Duration(days: 1)),
+    DateTime.now().add(Duration(days: 2)),
+    DateTime.now().add(Duration(days: 5))
+  ];
+
   getUserData() {
     Firestore.instance
         .collection('users')
@@ -358,6 +364,9 @@ class _DetailGarageState extends State<DetailGarage> {
             onPressed: () async {
               final List<DateTime> picked =
                   await DateRangePicker.showDatePicker(
+                      selectableDayPredicate: (DateTime val) {
+                        //TODO: PREIDCATE
+                      },
                       context: context,
                       initialFirstDate:
                           beginDate == null ? DateTime.now() : beginDate,
@@ -572,6 +581,7 @@ class _DetailGarageState extends State<DetailGarage> {
         'aanvrager': globals.userId,
         'garageId': idGarage,
         'accepted': false,
+        'isPassed': false,
       });
     } catch (e) {
       print(e.message);
@@ -902,7 +912,6 @@ class _DetailGarageState extends State<DetailGarage> {
                                                         } else {
                                                           finalPrijs -= 5;
                                                         }
-                                                        
                                                       });
                                                     }
                                                   },
@@ -1059,8 +1068,13 @@ class _DetailGarageState extends State<DetailGarage> {
                                               Text(
                                                   translate(Keys.Apptext_Total),
                                                   style: SizeParagraph),
-                                              Text((prijs.toStringAsFixed(2) +
-                                                  " €"), style: TextStyle(fontWeight: FontWeight.w500),)
+                                              Text(
+                                                (prijs.toStringAsFixed(2) +
+                                                    " €"),
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              )
                                             ],
                                           ),
                                           valueCheckOne
@@ -1089,7 +1103,9 @@ class _DetailGarageState extends State<DetailGarage> {
                                                         MainAxisAlignment
                                                             .spaceBetween,
                                                     children: <Widget>[
-                                                      Text(translate(Keys.Apptext_Electricalterminal),
+                                                      Text(
+                                                          translate(Keys
+                                                              .Apptext_Electricalterminal),
                                                           style: SizeParagraph),
                                                       Text("10.00 €"),
                                                     ],

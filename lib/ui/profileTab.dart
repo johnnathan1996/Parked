@@ -41,15 +41,15 @@ class _ProfileTabState extends State<ProfileTab> {
                   AsyncSnapshot<DocumentSnapshot> snapshot) {
                 if (snapshot.hasData) {
                   return Padding(
-                  padding: EdgeInsets.only(bottom: 20),
-                  child: Column(
-                    children: <Widget>[
-                      Padding(
-                          padding: EdgeInsets.only(bottom: 10),
-                          child: placesComponent(snapshot.data)),
-                      reservationComponent()
-                    ],
-                  ));
+                      padding: EdgeInsets.only(bottom: 20),
+                      child: Column(
+                        children: <Widget>[
+                          Padding(
+                              padding: EdgeInsets.only(bottom: 10),
+                              child: placesComponent(snapshot.data)),
+                          reservationComponent()
+                        ],
+                      ));
                 } else {
                   return Container();
                 }
@@ -212,9 +212,13 @@ class _ProfileTabState extends State<ProfileTab> {
         stream: Firestore.instance
             .collection('reservaties')
             .where("aanvrager", isEqualTo: globals.userId)
+            .where("isDatePassed", isEqualTo: false)
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasData) {
+            List garageList = snapshot.data.documents;
+            garageList
+                .sort((a, b) => a.data['begin'].compareTo(b.data['begin']));
             return snapshot.data.documents.length != 0
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -231,16 +235,26 @@ class _ProfileTabState extends State<ProfileTab> {
                           child: ListView.builder(
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
-                            itemCount: snapshot.data.documents.length,
+                            itemCount: garageList.length,
                             itemBuilder: (_, index) {
+                              if (changeDatetimeToDatetime(
+                                      garageList[index].data["end"].toDate())
+                                  .isBefore(changeDatetimeToDatetime(
+                                      DateTime.now()))) {
+                                Firestore.instance
+                                    .collection('reservaties')
+                                    .document(garageList[index].documentID)
+                                    .updateData({
+                                  'isDatePassed': true,
+                                });
+                                return Container();
+                              }
                               return Card(
                                   elevation: 0,
                                   child: StreamBuilder<DocumentSnapshot>(
                                       stream: Firestore.instance
                                           .collection('garages')
-                                          .document(snapshot
-                                              .data
-                                              .documents[index]
+                                          .document(garageList[index]
                                               .data['garageId'])
                                           .snapshots(),
                                       builder: (BuildContext context,
@@ -251,28 +265,22 @@ class _ProfileTabState extends State<ProfileTab> {
                                               onTap: () {
                                                 _showModalBottomSheet(
                                                     context,
-                                                    snapshot
-                                                        .data
-                                                        .documents[index]
+                                                    garageList[index]
                                                         .documentID);
                                               },
                                               leading: Image.network(snapshotten
                                                   .data['garageImg']),
-                                              title: Text(changeDate(snapshot
-                                                      .data
-                                                      .documents[index]
-                                                      .data["begin"]
-                                                      .toDate()) +
+                                              title: Text(changeDate(
+                                                      garageList[index]
+                                                          .data["begin"]
+                                                          .toDate()) +
                                                   " - " +
-                                                  changeDate(snapshot
-                                                      .data
-                                                      .documents[index]
+                                                  changeDate(garageList[index]
                                                       .data["end"]
                                                       .toDate())),
-                                              trailing: getStatus(snapshot
-                                                  .data
-                                                  .documents[index]
-                                                  .data["status"]));
+                                              trailing: getStatus(
+                                                  garageList[index]
+                                                      .data["status"]));
                                         } else {
                                           return Container();
                                         }
@@ -391,217 +399,235 @@ class _ProfileTabState extends State<ProfileTab> {
                                   height:
                                       MediaQuery.of(context).size.height * 0.4,
                                   child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: <Widget>[
-                                  Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     crossAxisAlignment:
-                                            CrossAxisAlignment.stretch,
+                                        CrossAxisAlignment.stretch,
                                     children: <Widget>[
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 10),
-                                      child: Text(
-                                          translate(
-                                              Keys.Apptext_Yourreservation),
-                                          style: SubTitleCustom,
-                                          textAlign: TextAlign.center),
-                                    ),
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 10),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          Text(
-                                              getStatusText(reservationSnapshot
-                                                  .data['status']),
-                                              style: SubTitleCustom,
-                                              textAlign: TextAlign.center),
-                                          getStatus(reservationSnapshot
-                                              .data['status'])
-                                        ],
-                                      ),
-                                    ),
-                                    Divider(),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 20, right: 20, top: 20),
-                                      child: StreamBuilder<DocumentSnapshot>(
-                                          stream: Firestore.instance
-                                              .collection('garages')
-                                              .document(reservationSnapshot
-                                                  .data['garageId'])
-                                              .snapshots(),
-                                          builder: (BuildContext context,
-                                              AsyncSnapshot<DocumentSnapshot>
-                                                  garagesSnapshot) {
-                                            if (garagesSnapshot.hasData) {
-                                              return Container(
-                                                  margin: EdgeInsets.only(
-                                                      bottom: 10),
-                                                  child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: <Widget>[
-                                                        Container(
-                                                            height: 80,
-                                                            margin:
-                                                                EdgeInsets.only(
-                                                                    right: 10),
-                                                            child: Image.network(
-                                                                garagesSnapshot
+                                      Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.stretch,
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  bottom: 10),
+                                              child: Text(
+                                                  translate(Keys
+                                                      .Apptext_Yourreservation),
+                                                  style: SubTitleCustom,
+                                                  textAlign: TextAlign.center),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  bottom: 10),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: <Widget>[
+                                                  Text(
+                                                      getStatusText(
+                                                          reservationSnapshot
+                                                              .data['status']),
+                                                      style: SubTitleCustom,
+                                                      textAlign:
+                                                          TextAlign.center),
+                                                  getStatus(reservationSnapshot
+                                                      .data['status'])
+                                                ],
+                                              ),
+                                            ),
+                                            Divider(),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 20, right: 20, top: 20),
+                                              child: StreamBuilder<
+                                                      DocumentSnapshot>(
+                                                  stream: Firestore.instance
+                                                      .collection('garages')
+                                                      .document(
+                                                          reservationSnapshot
+                                                              .data['garageId'])
+                                                      .snapshots(),
+                                                  builder: (BuildContext
+                                                          context,
+                                                      AsyncSnapshot<
+                                                              DocumentSnapshot>
+                                                          garagesSnapshot) {
+                                                    if (garagesSnapshot
+                                                        .hasData) {
+                                                      return Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  bottom: 10),
+                                                          child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: <
+                                                                  Widget>[
+                                                                Container(
+                                                                    height: 80,
+                                                                    margin: EdgeInsets.only(
+                                                                        right:
+                                                                            10),
+                                                                    child: Image.network(
+                                                                        garagesSnapshot.data[
+                                                                            'garageImg'],
+                                                                        fit: BoxFit
+                                                                            .cover)),
+                                                                Expanded(
+                                                                  child: Text(
+                                                                    garagesSnapshot
+                                                                            .data[
+                                                                        'adress'],
+                                                                    style:
+                                                                        SizeParagraph,
+                                                                  ),
+                                                                ),
+                                                              ]));
+                                                    } else {
+                                                      return Container();
+                                                    }
+                                                  }),
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.only(top: 10),
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 10),
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  color: Wit),
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: <Widget>[
+                                                  Expanded(
+                                                    child: Container(
+                                                        alignment:
+                                                            Alignment.center,
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: <Widget>[
+                                                            Text(
+                                                                getWeekDay(reservationSnapshot
                                                                         .data[
-                                                                    'garageImg'],
-                                                                fit: BoxFit
-                                                                    .cover)),
-                                                        Expanded(
-                                                          child: Text(
-                                                            garagesSnapshot
-                                                                .data['adress'],
-                                                            style:
-                                                                SizeParagraph,
-                                                          ),
-                                                        ),
-                                                      ]));
-                                            } else {
-                                              return Container();
-                                            }
-                                          }),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(top: 10),
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 10),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: Wit),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                          Expanded(
-                                            child: Container(
-                                                alignment: Alignment.center,
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: <Widget>[
-                                                    Text(
-                                                        getWeekDay(
+                                                                            'begin']
+                                                                        .toDate()
+                                                                        .weekday)
+                                                                    .toUpperCase(),
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        13,
+                                                                    color: Zwart
+                                                                        .withOpacity(
+                                                                            0.8))),
+                                                            Text(
                                                                 reservationSnapshot
                                                                     .data[
                                                                         'begin']
                                                                     .toDate()
-                                                                    .weekday)
-                                                            .toUpperCase(),
-                                                        style: TextStyle(
-                                                            fontSize: 13,
-                                                            color: Zwart
-                                                                .withOpacity(
-                                                                    0.8))),
-                                                    Text(
-                                                        reservationSnapshot
-                                                            .data['begin']
-                                                            .toDate()
-                                                            .day
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                            color: Blauw,
-                                                            fontSize: 40)),
-                                                    Text(
-                                                        getMonth(reservationSnapshot
-                                                                    .data[
-                                                                        'begin']
-                                                                    .toDate()
-                                                                    .month)
-                                                                .toUpperCase() +
-                                                            " " +
-                                                            reservationSnapshot
-                                                                .data['begin']
-                                                                .toDate()
-                                                                .year
-                                                                .toString(),
-                                                        style: TextStyle(
-                                                            color: Zwart
-                                                                .withOpacity(
-                                                                    0.8))),
-                                                  ],
-                                                )),
-                                          ),
-                                          Container(
-                                            width: 1,
-                                            color: Grijs,
-                                            height: 70,
-                                          ),
-                                          Expanded(
-                                              child: Container(
-                                                  alignment: Alignment.center,
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: <Widget>[
-                                                      Text(
-                                                          getWeekDay(
+                                                                    .day
+                                                                    .toString(),
+                                                                style: TextStyle(
+                                                                    color:
+                                                                        Blauw,
+                                                                    fontSize:
+                                                                        40)),
+                                                            Text(
+                                                                getMonth(reservationSnapshot
+                                                                            .data[
+                                                                                'begin']
+                                                                            .toDate()
+                                                                            .month)
+                                                                        .toUpperCase() +
+                                                                    " " +
+                                                                    reservationSnapshot
+                                                                        .data[
+                                                                            'begin']
+                                                                        .toDate()
+                                                                        .year
+                                                                        .toString(),
+                                                                style: TextStyle(
+                                                                    color: Zwart
+                                                                        .withOpacity(
+                                                                            0.8))),
+                                                          ],
+                                                        )),
+                                                  ),
+                                                  Container(
+                                                    width: 1,
+                                                    color: Grijs,
+                                                    height: 70,
+                                                  ),
+                                                  Expanded(
+                                                      child: Container(
+                                                          alignment:
+                                                              Alignment.center,
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: <Widget>[
+                                                              Text(
+                                                                  getWeekDay(reservationSnapshot
+                                                                          .data[
+                                                                              'end']
+                                                                          .toDate()
+                                                                          .weekday)
+                                                                      .toUpperCase(),
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          13,
+                                                                      color: Zwart
+                                                                          .withOpacity(
+                                                                              0.8))),
+                                                              Text(
                                                                   reservationSnapshot
                                                                       .data[
                                                                           'end']
                                                                       .toDate()
-                                                                      .weekday)
-                                                              .toUpperCase(),
-                                                          style: TextStyle(
-                                                              fontSize: 13,
-                                                              color: Zwart
-                                                                  .withOpacity(
-                                                                      0.8))),
-                                                      Text(
-                                                          reservationSnapshot
-                                                              .data['end']
-                                                              .toDate()
-                                                              .day
-                                                              .toString(),
-                                                          style: TextStyle(
-                                                              color: Blauw,
-                                                              fontSize: 40)),
-                                                      Text(
-                                                          getMonth(reservationSnapshot
-                                                                      .data[
-                                                                          'end']
-                                                                      .toDate()
-                                                                      .month)
-                                                                  .toUpperCase() +
-                                                              " " +
-                                                              reservationSnapshot
-                                                                  .data['end']
-                                                                  .toDate()
-                                                                  .year
-                                                                  .toString(),
-                                                          style: TextStyle(
-                                                              color: Zwart
-                                                                  .withOpacity(
-                                                                      0.8))),
-                                                    ],
-                                                  ))),
-                                        ],
-                                      ),
-                                    ),
-                                    
-                                  ]),
-                                FlatButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text(
-                                            translate(Keys.Button_Back),
-                                            style: TextStyle(color: Zwart)))
-                                ],
-                              ));
+                                                                      .day
+                                                                      .toString(),
+                                                                  style: TextStyle(
+                                                                      color:
+                                                                          Blauw,
+                                                                      fontSize:
+                                                                          40)),
+                                                              Text(
+                                                                  getMonth(reservationSnapshot.data['end']
+                                                                              .toDate()
+                                                                              .month)
+                                                                          .toUpperCase() +
+                                                                      " " +
+                                                                      reservationSnapshot
+                                                                          .data[
+                                                                              'end']
+                                                                          .toDate()
+                                                                          .year
+                                                                          .toString(),
+                                                                  style: TextStyle(
+                                                                      color: Zwart
+                                                                          .withOpacity(
+                                                                              0.8))),
+                                                            ],
+                                                          ))),
+                                                ],
+                                              ),
+                                            ),
+                                          ]),
+                                      FlatButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text(
+                                              translate(Keys.Button_Back),
+                                              style: TextStyle(color: Zwart)))
+                                    ],
+                                  ));
                             } else {
                               return Container(
                                 width: 200,
