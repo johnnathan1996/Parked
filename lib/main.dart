@@ -122,8 +122,8 @@ void checkMessages(String sendName, String uid) async {
             snapshot.document.data["chat"].last["auteur"] != sendName) {
           var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
             'com.example.parkly',
-            'Parkly',
-            'your channel description',
+            'Parked',
+            'Your channel description',
             playSound: true,
             enableVibration: true,
             importance: Importance.Max,

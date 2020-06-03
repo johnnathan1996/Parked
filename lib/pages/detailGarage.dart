@@ -390,67 +390,73 @@ class _DetailGarageState extends State<DetailGarage> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: FlatButton(
-            shape: RoundedRectangleBorder(
-                side: BorderSide(
-                    color: Grijs, width: 1, style: BorderStyle.solid),
-                borderRadius: BorderRadius.circular(5)),
-            color: Wit,
-            padding: EdgeInsets.symmetric(vertical: 15),
-            onPressed: () async {
-              //TODO: change color datepicker
-              final List<DateTime> picked =
-                  await DateRangePicker.showDatePicker(
-                      selectableDayPredicate: (DateTime val) {
-                        if (simulateDates.contains(val)) {
-                          return false;
-                        } else {
-                          return true;
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: new Theme(
+                data: Theme.of(context).copyWith(
+                  primaryColor: Wit,
+                  accentColor: Blauw,
+                ),
+                child: new Builder(
+                  builder: (context) => FlatButton(
+                    shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                            color: Grijs, width: 1, style: BorderStyle.solid),
+                        borderRadius: BorderRadius.circular(5)),
+                    color: Wit,
+                    padding: EdgeInsets.symmetric(vertical: 15),
+                    onPressed: () async {
+                      final List<DateTime> picked =
+                          await DateRangePicker.showDatePicker( 
+                              selectableDayPredicate: (DateTime val) {
+                                if (simulateDates.contains(val)) {
+                                  return false;
+                                } else {
+                                  return true;
+                                }
+                              },
+                              context: context,
+                              initialFirstDate: beginDate == null
+                                  ? DateTime.now()
+                                  : beginDate,
+                              initialLastDate:
+                                  endDate == null ? DateTime.now() : endDate,
+                              firstDate: new DateTime(DateTime.now().hour - 1),
+                              lastDate: new DateTime(DateTime.now().year + 2));
+                      if (picked != null && picked.length == 2) {
+                        if (this.mounted) {
+                          setState(() {
+                            beginDate = picked[0];
+                            endDate = picked[1];
+                            prijs = calculatePrice(
+                                picked[0], picked[1], garage["prijs"]);
+                          });
                         }
-                      },
-                      context: context,
-                      initialFirstDate:
-                          beginDate == null ? DateTime.now() : beginDate,
-                      initialLastDate:
-                          endDate == null ? DateTime.now() : endDate,
-                      firstDate: new DateTime(DateTime.now().hour - 1),
-                      lastDate: new DateTime(DateTime.now().year + 2));
-              if (picked != null && picked.length == 2) {
-                if (this.mounted) {
-                  setState(() {
-                    beginDate = picked[0];
-                    endDate = picked[1];
-                    prijs =
-                        calculatePrice(picked[0], picked[1], garage["prijs"]);
-                  });
-                }
-              }
-            },
-            child: endDate == null
-                ? Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: Icon(Icons.date_range, color: Zwart),
-                      ),
-                      Text(
-                        translate(Keys.Inputs_Begindate),
-                        style: TextStyle(color: Zwart),
-                      ),
-                    ],
-                  )
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Text(changeDate(beginDate)),
-                      Icon(Icons.keyboard_arrow_right),
-                      Text(changeDate(endDate)),
-                    ],
+                      }
+                    },
+                    child: endDate == null
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: Icon(Icons.date_range, color: Zwart),
+                              ),
+                              Text(
+                                translate(Keys.Inputs_Begindate),
+                                style: TextStyle(color: Zwart),
+                              ),
+                            ],
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Text(changeDate(beginDate)),
+                              Icon(Icons.keyboard_arrow_right),
+                              Text(changeDate(endDate)),
+                            ],
+                          ),
                   ),
-          ),
-        ),
+                ))),
         Padding(
             padding: EdgeInsets.only(left: 16, right: 16, top: 10),
             child: ButtonComponent(
