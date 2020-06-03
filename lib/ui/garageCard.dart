@@ -89,16 +89,31 @@ class GarageCardComponent extends StatelessWidget {
                             ],
                           ),
                           Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              ShowStars(rating: garage["rating"]),
-                              Padding(
-                                  padding: EdgeInsets.only(left: 10, top: 5),
-                                  child: Text("( " +
-                                      garage['rating'].length.toString() +
-                                      " " +
-                                      translate(Keys.Subtitle_Reviews) +
-                                      " )"))
+                              Expanded(
+                                child: Row(
+                                  children: <Widget>[
+                                    ShowStars(rating: garage["rating"]),
+                                    Padding(
+                                        padding:
+                                            EdgeInsets.only(left: 10, top: 5),
+                                        child: Text("( " +
+                                            garage['rating'].length.toString() +
+                                            " " +
+                                            translate(Keys.Subtitle_Reviews) +
+                                            " )")),
+                                  ],
+                                ),
+                              ),
+                              garage["available"]
+                                  ? Icon(
+                                      Icons.visibility,
+                                      color: Blauw,
+                                    )
+                                  : Icon(
+                                      Icons.visibility_off,
+                                      color: Grijs,
+                                    )
                             ],
                           )
                         ]),

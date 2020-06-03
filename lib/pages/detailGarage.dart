@@ -355,7 +355,31 @@ class _DetailGarageState extends State<DetailGarage> {
                                       )))
                         ]))
                 : Container()
-            : Container(),
+            : Container(
+                child: garage['available']
+                    ? FlatButton(
+                        onPressed: () {
+                          Firestore.instance
+                              .collection('garages')
+                              .document(idGarage)
+                              .updateData({
+                            'available': false,
+                          });
+                        },
+                        child: Text("Caché votre garage",
+                            style: TextStyle(color: Colors.red)))
+                    : FlatButton(
+                        onPressed: () {
+                          Firestore.instance
+                              .collection('garages')
+                              .document(idGarage)
+                              .updateData({
+                            'available': true,
+                          });
+                        },
+                        child: Text("Montrer votre garage",
+                            style: TextStyle(color: Blauw))),
+              ),
         Divider(color: Grijs)
       ],
     );

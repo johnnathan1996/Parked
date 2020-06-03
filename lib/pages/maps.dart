@@ -432,8 +432,10 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
   }
 
   _getGaragePosition() async {
-    final QuerySnapshot result =
-        await Firestore.instance.collection('garages').getDocuments();
+    final QuerySnapshot result = await Firestore.instance
+        .collection('garages')
+        .where("available", isEqualTo: true)
+        .getDocuments();
     final List<DocumentSnapshot> documents = result.documents;
     documents.forEach((data) {
       if (data.data["eigenaar"] != globals.userId) {
