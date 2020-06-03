@@ -164,7 +164,9 @@ class _AgendaTabState extends State<AgendaTab> {
                       child: Container(
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: dontShowWhenRefused ? Blauw.withOpacity(0.15) : Grijs.withOpacity(0),
+                            color: dontShowWhenRefused
+                                ? Blauw.withOpacity(0.15)
+                                : Grijs.withOpacity(0),
                           ),
                           width: 50,
                           height: 50),
@@ -205,6 +207,7 @@ class _AgendaTabState extends State<AgendaTab> {
     );
   }
 
+  //TODO: fix error
   getColor(reservationId) {
     Firestore.instance
         .collection('reservaties')
@@ -273,7 +276,8 @@ class _AgendaTabState extends State<AgendaTab> {
                                               snapshot.data["status"] == 1
                                                   ? Text(snapshots
                                                           .data["voornaam"] +
-                                                      translate(Keys.Apptext_Wantreserve) + 
+                                                      translate(Keys
+                                                          .Apptext_Wantreserve) +
                                                       snapshot.data["prijs"]
                                                           .toString())
                                                   : snapshot.data["status"] == 2
@@ -468,4 +472,3 @@ class _AgendaTabState extends State<AgendaTab> {
     }
   }
 }
-
