@@ -254,97 +254,129 @@ class _AgendaTabState extends State<AgendaTab> {
                           .document(garageId[index])
                           .snapshots(),
                       builder: (BuildContext context,
-                          AsyncSnapshot<DocumentSnapshot> snapshot) {
-                        if (snapshot.hasData) {
+                          AsyncSnapshot<DocumentSnapshot> reservatieSnapshot) {
+                        if (reservatieSnapshot.hasData) {
                           return StreamBuilder<DocumentSnapshot>(
                               stream: Firestore.instance
-                                  .collection('users')
-                                  .document(snapshot.data["aanvrager"])
+                                  .collection('garages')
+                                  .document(reservatieSnapshot.data["garageId"])
                                   .snapshots(),
                               builder: (BuildContext context,
-                                  AsyncSnapshot<DocumentSnapshot> snapshots) {
-                                    //TODO: welke garage wilt meneer reserveren als ik meerdere garages heb
-                                if (snapshots.hasData) {
-                                  return dontShowWhenRefused
-                                      ? Container(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 20, horizontal: 10),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(12),
-                                            color: Wit,
-                                          ),
-                                          child: Column(
-                                            children: <Widget>[
-                                              snapshot.data["status"] == 1
-                                                  ? Text(snapshots
-                                                          .data["voornaam"] +
-                                                      translate(Keys
-                                                          .Apptext_Wantreserve) +
-                                                      snapshot.data["prijs"]
-                                                          .toString())
-                                                  : snapshot.data["status"] == 2
-                                                      ? Text(translate(Keys
-                                                              .Apptext_Reservedby) +
-                                                          snapshots.data[
-                                                              "voornaam"] +
-                                                          "- " +
-                                                          snapshot.data["prijs"]
-                                                              .toString() +
-                                                          " €")
-                                                      : Container(),
-                                              snapshot.data["status"] == 1
-                                                  ? Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: <Widget>[
-                                                        FlatButton(
-                                                            onPressed: () {
-                                                              if (this
-                                                                  .mounted) {
-                                                                cancelReservation(
-                                                                    garageId[
-                                                                        index]);
-                                                              }
-                                                            },
-                                                            child: Text(
-                                                                translate(Keys
-                                                                    .Button_Refuse)),
-                                                            textColor:
-                                                                Colors.red),
-                                                        FlatButton(
-                                                          onPressed: () {
-                                                            if (this.mounted) {
-                                                              acceptReservation(
-                                                                  garageId[
-                                                                      index]);
-                                                            }
-                                                          },
-                                                          child: Text(translate(
-                                                              Keys.Button_Accept)),
-                                                          textColor: Blauw,
-                                                        ),
-                                                      ],
-                                                    )
-                                                  : Container()
-                                            ],
-                                          ),
-                                        )
-                                      : Container();
+                                  AsyncSnapshot<DocumentSnapshot>
+                                      garagesSnapshot) {
+                                if (garagesSnapshot.hasData) {
+                                  return StreamBuilder<DocumentSnapshot>(
+                                      stream: Firestore.instance
+                                          .collection('users')
+                                          .document(reservatieSnapshot
+                                              .data["aanvrager"])
+                                          .snapshots(),
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot<DocumentSnapshot>
+                                              userSnapshot) {
+                                        if (userSnapshot.hasData) {
+                                          return dontShowWhenRefused
+                                              ? Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 20,
+                                                      horizontal: 10),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            12),
+                                                    color: Wit,
+                                                  ),
+                                                  child: Column(
+                                                    children: <Widget>[
+                                                      reservatieSnapshot.data["status"] == 1
+                                                          ? Column(
+                                                            children: <Widget>[
+                                                              Text(garagesSnapshot.data["adress"], style: TextStyle(fontWeight: FontWeight.w500)),
+                                                                  Divider(),
+                                                              Text(userSnapshot.data["voornaam"] +
+                                                                  translate(Keys.Apptext_Wantreserve) +
+                                                                  reservatieSnapshot.data["prijs"].toString() + " €", style: SizeParagraph, textAlign: TextAlign.center,),
+                                                            ],
+                                                          )
+                                                          : reservatieSnapshot.data["status"] == 2
+                                                              ? Column(
+                                                                children: <Widget>[
+                                                                  Text(garagesSnapshot.data["adress"], style: TextStyle(fontWeight: FontWeight.w500)),
+                                                                  Divider(),
+                                                                  Column(
+                                                                    children: <Widget>[
+                                                                      Text(translate(Keys.Apptext_Reservedby) + userSnapshot.data["voornaam"], style: SizeParagraph),
+                                                                      Text(reservatieSnapshot.data["prijs"].toString() + " €", style: SizeParagraph)
+                                                                    ],
+                                                                  ),
+                                                                ],
+                                                              )
+                                                              : Container(),
+                                                      reservatieSnapshot.data[
+                                                                  "status"] ==
+                                                              1
+                                                          ? Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: <
+                                                                  Widget>[
+                                                                FlatButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      if (this
+                                                                          .mounted) {
+                                                                        cancelReservation(
+                                                                            garageId[index]);
+                                                                      }
+                                                                    },
+                                                                    child: Text(
+                                                                        translate(Keys
+                                                                            .Button_Refuse)),
+                                                                    textColor:
+                                                                        Colors
+                                                                            .red),
+                                                                FlatButton(
+                                                                  onPressed:
+                                                                      () {
+                                                                    if (this
+                                                                        .mounted) {
+                                                                      acceptReservation(
+                                                                          garageId[
+                                                                              index]);
+                                                                    }
+                                                                  },
+                                                                  child: Text(
+                                                                      translate(
+                                                                          Keys.Button_Accept)),
+                                                                  textColor:
+                                                                      Blauw,
+                                                                ),
+                                                              ],
+                                                            )
+                                                          : Container()
+                                                    ],
+                                                  ),
+                                                )
+                                              : Container();
+                                        } else {
+                                          return Text("");
+                                        }
+                                      });
                                 } else {
-                                  return Text("");
+                                  return Container(
+                                    width: 200,
+                                    height: 200,
+                                    alignment: Alignment.center,
+                                    child: CircularProgressIndicator(
+                                        valueColor:
+                                            new AlwaysStoppedAnimation<Color>(
+                                                Blauw)),
+                                  );
                                 }
                               });
                         } else {
-                          return Container(
-                            width: 200,
-                            height: 200,
-                            alignment: Alignment.center,
-                            child: CircularProgressIndicator(
-                                valueColor:
-                                    new AlwaysStoppedAnimation<Color>(Blauw)),
-                          );
+                          return Container();
                         }
                       });
                 })));

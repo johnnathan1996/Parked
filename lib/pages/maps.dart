@@ -37,8 +37,6 @@ class MapsPage extends StatefulWidget {
       givenLon: givenLon);
 }
 
-//TODO: faire en sorte pour le gebruiken de caché un garage
-
 class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
   bool zoomToOtherplace;
   double givenLat;
