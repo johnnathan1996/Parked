@@ -13,6 +13,8 @@ class AgendaTab extends StatefulWidget {
   _AgendaTabState createState() => _AgendaTabState();
 }
 
+//TODO: firebase function to change status after 7 days whitout answer
+
 class _AgendaTabState extends State<AgendaTab> {
   CalendarController _calendarController;
   List<dynamic> showGarageId = [];
@@ -207,7 +209,7 @@ class _AgendaTabState extends State<AgendaTab> {
     );
   }
 
-  //TODO: fix error
+  //TODO: fix error color
   getColor(reservationId) {
     Firestore.instance
         .collection('reservaties')
@@ -261,6 +263,7 @@ class _AgendaTabState extends State<AgendaTab> {
                                   .snapshots(),
                               builder: (BuildContext context,
                                   AsyncSnapshot<DocumentSnapshot> snapshots) {
+                                    //TODO: welke garage wilt meneer reserveren als ik meerdere garages heb
                                 if (snapshots.hasData) {
                                   return dontShowWhenRefused
                                       ? Container(

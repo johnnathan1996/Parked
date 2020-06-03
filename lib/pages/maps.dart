@@ -37,6 +37,8 @@ class MapsPage extends StatefulWidget {
       givenLon: givenLon);
 }
 
+//TODO: faire en sorte pour le gebruiken de caché un garage
+
 class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
   bool zoomToOtherplace;
   double givenLat;
@@ -179,7 +181,7 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
                   MarkerLayerOptions(
                     markers: searchedLat != 0
                         ? [
-                            new Marker(
+                            Marker(
                                 point: new LatLng(searchedLat, searchedLon),
                                 height: 50,
                                 width: 50,
@@ -196,14 +198,23 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
                                     user["home"]["longitude"]),
                                 height: 30,
                                 width: 30,
-                                builder: (ctx) => Container(
+                                builder: (ctx) => GestureDetector(
+                                    onTap: () {
+                                      zoomToPosition(
+                                          mapController,
+                                          LatLng(user["home"]["latitude"],
+                                              user["home"]["longitude"]),
+                                          15,
+                                          this);
+                                    },
+                                    child: Container(
                                       decoration: new BoxDecoration(
                                         color: Colors.white,
                                         shape: BoxShape.circle,
                                       ),
                                       child: Icon(Icons.home,
                                           color: Zwart, size: 16),
-                                    )),
+                                    ))),
                           ]
                         : [],
                   ),
@@ -215,14 +226,23 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
                                     user["job"]["longitude"]),
                                 height: 30,
                                 width: 30,
-                                builder: (ctx) => Container(
+                                builder: (ctx) => GestureDetector(
+                                    onTap: () {
+                                      zoomToPosition(
+                                          mapController,
+                                          LatLng(user["job"]["latitude"],
+                                              user["job"]["longitude"]),
+                                          15,
+                                          this);
+                                    },
+                                    child: Container(
                                       decoration: new BoxDecoration(
                                         color: Colors.white,
                                         shape: BoxShape.circle,
                                       ),
                                       child: Icon(Icons.work,
                                           color: Zwart, size: 16),
-                                    )),
+                                    ))),
                           ]
                         : [],
                   ),
