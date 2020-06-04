@@ -13,8 +13,6 @@ class AgendaTab extends StatefulWidget {
   _AgendaTabState createState() => _AgendaTabState();
 }
 
-//TODO: firebase function to change status after 7 days whitout answer
-
 class _AgendaTabState extends State<AgendaTab> {
   CalendarController _calendarController;
   List<dynamic> showGarageId = [];
@@ -176,22 +174,31 @@ class _AgendaTabState extends State<AgendaTab> {
             }
 
             if (holidays.isNotEmpty) {
-              if (this.mounted) {
-                getColor(holidays.first);
-              }
               children.add(
-                Positioned(
-                    bottom: 10,
-                    child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 300),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: _calendarController.isSelected(date)
-                              ? Wit
-                              : _calendarController.isToday(date) ? Wit : color,
-                        ),
-                        width: 5,
-                        height: 5)),
+                StreamBuilder<DocumentSnapshot>(
+                    stream: Firestore.instance
+                        .collection('reservaties')
+                        .document(holidays.first)
+                        .snapshots(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<DocumentSnapshot> snapshot) {
+                      return Positioned(
+                          bottom: 10,
+                          child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 300),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: _calendarController.isSelected(date)
+                                    ? Wit
+                                    : _calendarController.isToday(date)
+                                        ? Wit
+                                        : snapshot.data["status"] == 1
+                                            ? Colors.orange
+                                            : Colors.green,
+                              ),
+                              width: 7,
+                              height: 7));
+                    }),
               );
             }
 
@@ -207,21 +214,6 @@ class _AgendaTabState extends State<AgendaTab> {
             : Container()
       ],
     );
-  }
-
-  //TODO: fix error color
-  getColor(reservationId) {
-    Firestore.instance
-        .collection('reservaties')
-        .document(reservationId)
-        .snapshots()
-        .listen((data) {
-      if (this.mounted) {
-        setState(() {
-          color = data.data["status"] == 1 ? Colors.orange : Colors.green;
-        });
-      }
-    });
   }
 
   getNotificationAgenda(reservationId) {
@@ -288,29 +280,68 @@ class _AgendaTabState extends State<AgendaTab> {
                                                   ),
                                                   child: Column(
                                                     children: <Widget>[
-                                                      reservatieSnapshot.data["status"] == 1
+                                                      reservatieSnapshot.data[
+                                                                  "status"] ==
+                                                              1
                                                           ? Column(
-                                                            children: <Widget>[
-                                                              Text(garagesSnapshot.data["adress"], style: TextStyle(fontWeight: FontWeight.w500)),
-                                                                  Divider(),
-                                                              Text(userSnapshot.data["voornaam"] +
-                                                                  translate(Keys.Apptext_Wantreserve) +
-                                                                  reservatieSnapshot.data["prijs"].toString() + " €", style: SizeParagraph, textAlign: TextAlign.center,),
-                                                            ],
-                                                          )
-                                                          : reservatieSnapshot.data["status"] == 2
+                                                              children: <
+                                                                  Widget>[
+                                                                Text(
+                                                                    garagesSnapshot
+                                                                            .data[
+                                                                        "adress"],
+                                                                    style: TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight.w500)),
+                                                                Divider(),
+                                                                Text(
+                                                                  userSnapshot.data[
+                                                                          "voornaam"] +
+                                                                      translate(Keys
+                                                                          .Apptext_Wantreserve) +
+                                                                      reservatieSnapshot
+                                                                          .data[
+                                                                              "prijs"]
+                                                                          .toString() +
+                                                                      " €",
+                                                                  style:
+                                                                      SizeParagraph,
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center,
+                                                                ),
+                                                              ],
+                                                            )
+                                                          : reservatieSnapshot
+                                                                          .data[
+                                                                      "status"] ==
+                                                                  2
                                                               ? Column(
-                                                                children: <Widget>[
-                                                                  Text(garagesSnapshot.data["adress"], style: TextStyle(fontWeight: FontWeight.w500)),
-                                                                  Divider(),
-                                                                  Column(
-                                                                    children: <Widget>[
-                                                                      Text(translate(Keys.Apptext_Reservedby) + userSnapshot.data["voornaam"], style: SizeParagraph),
-                                                                      Text(reservatieSnapshot.data["prijs"].toString() + " €", style: SizeParagraph)
-                                                                    ],
-                                                                  ),
-                                                                ],
-                                                              )
+                                                                  children: <
+                                                                      Widget>[
+                                                                    Text(
+                                                                        garagesSnapshot.data[
+                                                                            "adress"],
+                                                                        style: TextStyle(
+                                                                            fontWeight:
+                                                                                FontWeight.w500)),
+                                                                    Divider(),
+                                                                    Column(
+                                                                      children: <
+                                                                          Widget>[
+                                                                        Text(
+                                                                            translate(Keys.Apptext_Reservedby) +
+                                                                                userSnapshot.data["voornaam"],
+                                                                            style: SizeParagraph),
+                                                                        Text(
+                                                                            reservatieSnapshot.data["prijs"].toString() +
+                                                                                " €",
+                                                                            style:
+                                                                                SizeParagraph)
+                                                                      ],
+                                                                    ),
+                                                                  ],
+                                                                )
                                                               : Container(),
                                                       reservatieSnapshot.data[
                                                                   "status"] ==
