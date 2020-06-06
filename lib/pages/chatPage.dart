@@ -8,6 +8,7 @@ import 'package:parkly/ui/reportModal.dart';
 import 'package:speech_bubble/speech_bubble.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:parkly/localization/keys.dart';
+import 'package:parkly/setup/globals.dart' as globals;
 
 class ChatPage extends StatefulWidget {
   final String conversationID, sendName;
@@ -72,6 +73,9 @@ class _ChatPageState extends State<ChatPage> {
   @override
   void initState() {
     checkLastMessage();
+    setState(() {
+      globals.notifications -= 1;
+    });
     super.initState();
   }
 

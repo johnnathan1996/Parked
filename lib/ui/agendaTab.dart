@@ -21,7 +21,6 @@ class _AgendaTabState extends State<AgendaTab> {
   Map<DateTime, List> _reservations = {};
   Map<DateTime, List> _myReservations = {};
 
-  MaterialColor color = Colors.orange;
   bool showNotification = false;
   bool dontShowWhenRefused = true;
 
@@ -105,7 +104,7 @@ class _AgendaTabState extends State<AgendaTab> {
             if (_myReservations.containsKey(changeDatetimeToDatetime(value))) {
               if (this.mounted) {
                 setState(() {
-                  showGarageId = _myReservations.values.first;
+                  showGarageId = _myReservations[changeDatetimeToDatetime(value)];
                   showMyResevation = true;
                 });
               }
@@ -140,7 +139,7 @@ class _AgendaTabState extends State<AgendaTab> {
               selectedColor: Blauw,
               weekdayStyle: TextStyle().copyWith(color: Zwart),
               weekendStyle: TextStyle().copyWith(color: Blauw),
-              holidayStyle: TextStyle().copyWith(color: color)),
+              holidayStyle: TextStyle().copyWith(color: Zwart)),
           builders: CalendarBuilders(
               markersBuilder: (context, date, events, holidays) {
             final children = <Widget>[];
@@ -182,7 +181,8 @@ class _AgendaTabState extends State<AgendaTab> {
                         .snapshots(),
                     builder: (BuildContext context,
                         AsyncSnapshot<DocumentSnapshot> snapshot) {
-                      return Positioned(
+                      if(snapshot.hasData){
+                        return Positioned(
                           bottom: 10,
                           child: AnimatedContainer(
                               duration: const Duration(milliseconds: 300),
@@ -198,6 +198,9 @@ class _AgendaTabState extends State<AgendaTab> {
                               ),
                               width: 7,
                               height: 7));
+                      } else {
+                        return Container();
+                      }
                     }),
               );
             }

@@ -47,6 +47,7 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
       new GlobalKey<ScaffoldState>();
   TextEditingController _searchQuery;
   bool _isSearching = false;
+  bool showPropositionHomeJob = false;
 
   MapController mapController = new MapController();
   double userLat = 0;
@@ -232,6 +233,12 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
                                               user["job"]["longitude"]),
                                           15,
                                           this);
+                                      if (this.mounted) {
+                                        setState(() {
+                                          _isSearching = false;
+                                          showPropositionHomeJob = false;
+                                        });
+                                      }
                                     },
                                     child: Container(
                                       decoration: new BoxDecoration(
@@ -270,7 +277,7 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
                         ),
                 ],
               ),
-              _isSearching
+              showPropositionHomeJob
                   ? Container(
                       width: MediaQuery.of(context).size.width,
                       child: Column(
@@ -282,17 +289,19 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
                                   color: Wit,
                                   child: ListTile(
                                     onTap: () {
-                                      if (this.mounted) {
-                                        setState(() {
-                                          _isSearching = false;
-                                        });
-                                      }
                                       zoomToPosition(
                                           mapController,
                                           LatLng(user.data["home"]["latitude"],
                                               user.data["home"]["longitude"]),
                                           15,
                                           this);
+
+                                      if (this.mounted) {
+                                        setState(() {
+                                          _isSearching = false;
+                                          showPropositionHomeJob = false;
+                                        });
+                                      }
                                     },
                                     title: Text("Home"),
                                     trailing: Icon(Icons.my_location),
@@ -306,17 +315,19 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
                                   color: Wit,
                                   child: ListTile(
                                     onTap: () {
-                                      if (this.mounted) {
-                                        setState(() {
-                                          _isSearching = false;
-                                        });
-                                      }
                                       zoomToPosition(
                                           mapController,
                                           LatLng(user.data["job"]["latitude"],
                                               user.data["job"]["longitude"]),
                                           15,
                                           this);
+
+                                      if (this.mounted) {
+                                        setState(() {
+                                          _isSearching = false;
+                                          showPropositionHomeJob = false;
+                                        });
+                                      }
                                     },
                                     title: Text("Job"),
                                     trailing: Icon(Icons.my_location),
@@ -348,6 +359,14 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
                                         address.first.coordinates.longitude),
                                     15,
                                     this);
+
+                                if (this.mounted) {
+                                  setState(() {
+                                    _searchQuery = TextEditingController(
+                                        text: address.first.addressLine);
+                                    showPropositionHomeJob = false;
+                                  });
+                                }
                                 if (this.mounted) {
                                   setState(() {
                                     listAdresses = [];
@@ -498,6 +517,7 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
     if (this.mounted) {
       setState(() {
         _isSearching = true;
+        showPropositionHomeJob = true;
       });
     }
   }
@@ -508,6 +528,7 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
     if (this.mounted) {
       setState(() {
         _isSearching = false;
+        showPropositionHomeJob = false;
       });
     }
   }
@@ -578,6 +599,11 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
               return;
             }
             _clearSearchQuery();
+            if (this.mounted) {
+              setState(() {
+                showPropositionHomeJob = true;
+              });
+            }
           },
         ),
       ];
