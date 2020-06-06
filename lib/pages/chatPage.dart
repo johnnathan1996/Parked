@@ -74,7 +74,11 @@ class _ChatPageState extends State<ChatPage> {
   void initState() {
     checkLastMessage();
     setState(() {
-      globals.notifications -= 1;
+      if (globals.notifications > 0) {
+        globals.notifications -= 1;
+      } else {
+        globals.notifications = 0;
+      }
     });
     super.initState();
   }
