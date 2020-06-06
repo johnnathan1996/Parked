@@ -671,7 +671,8 @@ class _AddGarageState extends State<AddGarage> {
                     'location': center.data,
                     'lift': valueLift,
                     'lader': valueLader,
-                    'available': true
+                    'available': true,
+                    'verified': false
                   }).then((data) {
                     try {
                       Firestore.instance

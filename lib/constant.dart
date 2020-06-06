@@ -17,7 +17,7 @@ const TitleCustom = TextStyle(
 
 const SubTitleCustom = TextStyle(
   fontSize: 20.0,
-  fontWeight: FontWeight.w500,
+  fontWeight: FontWeight.w600,
   color: Zwart,
   decoration: TextDecoration.none,
 );

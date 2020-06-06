@@ -309,7 +309,21 @@ class _DetailGarageState extends State<DetailGarage> {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(garage['adress'], style: SubTitleCustom),
+                      RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                                text: garage['adress'], style: SubTitleCustom),
+                            WidgetSpan(
+                              alignment: PlaceholderAlignment.top,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 5),
+                                child: Icon(Icons.verified_user, color: Blauw, size: 14),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                       Row(
                         children: <Widget>[
                           ShowStars(rating: garage["rating"]),
@@ -556,10 +570,10 @@ class _DetailGarageState extends State<DetailGarage> {
                   child: Center(
                     child: Hero(
                       tag: "detailImage",
-                      child: Image.network(
+                      child: garage['garageImg'] != null ? Image.network(
                         garage['garageImg'],
                         fit: BoxFit.cover,
-                      ),
+                      ) : Container()
                     ),
                   ),
                 )),
