@@ -180,7 +180,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 children: <Widget>[
                                                   Text(
                                                       percent == 100
-                                                          ? translate(Keys.Apptext_Completeprofile)
+                                                          ? translate(Keys
+                                                              .Apptext_Completeprofile)
                                                           : percent >= 80
                                                               ? translate(Keys
                                                                   .Apptext_Alittlebit)
@@ -208,10 +209,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                               children: <Widget>[
                                                 snapshot.data["imgUrl"] == null
                                                     ? ListTextComponent(
-                                                        label:
-                                                            translate(Keys.Gamification_One))
+                                                        label: translate(Keys
+                                                            .Gamification_One))
                                                     : Text(
-                                                        translate(Keys.Gamification_One),
+                                                        translate(Keys
+                                                            .Gamification_One),
                                                         style: TextStyle(
                                                           fontSize: 16.0,
                                                           fontWeight:
@@ -224,10 +226,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                                       ),
                                                 snapshot.data["home"] == null
                                                     ? ListTextComponent(
-                                                        label:
-                                                            translate(Keys.Gamification_Two))
+                                                        label: translate(Keys
+                                                            .Gamification_Two))
                                                     : Text(
-                                                        translate(Keys.Gamification_Two),
+                                                        translate(Keys
+                                                            .Gamification_Two),
                                                         style: TextStyle(
                                                           fontSize: 16.0,
                                                           fontWeight:
@@ -240,10 +243,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                                       ),
                                                 snapshot.data["job"] == null
                                                     ? ListTextComponent(
-                                                        label:
-                                                            translate(Keys.Gamification_Three))
+                                                        label: translate(Keys
+                                                            .Gamification_Three))
                                                     : Text(
-                                                        translate(Keys.Gamification_Three),
+                                                        translate(Keys
+                                                            .Gamification_Three),
                                                         style: TextStyle(
                                                           fontSize: 16.0,
                                                           fontWeight:
@@ -256,10 +260,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                                       ),
                                                 !hasGarage
                                                     ? ListTextComponent(
-                                                        label:
-                                                            translate(Keys.Gamification_Four))
+                                                        label: translate(Keys
+                                                            .Gamification_Four))
                                                     : Text(
-                                                        translate(Keys.Gamification_Four),
+                                                        translate(Keys
+                                                            .Gamification_Four),
                                                         style: TextStyle(
                                                           fontSize: 16.0,
                                                           fontWeight:
@@ -274,10 +279,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                                             .length ==
                                                         0
                                                     ? ListTextComponent(
-                                                        label:
-                                                            translate(Keys.Gamification_Five))
+                                                        label: translate(Keys
+                                                            .Gamification_Five))
                                                     : Text(
-                                                        translate(Keys.Gamification_Five),
+                                                        translate(Keys
+                                                            .Gamification_Five),
                                                         style: TextStyle(
                                                           fontSize: 16.0,
                                                           fontWeight:
@@ -290,10 +296,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                                       ),
                                                 !hasConvers
                                                     ? ListTextComponent(
-                                                        label:
-                                                            translate(Keys.Gamification_Six))
+                                                        label: translate(Keys
+                                                            .Gamification_Six))
                                                     : Text(
-                                                        translate(Keys.Gamification_Six),
+                                                        translate(Keys
+                                                            .Gamification_Six),
                                                         style: TextStyle(
                                                           fontSize: 16.0,
                                                           fontWeight:
@@ -306,10 +313,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                                       ),
                                                 !snapshot.data["share"]
                                                     ? ListTextComponent(
-                                                        label:
-                                                            translate(Keys.Gamification_Seven))
+                                                        label: translate(Keys
+                                                            .Gamification_Seven))
                                                     : Text(
-                                                        translate(Keys.Gamification_Seven),
+                                                        translate(Keys
+                                                            .Gamification_Seven),
                                                         style: TextStyle(
                                                           fontSize: 16.0,
                                                           fontWeight:

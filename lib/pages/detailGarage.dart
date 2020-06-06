@@ -406,7 +406,7 @@ class _DetailGarageState extends State<DetailGarage> {
                     padding: EdgeInsets.symmetric(vertical: 15),
                     onPressed: () async {
                       final List<DateTime> picked =
-                          await DateRangePicker.showDatePicker( 
+                          await DateRangePicker.showDatePicker(
                               selectableDayPredicate: (DateTime val) {
                                 if (simulateDates.contains(val)) {
                                   return false;

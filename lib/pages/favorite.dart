@@ -74,8 +74,7 @@ class _FavoritePageState extends State<FavoritePage> {
                     ))
                   : Expanded(
                       child: Center(
-                          child: Text(
-                              translate(Keys.Apptext_Zerofavorite),
+                          child: Text(translate(Keys.Apptext_Zerofavorite),
                               style: SizeParagraph)),
                     ),
             ])),

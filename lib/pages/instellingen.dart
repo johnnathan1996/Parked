@@ -115,7 +115,10 @@ class _InstellingenState extends State<Instellingen> {
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                             )),
-                        trailing: Text(notif ? translate(Keys.Apptext_Yes) : translate(Keys.Apptext_No),
+                        trailing: Text(
+                            notif
+                                ? translate(Keys.Apptext_Yes)
+                                : translate(Keys.Apptext_No),
                             style: TextStyle(color: Grijs))),
                   )),
               Padding(
@@ -156,7 +159,8 @@ class _InstellingenState extends State<Instellingen> {
                   child: Card(
                     child: ListTile(
                       onTap: () async {
-                        String url = "https://www.privacypolicygenerator.info/live.php?token=KEgjKav0Wp5pXzcwRPQzTCZWqORMvn36";
+                        String url =
+                            "https://www.privacypolicygenerator.info/live.php?token=KEgjKav0Wp5pXzcwRPQzTCZWqORMvn36";
 
                         if (await canLaunch(url)) {
                           await launch(url);

@@ -641,7 +641,7 @@ class _AddGarageState extends State<AddGarage> {
       formState.save();
 
       if (_adress != null) {
-        if ( int.parse(_price) > 0 && int.parse(_price) < 1000) {
+        if (int.parse(_price) > 0 && int.parse(_price) < 1000) {
           try {
             var addresses =
                 await Geocoder.local.findAddressesFromQuery(_adress);
@@ -707,10 +707,10 @@ class _AddGarageState extends State<AddGarage> {
           }
         } else {
           showDialog(
-              context: context,
-              builder: (_) => ModalComponent(
-                  modalTekst: translate(Keys.Modal_Badprice)), 
-            );
+            context: context,
+            builder: (_) =>
+                ModalComponent(modalTekst: translate(Keys.Modal_Badprice)),
+          );
         }
       } else {
         showDialog(

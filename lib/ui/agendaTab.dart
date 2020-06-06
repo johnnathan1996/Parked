@@ -104,7 +104,8 @@ class _AgendaTabState extends State<AgendaTab> {
             if (_myReservations.containsKey(changeDatetimeToDatetime(value))) {
               if (this.mounted) {
                 setState(() {
-                  showGarageId = _myReservations[changeDatetimeToDatetime(value)];
+                  showGarageId =
+                      _myReservations[changeDatetimeToDatetime(value)];
                   showMyResevation = true;
                 });
               }
@@ -181,23 +182,23 @@ class _AgendaTabState extends State<AgendaTab> {
                         .snapshots(),
                     builder: (BuildContext context,
                         AsyncSnapshot<DocumentSnapshot> snapshot) {
-                      if(snapshot.hasData){
+                      if (snapshot.hasData) {
                         return Positioned(
-                          bottom: 10,
-                          child: AnimatedContainer(
-                              duration: const Duration(milliseconds: 300),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: _calendarController.isSelected(date)
-                                    ? Wit
-                                    : _calendarController.isToday(date)
-                                        ? Wit
-                                        : snapshot.data["status"] == 1
-                                            ? Colors.orange
-                                            : Colors.green,
-                              ),
-                              width: 7,
-                              height: 7));
+                            bottom: 10,
+                            child: AnimatedContainer(
+                                duration: const Duration(milliseconds: 300),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: _calendarController.isSelected(date)
+                                      ? Wit
+                                      : _calendarController.isToday(date)
+                                          ? Wit
+                                          : snapshot.data["status"] == 1
+                                              ? Colors.orange
+                                              : Colors.green,
+                                ),
+                                width: 7,
+                                height: 7));
                       } else {
                         return Container();
                       }

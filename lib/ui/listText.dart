@@ -24,7 +24,6 @@ class ListTextComponent extends StatelessWidget {
             label,
             style: SizeParagraph,
             maxLines: 1,
-            
           ),
         ),
       ],

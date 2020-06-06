@@ -65,16 +65,18 @@ class _ReportModalState extends State<ReportModal>
                   FlatButton(
                     padding: EdgeInsets.symmetric(vertical: 0),
                     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    onPressed: !showThanks ? () {
-                      if (this.mounted) {
-                        setState(() {
-                          showThanks = true;
-                        });
-                      }
-                      Future.delayed(const Duration(seconds: 1), () {
-                        Navigator.of(context).pop();
-                      });
-                    } : null,
+                    onPressed: !showThanks
+                        ? () {
+                            if (this.mounted) {
+                              setState(() {
+                                showThanks = true;
+                              });
+                            }
+                            Future.delayed(const Duration(seconds: 1), () {
+                              Navigator.of(context).pop();
+                            });
+                          }
+                        : null,
                     child: Container(
                         padding: EdgeInsets.symmetric(vertical: 15),
                         decoration: ShapeDecoration(

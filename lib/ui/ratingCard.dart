@@ -100,7 +100,7 @@ class _RatingCardComponentState extends State<RatingCardComponent>
                     padding: EdgeInsets.only(top: 20),
                     child: card["comment"].toString() != "null"
                         ? RichText(
-                          maxLines: 3,
+                            maxLines: 3,
                             overflow: TextOverflow.ellipsis,
                             strutStyle: StrutStyle(fontSize: 12.0),
                             text: TextSpan(

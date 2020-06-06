@@ -482,8 +482,6 @@ class _EditGarageState extends State<EditGarage> {
     PickedFile imageFromLibrary =
         await ImagePicker().getImage(source: ImageSource.gallery);
 
-        
-
     if (imageFromLibrary != null) {
       if (this.mounted) {
         setState(() {

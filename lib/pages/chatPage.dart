@@ -94,9 +94,9 @@ class _ChatPageState extends State<ChatPage> {
                 onSelected: (value) {
                   if (value == translate(Keys.Button_Report)) {
                     showDialog(
-                          context: context,
-                          builder: (_) => ReportModal(),
-                        );
+                      context: context,
+                      builder: (_) => ReportModal(),
+                    );
                   }
 
                   if (value == translate(Keys.Button_Delete)) {
