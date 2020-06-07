@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_map/plugin_api.dart';
-import 'package:full_screen_image/full_screen_image.dart';
 import 'package:latlong/latlong.dart';
 import 'package:parkly/constant.dart';
 import 'package:parkly/editPages/editGarage.dart';
@@ -18,6 +17,7 @@ import 'package:parkly/ui/modal.dart';
 import 'package:parkly/ui/ratingCard.dart';
 import 'package:parkly/ui/ratingModal.dart';
 import 'package:parkly/ui/showStars.dart';
+import 'package:photo_view/photo_view_gallery.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:snaplist/snaplist.dart';
 import '../setup/globals.dart' as globals;
@@ -26,6 +26,7 @@ import 'package:parkly/localization/keys.dart';
 import 'package:date_range_picker/date_range_picker.dart' as DateRangePicker;
 import 'package:stripe_payment/stripe_payment.dart' as stripe;
 import 'package:stripe_fl/stripe_fl.dart' as stripefl;
+import 'package:photo_view/photo_view.dart';
 
 class DetailGarage extends StatefulWidget {
   final String idGarage;
@@ -47,6 +48,8 @@ class _DetailGarageState extends State<DetailGarage> {
   bool isVanMij, viaChat;
   _DetailGarageState({Key key, this.idGarage, this.isVanMij, this.viaChat});
 
+  PageController pageController;
+
   List betalingCard = [];
   List mijnFavorieten = [];
   DateTime beginDate;
@@ -58,6 +61,7 @@ class _DetailGarageState extends State<DetailGarage> {
   String myName = "";
 
   int _currentStep = 0;
+  int currentImg = 1;
 
   double taxes = 0.0;
   double finalPrijs = 0.0;
@@ -318,7 +322,8 @@ class _DetailGarageState extends State<DetailGarage> {
                               alignment: PlaceholderAlignment.top,
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 5),
-                                child: Icon(Icons.verified_user, color: Blauw, size: 14),
+                                child: Icon(Icons.verified_user,
+                                    color: Blauw, size: 14),
                               ),
                             ),
                           ],
@@ -559,26 +564,42 @@ class _DetailGarageState extends State<DetailGarage> {
   }
 
   Widget imageComponent(DocumentSnapshot garage) {
-    return ConstrainedBox(
-        constraints: const BoxConstraints(minWidth: double.infinity),
-        child: Stack(alignment: Alignment.center, children: <Widget>[
-          ClipRect(
-            child: Align(
-                alignment: Alignment.center,
-                heightFactor: 0.5,
-                child: FullScreenWidget(
-                  child: Center(
-                    child: Hero(
-                      tag: "detailImage",
-                      child: garage['garageImg'] != null ? Image.network(
-                        garage['garageImg'],
-                        fit: BoxFit.cover,
-                      ) : Container()
-                    ),
+    return Column(
+      children: <Widget>[
+        Container(
+            height: 200,
+            child: PhotoViewGallery.builder(
+              scrollPhysics: const BouncingScrollPhysics(),
+              builder: (BuildContext context, int index) {
+                return PhotoViewGalleryPageOptions(
+                  imageProvider: NetworkImage(garage["garageImg"][index]),
+                  heroAttributes:
+                      PhotoViewHeroAttributes(tag: garage["garageImg"][index]),
+                      initialScale: PhotoViewComputedScale.covered,
+                );
+              },
+              itemCount: garage["garageImg"].length,
+              loadingBuilder: (context, event) => Center(
+                child: Container(
+                  width: 20.0,
+                  height: 20.0,
+                  child: CircularProgressIndicator(
+                    value: event == null
+                        ? 0
+                        : event.cumulativeBytesLoaded / event.expectedTotalBytes,
                   ),
-                )),
-          ),
-        ]));
+                ),
+              ),
+              pageController: pageController,
+              onPageChanged: (int index) {
+                setState(() {
+                  currentImg = index + 1;
+                });
+              },
+            )),
+            Text("$currentImg/ " + garage["garageImg"].length.toString())
+      ],
+    );
   }
 
   Widget reviewsComponent(DocumentSnapshot garage) {

@@ -62,7 +62,7 @@ class GarageCardComponent extends StatelessWidget {
                   alignment: Alignment.center,
                   heightFactor: 0.5,
                   child: Image.network(
-                    garage['garageImg'],
+                    garage['garageImg'][0],
                     fit: BoxFit.cover,
                     loadingBuilder: (BuildContext context, Widget child,
                         ImageChunkEvent progress) {

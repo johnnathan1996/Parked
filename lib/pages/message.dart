@@ -139,7 +139,7 @@ class _MessagePageState extends State<MessagePage> {
                                                               .data.exists) {
                                                             return Image.network(
                                                                 snapshots.data[
-                                                                    'garageImg'],
+                                                                    'garageImg'][0],
                                                                 fit: BoxFit
                                                                     .cover);
                                                           } else {

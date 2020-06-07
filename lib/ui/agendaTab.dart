@@ -460,7 +460,7 @@ class _AgendaTabState extends State<AgendaTab> {
                                               return ListTile(
                                                   leading: Image.network(
                                                       garageSnapchot
-                                                          .data['garageImg']),
+                                                          .data['garageImg'][0]),
                                                   title: Text(changeDate(
                                                           reservationSnapshot
                                                               .data["begin"]

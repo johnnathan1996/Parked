@@ -73,7 +73,7 @@ class _ModalMapComponentState extends State<ModalMapComponent> {
                               child: Container(
                                   height: 200,
                                   color: Zwart,
-                                  child: Image.network(garage['garageImg'],
+                                  child: Image.network(garage['garageImg'][0],
                                       fit: BoxFit.cover)))),
                       Positioned(
                           top: 10,

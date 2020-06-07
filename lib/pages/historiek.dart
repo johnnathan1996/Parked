@@ -77,7 +77,7 @@ class _HistoriekPageState extends State<HistoriekPage> {
                                                   return ListTile(
                                                       onTap: () {},
                                                       leading: Image.network(snapshotten
-                                                          .data['garageImg']),
+                                                          .data['garageImg'][0]),
                                                       title: Text(changeDate(snapshot
                                                               .data
                                                               .documents[index]
