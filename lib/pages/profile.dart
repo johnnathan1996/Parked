@@ -24,8 +24,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   double percentage = 0;
-  int result = 0;
-
+  int result = 1;
   int percent = 0;
 
   bool showTooltip = false;
@@ -440,7 +439,7 @@ class _ProfilePageState extends State<ProfilePage> {
             .where("aanvrager", isEqualTo: globals.userId)
             .snapshots()
             .listen((reservSnapshot) {
-          result = 0;
+          result = 1;
           percentage = 0;
           percent = 0;
           if (reservSnapshot.documents.length != 0 ||
@@ -503,7 +502,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
           if (this.mounted) {
             setState(() {
-              percentage = result / 7; //(7 = Total de mes point)
+              percentage = result / 8; //(8 = Total de mes point)
               percent = (percentage * 100).toInt();
             });
           }
