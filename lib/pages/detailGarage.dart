@@ -525,7 +525,7 @@ class _DetailGarageState extends State<DetailGarage> {
         Padding(
           padding: const EdgeInsets.only(top: 10, bottom: 5),
           child: Text(
-            translate(Keys.Subtitle_Maxheigt) + " " + garage["maxHoogte"] + "m",
+            translate(Keys.Subtitle_Maxheigt) + " " + garage["maxHoogte"],
             style: TextStyle(
                 color: Blauw, fontStyle: FontStyle.italic, fontSize: 16),
           ),
@@ -565,6 +565,7 @@ class _DetailGarageState extends State<DetailGarage> {
 
   Widget imageComponent(DocumentSnapshot garage) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
         Container(
             height: 200,
@@ -572,6 +573,8 @@ class _DetailGarageState extends State<DetailGarage> {
               scrollPhysics: const BouncingScrollPhysics(),
               builder: (BuildContext context, int index) {
                 return PhotoViewGalleryPageOptions(
+                  maxScale: PhotoViewComputedScale.covered,
+                  minScale: PhotoViewComputedScale.covered,
                   imageProvider: NetworkImage(garage["garageImg"][index]),
                   heroAttributes:
                       PhotoViewHeroAttributes(tag: garage["garageImg"][index]),
@@ -597,7 +600,10 @@ class _DetailGarageState extends State<DetailGarage> {
                 });
               },
             )),
-            Text("$currentImg/ " + garage["garageImg"].length.toString())
+            Padding(
+              padding: const EdgeInsets.only(right: 10, top: 5),
+              child: Text("$currentImg/ " + garage["garageImg"].length.toString()),
+            )
       ],
     );
   }

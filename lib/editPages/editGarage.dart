@@ -63,7 +63,7 @@ class _EditGarageState extends State<EditGarage> {
         setState(() {
           _adress = snapshot.data["adress"];
           _desciption = snapshot.data["beschrijving"];
-          downloadLink = snapshot.data["garageImg"];
+          downloadLink = snapshot.data["garageImg"][0];
           priceController.text = snapshot.data["prijs"].toString();
           _listChecked = snapshot.data["kenmerken"].cast<String>();
           _typeVoertuigen = snapshot.data["types"];

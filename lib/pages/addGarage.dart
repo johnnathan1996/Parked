@@ -28,7 +28,9 @@ class _AddGarageState extends State<AddGarage> {
   String _high = translate(Keys.Featuregarage_None);
   String _price = "";
 
-  File fileName;
+  List<File> fileName = [];
+
+  List<String> fileNameUrl = [];
 
   num _longitude, _latitude;
 
@@ -103,41 +105,141 @@ class _AddGarageState extends State<AddGarage> {
   }
 
   Widget imageComponent(BuildContext context) {
-    return DottedBorder(
-        dashPattern: [7],
-        color: Blauw,
-        strokeWidth: 2,
-        child: GestureDetector(
-          onTap: () {
-            actionUploadImage(context);
-          },
-          child: (fileName == null)
-              ? Container(
-                  alignment: Alignment.center,
-                  height: 70,
-                  color: Wit,
-                  child: RichText(
-                    text: TextSpan(
-                      style: SizeParagraph,
-                      children: [
-                        WidgetSpan(
-                          child: Padding(
-                            padding: EdgeInsets.only(right: 5),
-                            child: Icon(Icons.camera_alt),
-                          ),
-                        ),
-                        TextSpan(text: translate(Keys.Inputs_Uploadimg)),
-                      ],
-                    ),
-                  ))
-              : ClipRect(
-                  child: Align(
-                    alignment: Alignment.center,
-                    heightFactor: 0.5,
-                    child: Image.file(fileName),
-                  ),
+    return Column(
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.only(top: 10),
+          height: 130,
+          child: Row(
+            children: <Widget>[
+              Flexible(
+                flex: 2,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: DottedBorder(
+                      dashPattern: [7],
+                      color: Blauw,
+                      strokeWidth: 2,
+                      child: GestureDetector(
+                        onTap: () {
+                          actionUploadImage(context, 0);
+                        },
+                        child: (fileName.length == 0)
+                            ? Container(
+                                alignment: Alignment.center,
+                                color: Wit,
+                                child: RichText(
+                                  text: TextSpan(
+                                    style: SizeParagraph,
+                                    children: [
+                                      WidgetSpan(
+                                        child: Padding(
+                                          padding: EdgeInsets.only(right: 5),
+                                          child: Icon(Icons.camera_alt),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ))
+                            : ClipRect(
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  heightFactor: 1,
+                                  child: Image.file(fileName[0]),
+                                ),
+                              ),
+                      )),
                 ),
-        ));
+              ),
+              Flexible(
+                child: Column(
+                  children: <Widget>[
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 5),
+                        child: DottedBorder(
+                            dashPattern: [7],
+                            color: Blauw,
+                            strokeWidth: 2,
+                            child: GestureDetector(
+                              onTap: () {
+                                actionUploadImage(context, 1);
+                              },
+                              child: (fileName.length <= 1)
+                                  ? Container(
+                                      alignment: Alignment.center,
+                                      color: Wit,
+                                      child: RichText(
+                                        text: TextSpan(
+                                          style: SizeParagraph,
+                                          children: [
+                                            WidgetSpan(
+                                              child: Padding(
+                                                padding:
+                                                    EdgeInsets.only(right: 5),
+                                                child: Icon(Icons.camera_alt),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ))
+                                  : ClipRect(
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        heightFactor: 1,
+                                        child: Image.file(fileName[1]),
+                                      ),
+                                    ),
+                            )),
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 5),
+                        child: DottedBorder(
+                            dashPattern: [7],
+                            color: Blauw,
+                            strokeWidth: 2,
+                            child: GestureDetector(
+                              onTap: () {
+                                actionUploadImage(context, 2);
+                              },
+                              child: (fileName.length <= 2)
+                                  ? Container(
+                                      alignment: Alignment.center,
+                                      color: Wit,
+                                      child: RichText(
+                                        text: TextSpan(
+                                          style: SizeParagraph,
+                                          children: [
+                                            WidgetSpan(
+                                              child: Padding(
+                                                padding:
+                                                    EdgeInsets.only(right: 5),
+                                                child: Icon(Icons.camera_alt),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ))
+                                  : ClipRect(
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        heightFactor: 1,
+                                        child: Image.file(fileName[2]),
+                                      ),
+                                    ),
+                            )),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      ],
+    );
   }
 
   Widget adresComponent(BuildContext context) {
@@ -477,33 +579,41 @@ class _AddGarageState extends State<AddGarage> {
     );
   }
 
-  Future takePicture() async {
+  Future takePicture(int index) async {
     PickedFile imageFromCamera =
         await ImagePicker().getImage(source: ImageSource.camera);
 
     if (imageFromCamera != null) {
       if (this.mounted) {
         setState(() {
-          fileName = File(imageFromCamera.path);
+          if (fileName.asMap().containsKey(index)) {
+            fileName[index] = File(imageFromCamera.path);
+          } else {
+            fileName.add(File(imageFromCamera.path));
+          }
         });
       }
     }
   }
 
-  Future choosePicture() async {
+  Future choosePicture(int index) async {
     PickedFile imageFromLibrary =
         await ImagePicker().getImage(source: ImageSource.gallery);
 
     if (imageFromLibrary != null) {
       if (this.mounted) {
         setState(() {
-          fileName = File(imageFromLibrary.path);
+          if (fileName.asMap().containsKey(index)) {
+            fileName[index] = File(imageFromLibrary.path);
+          } else {
+            fileName.add(File(imageFromLibrary.path));
+          }
         });
       }
     }
   }
 
-  Future uploadToStorage(BuildContext context, File image) async {
+  Future uploadToStorage(BuildContext context, List<File> image) async {
     var dialogContext;
     showDialog(
       barrierDismissible: false,
@@ -520,21 +630,63 @@ class _AddGarageState extends State<AddGarage> {
       },
     );
 
-    String fileName = basename(image.path);
-    StorageReference firebaseStorageRef =
-        FirebaseStorage.instance.ref().child(fileName);
-    StorageUploadTask uploadTask = firebaseStorageRef.putFile(image);
-    await uploadTask.onComplete;
+    Future.forEach(image, (element) async {
+      String fileName = basename(element.path);
+      StorageReference firebaseStorageRef =
+          FirebaseStorage.instance.ref().child(fileName);
+      StorageUploadTask uploadTask = firebaseStorageRef.putFile(element);
+      await uploadTask.onComplete;
 
-    var dowurl = await (await uploadTask.onComplete).ref.getDownloadURL();
-    var url = dowurl.toString();
-    downloadLink = url;
-    if (dialogContext != null) {
-      Navigator.of(dialogContext).pop();
-    }
+      var dowurl = await (await uploadTask.onComplete).ref.getDownloadURL();
+      var url = dowurl.toString();
+      fileNameUrl.add(url);
+    }).whenComplete(() {
+      if (dialogContext != null) {
+        Navigator.of(dialogContext).pop();
+      }
+
+      Geoflutterfire geo = Geoflutterfire();
+      GeoFirePoint center =
+          geo.point(latitude: _latitude, longitude: _longitude);
+
+      try {
+        Firestore.instance.collection('garages').add({
+          'eigenaar': globals.userId,
+          'garageImg': fileNameUrl,
+          'time': new DateTime.now(),
+          'adress': _adress,
+          'prijs': int.parse(_price),
+          'beschrijving': _desciption.capitalize().trim(),
+          'maxHoogte': _high,
+          'kenmerken': _listChecked,
+          'types': _typeVoertuigen,
+          'rating': [],
+          'location': center.data,
+          'lift': valueLift,
+          'lader': valueLader,
+          'available': true,
+          'verified': false
+        }).then((data) {
+          try {
+            Firestore.instance
+                .collection('users')
+                .document(globals.userId)
+                .updateData({
+              "mijnGarage": FieldValue.arrayUnion([data.documentID])
+            });
+          } catch (e) {
+            print(e.message);
+          }
+        }).then((value) {
+          Navigator.of(context).pop();
+        });
+      } catch (e) {
+        print(e.message);
+      }
+    });
   }
 
-  Future actionUploadImage(BuildContext context) async {
+  Future actionUploadImage(BuildContext context, int index) async {
     await showCupertinoModalPopup(
         context: context,
         builder: (context) {
@@ -548,14 +700,14 @@ class _AddGarageState extends State<AddGarage> {
             actions: <Widget>[
               CupertinoActionSheetAction(
                 onPressed: () async {
-                  await takePicture();
+                  await takePicture(index);
                   Navigator.of(context).pop();
                 },
                 child: Text(translate(Keys.Button_Camera)),
               ),
               CupertinoActionSheetAction(
                 onPressed: () async {
-                  await choosePicture();
+                  await choosePicture(index);
                   Navigator.of(context).pop();
                 },
                 child: Text(translate(Keys.Button_Library)),
@@ -640,6 +792,8 @@ class _AddGarageState extends State<AddGarage> {
     if (formState.validate()) {
       formState.save();
 
+      print(_adress);
+
       if (_adress != null) {
         if (int.parse(_price) > 0 && int.parse(_price) < 1000) {
           try {
@@ -650,47 +804,8 @@ class _AddGarageState extends State<AddGarage> {
             _longitude = first.coordinates.longitude;
             _latitude = first.coordinates.latitude;
 
-            if (fileName != null) {
-              uploadToStorage(context, fileName).whenComplete(() {
-                Geoflutterfire geo = Geoflutterfire();
-                GeoFirePoint center =
-                    geo.point(latitude: _latitude, longitude: _longitude);
-
-                try {
-                  Firestore.instance.collection('garages').add({
-                    'eigenaar': globals.userId,
-                    'garageImg': downloadLink,
-                    'time': new DateTime.now(),
-                    'adress': _adress,
-                    'prijs': int.parse(_price),
-                    'beschrijving': _desciption.capitalize().trim(),
-                    'maxHoogte': _high,
-                    'kenmerken': _listChecked,
-                    'types': _typeVoertuigen,
-                    'rating': [],
-                    'location': center.data,
-                    'lift': valueLift,
-                    'lader': valueLader,
-                    'available': true,
-                    'verified': false
-                  }).then((data) {
-                    try {
-                      Firestore.instance
-                          .collection('users')
-                          .document(globals.userId)
-                          .updateData({
-                        "mijnGarage": FieldValue.arrayUnion([data.documentID])
-                      });
-                    } catch (e) {
-                      print(e.message);
-                    }
-                  }).then((value) {
-                    Navigator.of(context).pop();
-                  });
-                } catch (e) {
-                  print(e.message);
-                }
-              });
+            if (fileName[0] != null) {
+              await uploadToStorage(context, fileName);
             } else {
               showDialog(
                 context: context,
