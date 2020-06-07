@@ -29,7 +29,6 @@ class _AddGarageState extends State<AddGarage> {
   String _price = "";
 
   List<File> fileName = [];
-
   List<String> fileNameUrl = [];
 
   num _longitude, _latitude;
@@ -116,39 +115,70 @@ class _AddGarageState extends State<AddGarage> {
                 flex: 2,
                 child: Padding(
                   padding: const EdgeInsets.only(right: 10),
-                  child: DottedBorder(
-                      dashPattern: [7],
-                      color: Blauw,
-                      strokeWidth: 2,
-                      child: GestureDetector(
-                        onTap: () {
-                          actionUploadImage(context, 0);
-                        },
-                        child: (fileName.length == 0)
-                            ? Container(
-                                alignment: Alignment.center,
-                                color: Wit,
-                                child: RichText(
-                                  text: TextSpan(
-                                    style: SizeParagraph,
-                                    children: [
-                                      WidgetSpan(
-                                        child: Padding(
-                                          padding: EdgeInsets.only(right: 5),
-                                          child: Icon(Icons.camera_alt),
-                                        ),
+                  child: Stack(
+                    children: <Widget>[
+                      DottedBorder(
+                          dashPattern: [7],
+                          color: Blauw,
+                          strokeWidth: 2,
+                          child: GestureDetector(
+                            onTap: () {
+                              actionUploadImage(context, 0);
+                            },
+                            child: (fileName.length == 0)
+                                ? Container(
+                                    alignment: Alignment.center,
+                                    color: Wit,
+                                    child: RichText(
+                                      text: TextSpan(
+                                        style: SizeParagraph,
+                                        children: [
+                                          WidgetSpan(
+                                            child: Padding(
+                                              padding:
+                                                  EdgeInsets.only(right: 5),
+                                              child: Icon(Icons.camera_alt),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
+                                    ))
+                                : ClipRect(
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      heightFactor: 1,
+                                      child: Image.file(fileName[0]),
+                                    ),
                                   ),
-                                ))
-                            : ClipRect(
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  heightFactor: 1,
-                                  child: Image.file(fileName[0]),
-                                ),
+                          )),
+                      fileName.asMap().containsKey(0)
+                          ? Positioned(
+                              right: 0,
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                     fileName.removeAt(0);
+                                  });
+                                 
+                                },
+                                child: Container(
+                                    width: 20,
+                                    height: 20,
+                                    decoration: new BoxDecoration(
+                                      color: Blauw,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    alignment: Alignment.center,
+                                    child: Icon(
+                                      Icons.close,
+                                      color: Wit,
+                                      size: 14,
+                                    )),
                               ),
-                      )),
+                            )
+                          : Container()
+                    ],
+                  ),
                 ),
               ),
               Flexible(
@@ -157,79 +187,139 @@ class _AddGarageState extends State<AddGarage> {
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: 5),
-                        child: DottedBorder(
-                            dashPattern: [7],
-                            color: Blauw,
-                            strokeWidth: 2,
-                            child: GestureDetector(
-                              onTap: () {
-                                actionUploadImage(context, 1);
-                              },
-                              child: (fileName.length <= 1)
-                                  ? Container(
-                                      alignment: Alignment.center,
-                                      color: Wit,
-                                      child: RichText(
-                                        text: TextSpan(
-                                          style: SizeParagraph,
-                                          children: [
-                                            WidgetSpan(
-                                              child: Padding(
-                                                padding:
-                                                    EdgeInsets.only(right: 5),
-                                                child: Icon(Icons.camera_alt),
-                                              ),
+                        child: Stack(
+                          children: <Widget>[
+                            DottedBorder(
+                                dashPattern: [7],
+                                color: Blauw,
+                                strokeWidth: 2,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    actionUploadImage(context, 1);
+                                  },
+                                  child: (fileName.length <= 1)
+                                      ? Container(
+                                          alignment: Alignment.center,
+                                          color: Wit,
+                                          child: RichText(
+                                            text: TextSpan(
+                                              style: SizeParagraph,
+                                              children: [
+                                                WidgetSpan(
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsets.only(right: 5),
+                                                    child: Icon(Icons.camera_alt),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ],
+                                          ))
+                                      : ClipRect(
+                                          child: Align(
+                                            alignment: Alignment.center,
+                                            heightFactor: 1,
+                                            child: Image.file(fileName[1]),
+                                          ),
                                         ),
-                                      ))
-                                  : ClipRect(
-                                      child: Align(
-                                        alignment: Alignment.center,
-                                        heightFactor: 1,
-                                        child: Image.file(fileName[1]),
-                                      ),
+                                )),
+                          fileName.asMap().containsKey(1)
+                          ? Positioned(
+                              right: 0,
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                     fileName.removeAt(1);
+                                  });
+                                 
+                                },
+                                child: Container(
+                                    width: 20,
+                                    height: 20,
+                                    decoration: new BoxDecoration(
+                                      color: Blauw,
+                                      shape: BoxShape.circle,
                                     ),
-                            )),
+                                    alignment: Alignment.center,
+                                    child: Icon(
+                                      Icons.close,
+                                      color: Wit,
+                                      size: 14,
+                                    )),
+                              ),
+                            )
+                          : Container()
+                          ],
+                        ),
                       ),
                     ),
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(top: 5),
-                        child: DottedBorder(
-                            dashPattern: [7],
-                            color: Blauw,
-                            strokeWidth: 2,
-                            child: GestureDetector(
-                              onTap: () {
-                                actionUploadImage(context, 2);
-                              },
-                              child: (fileName.length <= 2)
-                                  ? Container(
-                                      alignment: Alignment.center,
-                                      color: Wit,
-                                      child: RichText(
-                                        text: TextSpan(
-                                          style: SizeParagraph,
-                                          children: [
-                                            WidgetSpan(
-                                              child: Padding(
-                                                padding:
-                                                    EdgeInsets.only(right: 5),
-                                                child: Icon(Icons.camera_alt),
-                                              ),
+                        child: Stack(
+                          children: <Widget>[
+                            DottedBorder(
+                                dashPattern: [7],
+                                color: Blauw,
+                                strokeWidth: 2,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    actionUploadImage(context, 2);
+                                  },
+                                  child: (fileName.length <= 2)
+                                      ? Container(
+                                          alignment: Alignment.center,
+                                          color: Wit,
+                                          child: RichText(
+                                            text: TextSpan(
+                                              style: SizeParagraph,
+                                              children: [
+                                                WidgetSpan(
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsets.only(right: 5),
+                                                    child: Icon(Icons.camera_alt),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ],
+                                          ))
+                                      : ClipRect(
+                                          child: Align(
+                                            alignment: Alignment.center,
+                                            heightFactor: 1,
+                                            child: Image.file(fileName[2]),
+                                          ),
                                         ),
-                                      ))
-                                  : ClipRect(
-                                      child: Align(
-                                        alignment: Alignment.center,
-                                        heightFactor: 1,
-                                        child: Image.file(fileName[2]),
-                                      ),
+                                )),
+                          fileName.asMap().containsKey(2)
+                          ? Positioned(
+                              right: 0,
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                     fileName.removeAt(2);
+                                  });
+                                 
+                                },
+                                child: Container(
+                                    width: 20,
+                                    height: 20,
+                                    decoration: new BoxDecoration(
+                                      color: Blauw,
+                                      shape: BoxShape.circle,
                                     ),
-                            )),
+                                    alignment: Alignment.center,
+                                    child: Icon(
+                                      Icons.close,
+                                      color: Wit,
+                                      size: 14,
+                                    )),
+                              ),
+                            )
+                          : Container()
+                          ],
+                        ),
                       ),
                     ),
                   ],
@@ -791,8 +881,6 @@ class _AddGarageState extends State<AddGarage> {
     final formState = _formKey.currentState;
     if (formState.validate()) {
       formState.save();
-
-      print(_adress);
 
       if (_adress != null) {
         if (int.parse(_price) > 0 && int.parse(_price) < 1000) {

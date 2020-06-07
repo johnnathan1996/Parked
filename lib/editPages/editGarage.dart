@@ -31,11 +31,12 @@ class _EditGarageState extends State<EditGarage> {
   _EditGarageState({Key key, this.idGarage});
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String _adress, _desciption, downloadLink;
+  String _adress, _desciption;
   String _high = translate(Keys.Featuregarage_None);
   String _price = "";
 
-  File fileName;
+  List fileName = [];
+  List fileNameUrl = [];
 
   num _longitude, _latitude;
 
@@ -63,7 +64,7 @@ class _EditGarageState extends State<EditGarage> {
         setState(() {
           _adress = snapshot.data["adress"];
           _desciption = snapshot.data["beschrijving"];
-          downloadLink = snapshot.data["garageImg"][0];
+          fileNameUrl = snapshot.data["garageImg"];
           priceController.text = snapshot.data["prijs"].toString();
           _listChecked = snapshot.data["kenmerken"].cast<String>();
           _typeVoertuigen = snapshot.data["types"];
@@ -120,7 +121,7 @@ class _EditGarageState extends State<EditGarage> {
                               Padding(
                                   padding: EdgeInsets.symmetric(vertical: 10),
                                   child: ButtonComponent(
-                                      label: translate(Keys.Button_Add),
+                                      label: translate(Keys.Button_Update),
                                       onClickAction: () {
                                         updategarage(context, snapshot.data);
                                       })),
@@ -140,30 +141,150 @@ class _EditGarageState extends State<EditGarage> {
   }
 
   Widget imageComponent(BuildContext context) {
-    return DottedBorder(
-        dashPattern: [7],
-        color: Blauw,
-        strokeWidth: 2,
-        child: GestureDetector(
-          onTap: () {
-            actionUploadImage(context);
-          },
-          child: (fileName == null)
-              ? ClipRect(
-                  child: Align(
-                    alignment: Alignment.center,
-                    heightFactor: 0.5,
-                    child: Image.network(downloadLink),
-                  ),
-                )
-              : ClipRect(
-                  child: Align(
-                    alignment: Alignment.center,
-                    heightFactor: 0.5,
-                    child: Image.file(fileName),
-                  ),
+    return Column(
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.only(top: 10),
+          height: 130,
+          child: Row(
+            children: <Widget>[
+              Flexible(
+                flex: 2,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: DottedBorder(
+                      dashPattern: [7],
+                      color: Blauw,
+                      strokeWidth: 2,
+                      child: GestureDetector(
+                        onTap: () {
+                          actionUploadImage(context, 0);
+                        },
+                        child: (fileName.length == 0)
+                            ? ClipRect(
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  heightFactor: 1,
+                                  child: Image.network(fileNameUrl[0]),
+                                ),
+                              )
+                            : ClipRect(
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  heightFactor: 1,
+                                  child: Image.file(fileName[0]),
+                                ),
+                              ),
+                      )),
                 ),
-        ));
+              ),
+              Flexible(
+                child: Column(
+                  children: <Widget>[
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 5),
+                        child: DottedBorder(
+                            dashPattern: [7],
+                            color: Blauw,
+                            strokeWidth: 2,
+                            child: GestureDetector(
+                              onTap: () {
+                                actionUploadImage(context, 1);
+                              },
+                              child: fileNameUrl.asMap().containsKey(1)
+                                  ? ClipRect(
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        heightFactor: 1,
+                                        child: Image.network(fileNameUrl[1]),
+                                      ),
+                                    )
+                                  : (fileName.length <= 1)
+                                      ? Container(
+                                          alignment: Alignment.center,
+                                          color: Wit,
+                                          child: RichText(
+                                            text: TextSpan(
+                                              style: SizeParagraph,
+                                              children: [
+                                                WidgetSpan(
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(
+                                                        right: 5),
+                                                    child:
+                                                        Icon(Icons.camera_alt),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ))
+                                      : ClipRect(
+                                          child: Align(
+                                            alignment: Alignment.center,
+                                            heightFactor: 1,
+                                            child: Image.file(fileName[1]),
+                                          ),
+                                        ),
+                            )),
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 5),
+                        child: DottedBorder(
+                            dashPattern: [7],
+                            color: Blauw,
+                            strokeWidth: 2,
+                            child: GestureDetector(
+                              onTap: () {
+                                actionUploadImage(context, 2);
+                              },
+                              child: fileNameUrl.asMap().containsKey(2)
+                                  ? ClipRect(
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        heightFactor: 1,
+                                        child: Image.network(fileNameUrl[2]),
+                                      ),
+                                    )
+                                  : (fileName.length <= 2)
+                                      ? Container(
+                                          alignment: Alignment.center,
+                                          color: Wit,
+                                          child: RichText(
+                                            text: TextSpan(
+                                              style: SizeParagraph,
+                                              children: [
+                                                WidgetSpan(
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(
+                                                        right: 5),
+                                                    child:
+                                                        Icon(Icons.camera_alt),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ))
+                                      : ClipRect(
+                                          child: Align(
+                                            alignment: Alignment.center,
+                                            heightFactor: 1,
+                                            child: Image.file(fileName[2]),
+                                          ),
+                                        ),
+                            )),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      ],
+    );
   }
 
   Widget adresComponent(BuildContext context) {
@@ -465,33 +586,41 @@ class _EditGarageState extends State<EditGarage> {
     ));
   }
 
-  Future takePicture() async {
+  Future takePicture(int index) async {
     PickedFile imageFromCamera =
         await ImagePicker().getImage(source: ImageSource.camera);
 
     if (imageFromCamera != null) {
       if (this.mounted) {
         setState(() {
-          fileName = File(imageFromCamera.path);
+          if (fileName.asMap().containsKey(index)) {
+            fileName[index] = File(imageFromCamera.path);
+          } else {
+            fileName.add(File(imageFromCamera.path));
+          }
         });
       }
     }
   }
 
-  Future choosePicture() async {
+  Future choosePicture(int index) async {
     PickedFile imageFromLibrary =
         await ImagePicker().getImage(source: ImageSource.gallery);
 
     if (imageFromLibrary != null) {
       if (this.mounted) {
         setState(() {
-          fileName = File(imageFromLibrary.path);
+          if (fileName.asMap().containsKey(index)) {
+            fileName[index] = File(imageFromLibrary.path);
+          } else {
+            fileName.add(File(imageFromLibrary.path));
+          }
         });
       }
     }
   }
 
-  Future uploadToStorage(BuildContext context, File image) async {
+  Future uploadToStorage(BuildContext context, List image) async {
     var dialogContext;
     showDialog(
       barrierDismissible: false,
@@ -508,21 +637,45 @@ class _EditGarageState extends State<EditGarage> {
       },
     );
 
-    String fileName = basename(image.path);
-    StorageReference firebaseStorageRef =
-        FirebaseStorage.instance.ref().child(fileName);
-    StorageUploadTask uploadTask = firebaseStorageRef.putFile(image);
-    await uploadTask.onComplete;
+    Future.forEach(image, (element) async {
+      String fileName = basename(element.path);
+      StorageReference firebaseStorageRef =
+          FirebaseStorage.instance.ref().child(fileName);
+      StorageUploadTask uploadTask = firebaseStorageRef.putFile(element);
+      await uploadTask.onComplete;
 
-    var dowurl = await (await uploadTask.onComplete).ref.getDownloadURL();
-    var url = dowurl.toString();
-    downloadLink = url;
-    if (dialogContext != null) {
-      Navigator.of(dialogContext).pop();
-    }
+      var dowurl = await (await uploadTask.onComplete).ref.getDownloadURL();
+      var url = dowurl.toString();
+      fileNameUrl = [];
+      fileNameUrl.add(url);
+    }).whenComplete(() {
+      if (dialogContext != null) {
+        Navigator.of(dialogContext).pop();
+      }
+      Geoflutterfire geo = Geoflutterfire();
+      GeoFirePoint center =
+          geo.point(latitude: _latitude, longitude: _longitude);
+
+      try {
+        Firestore.instance.collection('garages').document(idGarage).updateData({
+          'garageImg': fileNameUrl,
+          'adress': _adress,
+          'prijs': int.parse(_price),
+          'beschrijving': _desciption.capitalize(),
+          'maxHoogte': _high,
+          'kenmerken': _listChecked,
+          'types': _typeVoertuigen,
+          'location': center.data,
+        }).then((value) {
+          Navigator.of(context).pop();
+        });
+      } catch (e) {
+        print(e.message);
+      }
+    });
   }
 
-  Future actionUploadImage(BuildContext context) async {
+  Future actionUploadImage(BuildContext context, int index) async {
     await showCupertinoModalPopup(
         context: context,
         builder: (context) {
@@ -536,14 +689,14 @@ class _EditGarageState extends State<EditGarage> {
             actions: <Widget>[
               CupertinoActionSheetAction(
                 onPressed: () async {
-                  await takePicture();
+                  await takePicture(index);
                   Navigator.of(context).pop();
                 },
                 child: Text(translate(Keys.Button_Camera)),
               ),
               CupertinoActionSheetAction(
                 onPressed: () async {
-                  await choosePicture();
+                  await choosePicture(index);
                   Navigator.of(context).pop();
                 },
                 child: Text(translate(Keys.Button_Library)),
@@ -638,32 +791,8 @@ class _EditGarageState extends State<EditGarage> {
           _longitude = first.coordinates.longitude;
           _latitude = first.coordinates.latitude;
 
-          if (fileName != null) {
-            uploadToStorage(context, fileName).whenComplete(() {
-              Geoflutterfire geo = Geoflutterfire();
-              GeoFirePoint center =
-                  geo.point(latitude: _latitude, longitude: _longitude);
-
-              try {
-                Firestore.instance
-                    .collection('garages')
-                    .document(idGarage)
-                    .updateData({
-                  'garageImg': downloadLink,
-                  'adress': _adress,
-                  'prijs': int.parse(_price),
-                  'beschrijving': _desciption.capitalize(),
-                  'maxHoogte': _high,
-                  'kenmerken': _listChecked,
-                  'types': _typeVoertuigen,
-                  'location': center.data,
-                }).then((value) {
-                  Navigator.of(context).pop();
-                });
-              } catch (e) {
-                print(e.message);
-              }
-            });
+          if (fileName.asMap().containsKey(0)) {
+            await uploadToStorage(context, fileName);
           } else {
             Geoflutterfire geo = Geoflutterfire();
             GeoFirePoint center =
@@ -673,7 +802,7 @@ class _EditGarageState extends State<EditGarage> {
                   .collection('garages')
                   .document(idGarage)
                   .updateData({
-                'garageImg': garage["garageImg"],
+                'garageImg': fileNameUrl,
                 'adress': _adress,
                 'prijs': int.parse(_price),
                 'beschrijving': _desciption.capitalize(),
