@@ -62,7 +62,9 @@
 		"Confirm": "Confirm",
 		"ActiveLocation": "Activate your location",
 		"Next": "Next",
-		"Report": "Report"
+		"Report": "Report",
+		"ShowGarage": "Show your garage",
+		"HideGarage": "Hide your garage"
 	},
 	"Inputs": {
 		"Firstname": "First name",

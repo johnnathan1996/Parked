@@ -62,7 +62,9 @@
 		"Confirm": "Confirmer",
 		"ActiveLocation": "Activer votre localisation",
 		"Next": "Suivant",
-		"Report": "Signaler"
+		"Report": "Signaler",
+		"ShowGarage": "Montrer votre garage",
+		"HideGarage": "Cacher votre garage"
 		
 	},
 	"Inputs": {

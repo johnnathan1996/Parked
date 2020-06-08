@@ -26,7 +26,7 @@
 		"InvalidCode": "Ongeldige code",
 		"OwnerOffers": "Wat de eigenaar biedt",
 		"PaymentSummary": "Betalingsoverzicht",
-		"Pay" : "Betalen",
+		"Pay": "Betalen",
 		"Services": "Diensten"
 	},
 	"Button": {
@@ -58,11 +58,13 @@
 		"Accept": "Accepteren",
 		"Refuse": "Weigeren",
 		"Edit": "Bewerken",
-		"SearchGarage" : "Zoek een garage",
+		"SearchGarage": "Zoek een garage",
 		"Confirm": "Bevestigen",
 		"ActiveLocation": "Activeer uw locatie",
 		"Next": "Volgende",
-		"Report": "Report"
+		"Report": "Report",
+		"ShowGarage": "Toon je garage",
+		"HideGarage": "Verberg je garage"
 	},
 	"Inputs": {
 		"Firstname": "Voornaam",

@@ -121,6 +121,10 @@ class Keys {
 
   static const String Button_Report = 'Button.Report';
 
+  static const String Button_Showgarage = 'Button.ShowGarage';
+
+  static const String Button_Hidegarage = 'Button.HideGarage';
+
   static const String Inputs_Firstname = 'Inputs.Firstname';
 
   static const String Inputs_Lastname = 'Inputs.Lastname';

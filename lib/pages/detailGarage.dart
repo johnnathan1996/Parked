@@ -385,7 +385,7 @@ class _DetailGarageState extends State<DetailGarage> {
                             'available': false,
                           });
                         },
-                        child: Text("Caché votre garage", //TODO: trad
+                        child: Text(translate(Keys.Button_Hidegarage),
                             style: TextStyle(color: Colors.red)))
                     : FlatButton(
                         onPressed: () {
@@ -396,7 +396,7 @@ class _DetailGarageState extends State<DetailGarage> {
                             'available': true,
                           });
                         },
-                        child: Text("Montrer votre garage", //TODO: trad
+                        child: Text(translate(Keys.Button_Showgarage),
                             style: TextStyle(color: Blauw))),
               ),
         Divider(color: Grijs)
