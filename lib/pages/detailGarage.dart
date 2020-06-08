@@ -5,12 +5,12 @@ import 'package:flutter_map/plugin_api.dart';
 import 'package:latlong/latlong.dart';
 import 'package:parkly/constant.dart';
 import 'package:parkly/editPages/editGarage.dart';
-import 'package:parkly/pages/chatPage.dart';
 import 'package:parkly/script/changeDate.dart';
 import 'package:parkly/script/checkFavorite.dart';
 import 'package:parkly/script/getListDates.dart';
 import 'package:parkly/script/getMonth.dart';
 import 'package:parkly/script/getWeekDay.dart';
+import 'package:parkly/script/goToChat.dart';
 import 'package:parkly/ui/button.dart';
 import 'package:parkly/ui/listText.dart';
 import 'package:parkly/ui/modal.dart';
@@ -359,7 +359,7 @@ class _DetailGarageState extends State<DetailGarage> {
             ? !viaChat
                 ? FlatButton(
                     onPressed: () {
-                      goingToChat(eigenaarId);
+                      goingToChat(context, eigenaarId, idGarage, myName);
                     },
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -385,7 +385,7 @@ class _DetailGarageState extends State<DetailGarage> {
                             'available': false,
                           });
                         },
-                        child: Text("Caché votre garage",
+                        child: Text("Caché votre garage", //TODO: trad
                             style: TextStyle(color: Colors.red)))
                     : FlatButton(
                         onPressed: () {
@@ -396,7 +396,7 @@ class _DetailGarageState extends State<DetailGarage> {
                             'available': true,
                           });
                         },
-                        child: Text("Montrer votre garage",
+                        child: Text("Montrer votre garage", //TODO: trad
                             style: TextStyle(color: Blauw))),
               ),
         Divider(color: Grijs)
@@ -690,51 +690,7 @@ class _DetailGarageState extends State<DetailGarage> {
     }
   }
 
-  goingToChat(String eigenaarId) async {
-    List bijdeUsers;
-    String garageId;
-    DocumentSnapshot conversationId;
-    final result = await Firestore.instance
-        .collection('conversation')
-        .where('userInChat', arrayContains: globals.userId)
-        .getDocuments();
-
-    final List<DocumentSnapshot> documents = result.documents;
-
-    documents.forEach((data) {
-      bijdeUsers = data.data['userInChat'];
-
-      garageId = data.data["garageId"];
-
-      if (bijdeUsers.contains(eigenaarId)) {
-        if (garageId == idGarage) {
-          conversationId = data;
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ChatPage(
-                      conversationID: data.documentID, sendName: myName)));
-        }
-      }
-    });
-
-    if (conversationId == null) {
-      Firestore.instance.collection('conversation').add({
-        'chat': [],
-        'garageId': idGarage,
-        'creator': globals.userId,
-        'seenLastIndex': 0,
-        'seenLastMessage': false,
-        'userInChat': [globals.userId, eigenaarId],
-      }).then((value) {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ChatPage(
-                    conversationID: value.documentID, sendName: myName)));
-      });
-    }
-  }
+  
 
   _showModalBottomSheet(context, DocumentSnapshot garage) {
     if (this.mounted) {
@@ -828,7 +784,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                                       margin: EdgeInsets.only(
                                                           right: 10),
                                                       child: Image.network(
-                                                          garage['garageImg'],
+                                                          garage['garageImg'][0],
                                                           fit: BoxFit.cover)),
                                                   Expanded(
                                                     child: Text(

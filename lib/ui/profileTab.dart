@@ -11,21 +11,25 @@ import 'package:parkly/script/changeDate.dart';
 import 'package:parkly/script/getMonth.dart';
 import 'package:parkly/script/getStatus.dart';
 import 'package:parkly/script/getWeekDay.dart';
+import 'package:parkly/script/goToChat.dart';
 import '../setup/globals.dart' as globals;
 
 class ProfileTab extends StatefulWidget {
   final DocumentSnapshot snapshot;
+  final Function callback;
+  final String myName;
 
-  ProfileTab({
-    @required this.snapshot,
-  });
+  ProfileTab({@required this.snapshot, this.callback, this.myName});
   @override
-  _ProfileTabState createState() => _ProfileTabState(snapshot: snapshot);
+  _ProfileTabState createState() =>
+      _ProfileTabState(snapshot: snapshot, callback: callback, myName:myName);
 }
 
 class _ProfileTabState extends State<ProfileTab> {
   DocumentSnapshot snapshot;
-  _ProfileTabState({Key key, this.snapshot});
+  Function callback;
+  String myName;
+  _ProfileTabState({Key key, this.snapshot, this.callback, this.myName});
 
   @override
   Widget build(BuildContext context) {
@@ -77,12 +81,14 @@ class _ProfileTabState extends State<ProfileTab> {
                 GestureDetector(
                     onTap: userData["home"] == null
                         ? () {
+                            callback();
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => AddHome()));
                           }
                         : () {
+                            callback();
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -123,6 +129,7 @@ class _ProfileTabState extends State<ProfileTab> {
                                       color: Blauw,
                                     ),
                                     onPressed: () {
+                                      callback();
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -142,12 +149,14 @@ class _ProfileTabState extends State<ProfileTab> {
                 GestureDetector(
                   onTap: userData["job"] == null
                       ? () {
+                          callback();
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => AddJob()));
                         }
                       : () {
+                          callback();
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -186,6 +195,7 @@ class _ProfileTabState extends State<ProfileTab> {
                                     color: Blauw,
                                   ),
                                   onPressed: () {
+                                    callback();
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -312,7 +322,9 @@ class _ProfileTabState extends State<ProfileTab> {
             actions: <Widget>[
               CupertinoActionSheetAction(
                   onPressed: () {
+                    callback();
                     Navigator.of(context).pop();
+
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -325,6 +337,7 @@ class _ProfileTabState extends State<ProfileTab> {
                   child: Text(translate(Keys.Button_Searchgarage))),
               CupertinoActionSheetAction(
                 onPressed: () {
+                  callback();
                   Navigator.of(context).pop();
                   if (type == "home") {
                     Navigator.push(context,
@@ -472,8 +485,8 @@ class _ProfileTabState extends State<ProfileTab> {
                                                                         right:
                                                                             10),
                                                                     child: Image.network(
-                                                                        garagesSnapshot.data[
-                                                                            'garageImg'][0],
+                                                                        garagesSnapshot.data['garageImg']
+                                                                            [0],
                                                                         fit: BoxFit
                                                                             .cover)),
                                                                 Expanded(
@@ -491,6 +504,33 @@ class _ProfileTabState extends State<ProfileTab> {
                                                     }
                                                   }),
                                             ),
+                                            FlatButton(
+                                                onPressed: () {
+                                                  goingToChat(
+                                                      context,
+                                                      reservationSnapshot.data['eigenaar'],
+                                                      reservationSnapshot.data['garageId'],
+                                                      myName);
+                                                },
+                                                child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: <Widget>[
+                                                      Icon(Icons.message,
+                                                          color: Blauw,
+                                                          size: 20),
+                                                      Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left: 7),
+                                                          child: Text(
+                                                              translate(Keys
+                                                                  .Button_Sendmessageowner),
+                                                              style: TextStyle(
+                                                                color: Blauw,
+                                                              )))
+                                                    ])),
                                             Container(
                                               margin: EdgeInsets.only(top: 10),
                                               padding: EdgeInsets.symmetric(

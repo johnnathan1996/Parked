@@ -146,9 +146,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                     header: Padding(
                                         padding: EdgeInsets.only(bottom: 10),
                                         child: SimpleTooltip(
+                                            minimumOutSidePadding: 20,
                                             borderWidth: 0,
-                                            arrowLength: 5,
-                                            arrowBaseWidth: 10,
+                                            arrowLength: 10,
+                                            arrowBaseWidth: 20,
                                             ballonPadding: EdgeInsets.symmetric(
                                                 horizontal: 10, vertical: 5),
                                             customShadows: [
@@ -379,7 +380,10 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                           SliverFillRemaining(
                             child: TabBarView(children: [
-                              ProfileTab(snapshot: snapshot.data),
+                              ProfileTab(
+                                  snapshot: snapshot.data,
+                                  callback: hideShowTooltip,
+                                  myName: snapshot.data['voornaam']),
                               AgendaTab()
                             ]),
                           )
@@ -421,6 +425,14 @@ class _ProfilePageState extends State<ProfilePage> {
         }
       }
     });
+  }
+
+  hideShowTooltip() {
+    if (this.mounted) {
+      setState(() {
+        showTooltip = false;
+      });
+    }
   }
 
   void checkGamification() {
