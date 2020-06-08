@@ -2,11 +2,11 @@ import 'package:animations/animations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:parkly/constant.dart';
-import 'package:parkly/localization/keys.dart';
-import 'package:parkly/pages/detailGarage.dart';
-import 'package:parkly/script/checkFavorite.dart';
-import 'package:parkly/ui/showStars.dart';
+import 'package:Parked/constant.dart';
+import 'package:Parked/localization/keys.dart';
+import 'package:Parked/pages/detailGarage.dart';
+import 'package:Parked/script/checkFavorite.dart';
+import 'package:Parked/ui/showStars.dart';
 import '../setup/globals.dart' as globals;
 
 class ModalMapComponent extends StatefulWidget {

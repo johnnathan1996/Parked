@@ -1,14 +1,14 @@
 import 'package:animations/animations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:parkly/constant.dart';
-import 'package:parkly/pages/detailGarage.dart';
-import 'package:parkly/script/changeDate.dart';
-import 'package:parkly/ui/reportModal.dart';
+import 'package:Parked/constant.dart';
+import 'package:Parked/pages/detailGarage.dart';
+import 'package:Parked/script/changeDate.dart';
+import 'package:Parked/ui/reportModal.dart';
 import 'package:speech_bubble/speech_bubble.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:parkly/localization/keys.dart';
-import 'package:parkly/setup/globals.dart' as globals;
+import 'package:Parked/localization/keys.dart';
+import 'package:Parked/setup/globals.dart' as globals;
 
 class ChatPage extends StatefulWidget {
   final String conversationID, sendName;

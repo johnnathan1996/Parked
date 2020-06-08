@@ -1,16 +1,16 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:parkly/constant.dart';
+import 'package:Parked/constant.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:parkly/editPages/editProfile.dart';
+import 'package:Parked/editPages/editProfile.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:parkly/ui/listText.dart';
-import 'package:parkly/ui/navigation.dart';
-import 'package:parkly/ui/profileTab.dart';
-import 'package:parkly/ui/agendaTab.dart';
+import 'package:Parked/ui/listText.dart';
+import 'package:Parked/ui/navigation.dart';
+import 'package:Parked/ui/profileTab.dart';
+import 'package:Parked/ui/agendaTab.dart';
 import '../setup/globals.dart' as globals;
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:parkly/localization/keys.dart';
+import 'package:Parked/localization/keys.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:full_screen_image/full_screen_image.dart';
@@ -79,6 +79,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 icon: new Icon(Icons.menu),
                                 onPressed: () {
                                   //TODO: TOOLTIP BUG , IL SE FEMRE PAS
+                                  
                                   _scaffoldKey.currentState.openDrawer();
                                   print("hehe");
                                   

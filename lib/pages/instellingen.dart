@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:parkly/constant.dart';
-import 'package:parkly/script/logout.dart';
-import 'package:parkly/ui/button.dart';
-import 'package:parkly/ui/title.dart';
+import 'package:Parked/constant.dart';
+import 'package:Parked/script/logout.dart';
+import 'package:Parked/ui/button.dart';
+import 'package:Parked/ui/title.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:parkly/localization/keys.dart';
+import 'package:Parked/localization/keys.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../setup/globals.dart' as globals;

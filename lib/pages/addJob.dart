@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:mapbox_search/mapbox_search.dart';
-import 'package:parkly/constant.dart';
-import 'package:parkly/localization/keys.dart';
+import 'package:Parked/constant.dart';
+import 'package:Parked/localization/keys.dart';
 import '../setup/globals.dart' as globals;
 
 class AddJob extends StatefulWidget {

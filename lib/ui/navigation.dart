@@ -1,16 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:parkly/constant.dart';
-import 'package:parkly/pages/favorite.dart';
-import 'package:parkly/pages/garages.dart';
-import 'package:parkly/pages/historiek.dart';
-import 'package:parkly/pages/instellingen.dart';
-import 'package:parkly/pages/maps.dart';
-import 'package:parkly/pages/message.dart';
-import 'package:parkly/pages/profile.dart';
+import 'package:Parked/constant.dart';
+import 'package:Parked/pages/favorite.dart';
+import 'package:Parked/pages/garages.dart';
+import 'package:Parked/pages/historiek.dart';
+import 'package:Parked/pages/instellingen.dart';
+import 'package:Parked/pages/maps.dart';
+import 'package:Parked/pages/message.dart';
+import 'package:Parked/pages/profile.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:parkly/localization/keys.dart';
-import 'package:parkly/ui/dot.dart';
+import 'package:Parked/localization/keys.dart';
+import 'package:Parked/ui/dot.dart';
 import '../setup/globals.dart' as globals;
 
 List<Widget> navItemWidget = [];

@@ -4,12 +4,12 @@ import 'package:content_placeholder/content_placeholder.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
-import 'package:parkly/pages/detailGarage.dart';
-import 'package:parkly/ui/showStars.dart';
+import 'package:Parked/pages/detailGarage.dart';
+import 'package:Parked/ui/showStars.dart';
 import '../constant.dart';
 import '../setup/globals.dart' as globals;
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:parkly/localization/keys.dart';
+import 'package:Parked/localization/keys.dart';
 
 class GarageCardComponent extends StatelessWidget {
   final DocumentSnapshot garage;

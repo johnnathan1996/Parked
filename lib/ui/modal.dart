@@ -1,9 +1,9 @@
 // https://stackoverflow.com/questions/52408610/flutter-custom-animated-dialog
 import 'package:flutter/material.dart';
-import 'package:parkly/constant.dart';
-import 'package:parkly/pages/profile.dart';
+import 'package:Parked/constant.dart';
+import 'package:Parked/pages/profile.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:parkly/localization/keys.dart';
+import 'package:Parked/localization/keys.dart';
 
 class ModalComponent extends StatefulWidget {
   final String modalTekst;

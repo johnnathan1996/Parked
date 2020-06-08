@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:parkly/constant.dart';
-import 'package:parkly/script/changeDate.dart';
+import 'package:Parked/constant.dart';
+import 'package:Parked/script/changeDate.dart';
 
 class RatingCardComponent extends StatefulWidget {
   final Map card;

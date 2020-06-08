@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:parkly/constant.dart';
-import 'package:parkly/pages/maps.dart';
-import 'package:parkly/setup/logIn.dart';
+import 'package:Parked/constant.dart';
+import 'package:Parked/pages/maps.dart';
+import 'package:Parked/setup/logIn.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter_app_badger/flutter_app_badger.dart';
-import 'package:parkly/setup/globals.dart' as globals;
+import 'package:Parked/setup/globals.dart' as globals;
 import 'package:rxdart/subjects.dart';
 import 'package:intl/date_symbol_data_local.dart';
 

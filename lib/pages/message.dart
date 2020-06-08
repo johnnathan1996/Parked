@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:parkly/constant.dart';
-import 'package:parkly/localization/keys.dart';
-import 'package:parkly/pages/chatPage.dart';
-import 'package:parkly/script/changeDate.dart';
-import 'package:parkly/ui/dot.dart';
-import 'package:parkly/ui/navigation.dart';
-import 'package:parkly/ui/title.dart';
+import 'package:Parked/constant.dart';
+import 'package:Parked/localization/keys.dart';
+import 'package:Parked/pages/chatPage.dart';
+import 'package:Parked/script/changeDate.dart';
+import 'package:Parked/ui/dot.dart';
+import 'package:Parked/ui/navigation.dart';
+import 'package:Parked/ui/title.dart';
 import '../setup/globals.dart' as globals;
 import 'package:content_placeholder/content_placeholder.dart';
 

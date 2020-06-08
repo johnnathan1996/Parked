@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:parkly/pages/chatPage.dart';
+import 'package:Parked/pages/chatPage.dart';
 import '../setup/globals.dart' as globals;
 
 goingToChat(BuildContext context, String eigenaarId, String idGarage, String myName) async {

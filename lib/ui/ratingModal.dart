@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:parkly/constant.dart';
+import 'package:Parked/constant.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import '../setup/globals.dart' as globals;
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:parkly/localization/keys.dart';
+import 'package:Parked/localization/keys.dart';
 
 class RatingModal extends StatefulWidget {
   final String idGarage;

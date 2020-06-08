@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:parkly/constant.dart';
+import 'package:Parked/constant.dart';
 
 class DotComponent extends StatelessWidget {
   final int number;

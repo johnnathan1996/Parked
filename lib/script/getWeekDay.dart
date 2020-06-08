@@ -1,5 +1,5 @@
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:parkly/localization/keys.dart';
+import 'package:Parked/localization/keys.dart';
 
 String getWeekDay(int grade) {
   switch (grade) {

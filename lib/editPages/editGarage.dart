@@ -4,16 +4,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mapbox_search/mapbox_search.dart';
-import 'package:parkly/constant.dart';
+import 'package:Parked/constant.dart';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:parkly/ui/modal.dart';
+import 'package:Parked/ui/modal.dart';
 import 'dart:io';
 import 'package:path/path.dart';
-import 'package:parkly/ui/button.dart';
+import 'package:Parked/ui/button.dart';
 import 'package:grouped_buttons/grouped_buttons.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:parkly/localization/keys.dart';
+import 'package:Parked/localization/keys.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 
 class EditGarage extends StatefulWidget {

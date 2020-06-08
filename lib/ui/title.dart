@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:parkly/constant.dart';
+import 'package:Parked/constant.dart';
 
 class TitleComponent extends StatelessWidget {
   final String label;

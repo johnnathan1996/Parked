@@ -2,7 +2,7 @@
 
 My final work school project made in Flutter.
 
-Parkly is a mobile application that is going to help people to find and offer parking places in several major cities. This will be a community-based application where anyone can rent or reserve a parking place.
+Parked is a mobile application that is going to help people to find and offer parking places in several major cities. This will be a community-based application where anyone can rent or reserve a parking place.
 
 ## Getting Started
 

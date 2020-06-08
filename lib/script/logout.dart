@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:parkly/setup/logIn.dart';
+import 'package:Parked/setup/logIn.dart';
 
 Future<void> logOut(context) async {
   Navigator.pushReplacement(

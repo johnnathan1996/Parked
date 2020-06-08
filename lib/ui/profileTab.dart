@@ -2,16 +2,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:parkly/constant.dart';
-import 'package:parkly/localization/keys.dart';
-import 'package:parkly/pages/addHome.dart';
-import 'package:parkly/pages/addJob.dart';
-import 'package:parkly/pages/maps.dart';
-import 'package:parkly/script/changeDate.dart';
-import 'package:parkly/script/getMonth.dart';
-import 'package:parkly/script/getStatus.dart';
-import 'package:parkly/script/getWeekDay.dart';
-import 'package:parkly/script/goToChat.dart';
+import 'package:Parked/constant.dart';
+import 'package:Parked/localization/keys.dart';
+import 'package:Parked/pages/addHome.dart';
+import 'package:Parked/pages/addJob.dart';
+import 'package:Parked/pages/maps.dart';
+import 'package:Parked/script/changeDate.dart';
+import 'package:Parked/script/getMonth.dart';
+import 'package:Parked/script/getStatus.dart';
+import 'package:Parked/script/getWeekDay.dart';
+import 'package:Parked/script/goToChat.dart';
 import '../setup/globals.dart' as globals;
 
 class ProfileTab extends StatefulWidget {

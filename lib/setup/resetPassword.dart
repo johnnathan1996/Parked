@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:parkly/constant.dart';
-import 'package:parkly/ui/button.dart';
-import 'package:parkly/ui/modal.dart';
+import 'package:Parked/constant.dart';
+import 'package:Parked/ui/button.dart';
+import 'package:Parked/ui/modal.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:parkly/localization/keys.dart';
+import 'package:Parked/localization/keys.dart';
 
 class ResetPassword extends StatefulWidget {
   @override

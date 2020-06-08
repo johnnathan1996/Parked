@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:parkly/constant.dart';
+import 'package:Parked/constant.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:parkly/localization/keys.dart';
-import 'package:parkly/ui/favoriteCard.dart';
-import 'package:parkly/ui/navigation.dart';
-import 'package:parkly/ui/title.dart';
+import 'package:Parked/localization/keys.dart';
+import 'package:Parked/ui/favoriteCard.dart';
+import 'package:Parked/ui/navigation.dart';
+import 'package:Parked/ui/title.dart';
 import '../setup/globals.dart' as globals;
 
 class FavoritePage extends StatefulWidget {

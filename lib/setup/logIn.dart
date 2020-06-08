@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:parkly/pages/maps.dart';
-import 'package:parkly/setup/resetPassword.dart';
-import 'package:parkly/setup/signUp.dart';
+import 'package:Parked/pages/maps.dart';
+import 'package:Parked/setup/resetPassword.dart';
+import 'package:Parked/setup/signUp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:parkly/constant.dart';
-import 'package:parkly/ui/button.dart';
-import 'package:parkly/ui/modal.dart';
+import 'package:Parked/constant.dart';
+import 'package:Parked/ui/button.dart';
+import 'package:Parked/ui/modal.dart';
 import '../setup/globals.dart' as globals;
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:parkly/localization/keys.dart';
+import 'package:Parked/localization/keys.dart';
 
 class LogInPage extends StatefulWidget {
   @override

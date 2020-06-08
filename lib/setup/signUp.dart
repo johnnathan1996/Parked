@@ -3,16 +3,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:international_phone_input/international_phone_input.dart';
 import 'package:flutter/material.dart';
-import 'package:parkly/constant.dart';
-import 'package:parkly/pages/maps.dart';
+import 'package:Parked/constant.dart';
+import 'package:Parked/pages/maps.dart';
 import 'package:flutter/services.dart';
-import 'package:parkly/script/changeDate.dart';
-import 'package:parkly/ui/button.dart';
-import 'package:parkly/ui/modal.dart';
+import 'package:Parked/script/changeDate.dart';
+import 'package:Parked/ui/button.dart';
+import 'package:Parked/ui/modal.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import '../setup/globals.dart' as globals;
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:parkly/localization/keys.dart';
+import 'package:Parked/localization/keys.dart';
 import 'package:email_validator/email_validator.dart';
 
 class SignUpPage extends StatefulWidget {

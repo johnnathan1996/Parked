@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:parkly/constant.dart';
-import 'package:parkly/localization/keys.dart';
-import 'package:parkly/script/changeDate.dart';
-import 'package:parkly/script/getStatus.dart';
+import 'package:Parked/constant.dart';
+import 'package:Parked/localization/keys.dart';
+import 'package:Parked/script/changeDate.dart';
+import 'package:Parked/script/getStatus.dart';
 import '../setup/globals.dart' as globals;
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:table_calendar/table_calendar.dart';

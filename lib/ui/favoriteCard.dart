@@ -3,8 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:content_placeholder/content_placeholder.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:parkly/pages/detailGarage.dart';
-import 'package:parkly/script/checkFavorite.dart';
+import 'package:Parked/pages/detailGarage.dart';
+import 'package:Parked/script/checkFavorite.dart';
 import '../constant.dart';
 import '../setup/globals.dart' as globals;
 

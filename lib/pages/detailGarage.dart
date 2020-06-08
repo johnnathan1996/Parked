@@ -3,26 +3,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:latlong/latlong.dart';
-import 'package:parkly/constant.dart';
-import 'package:parkly/editPages/editGarage.dart';
-import 'package:parkly/script/changeDate.dart';
-import 'package:parkly/script/checkFavorite.dart';
-import 'package:parkly/script/getListDates.dart';
-import 'package:parkly/script/getMonth.dart';
-import 'package:parkly/script/getWeekDay.dart';
-import 'package:parkly/script/goToChat.dart';
-import 'package:parkly/ui/button.dart';
-import 'package:parkly/ui/listText.dart';
-import 'package:parkly/ui/modal.dart';
-import 'package:parkly/ui/ratingCard.dart';
-import 'package:parkly/ui/ratingModal.dart';
-import 'package:parkly/ui/showStars.dart';
+import 'package:Parked/constant.dart';
+import 'package:Parked/editPages/editGarage.dart';
+import 'package:Parked/script/changeDate.dart';
+import 'package:Parked/script/checkFavorite.dart';
+import 'package:Parked/script/getListDates.dart';
+import 'package:Parked/script/getMonth.dart';
+import 'package:Parked/script/getWeekDay.dart';
+import 'package:Parked/script/goToChat.dart';
+import 'package:Parked/ui/button.dart';
+import 'package:Parked/ui/listText.dart';
+import 'package:Parked/ui/modal.dart';
+import 'package:Parked/ui/ratingCard.dart';
+import 'package:Parked/ui/ratingModal.dart';
+import 'package:Parked/ui/showStars.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:snaplist/snaplist.dart';
 import '../setup/globals.dart' as globals;
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:parkly/localization/keys.dart';
+import 'package:Parked/localization/keys.dart';
 import 'package:date_range_picker/date_range_picker.dart' as DateRangePicker;
 import 'package:stripe_payment/stripe_payment.dart' as stripe;
 import 'package:stripe_fl/stripe_fl.dart' as stripefl;
@@ -1264,7 +1264,7 @@ class _DetailGarageState extends State<DetailGarage> {
         name: idGarage,
         statementDescriptor: "Paiement",
         currency: 'eur',
-        returnURL: 'parked://stripe-redirect',
+        returnURL: 'Parked://stripe-redirect',
       )).then((source) {
         try {
           stripefl.Charge()
