@@ -85,138 +85,144 @@ class _AgendaTabState extends State<AgendaTab> {
   Widget build(BuildContext context) {
     var localizationDelegate = LocalizedApp.of(context).delegate;
 
-    return Column(
-      children: <Widget>[
-        TableCalendar(
-          calendarController: _calendarController,
-          locale: getCurrentLanguageLocalizationKey(
-              localizationDelegate.currentLocale.languageCode),
-          startingDayOfWeek: StartingDayOfWeek.monday,
-          initialCalendarFormat: CalendarFormat.month,
-          events: _reservations,
-          holidays: _myReservations,
-          availableGestures: AvailableGestures.horizontalSwipe,
-          headerStyle: HeaderStyle(
-            centerHeaderTitle: true,
-            formatButtonVisible: false,
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          TableCalendar(
+            calendarController: _calendarController,
+            locale: getCurrentLanguageLocalizationKey(
+                localizationDelegate.currentLocale.languageCode),
+            startingDayOfWeek: StartingDayOfWeek.monday,
+            initialCalendarFormat: CalendarFormat.month,
+            events: _reservations,
+            holidays: _myReservations,
+            availableGestures: AvailableGestures.horizontalSwipe,
+            headerStyle: HeaderStyle(
+              centerHeaderTitle: true,
+              formatButtonVisible: false,
+            ),
+            onDaySelected: (value, a) {
+              if (_myReservations.containsKey(changeDatetimeToDatetime(value))) {
+                if (this.mounted) {
+                  setState(() {
+                    showGarageId =
+                        _myReservations[changeDatetimeToDatetime(value)];
+                    showMyResevation = true;
+                  });
+                }
+              } else {
+                if (this.mounted) {
+                  setState(() {
+                    showMyResevation = false;
+                  });
+                }
+              }
+
+              if (a.length != 0) {
+                if (this.mounted) {
+                  setState(() {
+                    showGarageId = a;
+                    showGarage = true;
+                  });
+                }
+              } else {
+                if (this.mounted) {
+                  setState(() {
+                    showGarage = false;
+                  });
+                }
+              }
+            },
+            daysOfWeekStyle: DaysOfWeekStyle(
+                weekendStyle: TextStyle().copyWith(color: Blauw),
+                weekdayStyle: TextStyle().copyWith(color: Zwart)),
+            calendarStyle: CalendarStyle(
+                todayColor: Grijs,
+                selectedColor: Blauw,
+                weekdayStyle: TextStyle().copyWith(color: Zwart),
+                weekendStyle: TextStyle().copyWith(color: Blauw),
+                holidayStyle: TextStyle().copyWith(color: Zwart)),
+            builders: CalendarBuilders(
+                markersBuilder: (context, date, events, holidays) {
+              final children = <Widget>[];
+
+              if (events.isNotEmpty) {
+                if (this.mounted) {
+                  getNotificationAgenda(events.first);
+                }
+                children.add(showNotification
+                    ? Positioned(
+                        top: 5,
+                        right: 5,
+                        child: Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.red,
+                            ),
+                            width: 12,
+                            height: 12))
+                    : Center(
+                        child: Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: dontShowWhenRefused
+                                  ? Blauw.withOpacity(0.15)
+                                  : Grijs.withOpacity(0),
+                            ),
+                            width: 50,
+                            height: 50),
+                      ));
+              }
+
+              if (holidays.isNotEmpty) {
+                children.add(
+                  StreamBuilder<DocumentSnapshot>(
+                      stream: Firestore.instance
+                          .collection('reservaties')
+                          .document(holidays.first)
+                          .snapshots(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<DocumentSnapshot> snapshot) {
+                        if (snapshot.hasData) {
+                          return Positioned(
+                              bottom: 10,
+                              child: AnimatedContainer(
+                                  duration: const Duration(milliseconds: 300),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: _calendarController.isSelected(date)
+                                        ? Wit
+                                        : _calendarController.isToday(date)
+                                            ? Wit
+                                            : snapshot.data["status"] == 1
+                                                ? Colors.orange
+                                                : Colors.green,
+                                  ),
+                                  width: 7,
+                                  height: 7));
+                        } else {
+                          return Container();
+                        }
+                      }),
+                );
+              }
+
+              return children;
+            }),
           ),
-          onDaySelected: (value, a) {
-            if (_myReservations.containsKey(changeDatetimeToDatetime(value))) {
-              if (this.mounted) {
-                setState(() {
-                  showGarageId =
-                      _myReservations[changeDatetimeToDatetime(value)];
-                  showMyResevation = true;
-                });
-              }
-            } else {
-              if (this.mounted) {
-                setState(() {
-                  showMyResevation = false;
-                });
-              }
-            }
-
-            if (a.length != 0) {
-              if (this.mounted) {
-                setState(() {
-                  showGarageId = a;
-                  showGarage = true;
-                });
-              }
-            } else {
-              if (this.mounted) {
-                setState(() {
-                  showGarage = false;
-                });
-              }
-            }
-          },
-          daysOfWeekStyle: DaysOfWeekStyle(
-              weekendStyle: TextStyle().copyWith(color: Blauw),
-              weekdayStyle: TextStyle().copyWith(color: Zwart)),
-          calendarStyle: CalendarStyle(
-              todayColor: Grijs,
-              selectedColor: Blauw,
-              weekdayStyle: TextStyle().copyWith(color: Zwart),
-              weekendStyle: TextStyle().copyWith(color: Blauw),
-              holidayStyle: TextStyle().copyWith(color: Zwart)),
-          builders: CalendarBuilders(
-              markersBuilder: (context, date, events, holidays) {
-            final children = <Widget>[];
-
-            if (events.isNotEmpty) {
-              if (this.mounted) {
-                getNotificationAgenda(events.first);
-              }
-              children.add(showNotification
-                  ? Positioned(
-                      top: 5,
-                      right: 5,
-                      child: Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.red,
-                          ),
-                          width: 12,
-                          height: 12))
-                  : Center(
-                      child: Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: dontShowWhenRefused
-                                ? Blauw.withOpacity(0.15)
-                                : Grijs.withOpacity(0),
-                          ),
-                          width: 50,
-                          height: 50),
-                    ));
-            }
-
-            if (holidays.isNotEmpty) {
-              children.add(
-                StreamBuilder<DocumentSnapshot>(
-                    stream: Firestore.instance
-                        .collection('reservaties')
-                        .document(holidays.first)
-                        .snapshots(),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<DocumentSnapshot> snapshot) {
-                      if (snapshot.hasData) {
-                        return Positioned(
-                            bottom: 10,
-                            child: AnimatedContainer(
-                                duration: const Duration(milliseconds: 300),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: _calendarController.isSelected(date)
-                                      ? Wit
-                                      : _calendarController.isToday(date)
-                                          ? Wit
-                                          : snapshot.data["status"] == 1
-                                              ? Colors.orange
-                                              : Colors.green,
-                                ),
-                                width: 7,
-                                height: 7));
-                      } else {
-                        return Container();
-                      }
-                    }),
-              );
-            }
-
-            return children;
-          }),
-        ),
-        Divider(),
-        showGarage
-            ? Expanded(child: showReservation(showGarageId))
-            : Container(),
-        showMyResevation
-            ? Expanded(child: showMyReservations(showGarageId))
-            : Container()
-      ],
+          Divider(),
+          Column(
+            children: <Widget>[
+              showGarage
+              ? showReservation(showGarageId)
+              : Container(),
+          showMyResevation
+              ? showMyReservations(showGarageId)
+              : Container()
+            ],
+          )
+        ],
+      ),
     );
   }
 
@@ -236,11 +242,13 @@ class _AgendaTabState extends State<AgendaTab> {
 
   showReservation(List<dynamic> garageId) {
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 15),
+        padding: EdgeInsets.only(right: 15,left: 15, bottom: 10),
         child: MediaQuery.removePadding(
             context: context,
             removeTop: true,
+            removeBottom: true,
             child: ListView.builder(
+              shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: garageId.length,
                 itemBuilder: (_, index) {
@@ -419,11 +427,13 @@ class _AgendaTabState extends State<AgendaTab> {
 
   showMyReservations(List<dynamic> garageId) {
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 15),
+        padding: EdgeInsets.only(right: 15,left: 15, bottom: 10),
         child: MediaQuery.removePadding(
             context: context,
             removeTop: true,
+            removeBottom: true,
             child: ListView.builder(
+              shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: garageId.length,
                 itemBuilder: (_, index) {

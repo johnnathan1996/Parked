@@ -32,8 +32,6 @@ class _ProfilePageState extends State<ProfilePage> {
   bool hasConvers = false;
   bool hasGarage = false;
 
-  //TODO: TOOLTIP BUG , IL SE FEMRE PAS
-
   @override
   void initState() {
     if (this.mounted) {
@@ -45,9 +43,12 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<ScaffoldState> _scaffoldKey =
+        new GlobalKey<ScaffoldState>();
     return DefaultTabController(
         length: 2,
         child: Scaffold(
+            key: _scaffoldKey,
             body: Container(
                 decoration: BoxDecoration(
                     image: new DecorationImage(
@@ -73,6 +74,15 @@ class _ProfilePageState extends State<ProfilePage> {
                             pinned: true,
                             snap: false,
                             elevation: 0,
+                            automaticallyImplyLeading: false,
+                            leading: new IconButton(
+                                icon: new Icon(Icons.menu),
+                                onPressed: () {
+                                  //TODO: TOOLTIP BUG , IL SE FEMRE PAS
+                                  _scaffoldKey.currentState.openDrawer();
+                                  print("hehe");
+                                  
+                                }),
                             iconTheme: IconThemeData(color: Zwart),
                             actions: <Widget>[
                               IconButton(

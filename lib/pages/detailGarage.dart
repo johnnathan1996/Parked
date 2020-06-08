@@ -578,7 +578,7 @@ class _DetailGarageState extends State<DetailGarage> {
                   imageProvider: NetworkImage(garage["garageImg"][index]),
                   heroAttributes:
                       PhotoViewHeroAttributes(tag: garage["garageImg"][index]),
-                      initialScale: PhotoViewComputedScale.covered,
+                  initialScale: PhotoViewComputedScale.covered,
                 );
               },
               itemCount: garage["garageImg"].length,
@@ -589,7 +589,8 @@ class _DetailGarageState extends State<DetailGarage> {
                   child: CircularProgressIndicator(
                     value: event == null
                         ? 0
-                        : event.cumulativeBytesLoaded / event.expectedTotalBytes,
+                        : event.cumulativeBytesLoaded /
+                            event.expectedTotalBytes,
                   ),
                 ),
               ),
@@ -600,10 +601,10 @@ class _DetailGarageState extends State<DetailGarage> {
                 });
               },
             )),
-            Padding(
-              padding: const EdgeInsets.only(right: 10, top: 5),
-              child: Text("$currentImg/ " + garage["garageImg"].length.toString()),
-            )
+        Padding(
+          padding: const EdgeInsets.only(right: 10, top: 5),
+          child: Text("$currentImg/ " + garage["garageImg"].length.toString()),
+        )
       ],
     );
   }
@@ -690,8 +691,6 @@ class _DetailGarageState extends State<DetailGarage> {
     }
   }
 
-  
-
   _showModalBottomSheet(context, DocumentSnapshot garage) {
     if (this.mounted) {
       setState(() {
@@ -721,7 +720,9 @@ class _DetailGarageState extends State<DetailGarage> {
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20))),
               child: Container(
-                height: MediaQuery.of(context).size.height * 0.65,
+                height: MediaQuery.of(context).size.height > 750
+                    ? MediaQuery.of(context).size.height * 0.60
+                    : MediaQuery.of(context).size.height * 0.77,
                 child: Padding(
                     padding: const EdgeInsets.only(top: 20),
                     child: Theme(
@@ -755,7 +756,11 @@ class _DetailGarageState extends State<DetailGarage> {
                                 title: Text('Info'),
                                 content: Container(
                                   height:
-                                      MediaQuery.of(context).size.height * 0.5,
+                                      MediaQuery.of(context).size.height > 750
+                                          ? MediaQuery.of(context).size.height *
+                                              0.45
+                                          : MediaQuery.of(context).size.height *
+                                              0.55,
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     mainAxisAlignment:
@@ -784,7 +789,8 @@ class _DetailGarageState extends State<DetailGarage> {
                                                       margin: EdgeInsets.only(
                                                           right: 10),
                                                       child: Image.network(
-                                                          garage['garageImg'][0],
+                                                          garage['garageImg']
+                                                              [0],
                                                           fit: BoxFit.cover)),
                                                   Expanded(
                                                     child: Text(
@@ -930,7 +936,11 @@ class _DetailGarageState extends State<DetailGarage> {
                                 title: Text(translate(Keys.Apptext_Extra)),
                                 content: Container(
                                   height:
-                                      MediaQuery.of(context).size.height * 0.5,
+                                      MediaQuery.of(context).size.height > 750
+                                          ? MediaQuery.of(context).size.height *
+                                              0.45
+                                          : MediaQuery.of(context).size.height *
+                                              0.55,
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     mainAxisAlignment:
@@ -1051,7 +1061,11 @@ class _DetailGarageState extends State<DetailGarage> {
                                 title: Text(translate(Keys.Subtitle_Pay)),
                                 content: Container(
                                   height:
-                                      MediaQuery.of(context).size.height * 0.5,
+                                      MediaQuery.of(context).size.height > 750
+                                          ? MediaQuery.of(context).size.height *
+                                              0.45
+                                          : MediaQuery.of(context).size.height *
+                                              0.55,
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     mainAxisAlignment:

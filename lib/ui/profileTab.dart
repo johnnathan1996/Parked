@@ -33,32 +33,34 @@ class _ProfileTabState extends State<ProfileTab> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        margin: EdgeInsets.all(20),
-        child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-          StreamBuilder<DocumentSnapshot>(
-              stream: Firestore.instance
-                  .collection('users')
-                  .document(globals.userId)
-                  .snapshots(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<DocumentSnapshot> snapshot) {
-                if (snapshot.hasData) {
-                  return Padding(
-                      padding: EdgeInsets.only(bottom: 20),
-                      child: Column(
-                        children: <Widget>[
-                          Padding(
-                              padding: EdgeInsets.only(bottom: 10),
-                              child: placesComponent(snapshot.data)),
-                          reservationComponent()
-                        ],
-                      ));
-                } else {
-                  return Container();
-                }
-              })
-        ]));
+    return SingleChildScrollView(
+      child: Container(
+          margin: EdgeInsets.all(20),
+          child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+            StreamBuilder<DocumentSnapshot>(
+                stream: Firestore.instance
+                    .collection('users')
+                    .document(globals.userId)
+                    .snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<DocumentSnapshot> snapshot) {
+                  if (snapshot.hasData) {
+                    return Padding(
+                        padding: EdgeInsets.only(bottom: 20),
+                        child: Column(
+                          children: <Widget>[
+                            Padding(
+                                padding: EdgeInsets.only(bottom: 10),
+                                child: placesComponent(snapshot.data)),
+                            reservationComponent()
+                          ],
+                        ));
+                  } else {
+                    return Container();
+                  }
+                })
+          ])),
+    );
   }
 
   placesComponent(userData) {
@@ -394,7 +396,9 @@ class _ProfileTabState extends State<ProfileTab> {
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20))),
             child: Container(
-              height: MediaQuery.of(context).size.height * 0.60,
+              height: MediaQuery.of(context).size.height > 750
+                    ? MediaQuery.of(context).size.height * 0.55
+                    : MediaQuery.of(context).size.height * 0.65,
               child: Padding(
                   padding: const EdgeInsets.only(top: 20),
                   child: Theme(
@@ -409,8 +413,6 @@ class _ProfileTabState extends State<ProfileTab> {
                                   reservationSnapshot) {
                             if (reservationSnapshot.hasData) {
                               return Container(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.4,
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     mainAxisAlignment:
@@ -659,13 +661,16 @@ class _ProfileTabState extends State<ProfileTab> {
                                               ),
                                             ),
                                           ]),
-                                      FlatButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: Text(
-                                              translate(Keys.Button_Back),
-                                              style: TextStyle(color: Zwart)))
+                                      Padding(
+                                        padding: const EdgeInsets.only(bottom: 20),
+                                        child: FlatButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Text(
+                                                translate(Keys.Button_Back),
+                                                style: TextStyle(color: Zwart))),
+                                      )
                                     ],
                                   ));
                             } else {
