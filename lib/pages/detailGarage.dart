@@ -722,7 +722,7 @@ class _DetailGarageState extends State<DetailGarage> {
               child: Container(
                 height: MediaQuery.of(context).size.height > 750
                     ? MediaQuery.of(context).size.height * 0.60
-                    : MediaQuery.of(context).size.height * 0.77,
+                    : MediaQuery.of(context).size.height * 0.80,
                 child: Padding(
                     padding: const EdgeInsets.only(top: 20),
                     child: Theme(
@@ -760,7 +760,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                           ? MediaQuery.of(context).size.height *
                                               0.45
                                           : MediaQuery.of(context).size.height *
-                                              0.55,
+                                              0.60,
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     mainAxisAlignment:
@@ -768,7 +768,9 @@ class _DetailGarageState extends State<DetailGarage> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.stretch,
                                     children: <Widget>[
-                                      Column(children: <Widget>[
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                                        children: <Widget>[
                                         Padding(
                                           padding:
                                               const EdgeInsets.only(bottom: 10),
@@ -799,6 +801,20 @@ class _DetailGarageState extends State<DetailGarage> {
                                                     ),
                                                   ),
                                                 ])),
+                                        Text(translate(Keys.Apptext_Minhour),
+                                            style: TextStyle(
+                                              fontSize: 15.0,
+                                              fontWeight: FontWeight.w400,
+                                              color: Grijs,
+                                              decoration: TextDecoration.none,
+                                            )),
+                                        Text(translate(Keys.Apptext_Maxhour),
+                                            style: TextStyle(
+                                              fontSize: 15.0,
+                                              fontWeight: FontWeight.w400,
+                                              color: Grijs,
+                                              decoration: TextDecoration.none,
+                                            )),
                                         Container(
                                           margin: EdgeInsets.only(top: 10),
                                           padding: EdgeInsets.symmetric(
@@ -940,7 +956,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                           ? MediaQuery.of(context).size.height *
                                               0.45
                                           : MediaQuery.of(context).size.height *
-                                              0.55,
+                                              0.60,
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     mainAxisAlignment:
@@ -1065,7 +1081,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                           ? MediaQuery.of(context).size.height *
                                               0.45
                                           : MediaQuery.of(context).size.height *
-                                              0.55,
+                                              0.60,
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     mainAxisAlignment:
