@@ -43,12 +43,9 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<ScaffoldState> _scaffoldKey =
-        new GlobalKey<ScaffoldState>();
     return DefaultTabController(
         length: 2,
         child: Scaffold(
-            key: _scaffoldKey,
             body: Container(
                 decoration: BoxDecoration(
                     image: new DecorationImage(
@@ -75,24 +72,24 @@ class _ProfilePageState extends State<ProfilePage> {
                             snap: false,
                             elevation: 0,
                             automaticallyImplyLeading: false,
-                            leading: new IconButton(
-                                icon: new Icon(Icons.menu),
-                                onPressed: () {
-                                  //TODO: TOOLTIP BUG , IL SE FEMRE PAS
-                                  
-                                  _scaffoldKey.currentState.openDrawer();
-                                  print("hehe");
-                                  
-                                }),
+                            leading: Builder(builder: (BuildContext context) {
+                              return IconButton(
+                                  icon: new Icon(Icons.menu),
+                                  onPressed: () {
+                                    if (showTooltip) {
+                                      hideShowTooltip();
+                                    }
+
+                                    Scaffold.of(context).openDrawer();
+                                  });
+                            }),
                             iconTheme: IconThemeData(color: Zwart),
                             actions: <Widget>[
                               IconButton(
                                   icon: Icon(Icons.edit),
                                   onPressed: () {
-                                    if (this.mounted) {
-                                      setState(() {
-                                        showTooltip = false;
-                                      });
+                                    if (showTooltip) {
+                                      hideShowTooltip();
                                     }
                                     Navigator.push(
                                         context,
@@ -110,6 +107,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                     width: 2.0,
                                   ))),
                               tabBar: TabBar(
+                                onTap: (value) {
+                                  if (showTooltip) {
+                                    hideShowTooltip();
+                                  }
+                                },
                                 indicatorColor: Blauw,
                                 labelColor: Blauw,
                                 unselectedLabelColor: Zwart,
