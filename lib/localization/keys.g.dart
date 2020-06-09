@@ -414,4 +414,8 @@ class Keys {
   static const String Apptext_Refuse = 'AppText.refuse';
 
   static const String Apptext_Accept = 'AppText.accept';
+
+  static const String Apptext_Minhour = 'AppText.MinHour';
+
+  static const String Apptext_Maxhour = 'AppText.MaxHour';
 }

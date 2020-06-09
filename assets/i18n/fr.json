@@ -228,6 +228,8 @@
 		"NoOffer": "Malheureusement le propriétaire n'a rien à vous proposer.",
 		"waiting": "En attente",
 		"refuse": "Refusé",
-		"accept": "Accepté"
+		"accept": "Accepté",
+		"MinHour": "Heure d'arrivé: Min 7h",
+		"MaxHour": "Heure de depart: Max 22h"
 	}
 }

@@ -227,6 +227,8 @@
 		"NoOffer": "Helaas heeft de eigenaar u niets te bieden.",
 		"waiting": "Aan het wachten",
 		"refuse": "Geweigerd",
-		"accept": "Geaccepteerd"
+		"accept": "Geaccepteerd",
+		"MinHour": "Aankomsttijd: min. 7u",
+		"MaxHour": "Vertrektijd: Max 22u"
 	}
 }

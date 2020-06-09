@@ -227,6 +227,8 @@
 		"NoOffer": "Unfortunately the owner has nothing to offer.",
 		"waiting": "Waiting",
 		"refuse": "Refused",
-		"accept": "Accepted"
+		"accept": "Accepted",
+		"MinHour": "Arrival time: Min 7h",
+		"MaxHour": "Departure time: Max 22h"
 	}
 }
