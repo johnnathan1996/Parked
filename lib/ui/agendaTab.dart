@@ -102,7 +102,8 @@ class _AgendaTabState extends State<AgendaTab> {
               formatButtonVisible: false,
             ),
             onDaySelected: (value, a) {
-              if (_myReservations.containsKey(changeDatetimeToDatetime(value))) {
+              if (_myReservations
+                  .containsKey(changeDatetimeToDatetime(value))) {
                 if (this.mounted) {
                   setState(() {
                     showGarageId =
@@ -150,28 +151,40 @@ class _AgendaTabState extends State<AgendaTab> {
                 if (this.mounted) {
                   getNotificationAgenda(events.first);
                 }
-                children.add(showNotification
-                    ? Positioned(
-                        top: 5,
-                        right: 5,
-                        child: Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.red,
-                            ),
-                            width: 12,
-                            height: 12))
-                    : Center(
-                        child: Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: dontShowWhenRefused
-                                  ? Blauw.withOpacity(0.15)
-                                  : Grijs.withOpacity(0),
-                            ),
-                            width: 50,
-                            height: 50),
-                      ));
+                children.add(StreamBuilder<DocumentSnapshot>(
+                    stream: Firestore.instance
+                        .collection('reservaties')
+                        .document(events.first)
+                        .snapshots(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<DocumentSnapshot> snapshot) {
+                      if (snapshot.hasData) {
+                        return snapshot.data["status"] == 1
+                            ? Positioned(
+                                top: 5,
+                                right: 5,
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.red,
+                                    ),
+                                    width: 12,
+                                    height: 12))
+                            : Center(
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: dontShowWhenRefused
+                                          ? Blauw.withOpacity(0.15)
+                                          : Grijs.withOpacity(0),
+                                    ),
+                                    width: 50,
+                                    height: 50),
+                              );
+                      } else {
+                        return Container();
+                      }
+                    }));
               }
 
               if (holidays.isNotEmpty) {
@@ -213,12 +226,8 @@ class _AgendaTabState extends State<AgendaTab> {
           Divider(),
           Column(
             children: <Widget>[
-              showGarage
-              ? showReservation(showGarageId)
-              : Container(),
-          showMyResevation
-              ? showMyReservations(showGarageId)
-              : Container()
+              showGarage ? showReservation(showGarageId) : Container(),
+              showMyResevation ? showMyReservations(showGarageId) : Container()
             ],
           )
         ],
@@ -240,17 +249,16 @@ class _AgendaTabState extends State<AgendaTab> {
     });
   }
 
-
 //TODO: check error
   showReservation(List<dynamic> garageId) {
     return Padding(
-        padding: EdgeInsets.only(right: 15,left: 15, bottom: 10),
+        padding: EdgeInsets.only(right: 15, left: 15, bottom: 10),
         child: MediaQuery.removePadding(
             context: context,
             removeTop: true,
             removeBottom: true,
             child: ListView.builder(
-              shrinkWrap: true,
+                shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: garageId.length,
                 itemBuilder: (_, index) {
@@ -429,13 +437,13 @@ class _AgendaTabState extends State<AgendaTab> {
 
   showMyReservations(List<dynamic> garageId) {
     return Padding(
-        padding: EdgeInsets.only(right: 15,left: 15, bottom: 10),
+        padding: EdgeInsets.only(right: 15, left: 15, bottom: 10),
         child: MediaQuery.removePadding(
             context: context,
             removeTop: true,
             removeBottom: true,
             child: ListView.builder(
-              shrinkWrap: true,
+                shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: garageId.length,
                 itemBuilder: (_, index) {
@@ -471,17 +479,16 @@ class _AgendaTabState extends State<AgendaTab> {
                                             if (garageSnapchot.hasData) {
                                               return ListTile(
                                                   leading: Image.network(
-                                                      garageSnapchot
-                                                          .data['garageImg'][0]),
+                                                      garageSnapchot.data['garageImg']
+                                                          [0]),
                                                   title: Text(changeDate(
                                                           reservationSnapshot
                                                               .data["begin"]
                                                               .toDate()) +
                                                       " - " +
-                                                      changeDate(
-                                                          reservationSnapshot
-                                                              .data["end"]
-                                                              .toDate())),
+                                                      changeDate(reservationSnapshot
+                                                          .data["end"]
+                                                          .toDate())),
                                                   trailing: getStatus(
                                                       reservationSnapshot
                                                           .data["status"]));

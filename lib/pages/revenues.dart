@@ -18,8 +18,7 @@ class Revenues extends StatefulWidget {
 }
 
 class _RevenuesState extends State<Revenues> {
-
-List<DocumentSnapshot> infoPdf;
+  List<DocumentSnapshot> infoPdf;
 
   getInfoPdf() {
     Firestore.instance
@@ -28,7 +27,7 @@ List<DocumentSnapshot> infoPdf;
         .where("status", isEqualTo: 2)
         .snapshots()
         .listen((snapshot) {
-          if (this.mounted) {
+      if (this.mounted) {
         setState(() {
           infoPdf = snapshot.documents;
         });
@@ -213,7 +212,8 @@ List<DocumentSnapshot> infoPdf;
       PdfGridRow row = grid.rows.add();
       row.cells[0].value = changeDate(infoPdf[i].data["begin"].toDate());
       row.cells[1].value = changeDate(infoPdf[i].data["end"].toDate());
-      row.cells[2].value = infoPdf[i].data["prijs"].toStringAsFixed(2).toString();
+      row.cells[2].value =
+          infoPdf[i].data["prijs"].toStringAsFixed(2).toString();
     }
 
 // Set grid format
