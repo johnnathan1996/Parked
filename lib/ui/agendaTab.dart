@@ -240,6 +240,8 @@ class _AgendaTabState extends State<AgendaTab> {
     });
   }
 
+
+//TODO: check error
   showReservation(List<dynamic> garageId) {
     return Padding(
         padding: EdgeInsets.only(right: 15,left: 15, bottom: 10),
@@ -346,7 +348,7 @@ class _AgendaTabState extends State<AgendaTab> {
                                                                                 userSnapshot.data["voornaam"],
                                                                             style: SizeParagraph),
                                                                         Text(
-                                                                            reservatieSnapshot.data["prijs"].toString() +
+                                                                            reservatieSnapshot.data["prijs"].toStringAsFixed(2).toString() +
                                                                                 " €",
                                                                             style:
                                                                                 SizeParagraph)
