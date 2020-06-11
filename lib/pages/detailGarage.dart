@@ -769,148 +769,165 @@ class _DetailGarageState extends State<DetailGarage> {
                                         CrossAxisAlignment.stretch,
                                     children: <Widget>[
                                       Column(
-                                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                                        children: <Widget>[
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(bottom: 10),
-                                          child: Text(
-                                              translate(
-                                                  Keys.Apptext_Yourreservation),
-                                              style: SubTitleCustom,
-                                              textAlign: TextAlign.center),
-                                        ),
-                                        Container(
-                                            margin: EdgeInsets.only(bottom: 10),
-                                            child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.stretch,
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  bottom: 10),
+                                              child: Text(
+                                                  translate(Keys
+                                                      .Apptext_Yourreservation),
+                                                  style: SubTitleCustom,
+                                                  textAlign: TextAlign.center),
+                                            ),
+                                            Container(
+                                                margin:
+                                                    EdgeInsets.only(bottom: 10),
+                                                child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: <Widget>[
+                                                      Container(
+                                                          height: 80,
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  right: 10),
+                                                          child: Image.network(
+                                                              garage['garageImg']
+                                                                  [0],
+                                                              fit: BoxFit
+                                                                  .cover)),
+                                                      Expanded(
+                                                        child: Text(
+                                                          garage['adress'],
+                                                          style: SizeParagraph,
+                                                        ),
+                                                      ),
+                                                    ])),
+                                            Text(
+                                                translate(Keys.Apptext_Minhour),
+                                                style: TextStyle(
+                                                  fontSize: 15.0,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Grijs,
+                                                  decoration:
+                                                      TextDecoration.none,
+                                                )),
+                                            Text(
+                                                translate(Keys.Apptext_Maxhour),
+                                                style: TextStyle(
+                                                  fontSize: 15.0,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Grijs,
+                                                  decoration:
+                                                      TextDecoration.none,
+                                                )),
+                                            Container(
+                                              margin: EdgeInsets.only(top: 10),
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 10),
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  color: Wit),
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
                                                 children: <Widget>[
-                                                  Container(
-                                                      height: 80,
-                                                      margin: EdgeInsets.only(
-                                                          right: 10),
-                                                      child: Image.network(
-                                                          garage['garageImg']
-                                                              [0],
-                                                          fit: BoxFit.cover)),
                                                   Expanded(
-                                                    child: Text(
-                                                      garage['adress'],
-                                                      style: SizeParagraph,
-                                                    ),
-                                                  ),
-                                                ])),
-                                        Text(translate(Keys.Apptext_Minhour),
-                                            style: TextStyle(
-                                              fontSize: 15.0,
-                                              fontWeight: FontWeight.w400,
-                                              color: Grijs,
-                                              decoration: TextDecoration.none,
-                                            )),
-                                        Text(translate(Keys.Apptext_Maxhour),
-                                            style: TextStyle(
-                                              fontSize: 15.0,
-                                              fontWeight: FontWeight.w400,
-                                              color: Grijs,
-                                              decoration: TextDecoration.none,
-                                            )),
-                                        Container(
-                                          margin: EdgeInsets.only(top: 10),
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 10),
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              color: Wit),
-                                          child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: <Widget>[
-                                              Expanded(
-                                                child: Container(
-                                                    alignment: Alignment.center,
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: <Widget>[
-                                                        Text(
-                                                            getWeekDay(beginDate
-                                                                    .weekday)
-                                                                .toUpperCase(),
-                                                            style: TextStyle(
-                                                                fontSize: 13,
-                                                                color: Zwart
-                                                                    .withOpacity(
-                                                                        0.8))),
-                                                        Text(
-                                                            beginDate.day
-                                                                .toString(),
-                                                            style: TextStyle(
-                                                                color: Blauw,
-                                                                fontSize: 40)),
-                                                        Text(
-                                                            getMonth(beginDate
-                                                                        .month)
-                                                                    .toUpperCase() +
-                                                                " " +
-                                                                beginDate.year
+                                                    child: Container(
+                                                        alignment:
+                                                            Alignment.center,
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: <Widget>[
+                                                            Text(
+                                                                getWeekDay(beginDate
+                                                                        .weekday)
+                                                                    .toUpperCase(),
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        13,
+                                                                    color: Zwart
+                                                                        .withOpacity(
+                                                                            0.8))),
+                                                            Text(
+                                                                beginDate.day
                                                                     .toString(),
-                                                            style: TextStyle(
-                                                                color: Zwart
-                                                                    .withOpacity(
-                                                                        0.8))),
-                                                      ],
-                                                    )),
-                                              ),
-                                              Container(
-                                                width: 1,
-                                                color: Grijs,
-                                                height: 70,
-                                              ),
-                                              Expanded(
-                                                  child: Container(
-                                                      alignment:
-                                                          Alignment.center,
-                                                      child: Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: <Widget>[
-                                                          Text(
-                                                              getWeekDay(endDate
-                                                                      .weekday)
-                                                                  .toUpperCase(),
-                                                              style: TextStyle(
-                                                                  fontSize: 13,
-                                                                  color: Zwart
-                                                                      .withOpacity(
-                                                                          0.8))),
-                                                          Text(
-                                                              endDate.day
-                                                                  .toString(),
-                                                              style: TextStyle(
-                                                                  color: Blauw,
-                                                                  fontSize:
-                                                                      40)),
-                                                          Text(
-                                                              getMonth(endDate
-                                                                          .month)
-                                                                      .toUpperCase() +
-                                                                  " " +
-                                                                  endDate.year
+                                                                style: TextStyle(
+                                                                    color:
+                                                                        Blauw,
+                                                                    fontSize:
+                                                                        40)),
+                                                            Text(
+                                                                getMonth(beginDate
+                                                                            .month)
+                                                                        .toUpperCase() +
+                                                                    " " +
+                                                                    beginDate
+                                                                        .year
+                                                                        .toString(),
+                                                                style: TextStyle(
+                                                                    color: Zwart
+                                                                        .withOpacity(
+                                                                            0.8))),
+                                                          ],
+                                                        )),
+                                                  ),
+                                                  Container(
+                                                    width: 1,
+                                                    color: Grijs,
+                                                    height: 70,
+                                                  ),
+                                                  Expanded(
+                                                      child: Container(
+                                                          alignment:
+                                                              Alignment.center,
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: <Widget>[
+                                                              Text(
+                                                                  getWeekDay(endDate
+                                                                          .weekday)
+                                                                      .toUpperCase(),
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          13,
+                                                                      color: Zwart
+                                                                          .withOpacity(
+                                                                              0.8))),
+                                                              Text(
+                                                                  endDate.day
                                                                       .toString(),
-                                                              style: TextStyle(
-                                                                  color: Zwart
-                                                                      .withOpacity(
-                                                                          0.8))),
-                                                        ],
-                                                      ))),
-                                            ],
-                                          ),
-                                        ),
-                                      ]),
+                                                                  style: TextStyle(
+                                                                      color:
+                                                                          Blauw,
+                                                                      fontSize:
+                                                                          40)),
+                                                              Text(
+                                                                  getMonth(endDate
+                                                                              .month)
+                                                                          .toUpperCase() +
+                                                                      " " +
+                                                                      endDate
+                                                                          .year
+                                                                          .toString(),
+                                                                  style: TextStyle(
+                                                                      color: Zwart
+                                                                          .withOpacity(
+                                                                              0.8))),
+                                                            ],
+                                                          ))),
+                                                ],
+                                              ),
+                                            ),
+                                          ]),
                                       Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.stretch,

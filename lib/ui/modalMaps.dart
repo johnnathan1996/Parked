@@ -98,20 +98,22 @@ class _ModalMapComponentState extends State<ModalMapComponent> {
                               },
                             ),
                           )),
-                      garage["verified"] ? Positioned(
-                          top: 10,
-                          left: 10,
-                          child: Container(
-                            decoration: new BoxDecoration(
-                              color: Wit,
-                              shape: BoxShape.circle,
-                            ),
-                            child: IconButton(
-                              icon: Icon(Icons.verified_user),
-                              color: Blauw,
-                              onPressed: () {},
-                            ),
-                          )) : Container(),
+                      garage["verified"]
+                          ? Positioned(
+                              top: 10,
+                              left: 10,
+                              child: Container(
+                                decoration: new BoxDecoration(
+                                  color: Wit,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: IconButton(
+                                  icon: Icon(Icons.verified_user),
+                                  color: Blauw,
+                                  onPressed: () {},
+                                ),
+                              ))
+                          : Container(),
                     ],
                   ),
                   Padding(

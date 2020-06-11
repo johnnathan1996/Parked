@@ -49,10 +49,10 @@ class _LogInPageState extends State<LogInPage> {
                     child: Theme(
                         data: new ThemeData(hintColor: Transparant),
                         child: TextFormField(
-                           textInputAction: TextInputAction.next,
-                              onFieldSubmitted: (v) {
-                                FocusScope.of(context).requestFocus(focus);
-                              },
+                          textInputAction: TextInputAction.next,
+                          onFieldSubmitted: (v) {
+                            FocusScope.of(context).requestFocus(focus);
+                          },
                           keyboardType: TextInputType.emailAddress,
                           validator: (input) {
                             if (input.isEmpty) {

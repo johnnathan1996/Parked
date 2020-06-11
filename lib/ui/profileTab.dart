@@ -92,33 +92,29 @@ class _ProfileTabState extends State<ProfileTab> {
                     margin: EdgeInsets.zero,
                     elevation: 0,
                     child: ListTile(
-                        onTap: () {
-                          callback();
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Revenues()));
-                        },
-                        trailing: Icon(Icons.folder, color: Blauw),
-                        title: RichText(
-                                      text: TextSpan(
-                                        style: SizeParagraph,
-                                        children: [
-                                          TextSpan(
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.normal
-                                    ),
-                                    text: translate(Keys.Apptext_Earnmoney)),
-                                    TextSpan(
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600
-                                    ),
-                                    text: totalprijs.toStringAsFixed(2).toString() + " €")
-                                        ],
-                                      ),
-                                    ),)
-                            )
-
+                      onTap: () {
+                        callback();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Revenues()));
+                      },
+                      trailing: Icon(Icons.folder, color: Blauw),
+                      title: RichText(
+                        text: TextSpan(
+                          style: SizeParagraph,
+                          children: [
+                            TextSpan(
+                                style: TextStyle(fontWeight: FontWeight.normal),
+                                text: translate(Keys.Apptext_Earnmoney)),
+                            TextSpan(
+                                style: TextStyle(fontWeight: FontWeight.w600),
+                                text: totalprijs.toStringAsFixed(2).toString() +
+                                    " €")
+                          ],
+                        ),
+                      ),
+                    ))
               ],
             );
           } else {

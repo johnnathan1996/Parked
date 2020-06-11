@@ -179,7 +179,8 @@ class _ChatPageState extends State<ChatPage> {
                                                   onTap: openContainer,
                                                   leading: Image.network(
                                                       snapshotten
-                                                          .data['garageImg'][0]),
+                                                              .data['garageImg']
+                                                          [0]),
                                                   title: Text(snapshotten
                                                       .data['adress']),
                                                   trailing: Icon(
