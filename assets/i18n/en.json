@@ -27,7 +27,8 @@
 		"OwnerOffers": "What the owner offers",
 		"PaymentSummary": "Payment summary",
 		"Pay": "Payment",
-		"Services": "Services"
+		"Services": "Services",
+		"Income": "Income"
 	},
 	"Button": {
 		"LogIn": "Log in",
@@ -229,6 +230,8 @@
 		"refuse": "Refused",
 		"accept": "Accepted",
 		"MinHour": "Arrival time: Min 7h",
-		"MaxHour": "Departure time: Max 22h"
+		"MaxHour": "Departure time: Max 22h",
+		"EarnMoney": "Money earned from Parked ",
+		"Paid": " paid "
 	}
 }

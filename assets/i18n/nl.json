@@ -27,7 +27,8 @@
 		"OwnerOffers": "Wat de eigenaar biedt",
 		"PaymentSummary": "Betalingsoverzicht",
 		"Pay": "Betalen",
-		"Services": "Diensten"
+		"Services": "Diensten",
+		"Income": "Inkomen"
 	},
 	"Button": {
 		"LogIn": "Inloggen",
@@ -229,6 +230,8 @@
 		"refuse": "Geweigerd",
 		"accept": "Geaccepteerd",
 		"MinHour": "Aankomsttijd: min. 7u",
-		"MaxHour": "Vertrektijd: Max 22u"
+		"MaxHour": "Vertrektijd: Max 22u",
+		"EarnMoney": "Geld verdiend dankzij parked ",
+		"Paid": " betaalde "
 	}
 }

@@ -27,7 +27,8 @@
 		"OwnerOffers": "Ce que le propriétaire vous propose",
 		"PaymentSummary": "Résumé du paiement",
 		"Pay" : "Payer",
-		"Services": "Services"
+		"Services": "Services",
+		"Income": "Revenus"
 	},
 	"Button": {
 		"LogIn": "Se connecter",
@@ -230,6 +231,8 @@
 		"refuse": "Refusé",
 		"accept": "Accepté",
 		"MinHour": "Heure d'arrivé: Min 7h",
-		"MaxHour": "Heure de depart: Max 22h"
+		"MaxHour": "Heure de depart: Max 22h",
+		"EarnMoney": "Argent gagné grace à Parked ",
+		"Paid": " a payé "
 	}
 }

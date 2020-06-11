@@ -86,7 +86,7 @@ class _ProfileTabState extends State<ProfileTab> {
               children: <Widget>[
                 Padding(
                     padding: EdgeInsets.only(bottom: 15),
-                    child: Text("Revenues", //TODO: trad
+                    child: Text(translate(Keys.Subtitle_Income),
                         style: SubTitleCustom)),
                 Card(
                     margin: EdgeInsets.zero,
@@ -108,7 +108,7 @@ class _ProfileTabState extends State<ProfileTab> {
                                     style: TextStyle(
                                       fontWeight: FontWeight.normal
                                     ),
-                                    text: "Vous avez gagner depuis de debut "), // TODO: trad
+                                    text: translate(Keys.Apptext_Earnmoney)),
                                     TextSpan(
                                     style: TextStyle(
                                       fontWeight: FontWeight.w600

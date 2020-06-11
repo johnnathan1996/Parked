@@ -55,6 +55,8 @@ class Keys {
 
   static const String Subtitle_Services = 'SubTitle.Services';
 
+  static const String Subtitle_Income = 'SubTitle.Income';
+
   static const String Button_Login = 'Button.LogIn';
 
   static const String Button_Logout = 'Button.LogOut';
@@ -418,4 +420,8 @@ class Keys {
   static const String Apptext_Minhour = 'AppText.MinHour';
 
   static const String Apptext_Maxhour = 'AppText.MaxHour';
+
+  static const String Apptext_Earnmoney = 'AppText.EarnMoney';
+
+  static const String Apptext_Paid = 'AppText.Paid';
 }

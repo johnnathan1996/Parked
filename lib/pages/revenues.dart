@@ -1,7 +1,9 @@
+import 'package:Parked/localization/keys.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:Parked/constant.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import '../setup/globals.dart' as globals;
 
 class Revenues extends StatefulWidget {
@@ -79,7 +81,7 @@ class _RevenuesState extends State<Revenues> {
                                                   Text(
                                                       userSnapshot.data[
                                                               "voornaam"] +
-                                                          " betaalde " + //TODO: trad
+                                                          translate(Keys.Apptext_Paid) +
                                                           snapshot
                                                               .data
                                                               .documents[index]
