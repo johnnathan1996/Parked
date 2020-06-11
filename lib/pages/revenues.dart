@@ -1,4 +1,5 @@
 import 'package:Parked/localization/keys.dart';
+import 'package:Parked/script/changeDate.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -78,17 +79,23 @@ class _RevenuesState extends State<Revenues> {
                                                           fontWeight:
                                                               FontWeight.w500)),
                                                   Divider(),
-                                                  Text(
-                                                      userSnapshot.data[
-                                                              "voornaam"] +
-                                                          translate(Keys.Apptext_Paid) +
-                                                          snapshot
-                                                              .data
-                                                              .documents[index]
-                                                              .data["prijs"].toStringAsFixed(2)
-                                                              .toString() +
-                                                          " €",
-                                                      style: SizeParagraph),
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: <Widget>[
+                                                      Text(changeDate(snapshot.data.documents[index].data["createDay"].toDate())),
+                                                      Text(
+                                                          userSnapshot.data[
+                                                                  "voornaam"] +
+                                                              translate(Keys.Apptext_Paid) +
+                                                              snapshot
+                                                                  .data
+                                                                  .documents[index]
+                                                                  .data["prijs"].toStringAsFixed(2)
+                                                                  .toString() +
+                                                              " €",
+                                                          style: SizeParagraph),
+                                                    ],
+                                                  ),
                                                 ],
                                               )
                                             ],
