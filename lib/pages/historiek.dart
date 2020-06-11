@@ -114,8 +114,7 @@ class _HistoriekPageState extends State<HistoriekPage> {
                                     style: SizeParagraph)));
                   } else {
                     return Container(
-                      width: 200,
-                      height: 200,
+                      height: MediaQuery.of(context).size.height / 1.5,
                       alignment: Alignment.center,
                       child: CircularProgressIndicator(
                           valueColor: new AlwaysStoppedAnimation(Blauw)),

@@ -130,8 +130,6 @@ class _EditGarageState extends State<EditGarage> {
                         ));
                   } else {
                     return Container(
-                      width: 200,
-                      height: 200,
                       alignment: Alignment.center,
                       child: CircularProgressIndicator(
                           valueColor: new AlwaysStoppedAnimation(Blauw)),

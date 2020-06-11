@@ -130,8 +130,6 @@ class _MapsPageState extends State<MapsPage> with TickerProviderStateMixin {
                 return showFlutterMap(snapshot.data);
               } else {
                 return Container(
-                  width: 200,
-                  height: 200,
                   alignment: Alignment.center,
                   child: CircularProgressIndicator(
                       valueColor: new AlwaysStoppedAnimation(Blauw)),
