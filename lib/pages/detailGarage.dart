@@ -554,7 +554,7 @@ class _DetailGarageState extends State<DetailGarage> {
                     height: 110,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[Text(garage["types"][index])],
+                      children: <Widget>[Text(garage["types"][index], textAlign: TextAlign.center,)],
                     ),
                   );
                 }))
@@ -721,7 +721,7 @@ class _DetailGarageState extends State<DetailGarage> {
                       topRight: Radius.circular(20))),
               child: Container(
                 height: MediaQuery.of(context).size.height > 750
-                    ? MediaQuery.of(context).size.height * 0.60
+                    ? MediaQuery.of(context).size.height * 0.65
                     : MediaQuery.of(context).size.height * 0.80,
                 child: Padding(
                     padding: const EdgeInsets.only(top: 20),
@@ -758,7 +758,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                   height:
                                       MediaQuery.of(context).size.height > 750
                                           ? MediaQuery.of(context).size.height *
-                                              0.45
+                                              0.50
                                           : MediaQuery.of(context).size.height *
                                               0.60,
                                   child: Column(
@@ -971,7 +971,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                   height:
                                       MediaQuery.of(context).size.height > 750
                                           ? MediaQuery.of(context).size.height *
-                                              0.45
+                                              0.50
                                           : MediaQuery.of(context).size.height *
                                               0.60,
                                   child: Column(
@@ -1096,7 +1096,7 @@ class _DetailGarageState extends State<DetailGarage> {
                                   height:
                                       MediaQuery.of(context).size.height > 750
                                           ? MediaQuery.of(context).size.height *
-                                              0.45
+                                              0.50
                                           : MediaQuery.of(context).size.height *
                                               0.60,
                                   child: Column(

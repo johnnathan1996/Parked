@@ -457,7 +457,7 @@ class _ProfileTabState extends State<ProfileTab> {
                     topRight: Radius.circular(20))),
             child: Container(
               height: MediaQuery.of(context).size.height > 750
-                  ? MediaQuery.of(context).size.height * 0.55
+                  ? MediaQuery.of(context).size.height * 0.60
                   : MediaQuery.of(context).size.height * 0.65,
               child: Padding(
                   padding: const EdgeInsets.only(top: 20),

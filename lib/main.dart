@@ -1,3 +1,4 @@
+import 'package:Parked/script/changeDate.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -93,10 +94,13 @@ Future<void> main() async {
         globals.notifications = unreadedMessage;
         unreadedMessage = 0;
       });
+       
+
+      checkReservations(e.uid);
 
       checkMessages(snapshot.data["voornaam"], e.uid);
-
-      FlutterAppBadger.updateBadgeCount(globals.notifications);
+      
+     
     });
   }).catchError((onError) {
     print(onError);
@@ -140,7 +144,43 @@ void checkMessages(String sendName, String uid) async {
             payload: 'item x',
           );
         }
+        FlutterAppBadger.updateBadgeCount(globals.notifications);
       }
+    });
+  });
+  
+}
+
+void checkReservations(String uid) async {
+  Firestore.instance
+      .collection("reservaties")
+      .where("eigenaar", isEqualTo: uid)
+      .snapshots()
+      .listen((value) {
+    value.documentChanges.forEach((snapshot) {
+
+      if(snapshot.document.data["status"] == 1){
+        var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+            'com.example.parkly',
+            'Parked',
+            'Your channel description',
+            playSound: true,
+            enableVibration: true,
+            importance: Importance.Max,
+            priority: Priority.High,
+          );
+          var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+          var platformChannelSpecifics = NotificationDetails(
+              androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+          flutterLocalNotificationsPlugin.show(
+            0,
+            "Nieuwe reservering",
+            "Bevestig alstublieft " + changeDate(snapshot.document.data["begin"].toDate()),
+            platformChannelSpecifics,
+            payload: 'item x',
+          );
+      }
+          
     });
   });
 }

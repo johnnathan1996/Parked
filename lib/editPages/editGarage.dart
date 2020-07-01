@@ -571,7 +571,7 @@ class _EditGarageState extends State<EditGarage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Icon(types[index]["icon"]),
-                          Text(types[index]["label"])
+                          Text(types[index]["label"], textAlign: TextAlign.center)
                         ],
                       ),
                     ));

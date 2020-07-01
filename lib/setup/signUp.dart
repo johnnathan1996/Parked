@@ -116,7 +116,10 @@ class _SignUpPageState extends State<SignUpPage> {
                       child: Theme(
                           data: new ThemeData(hintColor: Transparant),
                           child: TextFormField(
-                            focusNode: focus,
+                            textInputAction: TextInputAction.next,
+                              onFieldSubmitted: (v) {
+                                FocusScope.of(context).requestFocus(focus);
+                              },
                             validator: (input) {
                               if (input.isEmpty) {
                                 if (input.isEmpty) {
@@ -333,7 +336,10 @@ class _SignUpPageState extends State<SignUpPage> {
                       child: Theme(
                           data: new ThemeData(hintColor: Transparant),
                           child: TextFormField(
-                            focusNode: focus,
+                            textInputAction: TextInputAction.next,
+                              onFieldSubmitted: (v) {
+                                FocusScope.of(context).requestFocus(focus);
+                              },
                             validator: (input) {
                               if (input.length < 6) {
                                 return '';

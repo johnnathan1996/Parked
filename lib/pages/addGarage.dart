@@ -617,7 +617,7 @@ class _AddGarageState extends State<AddGarage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Icon(types[index]["icon"]),
-                          Text(types[index]["label"])
+                          Text(types[index]["label"], textAlign: TextAlign.center)
                         ],
                       ),
                     ));
