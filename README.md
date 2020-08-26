@@ -4,7 +4,7 @@ My final work school project made in Flutter.
 
 Parked is a mobile application that is going to help people to find and offer parking places in several major cities. This will be a community-based application where anyone can rent or reserve a parking place.
 
-![Image Parked](https://github.com/johnnathan1996]/Parken]/Sleutelbeeld.png?raw=true)
+![Sleutelbeeld](https://user-images.githubusercontent.com/28015527/91326950-3ad78d80-e7c5-11ea-9377-55e984674510.png)
 
 ## Getting Started
 
